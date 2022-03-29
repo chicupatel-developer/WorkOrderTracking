@@ -1,0 +1,149 @@
+﻿@model WorkOrderTracking.Models.Part
+
+@{
+    ViewData["Title"] = "Create - Part";
+}
+
+
+
+<div class="container">
+    <h2>Create Part</h2>
+</div>
+<div class="container">
+    <div id="floater">
+    </div>
+    <div id="opStatus"></div>
+</div>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div class="container">
+            <form name="partCreateForm" asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name"
+                           id="Name"
+                           name="Name"
+                           placeholder="part - ?"
+                           class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Desc" class="control-label"></label>
+                    <input asp-for="Desc"
+                           id="Desc"
+                           name="Desc"
+                           placeholder="desc - ?"
+                           class="form-control" />
+                    <span asp-validation-for="Desc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary">
+                        Create New Part
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+
+@section Scripts {
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#floater').hide();
+
+            $('.btn').click(function () {
+
+                var ajaxPage = "/Part/Create";
+                $.ajax({
+                    type: "POST",
+                    url: ajaxPage,
+                    data: JSON.stringify({
+                        name: $('#Name').val(),
+                        desc: $('#Desc').val(),
+                    }),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        console.log(response.result.statusCode);
+                        console.log(response.result.message);
+
+                        var mErrors = '';
+                        if (response.result.statusCode <= 0) {
+                            bkTimer(response.result);
+                            resetUI();
+                        }
+                        else if (response.result.statusCode <= 1) {
+                            // model error
+                            mErrors += '<font color="red">';
+                            mErrors += response.result.message;
+                            mErrors += "<ul>";
+                            $.each(response.result.modelErrors, function (key, value) {
+                                mErrors += "<li>" + value + "</li>";
+                            });
+                            mErrors += "</ul></font>";
+                        }
+                        else {
+                            bkTimer(response.result);
+                            resetUI();
+                        }
+                        $('#opStatus').html(mErrors);
+                    },
+                    error: function (obj) {
+                        alert("Ajax Call Error");
+                    },
+                });
+
+
+            });
+
+            // success / dal error
+            function bkTimer(result) {
+                var div = $("#floater");
+                var content = '';
+                if (result.statusCode <= 0) {
+                    content += '<img src="../Images/success.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="green">' + result.message + '</font>';
+                }
+                else {
+                    content += '<img src="../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.Message + '</font>';
+                }
+                div.html(content);
+                div.fadeIn("slow");
+                div.queue(function () {
+                    setTimeout(function () {
+                        div.dequeue();
+                    }, 3000);
+                });
+                div.fadeOut("fast");
+            };
+
+            function resetUI() {
+                $('#Name').val('');
+                $('#Desc').val('');
+            };
+
+        });
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
+
