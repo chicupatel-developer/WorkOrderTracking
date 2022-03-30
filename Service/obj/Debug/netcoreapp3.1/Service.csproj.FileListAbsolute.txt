@@ -1,0 +1,12 @@
+C:\MVC-JQuery\Service\bin\Debug\netcoreapp3.1\Service.deps.json
+C:\MVC-JQuery\Service\bin\Debug\netcoreapp3.1\Service.dll
+C:\MVC-JQuery\Service\bin\Debug\netcoreapp3.1\Service.pdb
+C:\MVC-JQuery\Service\bin\Debug\netcoreapp3.1\EF.Core.dll
+C:\MVC-JQuery\Service\bin\Debug\netcoreapp3.1\EF.Core.pdb
+C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.AssemblyReference.cache
+C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.AssemblyInfoInputs.cache
+C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.AssemblyInfo.cs
+C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.CoreCompileInputs.cache
+C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.CopyComplete
+C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.dll
+C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.pdb

@@ -5,10 +5,11 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WorkOrderTracking.Models
+namespace EF.Core.Models
 {
     public class Part
     {
+        [Key]
         public int PartId { get; set; }
         [Required(ErrorMessage = "Part Name is Required!")]
         public string Name { get; set; }

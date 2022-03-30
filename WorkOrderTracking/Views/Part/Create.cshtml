@@ -1,9 +1,8 @@
-﻿@model WorkOrderTracking.Models.Part
+﻿@model EF.Core.Models.Part
 
 @{
     ViewData["Title"] = "Create - Part";
 }
-
 
 
 <div class="container">
@@ -14,7 +13,6 @@
     </div>
     <div id="opStatus"></div>
 </div>
-
 
 <hr />
 <div class="row">
@@ -60,14 +58,11 @@
 
 @section Scripts {
 
-
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#floater').hide();
 
             $('.btn').click(function () {
-
                 var ajaxPage = "/Part/Create";
                 $.ajax({
                     type: "POST",
@@ -108,8 +103,6 @@
                         alert("Ajax Call Error");
                     },
                 });
-
-
             });
 
             // success / dal error
@@ -142,8 +135,6 @@
         });
     </script>
 
-
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
 }
 

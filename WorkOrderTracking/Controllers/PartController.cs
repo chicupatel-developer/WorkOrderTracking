@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkOrderTracking.Models;
+using EF.Core.Models;
 
 namespace WorkOrderTracking.Controllers
 {

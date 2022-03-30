@@ -4,20 +4,5 @@
 // Write your JavaScript code.
 
 $(document).ready(function () {
-    $('#example').DataTable({
-        processing: true,
-        ordering: true,
-        paging: true,
-        searching: true,
-        ajax: "Part/GetParts",
-        columns: [
-            { "data": "partId" },
-            { "data": "name" },
-            { "data": "desc" },
-        ]
-    });
-
-
-
-
+  
 });

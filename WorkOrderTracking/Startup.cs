@@ -1,6 +1,8 @@
+using EF.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +26,16 @@ namespace WorkOrderTracking
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            #region Repositories
+            #endregion
+
+            #region WorkOrderTrackingContext
+            services.AddDbContext<WorkOrderTrackingContext>(options =>
+                    options.UseSqlServer(
+                      Configuration.GetConnectionString("WorkOrderTrackingConnection"),
+                      b => b.MigrationsAssembly(typeof(WorkOrderTrackingContext).Assembly.FullName)));
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
