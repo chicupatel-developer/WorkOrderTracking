@@ -28,11 +28,21 @@ namespace WorkOrderTracking.Controllers
 
 
         [AcceptVerbs("GET", "POST")]
-        public IActionResult VerifyDate(DateTime orderDate, DateTime orderDueDate)
+        public IActionResult VerifyOrderDate(DateTime orderDate)
         {
-            if (!(orderDate<orderDueDate))
+            if (!(orderDate.Date >= DateTime.Now.Date))
             {
-                return Json($"Invalid Date Entry !");
+                return Json($"Order-Date Must Be >= Current-Date !");
+            }
+            return Json(true);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyOrderDueDate(DateTime orderDate, DateTime orderDueDate)
+        {
+            if (!(orderDate.Date<=orderDueDate.Date))
+            {
+                return Json($"Order-Due-Date Must Be >= Order-Date !");
             }
             return Json(true);
         }

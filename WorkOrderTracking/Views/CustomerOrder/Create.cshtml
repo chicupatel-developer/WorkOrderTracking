@@ -121,7 +121,13 @@
                 if (checkDate(orderDate))
                     console.log('order date OK!');
                 else
-                    console.log('enter order date!');
+                    orderDate = null;
+
+                var orderDueDate = $('#OrderDueDate').val();
+                if (checkDate(orderDueDate))
+                    console.log('order - due date OK!');
+                else
+                    orderDueDate = null;
 
 
                 
@@ -134,8 +140,10 @@
                         productName: $('#ProductName').val(),
                         productDesc: $('#ProductDesc').val(),
                         orderQuantity: parseInt($('#OrderQuantity').val()),
-                        orderDate: $('#OrderDate').val(),
-                        orderDueDate: $('#OrderDueDate').val(),
+                        // orderDate: $('#OrderDate').val(),
+                        // orderDueDate: $('#OrderDueDate').val(),
+                        orderDate: orderDate,
+                        orderDueDate: orderDueDate,
                     }),
                     contentType: "application/json;charset=utf-8",
                     dataType: "json",

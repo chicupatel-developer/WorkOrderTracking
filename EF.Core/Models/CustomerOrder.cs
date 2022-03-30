@@ -33,15 +33,15 @@ namespace EF.Core.Models
         [Required(ErrorMessage = "Order Date is Required!")]
         [Display(Name = "Order Date")]
         [DataType(DataType.Date)]
-        [Remote(action: "VerifyDate", controller: "CustomerOrder", AdditionalFields = nameof(OrderDueDate))]
-        public DateTime OrderDate { get; set; }
+        [Remote(action: "VerifyOrderDate", controller: "CustomerOrder")]
+        public DateTime? OrderDate { get; set; }
 
 
         [Required(ErrorMessage = "Order Due Date is Required!")]
         [Display(Name = "Order Due Date")]
         [DataType(DataType.Date)]
-        [Remote(action: "VerifyDate", controller: "CustomerOrder", AdditionalFields = nameof(OrderDate))]
-        public DateTime OrderDueDate { get; set; }
+        [Remote(action: "VerifyOrderDueDate", controller: "CustomerOrder", AdditionalFields = nameof(OrderDate))]
+        public DateTime? OrderDueDate { get; set; }
 
         public WorkOrder WorkOrder { get; set; }
     }
