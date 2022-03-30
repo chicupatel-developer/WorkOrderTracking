@@ -135,3 +135,10 @@ C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\EF.Core.dll
 C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Service.dll
 C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\EF.Core.pdb
 C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Service.pdb
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\CustomerOrder\Index.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\CustomerOrder\Create.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.MvcApplicationPartsAssemblyInfo.cs

@@ -1,12 +1,12 @@
 ﻿@model EF.Core.Models.Part
 
 @{
-    ViewData["Title"] = "Create - Part";
+    ViewData["Title"] = "New - Part";
 }
 
 
 <div class="container">
-    <h2>Create Part</h2>
+    <h2>New Part</h2>
 </div>
 <div class="container">
     <div id="floater">
@@ -18,6 +18,12 @@
 <div class="row">
     <div class="col-md-6">
         <div class="container">
+
+            <!-- HTML -->
+            <p>Enter Date: <input type="text" id="datepicker-13"></p>
+            <p></p>
+
+
             <form name="partCreateForm" asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -39,7 +45,7 @@
                     <span asp-validation-for="Desc" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary createPart">
                         Create New Part
                     </button>
                 </div>
@@ -60,9 +66,14 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+            // date picker
+            $("#datepicker-13").datepicker();
+            // $("#datepicker-13").datepicker("show");
+
             $('#floater').hide();
 
-            $('.btn').click(function () {
+            $('.createPart').click(function () {
                 var ajaxPage = "/Part/Create";
                 $.ajax({
                     type: "POST",

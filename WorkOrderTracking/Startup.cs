@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service.Interface;
+using Service.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,7 @@ namespace WorkOrderTracking
             services.AddControllersWithViews();
 
             #region Repositories
+            services.AddTransient<ICustomerOrderRepository, CustomerOrderRepository>();
             #endregion
 
             #region WorkOrderTrackingContext
