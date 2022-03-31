@@ -45,11 +45,12 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="ProductDesc" class="control-label">Product Desc</label>
-                        <input asp-for="ProductDesc"
-                               id="ProductDesc"
-                               name="ProductDesc"
-                               placeholder="product desc - ?"
-                               class="form-control" />
+                        <textarea asp-for="ProductDesc"
+                                   id="ProductDesc"
+                                   name="ProductDesc"
+                                   placeholder="product desc - ?"
+                                   class="form-control">
+                        </textarea>                        
                         <span asp-validation-for="ProductDesc" class="text-danger"></span>
                     </div>
                 </div>

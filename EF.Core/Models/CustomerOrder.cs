@@ -27,7 +27,7 @@ namespace EF.Core.Models
 
         [Required(ErrorMessage = "Order QTY is Required!")]
         [Display(Name = "Order QTY")]
-        public int OrderQuantity { get; set; }
+        public int? OrderQuantity { get; set; }
 
 
         [Required(ErrorMessage = "Order Date is Required!")]
