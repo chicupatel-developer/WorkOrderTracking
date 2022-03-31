@@ -8,5 +8,6 @@ namespace Service.Interface
     public interface ICustomerOrderRepository
     {
         bool AddCustomerOrder(CustomerOrder customerOrder);
+        List<CustomerOrder> GetAllCustomerOrders();
     }
 }

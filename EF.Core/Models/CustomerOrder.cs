@@ -34,7 +34,10 @@ namespace EF.Core.Models
         [Display(Name = "Order Date")]
         [DataType(DataType.Date)]
         [Remote(action: "VerifyOrderDate", controller: "CustomerOrder")]
-        public DateTime? OrderDate { get; set; }
+        public DateTime? OrderDate
+        {
+            get; set;
+        }
 
 
         [Required(ErrorMessage = "Order Due Date is Required!")]

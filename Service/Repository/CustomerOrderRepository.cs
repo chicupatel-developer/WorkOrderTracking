@@ -3,6 +3,7 @@ using EF.Core.Models;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Service.Repository
@@ -30,6 +31,17 @@ namespace Service.Repository
             {
                 return false;
             }
+        }
+    
+        public List<CustomerOrder> GetAllCustomerOrders()
+        {
+            List<CustomerOrder> datas = new List<CustomerOrder>();
+
+            var custOrders_ = appDbContext.CustomerOrders;
+            if (custOrders_ != null && custOrders_.Count() > 0)
+                datas = custOrders_.ToList();
+
+            return datas;
         }
     }
 }

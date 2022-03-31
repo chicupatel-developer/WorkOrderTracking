@@ -26,7 +26,21 @@ namespace WorkOrderTracking.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult<DataTableResponse> GetAllCustomerOrders()
+        {
+            var custOrders = _custOrderRepo.GetAllCustomerOrders();
 
+            return new DataTableResponse
+            {
+                RecordsTotal = custOrders.Count(),
+                RecordsFiltered = 10,
+                Data = custOrders.ToArray()
+            };
+        }
+
+
+        // remote validation
         [AcceptVerbs("GET", "POST")]
         public IActionResult VerifyOrderDate(DateTime orderDate)
         {
@@ -37,6 +51,7 @@ namespace WorkOrderTracking.Controllers
             return Json(true);
         }
 
+        // remote validation
         [AcceptVerbs("GET", "POST")]
         public IActionResult VerifyOrderDueDate(DateTime orderDate, DateTime orderDueDate)
         {

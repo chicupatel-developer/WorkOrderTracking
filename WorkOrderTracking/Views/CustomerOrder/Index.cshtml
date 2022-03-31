@@ -10,3 +10,55 @@
 </div>
 <hr />
 <p></p>
+<table id="customerOrdersTable" class="table table-sm table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>QTY</th>
+            <th>Order Date</th>
+            <th>Due Date</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script type="text/javascript">
+        var editor;
+
+        $(document).ready(function () {
+
+            $('#customerOrdersTable').DataTable({
+                processing: true,
+                ordering: true,
+                paging: true,
+                searching: true,
+                ajax: "CustomerOrder/GetAllCustomerOrders",
+                columns: [
+                    { "data": "customerOrderId" },
+                    { "data": "customerName" },
+                    { "data": "productName" },
+                    { "data": "orderQuantity" },
+                    {
+                        "data": "orderDate", render: function (data, type, row) {//data
+                            return moment(row.orderDate).format('DD MMM, YYYY');
+                        }
+                    },
+                    {
+                        "data": "orderDueDate", render: function (data, type, row) {//data
+                            return moment(row.orderDueDate).format('DD MMM, YYYY');
+                        }
+                    },
+                ],
+                select: true,
+                buttons: [
+                    { extend: "create", editor: editor },
+                    { extend: "edit", editor: editor },
+                    { extend: "remove", editor: editor }
+                ]
+                   
+            });
+        });
+    </script>
+}
