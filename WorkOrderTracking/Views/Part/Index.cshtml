@@ -10,10 +10,17 @@
 
 <!-- this will open modal dialog -->
 <p></p>
-<button id='open' data-toggle="modal" data-target="#showmodal"
-        type="button" class="btn btn-primary createPart">
-    Edit Part
-</button>
+<a class="btn btn-primary popup" 
+   data-url="Part/Edit?id=1" 
+   data-toggle="modal" 
+   data-target="#modal-edit-part" 
+   id="PartModel">
+    Edit Part 
+</a>
+<!-- partial view, which holds content from mvc action Part/Edit
+    ,,, which returns content as partial view _Edit.cshtml -->
+<partial name="_Modal" />
+
 
 <hr />
 <p></p>
@@ -23,27 +30,14 @@
             <th>Part Id</th>
             <th>Name</th>
             <th>Desc</th>
+            <th>Customer Order #</th>
+            <th>Work Order #</th>
         </tr>
     </thead>
 </table>
 
 
-<!-- this modal container holds partial view content -->
-<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            @{
-                Html.RenderPartial("_showParticalView");
-            }
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-
 @section Scripts {
-
-
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -53,15 +47,20 @@
                 ordering: true,
                 paging: true,
                 searching: true,
-                ajax: "Part/GetParts",
+                ajax: "Part/GetAllParts",
                 columns: [
                     { "data": "partId" },
                     { "data": "name" },
                     { "data": "desc" },
+                    { "data": "customerOrderId" },
+                    { "data": "workOrderId" },
                 ]
             });
+
+
 
         });
     </script>
 
+    <script src="~/js/_editPart.js" asp-append-version="true"></script>
 }

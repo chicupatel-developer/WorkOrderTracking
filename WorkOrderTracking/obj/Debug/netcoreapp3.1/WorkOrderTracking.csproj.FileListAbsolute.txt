@@ -142,4 +142,5 @@ C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Microsoft.DotNet.Platfor
 C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
 C:\MVC-JQuery\WorkOrderTracking\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.MvcApplicationPartsAssemblyInfo.cs
-C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Part\_showParticalView.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Part\_Edit.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Modal.cshtml.g.cs

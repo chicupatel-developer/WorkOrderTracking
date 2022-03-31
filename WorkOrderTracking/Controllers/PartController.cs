@@ -7,17 +7,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorkOrderTracking.Models;
 using EF.Core.Models;
+using Service.Interface;
 
 namespace WorkOrderTracking.Controllers
 {
     public class PartController : Controller
     {
         private readonly ILogger<PartController> _logger;
+        private readonly IPartRepository _partRepo;
 
-        public PartController(ILogger<PartController> logger)
+        public PartController(IPartRepository partRepo, ILogger<PartController> logger)
         {
+            _partRepo = partRepo;
             _logger = logger;
-        }
+        }     
 
         public IActionResult Index()
         {
@@ -25,32 +28,17 @@ namespace WorkOrderTracking.Controllers
         }
 
         [HttpGet]
-        public ActionResult<DataTableResponse> GetParts()
+        public ActionResult<DataTableResponse> GetAllParts()
         {
-            var parts = getAllParts().ToList();
+            var custOrders = _partRepo.GetAllParts();
 
             return new DataTableResponse
             {
-                RecordsTotal = parts.Count(),
+                RecordsTotal = custOrders.Count(),
                 RecordsFiltered = 10,
-                Data = parts.ToArray()
+                Data = custOrders.ToArray()
             };
-        }
-
-        private IEnumerable<Part> getAllParts()
-        {
-            List<Part> datas = new List<Part>();
-            for (int i = 1; i <= 100; i++)
-            {
-                datas.Add(new Part()
-                {
-                    PartId = i,
-                    Name = "Name - " + i,
-                    Desc = "Desc - " + i,
-                });
-            }
-            return datas.ToList();
-        }
+        }      
 
         [HttpGet]
         public IActionResult Create()
@@ -85,5 +73,20 @@ namespace WorkOrderTracking.Controllers
             }
             return Json(new { Result = retData });
         }
+    
+    
+    
+        public ActionResult Edit(int id)  
+        {
+            var part = _partRepo.GetPart(id);           
+            return PartialView("_Edit", part);    
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Edit(Part model)
+        {
+            return Json(model);
+        }
+
     }
 }
