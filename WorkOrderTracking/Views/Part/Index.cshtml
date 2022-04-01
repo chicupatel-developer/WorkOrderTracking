@@ -9,13 +9,14 @@
 </div>
 
 
-
+<!-- this will hold partial view (modal) -->
 <div id="PlaceHolderHere"></div>
-<button type="button" 
-        class="btn btn-primary" 
-        data-toggle="ajax-modal" 
-        data-target="#editPart" 
-        data-url="@Url.Action("Edit")">
+<!-- this will open modal -->
+<button type="button"
+        class="btn btn-primary"
+        data-toggle="ajax-modal"
+        data-target="#editPart"
+        data-url="@Url.Action("Edit","Part",new { id= 2 })">
     Edit Part
 </button>
 
@@ -30,6 +31,7 @@
             <th>Desc</th>
             <th>Customer Order #</th>
             <th>Work Order #</th>
+            <th>Actions</th>
         </tr>
     </thead>
 </table>
@@ -52,38 +54,21 @@
                     { "data": "desc" },
                     { "data": "customerOrderId" },
                     { "data": "workOrderId" },
+                    {
+                        "data": null,
+                        "bSortable": false,
+                        "mRender": function (o) {
+                            return '<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#editPart" data-url="@Url.Action("Edit","Part",new { id=1 })">Edit Part</button>'; }
+                    }
                 ]
-            });
-
-
-
-            var PlaceHolderElement = $('#PlaceHolderHere');
-            $('button[data-toggle="ajax-modal"]').click(function (event) {
-                var url = $(this).data('url');
-
-                $.get(url).done(function (data) {
-
-                    console.log(data);
-
-                    PlaceHolderElement.html(data);
-                    PlaceHolderElement.find('.modal').modal('show');
-                });
-            });
-
-
-
-            PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
-                var form = $(this).parents('.modal').find('form');
-                var actionUrl = form.attr('action');
-                var sendData = form.serialize();
-                $.post(actionUrl, sendData).done(function (data) {
-                    console.log(data);
-                    // PlaceHolderElement.find('.modal').modal('hide');
-                });
             });
 
         });
     </script>
 
-    
+
+    <script src="~/js/editPart_.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }

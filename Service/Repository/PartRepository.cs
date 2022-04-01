@@ -33,5 +33,31 @@ namespace Service.Repository
 
             return datas;
         }
+
+        public bool EditPart(Part part)
+        {
+            try
+            {
+                // throw new Exception();
+
+                var _part = appDbContext.Parts
+                                .Where(x => x.PartId == part.PartId).FirstOrDefault();
+                if (_part != null)
+                {
+                    _part.Name = part.Name;
+                    _part.Desc = part.Desc;
+                    appDbContext.SaveChanges();
+
+                    return true;
+                }
+                else
+                    return false;
+                
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

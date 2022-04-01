@@ -47,7 +47,9 @@ namespace WorkOrderTracking.Controllers
         }
 
         [HttpPost]
-        public JsonResult Create([FromBody] Part part)
+        [ValidateAntiForgeryToken]
+        // public JsonResult Create([FromBody] Part part)
+        public JsonResult Create(Part part)
         {
             OperationResult retData = new OperationResult();
 
@@ -76,23 +78,33 @@ namespace WorkOrderTracking.Controllers
     
     
     
-        public ActionResult Edit()  
+        public ActionResult Edit(int id)  
         {
-            int id = 1;
+            // int id = 1;
             var part = _partRepo.GetPart(id);           
             return PartialView("_Edit", part);    
         }
+
         [HttpPost]
-        // [ValidateAntiForgeryToken]
-        public JsonResult Edit(Part model)
+        [ValidateAntiForgeryToken]
+        public JsonResult Edit(Part part)
         {
             OperationResult retData = new OperationResult();
 
             if (ModelState.IsValid)
             {
-                retData.Message = "Part is Edited !";
-                retData.ModelErrors = new List<string>();
-                retData.StatusCode = 0;
+                if (_partRepo.EditPart(part))
+                {
+                    retData.Message = "Part is Edited !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = 0;
+                }
+                else
+                {
+                    retData.Message = "Server Error !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = -1;
+                }
             }
             else
             {

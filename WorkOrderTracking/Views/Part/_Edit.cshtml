@@ -7,7 +7,8 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="editPartLabel">
                     Edit Part
-                </h4>
+                </h4>            
+
                 <button type="button" class="close" data-dismiss="modal">
                     <span>X</span>
                 </button>
@@ -15,8 +16,18 @@
 
 
             <div class="modal-body">
+                
+                <div id="floater"></div>
+                <div id="opStatus"></div>
+                <p></p>
+
+                
                 <form action="Part/Edit">
+                    @Html.AntiForgeryToken()
                     <div class="form-group">
+
+                        @Html.HiddenFor(model => model.PartId)
+
                         <label asp-for="Name" class="control-label"></label>
                         <input asp-for="Name"
                                id="Name"

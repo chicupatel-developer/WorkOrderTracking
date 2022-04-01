@@ -9,5 +9,6 @@ namespace Service.Interface
     {
         Part GetPart(int partId);
         List<Part> GetAllParts();
+        bool EditPart(Part part);
     }
 }
