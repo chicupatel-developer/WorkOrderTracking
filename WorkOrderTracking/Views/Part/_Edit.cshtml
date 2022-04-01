@@ -1,74 +1,62 @@
 ﻿@model EF.Core.Models.Part;
 
-<div class="modal-content">
 
-    <div class="modal-header">
-        <h4 class="modal-title">Edit Part</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+<div class="modal fade" id="editPart">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editPartLabel">
+                    Edit Part
+                </h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <form action="Part/Edit">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name"
+                               id="Name"
+                               name="Name"
+                               class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Desc" class="control-label"></label>
+                        <input asp-for="Desc"
+                               id="Desc"
+                               name="Desc"
+                               class="form-control" />
+                        <span asp-validation-for="Desc" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
+                <button class="btn btn-primary"
+                        data-save="modal"
+                        type="button">
+                    Edit Part
+                </button>
+            </div>
+        </div>
     </div>
-
-    <form id="partEditForm" asp-action="Edit" asp-controller="Part"
-          method="post"
-          enctype="multipart/form-data">
-
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name"
-                   id="Name"
-                   name="Name"
-                   placeholder="part - ?"
-                   class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Desc" class="control-label"></label>
-            <input asp-for="Desc"
-                   id="Desc"
-                   name="Desc"
-                   placeholder="desc - ?"
-                   class="form-control" />
-            <span asp-validation-for="Desc" class="text-danger"></span>
-        </div>
-
-
-        <div class="modal-footer">
-            <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
-            <button class="btn btn-success relative fcuk"
-                    id="btnSubmit"
-                    type="submit">
-                Edit Part
-            </button>
-        </div>
-    </form>
 </div>
 
 
 
 
-@section Scripts {
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            
-            $(".fcuk").on("submit", function (event) {
-                event.preventDefault();
-                console.log('haha');
 
-                $.ajax({
-                    type: "POST",
-                    url: "/Part/Edit",
-                    data: $('#partEditForm').serialize(),
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (response) {
-                        alert("Hello")
-                    }
-                });
-            });
-        });
-    </script>
 
-}
+
+
+
+
 
 

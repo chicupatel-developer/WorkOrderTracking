@@ -76,16 +76,39 @@ namespace WorkOrderTracking.Controllers
     
     
     
-        public ActionResult Edit(int id)  
+        public ActionResult Edit()  
         {
+            int id = 1;
             var part = _partRepo.GetPart(id);           
             return PartialView("_Edit", part);    
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public JsonResult Edit(Part model)
         {
-            return Json(model);
+            OperationResult retData = new OperationResult();
+
+            if (ModelState.IsValid)
+            {
+                retData.Message = "Part is Edited !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = 0;
+            }
+            else
+            {
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+            return Json(new { Result = retData });
         }
 
     }
