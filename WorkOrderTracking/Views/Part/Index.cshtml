@@ -12,14 +12,15 @@
 <!-- this will hold partial view (modal) -->
 <div id="PlaceHolderHere"></div>
 <!-- this will open modal -->
-<button type="button"
-        class="btn btn-primary"
-        data-toggle="ajax-modal"
-        data-target="#editPart"
-        data-url="@Url.Action("Edit","Part",new { id= 2 })">
-    Edit Part
-</button>
-
+@*
+    <button type="button"
+            class="btn btn-primary"
+            data-toggle="ajax-modal"
+            data-target="#editPart"
+            data-url="@Url.Action("Edit","Part",new { id= 2 })">
+        Edit Part
+    </button>
+*@
 
 <hr />
 <p></p>
@@ -42,7 +43,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $('#partTable').DataTable({
+            var table = $('#partTable').DataTable({
                 processing: true,
                 ordering: true,
                 paging: true,
@@ -55,12 +56,25 @@
                     { "data": "customerOrderId" },
                     { "data": "workOrderId" },
                     {
-                        "data": null,
-                        "bSortable": false,
-                        "mRender": function (o) {
-                            return '<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#editPart" data-url="@Url.Action("Edit","Part",new { id=1 })">Edit Part</button>'; }
-                    }
+                       "data": null, "defaultContent": "<button id='btnPartEdit' class='btn btn-success'>Edit</button>"
+                    },
                 ]
+            });
+
+            var PlaceHolderElement = $('#PlaceHolderHere');
+            $('#partTable tbody').on('click', '[id*=btnPartEdit]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var partId = data.partId;
+                console.log(partId);
+
+                var url = 'Part\\Edit\\' + partId;
+
+                $.get(url).done(function (data) {
+                    // console.log(data);
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
             });
 
         });
