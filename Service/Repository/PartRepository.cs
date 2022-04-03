@@ -59,5 +59,22 @@ namespace Service.Repository
                 return false;
             }
         }
+    
+    
+        public bool DeletePart(int partId)
+        {
+            try
+            {
+                var deletingPart = appDbContext.Parts
+                                    .Where(x => x.PartId == partId).FirstOrDefault();
+                appDbContext.Remove(deletingPart);
+                appDbContext.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

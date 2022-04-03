@@ -123,5 +123,26 @@ namespace WorkOrderTracking.Controllers
             return Json(new { Result = retData });
         }
 
+
+        [HttpGet]
+        public JsonResult Delete(int id)
+        {
+            OperationResult retData = new OperationResult();
+
+            if (_partRepo.DeletePart(id))
+            {
+                retData.Message = "Part is Deleted !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = 0;
+            }
+            else
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            return Json(new { Result = retData });
+        }
+
     }
 }

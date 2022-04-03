@@ -10,5 +10,6 @@ namespace Service.Interface
         Part GetPart(int partId);
         List<Part> GetAllParts();
         bool EditPart(Part part);
+        bool DeletePart(int partId);
     }
 }
