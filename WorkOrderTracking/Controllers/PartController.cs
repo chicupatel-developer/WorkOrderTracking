@@ -84,7 +84,6 @@ namespace WorkOrderTracking.Controllers
             var part = _partRepo.GetPart(id);           
             return PartialView("_Edit", part);    
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Edit(Part part)
@@ -124,12 +123,17 @@ namespace WorkOrderTracking.Controllers
         }
 
 
-        [HttpGet]
-        public JsonResult Delete(int id)
+        public ActionResult GetPartForDelete(int id)
+        {
+            var part = _partRepo.GetPart(id);
+            return PartialView("_Delete", part);
+        }
+        [HttpPost]
+        public JsonResult Delete(Part part)
         {
             OperationResult retData = new OperationResult();
 
-            if (_partRepo.DeletePart(id))
+            if (_partRepo.DeletePart(part.PartId))
             {
                 retData.Message = "Part is Deleted !";
                 retData.ModelErrors = new List<string>();

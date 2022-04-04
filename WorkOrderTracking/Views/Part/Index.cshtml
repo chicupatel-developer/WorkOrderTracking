@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Part - Home Page";
 }
+
 <div class="text-center">
     <h1 class="display-4">Parts</h1>
 </div>
@@ -11,16 +12,6 @@
 
 <!-- this will hold partial view (modal) -->
 <div id="PlaceHolderHere"></div>
-<!-- this will open modal -->
-@*
-    <button type="button"
-            class="btn btn-primary"
-            data-toggle="ajax-modal"
-            data-target="#editPart"
-            data-url="@Url.Action("Edit","Part",new { id= 2 })">
-        Edit Part
-    </button>
-*@
 
 <hr />
 <p></p>
@@ -28,6 +19,7 @@
     <thead>
         <tr>
             <th>Part Id</th>
+            <th>QTY</th>
             <th>Name</th>
             <th>Desc</th>
             <th>Customer Order #</th>
@@ -38,48 +30,10 @@
 </table>
 
 
-<!----delete modal--->
-<div id="modal-delete" class="modal fade" role='dialog'>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Are you sure want to delete !!!</h4>
-                <button type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-hidden="true">
-                    ×
-                </button>
-            </div>
-            <div class="modal-body" id="modal-body-delete">   
-
-                <p>Part Details........</p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button"
-                        class="btn btn-default"
-                        data-dismiss="modal">
-                    Close
-                </button>                
-                <button class="btn btn-primary"
-                        data-save="modalDelete"
-                        id="deletePart"
-                        type="button">
-                    Delete Part
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<!----delete modal--->
-
 @section Scripts {
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-            var partToDelete;
 
             $('#floater').hide();
 
@@ -90,17 +44,20 @@
                 searching: true,
                 ajax: "Part/GetAllParts",
                 columns: [
-                    { "data": "partId" },
+                    { "data": "partId", "width": "10%" },
+                    { "data": "qty", "width": "5%" },
                     { "data": "name" },
-                    { "data": "desc" },
-                    { "data": "customerOrderId" },
-                    { "data": "workOrderId" },
+                    { "data": "desc", "width": "20%" },
+                    { "data": "customerOrderId", "width": "5%" },
+                    { "data": "workOrderId", "width": "5%" },
                     {
                         "data": null, "defaultContent": "<button id='btnPartEdit' class='btn btn-success'>Edit</button><span>|</span><button id='btnPartDelete' class='btn btn-danger'>Delete</button>"
                     },
                 ]
             });
-            // this will open modal
+
+            // edit
+            // this will open modal and display data to modal window
             // do get-edit and display data to modal window
             var PlaceHolderElement = $('#PlaceHolderHere');
             $('#partTable tbody').on('click', '[id*=btnPartEdit]', function () {
@@ -115,76 +72,24 @@
                     PlaceHolderElement.find('.modal').modal('show');
                 });
             });
-
-
-           
+                       
             // delete
             // this will open modal and display data to modal window
+            // do get-delete and display data to modal window
             $('#partTable tbody').on('click', '[id*=btnPartDelete]', function () {
                 var data = table.row($(this).parents('tr')).data();
-                var content = "<div><span>Part # " + data.partId + "</span><br /><span>Name :  " + data.name + "</span><br /><span>Desc : " + data.desc + "</span></div>";
-                console.log(content);
-
-                $("#modal-body-delete").html('');
-                $("#modal-body-delete").html(content);
-                $('#modal-delete').modal('show');
-
-                partToDelete = data.partId;
-            });
-            // delete
-            // this will do get-delete in modal
-            $('#deletePart').on('click', function (event) {
-                console.log('haha');
-
-                var url = 'Part\\Delete\\' + partToDelete;
-                $.get(url).done(function (response) {
-                    console.log(response);
-                    console.log(response.result.statusCode);
-                    console.log(response.result.message);
-                    bkTimerDelete(response.result);
+                console.log(data);
+                var partId = data.partId;
+                console.log(partId);
+                var url = 'Part\\GetPartForDelete\\' + partId;
+                $.get(url).done(function (data) {
+                    // console.log(data);
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
                 });
             });
-            // delete
-            function bkTimerDelete(result) {
-
-                var content = '';
-                if (result.statusCode == 0) {
-                    content += '<img src="../Images/success.png" style = "width:50px;height:50px;" /> ';
-                    content += '<font color="green">' + result.message + '</font>';
-                }
-                else if (result.statusCode == -1) {
-                    content += '<img src="../Images/error.png" style = "width:50px;height:50px;" /> ';
-                    content += '<font color="red">' + result.message + '</font>';
-                }
-                else {
-                    content += '<img src="../Images/error.png" style = "width:50px;height:50px;" /> ';
-                    content += '<font color="red">' + result.Message + '</font>';
-                }
-                $("#modal-body-delete").html(content);
-                $("#modal-body-delete").fadeIn("slow");
-                $("#modal-body-delete").queue(function () {
-                    setTimeout(function () {
-                        $("#modal-body-delete").dequeue();
-
-                        // this will hide modal
-                        $('#modal-delete').modal('hide');
-
-                        // reset partToDelete variable
-                        partToDelete = 0;
-
-                        // this will just refresh(ajax-call) datatable
-                        // after success-delete
-                        table.ajax.reload();
-                    }, 3000);
-                });
-                $("#modal-body-delete").fadeOut("fast");
-            };
-
-
-
-
-
-            // this will do post-edit in modal
+           
+            // this will do post-edit-delete in modal
             PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
                 var form = $(this).parents('.modal').find('form');
                 var actionUrl = form.attr('action');
@@ -219,6 +124,7 @@
                     $('#opStatus').html(mErrors);
                 });
             });
+
             // success / dal error
             function bkTimer(result) {
                 var div = $("#floater");
@@ -247,7 +153,7 @@
                         // this will refresh whole page after success-edit-delete
                         // window.location.reload(true);
                         // this will just refresh(ajax-call) datatable
-                        // after success-edit
+                        // after success-edit-delete
                         table.ajax.reload();
 
                     }, 3000);
@@ -260,10 +166,6 @@
             };
         });
     </script>
-
-    <!--
-    <script src="~/js/editPart_.js"></script>
-    -->
 
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

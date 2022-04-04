@@ -59,12 +59,13 @@ namespace Service.Repository
                 return false;
             }
         }
-    
-    
+        
         public bool DeletePart(int partId)
         {
             try
             {
+                // throw new Exception();
+
                 var deletingPart = appDbContext.Parts
                                     .Where(x => x.PartId == partId).FirstOrDefault();
                 appDbContext.Remove(deletingPart);
