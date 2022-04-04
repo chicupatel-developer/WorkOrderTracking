@@ -55,7 +55,7 @@ namespace WorkOrderTracking.Controllers
         [AcceptVerbs("GET", "POST")]
         public IActionResult VerifyOrderDueDate(DateTime orderDate, DateTime orderDueDate)
         {
-            if (!(orderDate.Date<=orderDueDate.Date))
+            if (orderDueDate.Date < orderDate.Date)
             {
                 return Json($"Order-Due-Date Must Be >= Order-Date !");
             }
@@ -68,23 +68,29 @@ namespace WorkOrderTracking.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult Create([FromBody] CustomerOrder customerOrder)
+        [ValidateAntiForgeryToken]
+        // public JsonResult Create([FromBody] CustomerOrder customerOrder)
+        public JsonResult Create(CustomerOrder customerOrder)
         {
             OperationResult retData = new OperationResult();
 
             if (ModelState.IsValid)
             {
-                if (_custOrderRepo.AddCustomerOrder(customerOrder))
+                retData = DateCheck(customerOrder);
+                if (retData.StatusCode == 0)
                 {
-                    retData.Message = "Customer Order is Created !";
-                    retData.ModelErrors = new List<string>();
-                    retData.StatusCode = 0;
-                }
-                else
-                {
-                    retData.Message = "Server Error !";
-                    retData.ModelErrors = new List<string>();
-                    retData.StatusCode = -1;
+                    if (_custOrderRepo.AddCustomerOrder(customerOrder))
+                    {
+                        retData.Message = "Customer Order is Created !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = 0;
+                    }
+                    else
+                    {
+                        retData.Message = "Server Error !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = -1;
+                    }
                 }              
             }
             else
@@ -102,6 +108,44 @@ namespace WorkOrderTracking.Controllers
                 }
             }
             return Json(new { Result = retData });
+        }
+
+        private OperationResult DateCheck(CustomerOrder customerOrder)
+        {
+            OperationResult retData = new OperationResult();
+            retData.StatusCode = 0;
+
+            if (customerOrder.OrderDueDate < customerOrder.OrderDate)
+            {
+                ModelState.AddModelError("OrderDueDate", "Order-Due-Date Must be >= Order-Date !");
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+            if (customerOrder.OrderDate < DateTime.Now.Date)
+            {
+                ModelState.AddModelError("OrderDate", "Order-Date Must be >= Current-Date !");
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+            return retData;
         }
     }
 }

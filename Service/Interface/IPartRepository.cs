@@ -11,5 +11,6 @@ namespace Service.Interface
         List<Part> GetAllParts();
         bool EditPart(Part part);
         bool DeletePart(int partId);
+        bool AddPart(Part part);
     }
 }

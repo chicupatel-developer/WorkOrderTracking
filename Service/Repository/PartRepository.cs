@@ -77,5 +77,22 @@ namespace Service.Repository
                 return false;
             }
         }
+
+        public bool AddPart(Part part)
+        {
+            try
+            {
+                // throw new Exception();
+
+                appDbContext.Parts.Add(part);
+                appDbContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

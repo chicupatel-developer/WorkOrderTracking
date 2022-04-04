@@ -17,7 +17,7 @@ namespace EF.Core.Models
         public string Desc { get; set; }
 
         [Required(ErrorMessage = "Part QTY is Required!")]
-        public int Qty { get; set; }
+        public int? Qty { get; set; }
 
         public int CustomerOrderId { get; set; }
         public int WorkOrderId { get; set; }

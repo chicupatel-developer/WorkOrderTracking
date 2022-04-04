@@ -2,9 +2,21 @@
 
     $('#floater').hide();
 
-    $('.createPart').click(function () {
+    $('.createCustomerOrder').click(function () {
 
-        var form = $('#partCreateForm');
+        var orderDate = $('#OrderDate').val();
+        if (checkDate(orderDate))
+            console.log('order date OK!');
+        else
+            orderDate = null;
+
+        var orderDueDate = $('#OrderDueDate').val();
+        if (checkDate(orderDueDate))
+            console.log('order - due date OK!');
+        else
+            orderDueDate = null;
+
+        var form = $('#customerOrderCreateForm');
         var actionUrl = form.attr('asp-action');
         var sendData = form.serialize();
         console.log(sendData);
@@ -41,15 +53,20 @@
             alert("Ajax Call Error");
         });
 
-
         /*
-        var ajaxPage = "/Part/Create";
+        var ajaxPage = "/CustomerOrder/Create";
         $.ajax({
             type: "POST",
             url: ajaxPage,
             data: JSON.stringify({
-                name: $('#Name').val(),
-                desc: $('#Desc').val(),
+                customerName: $('#CustomerName').val(),
+                productName: $('#ProductName').val(),
+                productDesc: $('#ProductDesc').val(),
+                orderQuantity: parseInt($('#OrderQuantity').val()),
+                // orderDate: $('#OrderDate').val(),
+                // orderDueDate: $('#OrderDueDate').val(),
+                orderDate: orderDate,
+                orderDueDate: orderDueDate,
             }),
             contentType: "application/json;charset=utf-8",
             dataType: "json",
@@ -59,11 +76,15 @@
                 console.log(response.result.message);
 
                 var mErrors = '';
-                if (response.result.statusCode <= 0) {
+                if (response.result.statusCode == 0) {
                     bkTimer(response.result);
                     resetUI();
                 }
-                else if (response.result.statusCode <= 1) {
+                else if (response.result.statusCode == -1) {
+                    bkTimer(response.result);
+                    resetUI();
+                }
+                else if (response.result.statusCode == 1) {
                     // model error
                     mErrors += '<font color="red">';
                     mErrors += response.result.message;
@@ -113,9 +134,21 @@
     };
 
     function resetUI() {
-        $('#Name').val('');
-        $('#Desc').val('');
-        $('#Qty').val('');
+        $('#CustomerName').val('');
+        $('#ProductName').val('');
+        $('#ProductDesc').val('');
+        $('#OrderQuantity').val('');
+        $('#OrderDate').val('');
+        $('#OrderDueDate').val('');
     };
+
+    function checkDate(myDate) {
+        if (myDate == '')
+            // console.log('enter order date!');
+            return false;
+        else
+            // console.log(myDate);
+            return true;
+    }
 
 });

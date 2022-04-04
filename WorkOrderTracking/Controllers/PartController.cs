@@ -55,9 +55,18 @@ namespace WorkOrderTracking.Controllers
 
             if (ModelState.IsValid)
             {
-                retData.Message = "Part is Created !";
-                retData.ModelErrors = new List<string>();
-                retData.StatusCode = 0;
+                if (_partRepo.AddPart(part))
+                {
+                    retData.Message = "Part is Created !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = 0;
+                }
+                else
+                {
+                    retData.Message = "Server Error !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = -1;
+                }
             }
             else
             {
