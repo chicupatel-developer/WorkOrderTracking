@@ -1,0 +1,129 @@
+﻿@model EF.Core.Models.CustomerOrder;
+
+
+<div class="modal fade" id="editCO">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editCOLabel">
+                    Edit Customer Order
+                </h4>            
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                
+                <div id="floater"></div>
+                <div id="opStatus"></div>
+                <p></p>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="CustomerOrder/Edit">
+                            @Html.AntiForgeryToken()
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="text-danger">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-1">
+                                    @Html.HiddenFor(model => model.CustomerOrderId)
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label asp-for="CustomerName" class="control-label"></label>
+                                        <input asp-for="CustomerName"
+                                               id="CustomerName"
+                                               name="CustomerName"
+                                               class="form-control" />
+                                        <span asp-validation-for="CustomerName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="ProductName" class="control-label"></label>
+                                        <input asp-for="ProductName"
+                                               id="ProductName"
+                                               name="ProductName"
+                                               class="form-control" />
+                                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="ProductDesc" class="control-label">Product Desc</label>
+                                        <textarea asp-for="ProductDesc"
+                                                  id="ProductDesc"
+                                                  name="ProductDesc"
+                                                  class="form-control">
+                                        </textarea>
+                                        <span asp-validation-for="ProductDesc" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label asp-for="OrderQuantity" class="control-label"></label>
+                                        <input asp-for="OrderQuantity"
+                                               id="OrderQuantity"
+                                               name="OrderQuantity"
+                                               class="form-control" />
+                                        <span asp-validation-for="OrderQuantity" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="OrderDate" class="control-label"></label>
+                                        <input asp-for="OrderDate"
+                                               class="form-control"
+                                               name="OrderDate"
+                                               id="OrderDate" />
+                                        <span asp-validation-for="OrderDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="OrderDueDate" class="control-label"></label>
+                                        <input asp-for="OrderDueDate"
+                                               class="form-control"
+                                               name="OrderDueDate"
+                                               id="OrderDueDate" />
+                                        <span asp-validation-for="OrderDueDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-1">
+                                </div>
+                            </div>                         
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" 
+                        id="cancel" 
+                        class="btn btn-default" 
+                        type="button">
+                    Cancel
+                </button>
+                <button class="btn btn-primary"
+                        data-save="modal"
+                        type="button">
+                    Edit Customer Order
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

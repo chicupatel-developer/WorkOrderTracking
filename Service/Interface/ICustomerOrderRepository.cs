@@ -9,5 +9,7 @@ namespace Service.Interface
     {
         bool AddCustomerOrder(CustomerOrder customerOrder);
         List<CustomerOrder> GetAllCustomerOrders();
+        CustomerOrder GetCustomerOrder(int customerOrderId);
+        bool EditCustomerOrder(CustomerOrder customerOrder);
     }
 }

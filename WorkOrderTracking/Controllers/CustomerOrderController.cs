@@ -123,7 +123,7 @@ namespace WorkOrderTracking.Controllers
                 retData.ModelErrors = new List<string>();
                 foreach (var modelState in ViewData.ModelState.Values)
                 {
-                    foreach (var error in modelState.Errors)
+                    foreach (var error in modelState.Errors)    
                     {
                         string mError = error.ErrorMessage.ToString();
                         retData.ModelErrors.Add(mError);
@@ -146,6 +146,54 @@ namespace WorkOrderTracking.Controllers
                 }
             }
             return retData;
+        }
+
+
+        public ActionResult Edit(int id)
+        {
+            var co = _custOrderRepo.GetCustomerOrder(id);
+            return PartialView("_Edit", co);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Edit(CustomerOrder customerOrder)
+        {
+            OperationResult retData = new OperationResult();
+
+            if (ModelState.IsValid)
+            {
+                retData = DateCheck(customerOrder);
+                if (retData.StatusCode == 0)
+                {
+                    if (_custOrderRepo.EditCustomerOrder(customerOrder))
+                    {
+                        retData.Message = "Customer Order is Edited !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = 0;
+                    }
+                    else
+                    {
+                        retData.Message = "Server Error !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = -1;
+                    }
+                }
+            }
+            else
+            {
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+            return Json(new { Result = retData });
         }
     }
 }

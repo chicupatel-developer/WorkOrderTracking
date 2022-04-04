@@ -15,7 +15,6 @@ namespace Service.Repository
         {
             this.appDbContext = appDbContext;
         }
-
         public bool AddCustomerOrder(CustomerOrder customerOrder)
         {
             try
@@ -31,8 +30,7 @@ namespace Service.Repository
             {
                 return false;
             }
-        }
-    
+        }    
         public List<CustomerOrder> GetAllCustomerOrders()
         {
             List<CustomerOrder> datas = new List<CustomerOrder>();
@@ -43,5 +41,46 @@ namespace Service.Repository
 
             return datas;
         }
+
+        public CustomerOrder GetCustomerOrder(int customerOrderId)
+        {
+            var co = appDbContext.CustomerOrders
+                     .Where(x => x.CustomerOrderId == customerOrderId).FirstOrDefault();
+            return co;
+        }
+        
+        public bool EditCustomerOrder(CustomerOrder customerOrder)
+        {
+            try
+            {
+                // throw new Exception();
+
+                var _co = appDbContext.CustomerOrders
+                                .Where(x => x.CustomerOrderId == customerOrder.CustomerOrderId).FirstOrDefault();
+                if (_co != null)
+                {
+                    _co.CustomerName = customerOrder.CustomerName;
+                    _co.OrderDate = customerOrder.OrderDate;
+                    _co.OrderDueDate = customerOrder.OrderDueDate;
+                    _co.OrderQuantity = customerOrder.OrderQuantity;
+                    _co.ProductDesc = customerOrder.ProductDesc;
+                    _co.ProductName = customerOrder.ProductName;
+                    
+                    appDbContext.SaveChanges();
+
+                    return true;
+                }
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+
     }
 }
