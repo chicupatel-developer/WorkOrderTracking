@@ -48,7 +48,7 @@ namespace Service.Repository
                          CustomerOrderId = wo.CustomerOrderId,
                           StatusNote = wo.StatusNote,
                            WorkOrderId = wo.WorkOrderId,
-                            WorkOrderStartDate = wo.WorkOrderStartDate,
+                            WorkOrderStartDate = (DateTime)wo.WorkOrderStartDate,
                              WorkOrderStatus = wo.WorkOrderStatus
                     });
                 }
@@ -65,7 +65,7 @@ namespace Service.Repository
                 datas.Add(new SelectListItem()
                 {
                      Value = co.CustomerOrderId.ToString(),
-                      Text = co.CustomerName
+                      Text = "[ " + co.CustomerOrderId + " ] - " +co.CustomerName
                 });
             }
             return datas;

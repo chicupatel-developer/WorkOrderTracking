@@ -4,15 +4,14 @@
 
     $('.createWO').click(function () {      
 
-        var form = $('#coCreateForm');
+        var form = $('#woCreateForm');
         var actionUrl = form.attr('asp-action');
         var sendData = form.serialize();
-        // console.log(sendData);
-
-        console.log($('#CustomerOrders').val() + " : " + $('#CustomerOrders :selected').text());
-
-        sendData += 'customerOrderId=' + $('#CustomerOrders').val();
         console.log(sendData);
+
+        // console.log($('#CustomerOrders').val() + " : " + $('#CustomerOrders :selected').text());
+        // sendData += 'customerOrderId=' + $('#CustomerOrders').val();
+        // console.log(sendData);
 
         /*
         var ajaxPage = "/CustomerOrder/Create";

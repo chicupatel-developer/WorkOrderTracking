@@ -15,8 +15,11 @@ namespace EF.Core.Models
         public int CustomerOrderId { get; set; }
         public CustomerOrder CustomerOrder { get; set; }
 
-        public DateTime WorkOrderStartDate { get; set; }
+        public DateTime? WorkOrderStartDate { get; set; }
+        
+        
         public WorkOrderStatus WorkOrderStatus { get; set; }
+
         public string StatusNote { get; set; }
     }
 }
