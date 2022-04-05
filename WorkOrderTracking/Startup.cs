@@ -30,6 +30,7 @@ namespace WorkOrderTracking
             services.AddControllersWithViews();
 
             #region Repositories
+            services.AddTransient<IWorkOrderRepository, WorkOrderRepository>();
             services.AddTransient<ICustomerOrderRepository, CustomerOrderRepository>();
             services.AddTransient<IPartRepository, PartRepository>();
             #endregion

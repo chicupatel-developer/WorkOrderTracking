@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Work Order - Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Work Orders</h1>
+</div>
+<div>
+    <a asp-action="Create">Create - [Work Order]</a>
+</div>
+
+<!-- this will hold partial view (modal) -->
+<div id="PlaceHolderHere"></div>
+
+<hr />
+<p></p>
+<table id="workOrdersTable"
+       class="table table-sm table-bordered table-striped"
+       style="width:100%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>WO Start Date</th>
+            <th>WO Status</th>
+            <th>Status Note</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+      
+            var table = $('#workOrdersTable').DataTable({
+                processing: true,
+                ordering: true,
+                paging: true,
+                searching: true,
+                ajax: "WorkOrder/GetAllWorkOrders",
+                columns: [
+                    { "data": "workOrderId" },
+                    { "data": "customer" },
+                    {
+                        "data": "workOrderStartDate", render: function (data, type, row) {//data
+                            return moment(row.workOrderStartDate).format('DD MMM, YYYY');
+                        }
+                    },
+                    { "data": "workOrderStatus" },
+                    { "data": "statusNote" },                 
+                ],
+            });
+
+        });
+    </script>
+}
