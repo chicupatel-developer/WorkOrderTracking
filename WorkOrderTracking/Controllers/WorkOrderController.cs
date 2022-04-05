@@ -48,5 +48,14 @@ namespace WorkOrderTracking.Controllers
             var co = _custOrderRepo.GetCustomerOrder(id);
             return PartialView("_CustomerOrderDetails", co);
         }
+
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var customerOrders = _wOrderRepo.GetCustomerOrderList();
+            ViewBag.CustomerOrders = customerOrders;
+            return View();
+        }
     }
 }

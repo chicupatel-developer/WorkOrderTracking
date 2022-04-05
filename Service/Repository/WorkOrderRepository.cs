@@ -1,6 +1,7 @@
 ﻿using EF.Core;
 using EF.Core.DTO;
 using EF.Core.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Service.Interface;
 using System;
@@ -55,6 +56,20 @@ namespace Service.Repository
             return datas;
         }
 
+        public List<SelectListItem> GetCustomerOrderList()
+        {
+            List<SelectListItem> datas = new List<SelectListItem>();
+
+            foreach(var co in appDbContext.CustomerOrders)
+            {
+                datas.Add(new SelectListItem()
+                {
+                     Value = co.CustomerOrderId.ToString(),
+                      Text = co.CustomerName
+                });
+            }
+            return datas;
+        }
 
     }
 }
