@@ -79,8 +79,23 @@ namespace Service.Repository
                 return false;
             }
         }
+        public bool DeleteCustomerOrder(int customerOrderId)
+        {
+            try
+            {
+                // throw new Exception();
 
-
+                var deletingCO = appDbContext.CustomerOrders
+                                    .Where(x => x.CustomerOrderId== customerOrderId).FirstOrDefault();
+                appDbContext.Remove(deletingCO);
+                appDbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
     }
 }

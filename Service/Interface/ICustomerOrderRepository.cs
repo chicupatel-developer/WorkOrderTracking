@@ -11,5 +11,6 @@ namespace Service.Interface
         List<CustomerOrder> GetAllCustomerOrders();
         CustomerOrder GetCustomerOrder(int customerOrderId);
         bool EditCustomerOrder(CustomerOrder customerOrder);
+        bool DeleteCustomerOrder(int customerOrderId);
     }
 }

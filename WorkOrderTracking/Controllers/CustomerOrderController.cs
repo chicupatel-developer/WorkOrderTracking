@@ -41,6 +41,7 @@ namespace WorkOrderTracking.Controllers
 
 
         // remote validation
+        /*
         [AcceptVerbs("GET", "POST")]
         public IActionResult VerifyOrderDate(DateTime orderDate)
         {
@@ -50,6 +51,7 @@ namespace WorkOrderTracking.Controllers
             }
             return Json(true);
         }
+        */
 
         // remote validation
         [AcceptVerbs("GET", "POST")]
@@ -130,6 +132,7 @@ namespace WorkOrderTracking.Controllers
                     }
                 }
             }
+            /*
             if (customerOrder.OrderDate < DateTime.Now.Date)
             {
                 ModelState.AddModelError("OrderDate", "Order-Date Must be >= Current-Date !");
@@ -145,9 +148,9 @@ namespace WorkOrderTracking.Controllers
                     }
                 }
             }
+            */
             return retData;
         }
-
 
         public ActionResult Edit(int id)
         {
@@ -192,6 +195,32 @@ namespace WorkOrderTracking.Controllers
                         retData.ModelErrors.Add(mError);
                     }
                 }
+            }
+            return Json(new { Result = retData });
+        }
+
+        [HttpGet]
+        public ActionResult GetCustomerOrderForDelete(int id)
+        {
+            var co = _custOrderRepo.GetCustomerOrder(id);
+            return PartialView("_Delete", co);
+        }
+        [HttpPost]
+        public JsonResult Delete(CustomerOrder customerOrder)
+        {
+            OperationResult retData = new OperationResult();
+
+            if (_custOrderRepo.DeleteCustomerOrder(customerOrder.CustomerOrderId))
+            {
+                retData.Message = "Customer Order is Deleted !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = 0;
+            }
+            else
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
             }
             return Json(new { Result = retData });
         }

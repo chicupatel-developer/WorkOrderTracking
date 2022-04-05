@@ -60,7 +60,7 @@
                         }
                     },
                     {
-                        "data": null, "defaultContent": "<button id='btnCOEdit' class='btn btn-success'>Edit</button><span>|</span><button id='btnCODelete' class='btn btn-danger'>Delete</button>"
+                        "data": null, "defaultContent": "<button id='btnCOEdit' class='btn btn-primary'>Edit</button><span>|</span><button id='btnCODelete' class='btn btn-danger'>Delete</button>"
                     },
                 ],
             });
@@ -76,6 +76,21 @@
                 console.log(customerOrderId);
                 var url = 'CustomerOrder\\Edit\\' + customerOrderId;
                 $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+            // delete
+            // get
+            $('#customerOrdersTable tbody').on('click', '[id*=btnCODelete]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var customerOrderId = data.customerOrderId;
+                console.log(customerOrderId);
+                var url = 'CustomerOrder\\GetCustomerOrderForDelete\\' + customerOrderId;
+                $.get(url).done(function (data) {
+                    // console.log(data);
                     PlaceHolderElement.html(data);
                     PlaceHolderElement.find('.modal').modal('show');
                 });

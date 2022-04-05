@@ -4,14 +4,16 @@ using EF.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EF.Core.Migrations
 {
     [DbContext(typeof(WorkOrderTrackingContext))]
-    partial class WorkOrderTrackingContextModelSnapshot : ModelSnapshot
+    [Migration("20220405163632_edit-part-table1")]
+    partial class editparttable1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

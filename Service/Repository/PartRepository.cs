@@ -46,6 +46,7 @@ namespace Service.Repository
                 {
                     _part.Name = part.Name;
                     _part.Desc = part.Desc;
+                    _part.Qty = part.Qty;
                     appDbContext.SaveChanges();
 
                     return true;

@@ -22,8 +22,6 @@
             <th>QTY</th>
             <th>Name</th>
             <th>Desc</th>
-            <th>Customer Order #</th>
-            <th>Work Order #</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -47,11 +45,8 @@
                     { "data": "partId", "width": "10%" },
                     { "data": "qty", "width": "5%" },
                     { "data": "name" },
-                    { "data": "desc", "width": "30%" },
-                    { "data": "customerOrderId", "width": "5%" },
-                    { "data": "workOrderId", "width": "5%" },
-                    {
-                        "data": null, "defaultContent": "<button id='btnPartEdit' class='btn btn-success'>Edit</button><span>|</span><button id='btnPartDelete' class='btn btn-danger'>Delete</button>"
+                    { "data": "desc", "width": "40%" },                    {
+                        "data": null, "defaultContent": "<button id='btnPartEdit' class='btn btn-primary'>Edit</button><span>|</span><button id='btnPartDelete' class='btn btn-danger'>Delete</button>"
                     },
                 ]
             });
@@ -163,6 +158,7 @@
             function resetUI() {
                 $('#Name').val('');
                 $('#Desc').val('');
+                $('#Qty').val('');
             };
         });
     </script>
