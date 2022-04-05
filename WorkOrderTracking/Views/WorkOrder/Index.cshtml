@@ -32,7 +32,9 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-      
+
+            var PlaceHolderElement = $('#PlaceHolderHere');
+
             var table = $('#workOrdersTable').DataTable({
                 processing: true,
                 ordering: true,
@@ -41,16 +43,38 @@
                 ajax: "WorkOrder/GetAllWorkOrders",
                 columns: [
                     { "data": "workOrderId" },
-                    { "data": "customer" },
+                    {
+                        "data": "null", render: function (data, type, row) {//data
+                            return "<button type='button' id='btnCODetails' class='btn btn-link'>"+row.customer+"</a>";
+                        }
+                    },
                     {
                         "data": "workOrderStartDate", render: function (data, type, row) {//data
                             return moment(row.workOrderStartDate).format('DD MMM, YYYY');
                         }
                     },
                     { "data": "workOrderStatus" },
-                    { "data": "statusNote" },                 
+                    { "data": "statusNote" },
+                  
                 ],
             });
+
+
+            // customer order details
+            // get
+            $('#workOrdersTable tbody').on('click', '[id*=btnCODetails]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var customerOrderId = data.customerOrderId;
+                console.log(customerOrderId);
+                var url = 'WorkOrder\\GetCustomerOrderDetails\\' + customerOrderId;
+                $.get(url).done(function (data) {
+                    // console.log(data);
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
 
         });
     </script>

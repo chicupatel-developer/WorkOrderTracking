@@ -10,5 +10,6 @@ namespace Service.Interface
     {
         // List<WorkOrder> GetAllWorkOrders();
         IEnumerable<WorkOrderDTO> GetAllWorkOrders();
+        
     }
 }

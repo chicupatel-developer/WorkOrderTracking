@@ -14,9 +14,11 @@ namespace WorkOrderTracking.Controllers
     {
         private readonly ILogger<WorkOrderController> _logger;
         private readonly IWorkOrderRepository _wOrderRepo;
+        private readonly ICustomerOrderRepository _custOrderRepo;
 
-        public WorkOrderController(IWorkOrderRepository wOrderRepo  ,ILogger<WorkOrderController> logger)
+        public WorkOrderController(ICustomerOrderRepository custOrderRepo, IWorkOrderRepository wOrderRepo  ,ILogger<WorkOrderController> logger)
         {
+            _custOrderRepo = custOrderRepo;
             _wOrderRepo = wOrderRepo;
             _logger = logger;
         }
@@ -38,6 +40,13 @@ namespace WorkOrderTracking.Controllers
                 // Data = wOrders.ToArray()
                 Data = wOrders.ToArray()
             };
+        }
+
+        [HttpGet]
+        public ActionResult GetCustomerOrderDetails(int id)
+        {
+            var co = _custOrderRepo.GetCustomerOrder(id);
+            return PartialView("_CustomerOrderDetails", co);
         }
     }
 }

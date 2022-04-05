@@ -147,3 +147,4 @@ C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Part\_Delete
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\CustomerOrder\_Edit.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\CustomerOrder\_Delete.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\Index.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\_CustomerOrderDetails.cshtml.g.cs
