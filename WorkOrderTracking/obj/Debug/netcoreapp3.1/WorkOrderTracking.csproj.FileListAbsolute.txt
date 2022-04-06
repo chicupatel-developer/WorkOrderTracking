@@ -151,3 +151,4 @@ C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\_C
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\Create.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\_Edit.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\_Delete.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\Index.cshtml.g.cs
