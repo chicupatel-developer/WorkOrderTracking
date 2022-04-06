@@ -14,5 +14,10 @@ namespace Service.Interface
 
         List<SelectListItem> GetCustomerOrderList();
         bool AddWorkOrder(WorkOrder workOrder);
+
+        WorkOrder GetWorkOrder(int workOrderId);
+        bool EditWorkOrder(WorkOrder workOrder);
+
+        bool DeleteWorkOrder(int workOrderId);
     }
 }

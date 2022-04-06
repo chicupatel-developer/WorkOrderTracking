@@ -7,10 +7,10 @@ namespace EF.Core.Models
 {
     public enum WorkOrderStatus
     {
-        NotStarted,
-        Running,
+        Not_Started,
+        Start_Running,
         Stopped,
         Completed,
-        CanNotComplete
+        Can_Not_Complete
     }
 }

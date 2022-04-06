@@ -1,0 +1,76 @@
+﻿@model EF.Core.Models.WorkOrder;
+
+<style>
+    .deleteModal {
+        background-color: lightcoral;
+    }
+</style>
+
+<div class="modal fade " id="deleteWO">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="modal-header deleteModal">
+                <h4 class="modal-title" id="deleteWOLabel">
+                    Are you sure want to delete !!!
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+
+                <div id="floater"></div>
+                <div id="opStatus"></div>
+                <p></p>
+
+                <div>
+                    <h5>Work Order # @Model.WorkOrderId</h5>
+                    <h5>Customer Order # @Model.CustomerOrderId</h5>
+                    @{
+                        if (Model.WorkOrderStartDate == null)
+                        {
+                            <span>Work Order Start Date : No - Date</span>
+                        }
+                        else
+                        {
+                            <span>Work Order Start Date : @Model.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy")</span>
+                        }
+                    }
+                    <br />    
+
+                    <span>Work Order Status : @Model.WorkOrderStatus</span>
+                    <br />
+                    <span>Status Note : @Model.StatusNote</span>
+                </div>
+
+                <form action="WorkOrder/Delete">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.HiddenFor(model => model.WorkOrderId)
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
+                <button class="btn btn-primary"
+                        data-save="modal"
+                        type="button">
+                    Delete Work Order
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

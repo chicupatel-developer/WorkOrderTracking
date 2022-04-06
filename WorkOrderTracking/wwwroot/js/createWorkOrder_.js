@@ -1,6 +1,10 @@
 ﻿$(document).ready(function () {
     $('#floater').hide();
 
+    // disable some of the controls
+    $('#WorkOrderStartDate').prop('readonly', true);
+    $('#WorkOrderStatus').prop('disabled', true);
+
     $('.createWO').click(function () {
 
         var form = $('#woCreateForm');

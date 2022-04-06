@@ -2,6 +2,25 @@
     ViewData["Title"] = "Work Order - Home Page";
 }
 
+<style>
+    .notStarted{
+        color : red;
+    }
+    .startRunning {
+        color: blue;
+    }
+    .stopped {
+        color: Highlight;
+    }
+    .completed {
+        color: green;
+    }
+    .cantComplete {
+        color: brown;
+    }
+</style>
+
+
 <div class="text-center">
     <h1 class="display-4">Work Orders</h1>
 </div>
@@ -24,6 +43,7 @@
             <th>WO Start Date</th>
             <th>WO Status</th>
             <th>Status Note</th>
+            <th>Actions</th>
         </tr>
     </thead>
 </table>
@@ -34,6 +54,20 @@
         $(document).ready(function () {
 
             var PlaceHolderElement = $('#PlaceHolderHere');
+
+            function getWOStatus(wos) {
+                if (wos === 0)
+                    return '<span class="notStarted">Not Started</span>';
+                if (wos === 1)
+                    return '<span class="startRunning">Start-Running</span>';
+                if (wos === 2)
+                    return '<span class="stopped">Stopped</span>';
+                if (wos === 3)
+                    return '<span class="completed">Completed</span>';
+                if (wos === 4)
+                    return '<span class="cantComplete">Can Not Complete</span>';
+            }
+
 
             var table = $('#workOrdersTable').DataTable({
                 processing: true,
@@ -58,14 +92,18 @@
                             }
                         }
                     },
-                    { "data": "workOrderStatus" },
+                    {
+                        "data": "workOrderStatus", render: function (data, type, row) {//data
+                            return getWOStatus(row.workOrderStatus)
+                        }
+                    },
                     { "data": "statusNote" },
-                  
+                    {
+                        "data": null, "defaultContent": "<button id='btnWOEdit' class='btn btn-primary'>Edit</button><span>|</span><button id='btnWODelete' class='btn btn-danger'>Delete</button>"
+                    },
                 ],
             });
 
-
-            // customer order details
             // get
             $('#workOrdersTable tbody').on('click', '[id*=btnCODetails]', function () {
                 var data = table.row($(this).parents('tr')).data();
@@ -80,6 +118,111 @@
                 });
             });
 
+            // edit
+            // get
+            var PlaceHolderElement = $('#PlaceHolderHere');
+            $('#workOrdersTable tbody').on('click', '[id*=btnWOEdit]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var workOrderId = data.workOrderId;
+                console.log(workOrderId);
+                var url = 'WorkOrder\\Edit\\' + workOrderId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+            // edit - delete
+            // post
+            PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr('action');
+                var sendData = form.serialize();
+                $.post(actionUrl, sendData).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);
+                    var mErrors = '';
+                    if (response.result.statusCode == 0) {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == -1) {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == 1) {
+                        // model error
+                        mErrors += '<font color="red">';
+                        mErrors += response.result.message;
+                        mErrors += "<ul>";
+                        $.each(response.result.modelErrors, function (key, value) {
+                            mErrors += "<li>" + value + "</li>";
+                        });
+                        mErrors += "</ul></font>";
+                    }
+                    else {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    $('#opStatus').html(mErrors);
+                });
+            });
+
+            // delete
+            // get
+            $('#workOrdersTable tbody').on('click', '[id*=btnWODelete]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var workOrderId = data.workOrderId;
+                console.log(workOrderId);
+                var url = 'WorkOrder\\GetWorkOrderForDelete\\' + workOrderId;
+                $.get(url).done(function (data) {
+                    // console.log(data);
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+
+
+
+            // success / dal error
+            function bkTimer(result) {
+                var div = $("#floater");
+                var content = '';
+                if (result.statusCode == 0) {
+                    content += '<img src="../Images/success.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="green">' + result.message + '</font>';
+                }
+                else if (result.statusCode == -1) {
+                    content += '<img src="../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.message + '</font>';
+                }
+                else {
+                    content += '<img src="../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.Message + '</font>';
+                }
+                div.html(content);
+                div.fadeIn("slow");
+                div.queue(function () {
+                    setTimeout(function () {
+                        div.dequeue();
+
+                        PlaceHolderElement.find('.modal').modal('hide');
+
+                        table.ajax.reload();
+
+                    }, 3000);
+                });
+                div.fadeOut("fast");
+            };
+            function resetUI() {
+                $('#WorkOrderStartDate').val('');
+                $('#WorkOrderStatus').val(0);
+                $('#StatusNote').val('');
+            };
 
         });
     </script>

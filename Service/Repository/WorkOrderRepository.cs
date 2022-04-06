@@ -88,5 +88,57 @@ namespace Service.Repository
             }
         }
 
+
+        public WorkOrder GetWorkOrder(int workOrderId)
+        {
+            var wo = appDbContext.WorkOrders
+                     .Where(x => x.WorkOrderId == workOrderId).FirstOrDefault();
+            return wo;
+        }
+        public bool EditWorkOrder(WorkOrder workOrder)
+        {
+            try
+            {
+                // throw new Exception();
+
+                var _wo = appDbContext.WorkOrders
+                                .Where(x => x.WorkOrderId == workOrder.WorkOrderId).FirstOrDefault();
+                if (_wo != null)
+                {
+                    _wo.WorkOrderStartDate = workOrder.WorkOrderStartDate;
+                    _wo.WorkOrderStatus = workOrder.WorkOrderStatus;
+                    _wo.StatusNote = workOrder.StatusNote;
+
+                    appDbContext.SaveChanges();
+
+                    return true;
+                }
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public bool DeleteWorkOrder(int workOrderId)
+        {
+            try
+            {
+                // throw new Exception();
+
+                var deletingWO = appDbContext.WorkOrders
+                                    .Where(x => x.WorkOrderId == workOrderId).FirstOrDefault();
+                appDbContext.Remove(deletingWO);
+                appDbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
     }
 }
