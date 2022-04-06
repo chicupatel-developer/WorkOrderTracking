@@ -13,6 +13,6 @@ namespace Service.Interface
         IEnumerable<WorkOrderDTO> GetAllWorkOrders();
 
         List<SelectListItem> GetCustomerOrderList();
-        
+        bool AddWorkOrder(WorkOrder workOrder);
     }
 }

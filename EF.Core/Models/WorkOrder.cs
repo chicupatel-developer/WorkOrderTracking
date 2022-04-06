@@ -12,14 +12,21 @@ namespace EF.Core.Models
         [Key]
         public int WorkOrderId { get; set; }
 
-        public int CustomerOrderId { get; set; }
+        [Required(ErrorMessage = "Customer Order Id is Required!")]
+        public int? CustomerOrderId { get; set; }
+
         public CustomerOrder CustomerOrder { get; set; }
 
+        [Display(Name = "Work Order Start Date")]
+        [DataType(DataType.Date)]
         public DateTime? WorkOrderStartDate { get; set; }
-        
-        
+
+        [Required(ErrorMessage = "Work Order Status is Required!")]
+        [Display(Name = "Work Order Status")]
         public WorkOrderStatus WorkOrderStatus { get; set; }
 
+
+        [Display(Name = "Status Note")]
         public string StatusNote { get; set; }
     }
 }

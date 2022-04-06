@@ -45,10 +45,10 @@ namespace Service.Repository
                     {    
                         Customer = "[ " + wo.CustomerOrderId + " ] " +((wo.CustomerOrder != null) ? wo.CustomerOrder.CustomerName : "No-Customer"),
                         CustomerName = (wo.CustomerOrder!=null) ? wo.CustomerOrder.CustomerName : "No-Customer",
-                         CustomerOrderId = wo.CustomerOrderId,
+                         CustomerOrderId = (int)wo.CustomerOrderId,
                           StatusNote = wo.StatusNote,
                            WorkOrderId = wo.WorkOrderId,
-                            WorkOrderStartDate = (DateTime)wo.WorkOrderStartDate,
+                            WorkOrderStartDate = wo.WorkOrderStartDate!=null ? (DateTime)wo.WorkOrderStartDate : (DateTime?)null,
                              WorkOrderStatus = wo.WorkOrderStatus
                     });
                 }
@@ -69,6 +69,23 @@ namespace Service.Repository
                 });
             }
             return datas;
+        }
+
+        public bool AddWorkOrder(WorkOrder workOrder)
+        {
+            try
+            {
+                // throw new Exception();
+
+                appDbContext.WorkOrders.Add(workOrder);
+                appDbContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
     }

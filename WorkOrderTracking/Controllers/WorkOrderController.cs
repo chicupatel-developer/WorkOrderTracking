@@ -57,5 +57,45 @@ namespace WorkOrderTracking.Controllers
             ViewBag.CustomerOrders = customerOrders;
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Create(WorkOrder workOrder)
+        {
+            OperationResult retData = new OperationResult();
+
+            if (ModelState.IsValid)
+            {
+                if (_wOrderRepo.AddWorkOrder(workOrder))
+                {
+                    retData.Message = "Work Order is Created !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = 0;
+                }
+                else
+                {
+                    retData.Message = "Server Error !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = -1;
+                }
+            }
+            else
+            {
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+            return Json(new { Result = retData });
+        }
+
+
+
     }
 }

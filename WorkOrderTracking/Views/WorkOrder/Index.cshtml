@@ -50,7 +50,12 @@
                     },
                     {
                         "data": "workOrderStartDate", render: function (data, type, row) {//data
-                            return moment(row.workOrderStartDate).format('DD MMM, YYYY');
+
+                            if (row.workOrderStartDate == null) {
+                                return 'No - Date';
+                            } else {
+                                return moment(row.workOrderStartDate).format('DD MMM, YYYY');
+                            }
                         }
                     },
                     { "data": "workOrderStatus" },

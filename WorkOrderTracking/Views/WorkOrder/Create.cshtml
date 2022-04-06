@@ -1,5 +1,6 @@
-﻿@model EF.Core.Models.WorkOrder;
-@using EF.Core.Models
+﻿@using EF.Core.Models;
+@model EF.Core.Models.WorkOrder;
+
 
 @{
     ViewData["Title"] = "New - Work Order";
@@ -30,8 +31,8 @@
 
                 <div class="form-group">
                     <label class="control-label">Customer Order</label>
-                    @Html.DropDownList("CustomerOrders", (IEnumerable
-                                <SelectListItem>)ViewBag.CustomerOrders, "--Select Customer Order--", new { @id = "CustomerOrders", @class = "form-control", })
+                    @Html.DropDownList("CustomerOrderId", (IEnumerable
+                                <SelectListItem>)ViewBag.CustomerOrders, "--Select Customer Order--", new { @id = "CustomerOrderId", @class = "form-control", })
                 </div>
 
                 <div class="form-group">
@@ -45,7 +46,7 @@
 
                 <div class="form-group">
                     <label asp-for="WorkOrderStatus" class="control-label"></label>
-                    <select asp-for="WorkOrderStatus" 
+                    <select asp-for="WorkOrderStatus"
                             class="form-control"
                             asp-items="Html.GetEnumSelectList<WorkOrderStatus>()"></select>
                     <span asp-validation-for="WorkOrderStatus" class="text-danger"></span>
@@ -58,7 +59,7 @@
                               name="StatusNote"
                               id="StatusNote"
                               placeholder="status note - ?">
-                     </textarea>                  
+                     </textarea>
                     <span asp-validation-for="StatusNote" class="text-danger"></span>
                 </div>
 

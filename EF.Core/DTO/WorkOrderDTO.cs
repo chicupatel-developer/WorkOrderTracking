@@ -1,6 +1,7 @@
 ﻿using EF.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace EF.Core.DTO
@@ -11,7 +12,7 @@ namespace EF.Core.DTO
         public int CustomerOrderId { get; set; }
         public string CustomerName { get; set; }
         public string Customer { get; set; }
-        public DateTime WorkOrderStartDate { get; set; }
+        public DateTime? WorkOrderStartDate { get; set; }
         public WorkOrderStatus WorkOrderStatus { get; set; }
         public string StatusNote { get; set; }
     }
