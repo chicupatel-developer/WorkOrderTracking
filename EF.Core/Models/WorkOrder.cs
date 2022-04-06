@@ -28,5 +28,7 @@ namespace EF.Core.Models
 
         [Display(Name = "Status Note")]
         public string StatusNote { get; set; }
+
+        public Operation Operation { get; set; }
     }
 }

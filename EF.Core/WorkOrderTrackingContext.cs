@@ -18,9 +18,15 @@ namespace EF.Core
                 .HasOne(a => a.WorkOrder)
                 .WithOne(b => b.CustomerOrder)
                 .HasForeignKey<WorkOrder>(b => b.CustomerOrderId);
+
+            modelBuilder.Entity<WorkOrder>()
+              .HasOne(a => a.Operation)
+              .WithOne(b => b.WorkOrder)
+              .HasForeignKey<Operation>(b => b.WorkOrderId);
         }
         public DbSet<Part> Parts { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<CustomerOrder> CustomerOrders { get; set; }
+        public DbSet<Operation> Operations { get; set; }
     }
 }

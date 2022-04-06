@@ -97,12 +97,22 @@
                             return getWOStatus(row.workOrderStatus)
                         }
                     },
-                    { "data": "statusNote" },
+                    { "data": "statusNote", "width": "25%" },
                     {
-                        "data": null, "defaultContent": "<button id='btnWOEdit' class='btn btn-primary'>Edit</button><span>|</span><button id='btnWODelete' class='btn btn-danger'>Delete</button>"
+                        "data": null, "width": "25%", "defaultContent": "<button id='btnWOEdit' class='btn btn-primary'>Edit</button><span>|</span><button id='btnWODelete' class='btn btn-danger'>Delete</button><span>|</span><button id='btnOperations' class='btn btn-success'>Operations</button>"
                     },
                 ],
             });
+
+            // redirect to wo-operation page
+            // get
+            $('#workOrdersTable tbody').on('click', '[id*=btnOperations]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var workOrderId = data.workOrderId;
+                console.log(workOrderId);
+            });
+
 
             // get
             $('#workOrdersTable tbody').on('click', '[id*=btnCODetails]', function () {
