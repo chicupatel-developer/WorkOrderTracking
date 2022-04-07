@@ -140,5 +140,15 @@ namespace Service.Repository
             }
         }
 
+        public string GetCustomerName(int workOrderId)
+        {
+            var customer = appDbContext.WorkOrders.Include(x => x.CustomerOrder)
+                                .Where(x => x.WorkOrderId == workOrderId).FirstOrDefault();
+
+            if (customer != null)
+                return customer.CustomerOrder.CustomerName + "  [# " + customer.CustomerOrder.CustomerOrderId + " ]";
+            else
+                return null;
+        }
     }
 }

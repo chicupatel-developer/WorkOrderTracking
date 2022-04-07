@@ -19,5 +19,7 @@ namespace Service.Interface
         bool EditWorkOrder(WorkOrder workOrder);
 
         bool DeleteWorkOrder(int workOrderId);
+
+        string GetCustomerName(int workOrderId);
     }
 }

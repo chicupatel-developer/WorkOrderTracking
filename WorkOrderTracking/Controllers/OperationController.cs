@@ -29,6 +29,11 @@ namespace WorkOrderTracking.Controllers
         public IActionResult Index(int id)
         {
             var ops = _opRepo.GetAllWorkOrderOperations(id);
+            ViewBag.SelectedWorkOrderId = id;
+
+            var customer = _wOrderRepo.GetCustomerName(id);
+            ViewBag.Customer = customer;
+
             return View(ops);
         }
 
