@@ -77,6 +77,7 @@
     function resetUI() {
         $('#OperationNumber').val(10);
         $('#Details').val('');
-        $('#OperationStatus').val(0);        
+        $('#OperationStatus').val(0);
+        $('#WorkOrderId').val('');
     };
 });

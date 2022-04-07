@@ -19,22 +19,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OperationId)
+                #
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OperationNumber)
+                OP
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WorkOrderId)
+                WO #
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Details)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OperationStatus)
+                OP Status
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OperationStartDate)
+                OP Start Date 
             </th>
             <th></th>
         </tr>
@@ -46,15 +46,70 @@
             <td>
                 @Html.DisplayFor(modelItem => item.OperationId)
             </td>
+
+
+            @{
+                var opNumber = "";
+                if (item.OperationNumber == (int)10)
+                {
+                    opNumber = "Spindle - 10";
+                }
+                if (item.OperationNumber == (int)20)
+                {
+                    opNumber = "Hub_Single_Head - 20";
+                }
+                if (item.OperationNumber == 30)
+                {
+                    opNumber = "Hub_Double_Head - 30";
+                }
+                if (item.OperationNumber == 40)
+                {
+                    opNumber = "Push_Cups - 40";
+                }
+                if (item.OperationNumber == 50)
+                {
+                    opNumber = "Assembly_Spindle_Hub - 50";
+                }
+                if (item.OperationNumber == 60)
+                {
+                    opNumber = "Paint - 60";
+                }
+                if (item.OperationNumber == 70)
+                {
+                    opNumber = "Packaging - 70";
+                }
+                if (item.OperationNumber == 80)
+                {
+                    opNumber = "Rework_Spindle - 80";
+                }
+                if (item.OperationNumber == 90)
+                {
+                    opNumber = "Rework_Hub - 90";
+                }
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.OperationNumber)
+                @opNumber
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.WorkOrderId)
             </td>
+
+            @{
+                var opdetails = "";
+                if (item.Details != null)
+                {
+                    opdetails = item.Details;
+                }
+                else
+                {
+                    opdetails = "N/A";
+                }
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.Details)
+                @opdetails
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.OperationStatus)
             </td>
@@ -67,12 +122,13 @@
                 }
                 else
                 {
-                    opdate = "No - Date";
+                    opdate = "N/A";
                 }
             }
             <td>
                 @opdate
             </td>
+
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |

@@ -2,6 +2,7 @@
 using EF.Core.DTO;
 using EF.Core.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Service.Interface;
 using System;
@@ -49,19 +50,10 @@ namespace Service.Repository
 
         public bool AddOperation(Operation operation)
         {
-            try
-            {
-                // throw new Exception();
+            appDbContext.Operations.Add(operation);
+            appDbContext.SaveChanges();
 
-                appDbContext.Operations.Add(operation);
-                appDbContext.SaveChanges();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            return true;
         }
     }
 }

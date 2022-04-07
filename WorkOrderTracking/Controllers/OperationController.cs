@@ -1,5 +1,6 @@
 ﻿using EF.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Service.Interface;
 using System;
@@ -44,35 +45,45 @@ namespace WorkOrderTracking.Controllers
         {
             OperationResult retData = new OperationResult();
 
-            if (ModelState.IsValid)
+            try
             {
-                if (_opRepo.AddOperation(operation))
+                if (ModelState.IsValid)
                 {
-                    retData.Message = "Operation is Connected with Work-Order !";
-                    retData.ModelErrors = new List<string>();
-                    retData.StatusCode = 0;
+                    if (_opRepo.AddOperation(operation))
+                    {
+                        retData.Message = "Operation is Connected with Work-Order # " + operation.WorkOrderId + " !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = 0;
+                        retData.OtherIntData = (int)operation.WorkOrderId;
+                    }
+                    else
+                    {
+                        retData.Message = "Server Error !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = -1;
+                    }
                 }
                 else
                 {
-                    retData.Message = "Server Error !";
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
                     retData.ModelErrors = new List<string>();
-                    retData.StatusCode = -1;
-                }
-            }
-            else
-            {
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
+                    foreach (var modelState in ViewData.ModelState.Values)
                     {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
                     }
                 }
-            }
+            }         
+            catch(Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }         
             return Json(new { Result = retData });
         }
 

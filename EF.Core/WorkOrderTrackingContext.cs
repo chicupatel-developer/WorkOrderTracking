@@ -23,6 +23,13 @@ namespace EF.Core
               .HasOne(a => a.Operation)
               .WithOne(b => b.WorkOrder)
               .HasForeignKey<Operation>(b => b.WorkOrderId);
+
+            // unique key 
+            // operation table
+            // operationnumber+workorderid
+            modelBuilder.Entity<Operation>()
+              .HasIndex(p => new { p.OperationNumber, p.WorkOrderId }).IsUnique();
+
         }
         public DbSet<Part> Parts { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
