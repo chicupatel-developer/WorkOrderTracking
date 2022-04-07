@@ -19,11 +19,12 @@ namespace Service.Repository
             this.appDbContext = appDbContext;
         }
 
-        public List<Operation> GetAllWorkOrderOperations()
+        public List<Operation> GetAllWorkOrderOperations(int woid)
         {
             List<Operation> datas = new List<Operation>();
 
-            var ops_ = appDbContext.Operations;
+            var ops_ = appDbContext.Operations
+                            .Where(x=>x.WorkOrderId==woid);
             if (ops_ != null && ops_.Count() > 0)
             {
                 datas = ops_.ToList();
@@ -31,5 +32,36 @@ namespace Service.Repository
             return datas;
         }
 
+        public List<SelectListItem> GetWorkOrderList()
+        {
+            List<SelectListItem> datas = new List<SelectListItem>();
+
+            foreach (var wo in appDbContext.WorkOrders.Include(x=>x.CustomerOrder))
+            {
+                datas.Add(new SelectListItem()
+                {
+                    Value = wo.WorkOrderId.ToString(),
+                    Text = "[ WO# " + wo.WorkOrderId + " ] - " + "[ CUST_ORD# " + wo.CustomerOrderId + " - " + wo.CustomerOrder.CustomerName + " ]"                    
+                });
+            }
+            return datas;
+        }
+
+        public bool AddOperation(Operation operation)
+        {
+            try
+            {
+                // throw new Exception();
+
+                appDbContext.Operations.Add(operation);
+                appDbContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

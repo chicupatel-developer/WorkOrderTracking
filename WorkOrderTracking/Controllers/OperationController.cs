@@ -25,23 +25,57 @@ namespace WorkOrderTracking.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
-            return View();
+            var ops = _opRepo.GetAllWorkOrderOperations(id);
+            return View(ops);
         }
 
         [HttpGet]
-        public ActionResult<DataTableResponse> GetAllWorkOrderOperations()
+        public IActionResult Create()
         {
-            var ops = _opRepo.GetAllWorkOrderOperations();
-
-            return new DataTableResponse
-            {
-                RecordsTotal = ops.Count(),
-                RecordsFiltered = 10,
-                Data = ops.ToArray()
-            };
+            var workOrders = _opRepo.GetWorkOrderList();
+            ViewBag.WorkOrders = workOrders;
+            return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Create(Operation operation)
+        {
+            OperationResult retData = new OperationResult();
+
+            if (ModelState.IsValid)
+            {
+                if (_opRepo.AddOperation(operation))
+                {
+                    retData.Message = "Operation is Connected with Work-Order !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = 0;
+                }
+                else
+                {
+                    retData.Message = "Server Error !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = -1;
+                }
+            }
+            else
+            {
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+            return Json(new { Result = retData });
+        }
+
 
     }
 }

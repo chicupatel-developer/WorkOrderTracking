@@ -111,6 +111,15 @@
                 console.log(data);
                 var workOrderId = data.workOrderId;
                 console.log(workOrderId);
+                var url = 'Operation\\Index\\' + workOrderId;
+
+                window.location.href = url;
+
+                /*
+                $.get(url).done(function (data) {
+                    console.log(data);
+                });
+                */
             });
 
 

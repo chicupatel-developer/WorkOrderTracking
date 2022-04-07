@@ -1,72 +1,96 @@
-﻿@{
-    ViewData["Title"] = "[Work Order - Operation] Home Page";
+﻿@model IEnumerable<EF.Core.Models.Operation>
+
+@{
+    ViewData["Title"] = "Work Order - Operations Home Page";
 }
 
 <style>
-   
 </style>
 
-
 <div class="text-center">
-    <h1 class="display-4">[Work Order - Operations]</h1>
+    <h1 class="display-4">Work Order - Operations</h1>
 </div>
 <div>
-    <a asp-action="Create">Create - [Work Order - Operation]</a>
+    <a asp-action="Create">Create - Operation</a>
 </div>
 
-<!-- this will hold partial view (modal) -->
-<div id="PlaceHolderHere"></div>
-
-<hr />
 <p></p>
-<table id="workOrderOperatiosTable"
-       class="table table-sm table-bordered table-striped"
-       style="width:100%">
+<table class="table">
     <thead>
         <tr>
-            <th>#</th>
-            <th>Operation No</th>
-            <th>WO #</th>
-            <th>Details</th>
-            <th>Operation Status</th>
-            <th>Operation Start Date</th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkOrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationStartDate)
+            </th>
+            <th></th>
         </tr>
     </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkOrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationStatus)
+            </td>
+
+            @{
+                var opdate = "";
+                if (item.OperationStartDate != null)
+                {
+                    opdate = item.OperationStartDate.Value.ToShortDateString();
+                }
+                else
+                {
+                    opdate = "No - Date";
+                }
+            }
+            <td>
+                @opdate
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+        }
+    </tbody>
 </table>
+
+
 
 @section Scripts {
     <script type="text/javascript">
 
         $(document).ready(function () {
 
-            var PlaceHolderElement = $('#PlaceHolderHere');
 
-
-            var table = $('#workOrderOperationsTable').DataTable({
-                processing: true,
-                ordering: true,
-                paging: true,
-                searching: true,
-                ajax: "Operation/GetAllWorkOrderOperations",
-                columns: [
-                    { "data": "operationId" },
-                    { "data": "operationNumber" },
-                    { "data": "workOrderId" },
-                    { "data": "details" },
-                    { "data": "operationStatus" },
-                    {
-                        "data": "operationStartDate", render: function (data, type, row) {//data
-
-                            if (row.operationStartDate == null) {
-                                return 'No - Date';
-                            } else {
-                                return moment(row.operationStartDate).format('DD MMM, YYYY');
-                            }
-                        }
-                    },
-                ],
-            });
-         
         });
     </script>
 }

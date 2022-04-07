@@ -9,7 +9,9 @@ namespace Service.Interface
 {
     public interface IOperationRepository
     {
-        List<Operation> GetAllWorkOrderOperations();
+        List<Operation> GetAllWorkOrderOperations(int woid);
+        List<SelectListItem> GetWorkOrderList();
+        bool AddOperation(Operation operation);
 
     }
 }
