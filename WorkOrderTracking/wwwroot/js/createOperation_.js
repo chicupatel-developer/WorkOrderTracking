@@ -80,10 +80,12 @@
             });
             div.fadeOut("fast");
         }
+        /*
         else {
             console.log('error code != 0');
             $('#floater').show();
         }
+        */
     };
 
     function resetUI() {

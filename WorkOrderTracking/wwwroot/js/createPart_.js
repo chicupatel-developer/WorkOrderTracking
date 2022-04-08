@@ -1,13 +1,20 @@
 ﻿$(document).ready(function () {
+    var errorCode = 0;
 
     $('#floater').hide();
 
-    $('.createPart').click(function () {
+    // disable some of the controls
+    $('#OperationStartDate').prop('readonly', true);
+    $('#OperationStatus').prop('disabled', true);
 
-        var form = $('#partCreateForm');
-        var actionUrl = form.attr('asp-action');
+
+    $('.createOP').click(function () {
+
+        var form = $('#opCreateForm');
+        // var actionUrl = form.attr('asp-action');
+        var actionUrl = 'Create';
         var sendData = form.serialize();
-        console.log(sendData);
+
         $.post(actionUrl, sendData).done(function (response) {
             console.log(response);
             console.log(response.result.statusCode);
@@ -15,14 +22,17 @@
 
             var mErrors = '';
             if (response.result.statusCode == 0) {
+                errorCode = 0;
                 bkTimer(response.result);
                 resetUI();
             }
             else if (response.result.statusCode == -1) {
+                errorCode = -1;
                 bkTimer(response.result);
-                resetUI();
+                // resetUI();
             }
             else if (response.result.statusCode == 1) {
+                errorCode = 1;
                 // model error
                 mErrors += '<font color="red">';
                 mErrors += response.result.message;
@@ -40,50 +50,6 @@
         }).fail(function (error) {
             alert("Ajax Call Error");
         });
-
-
-        /*
-        var ajaxPage = "/Part/Create";
-        $.ajax({
-            type: "POST",
-            url: ajaxPage,
-            data: JSON.stringify({
-                name: $('#Name').val(),
-                desc: $('#Desc').val(),
-            }),
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                console.log(response);
-                console.log(response.result.statusCode);
-                console.log(response.result.message);
-
-                var mErrors = '';
-                if (response.result.statusCode <= 0) {
-                    bkTimer(response.result);
-                    resetUI();
-                }
-                else if (response.result.statusCode <= 1) {
-                    // model error
-                    mErrors += '<font color="red">';
-                    mErrors += response.result.message;
-                    mErrors += "<ul>";
-                    $.each(response.result.modelErrors, function (key, value) {
-                        mErrors += "<li>" + value + "</li>";
-                    });
-                    mErrors += "</ul></font>";
-                }
-                else {
-                    bkTimer(response.result);
-                    resetUI();
-                }
-                $('#opStatus').html(mErrors);
-            },
-            error: function (obj) {
-                alert("Ajax Call Error");
-            },
-        });
-        */
     });
 
     // success / dal error
@@ -104,18 +70,28 @@
         }
         div.html(content);
         div.fadeIn("slow");
-        div.queue(function () {
-            setTimeout(function () {
-                div.dequeue();
-            }, 3000);
-        });
-        div.fadeOut("fast");
+
+        if (errorCode == 0) {
+            console.log('error code = 0');
+            div.queue(function () {
+                setTimeout(function () {
+                    div.dequeue();
+                }, 3000);
+            });
+            div.fadeOut("fast");
+        }
+        /*
+        else {
+            console.log('error code != 0');
+            $('#floater').show();
+        }
+        */
     };
 
     function resetUI() {
-        $('#Name').val('');
-        $('#Desc').val('');
-        $('#Qty').val('');
+        $('#OperationNumber').val(10);
+        $('#Details').val('');
+        $('#OperationStatus').val(0);
+        $('#WorkOrderId').val('');
     };
-
 });
