@@ -1,4 +1,5 @@
-﻿using EF.Core.Models;
+﻿using EF.Core.DTO;
+using EF.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
@@ -89,6 +90,65 @@ namespace WorkOrderTracking.Controllers
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = -1;
             }         
+            return Json(new { Result = retData });
+        }
+
+
+
+        public ActionResult Edit(int id)
+        {
+            var op = _opRepo.GetOperation(id);
+            return PartialView("_Edit", op);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Edit(Operation operation)
+        {
+            OperationResult retData = new OperationResult();
+
+            try
+            {
+                // check for exception
+                // throw new Exception();
+
+                // check for modelstate errors
+                // ModelState.AddModelError("OperationStartDate", "Operation Start Date Is Invalid !");
+
+                if (ModelState.IsValid)
+                {
+                    _opRepo.EditOperation(operation);
+
+                    retData.Message = "Operation is Edited !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = 0;
+                }
+                else
+                {
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
+                    retData.ModelErrors = new List<string>();
+                    foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
+                    }
+                }
+            }
+            catch(OpStatus_OpStartDate_Exception opEx)
+            {
+                retData.Message = opEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch(Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }           
             return Json(new { Result = retData });
         }
 

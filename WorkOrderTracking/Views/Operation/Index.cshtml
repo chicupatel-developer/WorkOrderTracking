@@ -8,6 +8,7 @@
     .headerDiv {
         border: 2px solid black;
     }
+
     .zeroOperation {
         color: red;
         font-size: large;
@@ -61,8 +62,12 @@
 <div>
     <a asp-action="Create">Create - [Work Order - Operation]</a>
 </div>
+
+<!-- this will hold partial view (modal) -->
+<div id="PlaceHolderHere"></div>
+
 <p></p>
-<table class="table">
+<table class="table" id="operationsTable">
     <thead>
         <tr>
             <th>
@@ -171,9 +176,10 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <button id="@item.OperationId" 
+                            class='btn btn-primary opEdit'>
+                        Edit
+                    </button>
                 </td>
             </tr>
         }
@@ -187,7 +193,106 @@
 
         $(document).ready(function () {
 
+            var PlaceHolderElement = $('#PlaceHolderHere');
 
+            var errorCode = 0;
+
+            // edit
+            // get
+            $('.opEdit').click(function () {
+                var operationId = $(this).attr("id");
+                console.log(operationId);
+
+                var url = '@Url.Action("Edit", "Operation")' + '\\' + operationId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+            // edit - delete
+            // post
+            PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr('action');
+                var sendData = form.serialize();
+
+                var url = '@Url.Action("Edit", "Operation")';
+
+                $.post(url, sendData).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);
+                    var mErrors = '';
+                    if (response.result.statusCode == 0) {
+                        errorCode = 0;
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == -1) {
+                        errorCode = -1;
+                        bkTimer(response.result);
+                        // resetUI();
+                    }
+                    else if (response.result.statusCode == 1) {
+                        errorCode = 1;
+                        // model error
+                        mErrors += '<font color="red">';
+                        mErrors += response.result.message;
+                        mErrors += "<ul>";
+                        $.each(response.result.modelErrors, function (key, value) {
+                            mErrors += "<li>" + value + "</li>";
+                        });
+                        mErrors += "</ul></font>";
+                    }
+                    else {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    $('#opStatus').html(mErrors);
+                });
+            });
+
+            // success / dal error
+            function bkTimer(result) {
+                var div = $("#floater");
+                var content = '';
+                if (result.statusCode == 0) {
+                    content += '<img src="../../Images/success.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="green">' + result.message + '</font>';
+                }
+                else if (result.statusCode == -1) {
+                    content += '<img src="../../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.message + '</font>';
+                }
+                else {
+                    content += '<img src="../../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.Message + '</font>';
+                }
+                div.html(content);
+                div.fadeIn("slow");
+
+                if (errorCode == 0) {
+                    div.queue(function () {
+                        setTimeout(function () {
+                            div.dequeue();
+
+                            PlaceHolderElement.find('.modal').modal('hide');
+                            window.location.reload(true);
+
+                        }, 3000);
+                    });
+                    div.fadeOut("fast");
+                }
+                else {
+
+                }
+            };
+            function resetUI() {
+                $('#Details').val('');
+                $('#OperationStatus').val(0);
+                $('#OperationStartDate').val('');
+            };
         });
     </script>
 }

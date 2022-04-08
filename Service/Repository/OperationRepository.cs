@@ -55,5 +55,30 @@ namespace Service.Repository
 
             return true;
         }
+
+        public Operation GetOperation(int operationId)
+        {
+            var op = appDbContext.Operations
+                     .Where(x => x.OperationId == operationId).FirstOrDefault();
+            return op;
+        }
+        public void EditOperation(Operation operation)
+        {
+            var _op = appDbContext.Operations
+                                  .Where(x => x.OperationId == operation.OperationId).FirstOrDefault();
+            if (_op != null)
+            {
+
+                // check for OpStatus and OpStartDate
+                if (operation.OperationStartDate == null && operation.OperationStatus != OperationStatus.Not_Started)
+                    throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
+
+                _op.OperationStartDate = operation.OperationStartDate;
+                _op.OperationStatus = operation.OperationStatus;
+                _op.Details = operation.Details;
+
+                appDbContext.SaveChanges();
+            }
+        }
     }
 }
