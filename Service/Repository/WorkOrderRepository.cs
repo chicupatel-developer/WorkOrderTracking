@@ -71,23 +71,11 @@ namespace Service.Repository
             return datas;
         }
 
-        public bool AddWorkOrder(WorkOrder workOrder)
+        public void AddWorkOrder(WorkOrder workOrder)
         {
-            try
-            {
-                // throw new Exception();
-
-                appDbContext.WorkOrders.Add(workOrder);
-                appDbContext.SaveChanges();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            appDbContext.WorkOrders.Add(workOrder);
+            appDbContext.SaveChanges();
         }
-
 
         public WorkOrder GetWorkOrder(int workOrderId)
         {
@@ -95,49 +83,29 @@ namespace Service.Repository
                      .Where(x => x.WorkOrderId == workOrderId).FirstOrDefault();
             return wo;
         }
-        public bool EditWorkOrder(WorkOrder workOrder)
+     
+        public void EditWorkOrder(WorkOrder workOrder)
         {
-            try
+            var _wo = appDbContext.WorkOrders
+                              .Where(x => x.WorkOrderId == workOrder.WorkOrderId).FirstOrDefault();
+            if (_wo != null)
             {
-                // throw new Exception();
+                _wo.WorkOrderStartDate = workOrder.WorkOrderStartDate;
+                _wo.WorkOrderStatus = workOrder.WorkOrderStatus;
+                _wo.StatusNote = workOrder.StatusNote;
 
-                var _wo = appDbContext.WorkOrders
-                                .Where(x => x.WorkOrderId == workOrder.WorkOrderId).FirstOrDefault();
-                if (_wo != null)
-                {
-                    _wo.WorkOrderStartDate = workOrder.WorkOrderStartDate;
-                    _wo.WorkOrderStatus = workOrder.WorkOrderStatus;
-                    _wo.StatusNote = workOrder.StatusNote;
-
-                    appDbContext.SaveChanges();
-
-                    return true;
-                }
-                else
-                    return false;
-
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-        public bool DeleteWorkOrder(int workOrderId)
-        {
-            try
-            {
-                // throw new Exception();
-
-                var deletingWO = appDbContext.WorkOrders
-                                    .Where(x => x.WorkOrderId == workOrderId).FirstOrDefault();
-                appDbContext.Remove(deletingWO);
                 appDbContext.SaveChanges();
-                return true;
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            else
+                throw new Record_Not_Found_Exception("Work Order Not Found !");
+        }
+     
+        public void DeleteWorkOrder(int workOrderId)
+        {
+            var deletingWO = appDbContext.WorkOrders
+                              .Where(x => x.WorkOrderId == workOrderId).FirstOrDefault();
+            appDbContext.Remove(deletingWO);
+            appDbContext.SaveChanges();
         }
 
         public string GetCustomerName(int workOrderId)

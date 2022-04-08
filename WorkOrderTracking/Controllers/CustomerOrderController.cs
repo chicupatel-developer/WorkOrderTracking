@@ -78,6 +78,8 @@ namespace WorkOrderTracking.Controllers
             OperationResult retData = new OperationResult();
             try
             {
+                // throw new Exception();
+
                 if (ModelState.IsValid)
                 {
                     retData = DateCheck(customerOrder);
@@ -166,6 +168,8 @@ namespace WorkOrderTracking.Controllers
             OperationResult retData = new OperationResult();
             try
             {
+                // throw new Exception();
+
                 if (ModelState.IsValid)
                 {
                     retData = DateCheck(customerOrder);

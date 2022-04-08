@@ -49,7 +49,6 @@ namespace WorkOrderTracking.Controllers
             return PartialView("_CustomerOrderDetails", co);
         }
 
-
         [HttpGet]
         public IActionResult Create()
         {
@@ -63,38 +62,39 @@ namespace WorkOrderTracking.Controllers
         {
             OperationResult retData = new OperationResult();
 
-            if (ModelState.IsValid)
+            try
             {
-                if (_wOrderRepo.AddWorkOrder(workOrder))
+                if (ModelState.IsValid)
                 {
+                    _wOrderRepo.AddWorkOrder(workOrder);
+
                     retData.Message = "Work Order is Created !";
                     retData.ModelErrors = new List<string>();
                     retData.StatusCode = 0;
                 }
                 else
                 {
-                    retData.Message = "Server Error !";
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
                     retData.ModelErrors = new List<string>();
-                    retData.StatusCode = -1;
-                }
-            }
-            else
-            {
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
+                    foreach (var modelState in ViewData.ModelState.Values)
                     {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
                     }
                 }
             }
+            catch(Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }         
             return Json(new { Result = retData });
         }
-
 
         public ActionResult Edit(int id)
         {
@@ -107,38 +107,39 @@ namespace WorkOrderTracking.Controllers
         {
             OperationResult retData = new OperationResult();
 
-            if (ModelState.IsValid)
+            try
             {
-                if (_wOrderRepo.EditWorkOrder(workOrder))
+                if (ModelState.IsValid)
                 {
+                    _wOrderRepo.EditWorkOrder(workOrder);
+
                     retData.Message = "Work Order is Edited !";
                     retData.ModelErrors = new List<string>();
                     retData.StatusCode = 0;
                 }
                 else
                 {
-                    retData.Message = "Server Error !";
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
                     retData.ModelErrors = new List<string>();
-                    retData.StatusCode = -1;
-                }
-            }
-            else
-            {
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
+                    foreach (var modelState in ViewData.ModelState.Values)
                     {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
                     }
                 }
             }
+            catch(Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
             return Json(new { Result = retData });
         }
-
 
         [HttpGet]
         public ActionResult GetWorkOrderForDelete(int id)
@@ -151,18 +152,20 @@ namespace WorkOrderTracking.Controllers
         {
             OperationResult retData = new OperationResult();
 
-            if (_wOrderRepo.DeleteWorkOrder(workOrder.WorkOrderId))
+            try
             {
+                _wOrderRepo.DeleteWorkOrder(workOrder.WorkOrderId);
+                
                 retData.Message = "Work Order is Deleted !";
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = 0;
             }
-            else
+            catch(Exception ex)
             {
                 retData.Message = "Server Error !";
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = -1;
-            }
+            }     
             return Json(new { Result = retData });
         }
     }

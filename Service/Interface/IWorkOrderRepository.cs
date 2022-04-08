@@ -11,15 +11,11 @@ namespace Service.Interface
     {
         // List<WorkOrder> GetAllWorkOrders();
         IEnumerable<WorkOrderDTO> GetAllWorkOrders();
-
         List<SelectListItem> GetCustomerOrderList();
-        bool AddWorkOrder(WorkOrder workOrder);
-
+        void AddWorkOrder(WorkOrder workOrder);
         WorkOrder GetWorkOrder(int workOrderId);
-        bool EditWorkOrder(WorkOrder workOrder);
-
-        bool DeleteWorkOrder(int workOrderId);
-
+        void EditWorkOrder(WorkOrder workOrder);
+        void DeleteWorkOrder(int workOrderId);
         string GetCustomerName(int workOrderId);
     }
 }
