@@ -53,6 +53,8 @@
 
         $(document).ready(function () {
 
+            var errorCode = 0;
+
             var PlaceHolderElement = $('#PlaceHolderHere');
 
             function getWOStatus(wos) {
@@ -67,7 +69,6 @@
                 if (wos === 4)
                     return '<span class="cantComplete">Can Not Complete</span>';
             }
-
 
             var table = $('#workOrdersTable').DataTable({
                 processing: true,
@@ -164,14 +165,17 @@
                     console.log(response.result.message);
                     var mErrors = '';
                     if (response.result.statusCode == 0) {
+                        errorCode = 0;
                         bkTimer(response.result);
                         resetUI();
                     }
                     else if (response.result.statusCode == -1) {
+                        errorCode = -1;
                         bkTimer(response.result);
-                        resetUI();
+                        // resetUI();
                     }
                     else if (response.result.statusCode == 1) {
+                        errorCode = 1;
                         // model error
                         mErrors += '<font color="red">';
                         mErrors += response.result.message;
@@ -225,17 +229,20 @@
                 }
                 div.html(content);
                 div.fadeIn("slow");
-                div.queue(function () {
-                    setTimeout(function () {
-                        div.dequeue();
 
-                        PlaceHolderElement.find('.modal').modal('hide');
+                if (errorCode == 0) {
+                    div.queue(function () {
+                        setTimeout(function () {
+                            div.dequeue();
 
-                        table.ajax.reload();
+                            PlaceHolderElement.find('.modal').modal('hide');
 
-                    }, 3000);
-                });
-                div.fadeOut("fast");
+                            table.ajax.reload();
+
+                        }, 3000);
+                    });
+                    div.fadeOut("fast");
+                }
             };
             function resetUI() {
                 $('#WorkOrderStartDate').val('');
