@@ -53,21 +53,20 @@ namespace WorkOrderTracking.Controllers
 
             try
             {
+                // check for exception
+                // throw new Exception();
+
+                // check for modelstate errors
+                // ModelState.AddModelError("OperationNumber", "Operation Number Is Invalid !");
+
                 if (ModelState.IsValid)
                 {
-                    if (_opRepo.AddOperation(operation))
-                    {
-                        retData.Message = "Operation is Connected with Work-Order # " + operation.WorkOrderId + " !";
-                        retData.ModelErrors = new List<string>();
-                        retData.StatusCode = 0;
-                        retData.OtherIntData = (int)operation.WorkOrderId;
-                    }
-                    else
-                    {
-                        retData.Message = "Server Error !";
-                        retData.ModelErrors = new List<string>();
-                        retData.StatusCode = -1;
-                    }
+                    _opRepo.AddOperation(operation);
+
+                    retData.Message = "Operation is Connected with Work-Order # " + operation.WorkOrderId + " !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = 0;
+                    retData.OtherIntData = (int)operation.WorkOrderId;                    
                 }
                 else
                 {
@@ -83,8 +82,14 @@ namespace WorkOrderTracking.Controllers
                         }
                     }
                 }
-            }         
-            catch(Exception ex)
+            }
+            catch (WO_OP_Unique_Exception woopUEx)
+            {
+                retData.Message = woopUEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Exception ex)
             {
                 retData.Message = "Server Error !";
                 retData.ModelErrors = new List<string>();
@@ -92,8 +97,6 @@ namespace WorkOrderTracking.Controllers
             }         
             return Json(new { Result = retData });
         }
-
-
 
         public ActionResult Edit(int id)
         {

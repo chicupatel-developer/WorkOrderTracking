@@ -7,10 +7,10 @@ namespace Service.Interface
 {
     public interface ICustomerOrderRepository
     {
-        bool AddCustomerOrder(CustomerOrder customerOrder);
+        void AddCustomerOrder(CustomerOrder customerOrder);
         List<CustomerOrder> GetAllCustomerOrders();
         CustomerOrder GetCustomerOrder(int customerOrderId);
-        bool EditCustomerOrder(CustomerOrder customerOrder);
-        bool DeleteCustomerOrder(int customerOrderId);
+        void EditCustomerOrder(CustomerOrder customerOrder);
+        void DeleteCustomerOrder(int customerOrderId);
     }
 }

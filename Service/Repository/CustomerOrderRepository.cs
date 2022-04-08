@@ -1,4 +1,5 @@
 ﻿using EF.Core;
+using EF.Core.DTO;
 using EF.Core.Models;
 using Service.Interface;
 using System;
@@ -15,21 +16,10 @@ namespace Service.Repository
         {
             this.appDbContext = appDbContext;
         }
-        public bool AddCustomerOrder(CustomerOrder customerOrder)
+        public void AddCustomerOrder(CustomerOrder customerOrder)
         {
-            try
-            {
-                // throw new Exception();
-
-                appDbContext.CustomerOrders.Add(customerOrder);
-                appDbContext.SaveChanges();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            appDbContext.CustomerOrders.Add(customerOrder);
+            appDbContext.SaveChanges();
         }    
         public List<CustomerOrder> GetAllCustomerOrders()
         {
@@ -41,60 +31,36 @@ namespace Service.Repository
 
             return datas;
         }
-
         public CustomerOrder GetCustomerOrder(int customerOrderId)
         {
             var co = appDbContext.CustomerOrders
                      .Where(x => x.CustomerOrderId == customerOrderId).FirstOrDefault();
             return co;
-        }
-        
-        public bool EditCustomerOrder(CustomerOrder customerOrder)
+        }        
+        public void EditCustomerOrder(CustomerOrder customerOrder)
         {
-            try
+            var _co = appDbContext.CustomerOrders
+                              .Where(x => x.CustomerOrderId == customerOrder.CustomerOrderId).FirstOrDefault();
+            if (_co != null)
             {
-                // throw new Exception();
+                _co.CustomerName = customerOrder.CustomerName;
+                _co.OrderDate = customerOrder.OrderDate;
+                _co.OrderDueDate = customerOrder.OrderDueDate;
+                _co.OrderQuantity = customerOrder.OrderQuantity;
+                _co.ProductDesc = customerOrder.ProductDesc;
+                _co.ProductName = customerOrder.ProductName;
 
-                var _co = appDbContext.CustomerOrders
-                                .Where(x => x.CustomerOrderId == customerOrder.CustomerOrderId).FirstOrDefault();
-                if (_co != null)
-                {
-                    _co.CustomerName = customerOrder.CustomerName;
-                    _co.OrderDate = customerOrder.OrderDate;
-                    _co.OrderDueDate = customerOrder.OrderDueDate;
-                    _co.OrderQuantity = customerOrder.OrderQuantity;
-                    _co.ProductDesc = customerOrder.ProductDesc;
-                    _co.ProductName = customerOrder.ProductName;
-                    
-                    appDbContext.SaveChanges();
-
-                    return true;
-                }
-                else
-                    return false;
-
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-        public bool DeleteCustomerOrder(int customerOrderId)
-        {
-            try
-            {
-                // throw new Exception();
-
-                var deletingCO = appDbContext.CustomerOrders
-                                    .Where(x => x.CustomerOrderId== customerOrderId).FirstOrDefault();
-                appDbContext.Remove(deletingCO);
                 appDbContext.SaveChanges();
-                return true;
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            else
+                throw new Record_Not_Found_Exception("Customer Order Not Found !");
+        }
+        public void DeleteCustomerOrder(int customerOrderId)
+        {
+            var deletingCO = appDbContext.CustomerOrders
+                                 .Where(x => x.CustomerOrderId == customerOrderId).FirstOrDefault();
+            appDbContext.Remove(deletingCO);
+            appDbContext.SaveChanges();
         }
 
     }

@@ -11,7 +11,7 @@ namespace Service.Interface
     {
         List<Operation> GetAllWorkOrderOperations(int woid);
         List<SelectListItem> GetWorkOrderList();
-        bool AddOperation(Operation operation);
+        void AddOperation(Operation operation);
         Operation GetOperation(int operationId);
         void EditOperation(Operation operation);
     }

@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    var errorCode = 0;
 
     $('#floater').hide();
 
@@ -21,14 +22,17 @@
 
             var mErrors = '';
             if (response.result.statusCode == 0) {
+                errorCode = 0;
                 bkTimer(response.result);
                 resetUI();
             }
             else if (response.result.statusCode == -1) {
+                errorCode = -1;
                 bkTimer(response.result);
-                resetUI();
+                // resetUI();
             }
             else if (response.result.statusCode == 1) {
+                errorCode = 1;
                 // model error
                 mErrors += '<font color="red">';
                 mErrors += response.result.message;
@@ -66,12 +70,20 @@
         }
         div.html(content);
         div.fadeIn("slow");
-        div.queue(function () {
-            setTimeout(function () {
-                div.dequeue();
-            }, 3000);
-        });
-        div.fadeOut("fast");
+
+        if (errorCode == 0) {
+            console.log('error code = 0');
+            div.queue(function () {
+                setTimeout(function () {
+                    div.dequeue();
+                }, 3000);
+            });
+            div.fadeOut("fast");
+        }
+        else {
+            console.log('error code != 0');
+            $('#floater').show();
+        }
     };
 
     function resetUI() {

@@ -48,12 +48,18 @@ namespace Service.Repository
             return datas;
         }
 
-        public bool AddOperation(Operation operation)
+        public void AddOperation(Operation operation)
         {
+            var data_ = appDbContext.Operations
+                            .Where(x => x.WorkOrderId == operation.WorkOrderId);
+            if(data_!=null && data_.Count() > 0)
+            {
+                var result = data_.Any(x => x.OperationNumber==operation.OperationNumber);
+                if (result)
+                    throw new WO_OP_Unique_Exception("[Duplicate Operation For This WorkOrder] Data Invalid !");                                
+            }
             appDbContext.Operations.Add(operation);
             appDbContext.SaveChanges();
-
-            return true;
         }
 
         public Operation GetOperation(int operationId)

@@ -1,4 +1,5 @@
-﻿using EF.Core.Models;
+﻿using EF.Core.DTO;
+using EF.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Interface;
@@ -75,43 +76,43 @@ namespace WorkOrderTracking.Controllers
         public JsonResult Create(CustomerOrder customerOrder)
         {
             OperationResult retData = new OperationResult();
-
-            if (ModelState.IsValid)
+            try
             {
-                retData = DateCheck(customerOrder);
-                if (retData.StatusCode == 0)
+                if (ModelState.IsValid)
                 {
-                    if (_custOrderRepo.AddCustomerOrder(customerOrder))
+                    retData = DateCheck(customerOrder);
+                    if (retData.StatusCode == 0)
                     {
+                        _custOrderRepo.AddCustomerOrder(customerOrder);
+
                         retData.Message = "Customer Order is Created !";
                         retData.ModelErrors = new List<string>();
                         retData.StatusCode = 0;
                     }
-                    else
-                    {
-                        retData.Message = "Server Error !";
-                        retData.ModelErrors = new List<string>();
-                        retData.StatusCode = -1;
-                    }
-                }              
-            }
-            else
-            {
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
+                }
+                else
                 {
-                    foreach (var error in modelState.Errors)
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
+                    retData.ModelErrors = new List<string>();
+                    foreach (var modelState in ViewData.ModelState.Values)
                     {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
                     }
                 }
             }
+            catch(Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }          
             return Json(new { Result = retData });
         }
-
         private OperationResult DateCheck(CustomerOrder customerOrder)
         {
             OperationResult retData = new OperationResult();
@@ -152,6 +153,7 @@ namespace WorkOrderTracking.Controllers
             return retData;
         }
 
+
         public ActionResult Edit(int id)
         {
             var co = _custOrderRepo.GetCustomerOrder(id);
@@ -162,40 +164,47 @@ namespace WorkOrderTracking.Controllers
         public JsonResult Edit(CustomerOrder customerOrder)
         {
             OperationResult retData = new OperationResult();
-
-            if (ModelState.IsValid)
+            try
             {
-                retData = DateCheck(customerOrder);
-                if (retData.StatusCode == 0)
+                if (ModelState.IsValid)
                 {
-                    if (_custOrderRepo.EditCustomerOrder(customerOrder))
+                    retData = DateCheck(customerOrder);
+                    if (retData.StatusCode == 0)
                     {
+                        _custOrderRepo.EditCustomerOrder(customerOrder);
+
                         retData.Message = "Customer Order is Edited !";
                         retData.ModelErrors = new List<string>();
-                        retData.StatusCode = 0;
-                    }
-                    else
-                    {
-                        retData.Message = "Server Error !";
-                        retData.ModelErrors = new List<string>();
-                        retData.StatusCode = -1;
+                        retData.StatusCode = 0;                   
                     }
                 }
-            }
-            else
-            {
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
+                else
                 {
-                    foreach (var error in modelState.Errors)
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
+                    retData.ModelErrors = new List<string>();
+                    foreach (var modelState in ViewData.ModelState.Values)
                     {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
                     }
                 }
             }
+            catch(Record_Not_Found_Exception rnfEx)
+            {
+                retData.Message = rnfEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch(Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }       
             return Json(new { Result = retData });
         }
 
@@ -209,19 +218,20 @@ namespace WorkOrderTracking.Controllers
         public JsonResult Delete(CustomerOrder customerOrder)
         {
             OperationResult retData = new OperationResult();
-
-            if (_custOrderRepo.DeleteCustomerOrder(customerOrder.CustomerOrderId))
+            try
             {
+                _custOrderRepo.DeleteCustomerOrder(customerOrder.CustomerOrderId);
+
                 retData.Message = "Customer Order is Deleted !";
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = 0;
             }
-            else
+            catch(Exception ex)
             {
                 retData.Message = "Server Error !";
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = -1;
-            }
+            }         
             return Json(new { Result = retData });
         }
     }
