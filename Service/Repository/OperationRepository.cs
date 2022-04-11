@@ -70,7 +70,7 @@ namespace Service.Repository
         }
         public void EditOperation(Operation operation)
         {
-            var _op = appDbContext.Operations
+            var _op = appDbContext.Operations.Include(x=>x.WorkOrder)
                                   .Where(x => x.OperationId == operation.OperationId).FirstOrDefault();
             if (_op != null)
             {
@@ -78,6 +78,15 @@ namespace Service.Repository
                 // check for OpStatus and OpStartDate
                 if (operation.OperationStartDate == null && operation.OperationStatus != OperationStatus.Not_Started)
                     throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
+
+                // 4
+                // check/edit for it's parent workorder status
+                if (operation.OperationStatus != OperationStatus.Not_Started && _op.WorkOrder.WorkOrderStatus == WorkOrderStatus.Not_Started)
+                {
+                    _op.WorkOrder.WorkOrderStatus = WorkOrderStatus.Start_Running;
+                    _op.WorkOrder.WorkOrderStartDate = operation.OperationStartDate;
+                }
+
 
                 _op.OperationStartDate = operation.OperationStartDate;
                 _op.OperationStatus = operation.OperationStatus;

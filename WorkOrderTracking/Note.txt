@@ -1,0 +1,10 @@
+- if workorder-startdate is null then workorder-status must be 0 (not_started)
+
+- if operation-startdate is null then operation-status must be 0 (not_started)
+
+- workorder-operation combination is UNIQUE
+
+- if operation is NOT not_started and it's parent workorder is also not_started,,,
+then this parent workorder be start_running automatically at the time of
+updating this operation from not_started -> something else
+
