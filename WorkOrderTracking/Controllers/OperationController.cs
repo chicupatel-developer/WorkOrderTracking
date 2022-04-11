@@ -146,7 +146,13 @@ namespace WorkOrderTracking.Controllers
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = -1;
             }
-            catch(Exception ex)
+            catch (Record_Not_Found_Exception rnfEx)
+            {
+                retData.Message = rnfEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Exception ex)
             {
                 retData.Message = "Server Error !";
                 retData.ModelErrors = new List<string>();

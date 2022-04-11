@@ -1,4 +1,5 @@
-﻿using EF.Core.Models;
+﻿using EF.Core.DTO;
+using EF.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Interface;
@@ -132,7 +133,19 @@ namespace WorkOrderTracking.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (WoStatus_WoStartDate_Exception opEx)
+            {
+                retData.Message = opEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Record_Not_Found_Exception rnfEx)
+            {
+                retData.Message = rnfEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Exception ex)
             {
                 retData.Message = "Server Error !";
                 retData.ModelErrors = new List<string>();

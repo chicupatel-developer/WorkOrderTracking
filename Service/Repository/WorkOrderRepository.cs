@@ -90,6 +90,10 @@ namespace Service.Repository
                               .Where(x => x.WorkOrderId == workOrder.WorkOrderId).FirstOrDefault();
             if (_wo != null)
             {
+                // check for OpStatus and OpStartDate
+                if (workOrder.WorkOrderStartDate == null && workOrder.WorkOrderStatus != WorkOrderStatus.Not_Started)
+                    throw new WoStatus_WoStartDate_Exception("[WorkOrder Start Date - WorkOrder Status] Data Invalid !");
+
                 _wo.WorkOrderStartDate = workOrder.WorkOrderStartDate;
                 _wo.WorkOrderStatus = workOrder.WorkOrderStatus;
                 _wo.StatusNote = workOrder.StatusNote;

@@ -3,15 +3,9 @@
 
     $('#floater').hide();
 
-    // disable some of the controls
-    $('#OperationStartDate').prop('readonly', true);
-    $('#OperationStatus').prop('disabled', true);
+    $('.createPart').click(function () {
 
-
-    $('.createOP').click(function () {
-
-        var form = $('#opCreateForm');
-        // var actionUrl = form.attr('asp-action');
+        var form = $('#partCreateForm');
         var actionUrl = 'Create';
         var sendData = form.serialize();
 
@@ -79,19 +73,12 @@
                 }, 3000);
             });
             div.fadeOut("fast");
-        }
-        /*
-        else {
-            console.log('error code != 0');
-            $('#floater').show();
-        }
-        */
+        }  
     };
 
     function resetUI() {
-        $('#OperationNumber').val(10);
-        $('#Details').val('');
-        $('#OperationStatus').val(0);
-        $('#WorkOrderId').val('');
+        $('#Name').val('');
+        $('#Desc').val('');
+        $('#Qty').val(0);
     };
 });

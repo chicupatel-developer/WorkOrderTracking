@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorkOrderTracking.Models;
 using EF.Core.Models;
 using Service.Interface;
+using EF.Core.DTO;
 
 namespace WorkOrderTracking.Controllers
 {
@@ -45,7 +46,6 @@ namespace WorkOrderTracking.Controllers
         {
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         // public JsonResult Create([FromBody] Part part)
@@ -53,39 +53,39 @@ namespace WorkOrderTracking.Controllers
         {
             OperationResult retData = new OperationResult();
 
-            if (ModelState.IsValid)
+            try
             {
-                if (_partRepo.AddPart(part))
+                if (ModelState.IsValid)
                 {
+                    _partRepo.AddPart(part);
+
                     retData.Message = "Part is Created !";
                     retData.ModelErrors = new List<string>();
                     retData.StatusCode = 0;
                 }
                 else
                 {
-                    retData.Message = "Server Error !";
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
                     retData.ModelErrors = new List<string>();
-                    retData.StatusCode = -1;
-                }
-            }
-            else
-            {
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
+                    foreach (var modelState in ViewData.ModelState.Values)
                     {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
                     }
                 }
             }
+            catch(Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }         
             return Json(new { Result = retData });
         }
-    
-    
     
         public ActionResult Edit(int id)  
         {
@@ -99,38 +99,45 @@ namespace WorkOrderTracking.Controllers
         {
             OperationResult retData = new OperationResult();
 
-            if (ModelState.IsValid)
+            try
             {
-                if (_partRepo.EditPart(part))
+                if (ModelState.IsValid)
                 {
+                    _partRepo.EditPart(part);
+
                     retData.Message = "Part is Edited !";
                     retData.ModelErrors = new List<string>();
                     retData.StatusCode = 0;
                 }
                 else
                 {
-                    retData.Message = "Server Error !";
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
                     retData.ModelErrors = new List<string>();
-                    retData.StatusCode = -1;
-                }
-            }
-            else
-            {
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
+                    foreach (var modelState in ViewData.ModelState.Values)
                     {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
                     }
                 }
             }
+            catch (Record_Not_Found_Exception rnfEx)
+            {
+                retData.Message = rnfEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
             return Json(new { Result = retData });
         }
-
 
         public ActionResult GetPartForDelete(int id)
         {
@@ -142,18 +149,20 @@ namespace WorkOrderTracking.Controllers
         {
             OperationResult retData = new OperationResult();
 
-            if (_partRepo.DeletePart(part.PartId))
+            try
             {
+                _partRepo.DeletePart(part.PartId);
+
                 retData.Message = "Part is Deleted !";
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = 0;
             }
-            else
+            catch(Exception ex)
             {
                 retData.Message = "Server Error !";
                 retData.ModelErrors = new List<string>();
                 retData.StatusCode = -1;
-            }
+            }     
             return Json(new { Result = retData });
         }
 

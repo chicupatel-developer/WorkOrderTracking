@@ -5,6 +5,7 @@ using System.Text;
 using EF.Core.Models;
 using EF.Core;
 using System.Linq;
+using EF.Core.DTO;
 
 namespace Service.Repository
 {
@@ -34,66 +35,34 @@ namespace Service.Repository
             return datas;
         }
 
-        public bool EditPart(Part part)
+        public void EditPart(Part part)
         {
-            try
+            var _part = appDbContext.Parts
+                              .Where(x => x.PartId == part.PartId).FirstOrDefault();
+            if (_part != null)
             {
-                // throw new Exception();
+                _part.Name = part.Name;
+                _part.Desc = part.Desc;
+                _part.Qty = part.Qty;
 
-                var _part = appDbContext.Parts
-                                .Where(x => x.PartId == part.PartId).FirstOrDefault();
-                if (_part != null)
-                {
-                    _part.Name = part.Name;
-                    _part.Desc = part.Desc;
-                    _part.Qty = part.Qty;
-                    appDbContext.SaveChanges();
-
-                    return true;
-                }
-                else
-                    return false;
-                
+                appDbContext.SaveChanges();
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            else
+                throw new Record_Not_Found_Exception("Part Not Found !");
         }
         
-        public bool DeletePart(int partId)
+        public void DeletePart(int partId)
         {
-            try
-            {
-                // throw new Exception();
-
-                var deletingPart = appDbContext.Parts
-                                    .Where(x => x.PartId == partId).FirstOrDefault();
-                appDbContext.Remove(deletingPart);
-                appDbContext.SaveChanges();
-                return true;
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }
+            var deletingPart = appDbContext.Parts
+                                .Where(x => x.PartId == partId).FirstOrDefault();
+            appDbContext.Remove(deletingPart);
+            appDbContext.SaveChanges();
         }
 
-        public bool AddPart(Part part)
+        public void AddPart(Part part)
         {
-            try
-            {
-                // throw new Exception();
-
-                appDbContext.Parts.Add(part);
-                appDbContext.SaveChanges();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            appDbContext.Parts.Add(part);
+            appDbContext.SaveChanges();
         }
     }
 }

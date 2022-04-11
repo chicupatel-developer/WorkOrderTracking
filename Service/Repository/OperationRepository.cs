@@ -85,6 +85,8 @@ namespace Service.Repository
 
                 appDbContext.SaveChanges();
             }
+            else
+                throw new Record_Not_Found_Exception("[Work Order - Operation] Not Found !");
         }
     }
 }

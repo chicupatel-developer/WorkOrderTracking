@@ -9,8 +9,8 @@ namespace Service.Interface
     {
         Part GetPart(int partId);
         List<Part> GetAllParts();
-        bool EditPart(Part part);
-        bool DeletePart(int partId);
-        bool AddPart(Part part);
+        void EditPart(Part part);
+        void DeletePart(int partId);
+        void AddPart(Part part);
     }
 }
