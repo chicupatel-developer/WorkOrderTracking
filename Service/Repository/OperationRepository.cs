@@ -68,6 +68,7 @@ namespace Service.Repository
                      .Where(x => x.OperationId == operationId).FirstOrDefault();
             return op;
         }
+        
         public void EditOperation(Operation operation)
         {
             var _op = appDbContext.Operations.Include(x=>x.WorkOrder)
@@ -96,6 +97,34 @@ namespace Service.Repository
             }
             else
                 throw new Record_Not_Found_Exception("[Work Order - Operation] Not Found !");
+        }
+
+        public void XferPartsForOperation(OperationToPart operationToPart)
+        {
+            var part_ = appDbContext.Parts
+                            .Where(x => x.PartId == operationToPart.PartId).FirstOrDefault();
+            if (part_ == null)
+                throw new Record_Not_Found_Exception("Part Not Found !");
+
+
+            var operation_ = appDbContext.Operations
+                          .Where(x => x.OperationId == operationToPart.OperationId).FirstOrDefault();
+            if (operation_ == null)
+                throw new Record_Not_Found_Exception("[Work Order - Operation] Not Found !");
+
+
+            if ((part_.Qty - operationToPart.XFERQTY) < 0)
+                throw new Not_Enough_QTY_Exception("QTY @ Warehouse Is Not Enough !");
+
+
+            var data_ = appDbContext.OperationToParts
+                           .Where(x => x.OperationId == operationToPart.OperationId && x.PartId == operationToPart.PartId);
+            if (data_ != null && data_.Count() > 0)
+                throw new OP_Part_Unique_Exception("[Duplicate Part For This Operation] Data Invalid !");
+
+
+            appDbContext.OperationToParts.Add(operationToPart);
+            appDbContext.SaveChanges();
         }
     }
 }

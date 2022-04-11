@@ -31,5 +31,7 @@ namespace EF.Core.Models
         [DataType(DataType.Date)]
         public DateTime? OperationStartDate { get; set; }
 
+        public ICollection<OperationToPart> OperationToParts { get; set; }
+
     }
 }

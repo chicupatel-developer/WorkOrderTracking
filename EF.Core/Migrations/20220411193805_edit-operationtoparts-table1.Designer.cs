@@ -4,14 +4,16 @@ using EF.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EF.Core.Migrations
 {
     [DbContext(typeof(WorkOrderTrackingContext))]
-    partial class WorkOrderTrackingContextModelSnapshot : ModelSnapshot
+    [Migration("20220411193805_edit-operationtoparts-table1")]
+    partial class editoperationtopartstable1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,11 +97,9 @@ namespace EF.Core.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("OperationId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("PartId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("XFERQTY")
@@ -111,7 +111,8 @@ namespace EF.Core.Migrations
                     b.HasIndex("OperationId");
 
                     b.HasIndex("PartId", "OperationId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[PartId] IS NOT NULL AND [OperationId] IS NOT NULL");
 
                     b.ToTable("OperationToParts");
                 });
@@ -181,15 +182,11 @@ namespace EF.Core.Migrations
                 {
                     b.HasOne("EF.Core.Models.Operation", "Operation")
                         .WithMany("OperationToParts")
-                        .HasForeignKey("OperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OperationId");
 
                     b.HasOne("EF.Core.Models.Part", "Part")
                         .WithMany("OperationToParts")
-                        .HasForeignKey("PartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PartId");
                 });
 
             modelBuilder.Entity("EF.Core.Models.WorkOrder", b =>
