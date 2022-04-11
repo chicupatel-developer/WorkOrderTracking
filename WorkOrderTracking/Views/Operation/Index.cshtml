@@ -77,7 +77,7 @@
                 OP
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Details)
+                OP Details
             </th>
             <th>
                 OP Status
@@ -176,9 +176,14 @@
                 </td>
 
                 <td>
-                    <button id="@item.OperationId" 
+                    <button id="@item.OperationId"
                             class='btn btn-primary opEdit'>
                         Edit
+                    </button>
+
+                    <button id="@item.OperationId"
+                            class='btn btn-success assignPart'>
+                        Assign Parts
                     </button>
                 </td>
             </tr>

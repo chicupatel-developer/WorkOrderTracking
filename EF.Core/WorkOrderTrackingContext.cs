@@ -20,9 +20,8 @@ namespace EF.Core
                 .HasForeignKey<WorkOrder>(b => b.CustomerOrderId);
 
             modelBuilder.Entity<WorkOrder>()
-              .HasOne(a => a.Operation)
-              .WithOne(b => b.WorkOrder)
-              .HasForeignKey<Operation>(b => b.WorkOrderId);
+              .HasMany(a => a.Operations)
+              .WithOne(b => b.WorkOrder);
 
             // unique key 
             // operation table

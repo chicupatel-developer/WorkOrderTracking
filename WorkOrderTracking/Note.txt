@@ -8,3 +8,26 @@
 then this parent workorder be start_running automatically at the time of
 updating this operation from not_started -> something else
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EF.Core.Models
+{
+    public class OperationToPart
+    {
+        [Key]
+        public int OperationToPartId { get; set; }
+
+        public int? OperationId { get; set; }
+        public Operation Operation { get; set; }
+
+        public int? PartId { get; set; }
+        public Part Part { get; set; }
+
+        public int XFERQTY { get; set; }
+    }
+}

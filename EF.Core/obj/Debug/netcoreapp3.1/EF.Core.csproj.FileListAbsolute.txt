@@ -9,3 +9,4 @@ C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.csproj.CoreCompileInputs.c
 C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.dll
 C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.pdb
 C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.genruntimeconfig.cache
+C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.csproj.AssemblyReference.cache
