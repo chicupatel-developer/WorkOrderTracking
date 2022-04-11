@@ -6,6 +6,7 @@ using EF.Core.Models;
 using EF.Core;
 using System.Linq;
 using EF.Core.DTO;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Service.Repository
 {
@@ -64,5 +65,21 @@ namespace Service.Repository
             appDbContext.Parts.Add(part);
             appDbContext.SaveChanges();
         }
+
+        public List<SelectListItem> GetPartList()
+        {
+            List<SelectListItem> datas = new List<SelectListItem>();
+
+            foreach (var p in appDbContext.Parts)
+            {
+                datas.Add(new SelectListItem()
+                {
+                    Value = p.PartId.ToString(),
+                    Text = "[ " + p.PartId + " ] - " + p.Name + " [ QTY : " + p.Qty + " ]"
+                });
+            }
+            return datas;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EF.Core.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Service.Interface
         void EditPart(Part part);
         void DeletePart(int partId);
         void AddPart(Part part);
+        List<SelectListItem> GetPartList();
     }
 }

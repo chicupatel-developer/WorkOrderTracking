@@ -154,3 +154,4 @@ C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\In
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\Create.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\_Edit.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.MvcApplicationPartsAssemblyInfo.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\_XferPartsForOperation.cshtml.g.cs

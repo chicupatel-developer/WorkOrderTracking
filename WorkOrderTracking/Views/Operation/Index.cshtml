@@ -202,6 +202,19 @@
 
             var errorCode = 0;
 
+            // assign parts for operation
+            // get
+            $('.assignPart').click(function () {
+                var operationId = $(this).attr("id");
+                console.log(operationId);
+
+                var url = '@Url.Action("XferPartsForOperation", "Operation")' + '\\' + operationId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
             // edit
             // get
             $('.opEdit').click(function () {

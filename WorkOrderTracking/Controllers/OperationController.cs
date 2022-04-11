@@ -17,13 +17,15 @@ namespace WorkOrderTracking.Controllers
         private readonly ILogger<OperationController> _logger;
         private readonly IWorkOrderRepository _wOrderRepo;
         private readonly ICustomerOrderRepository _custOrderRepo;
+        private readonly IPartRepository _partRepo;
         private readonly IOperationRepository _opRepo;
 
-        public OperationController(IOperationRepository opRepo, ICustomerOrderRepository custOrderRepo, IWorkOrderRepository wOrderRepo  ,ILogger<OperationController> logger)
+        public OperationController(IPartRepository partRepo, IOperationRepository opRepo, ICustomerOrderRepository custOrderRepo, IWorkOrderRepository wOrderRepo  ,ILogger<OperationController> logger)
         {
             _custOrderRepo = custOrderRepo;
             _wOrderRepo = wOrderRepo;
             _opRepo = opRepo;
+            _partRepo = partRepo;
             _logger = logger;
         }
 
@@ -161,6 +163,19 @@ namespace WorkOrderTracking.Controllers
             return Json(new { Result = retData });
         }
 
+        [HttpGet]
+        public IActionResult XferPartsForOperation(int id)
+        {
+            var parts = _partRepo.GetPartList();
+            ViewBag.Parts = parts;
 
+            OperationToPart model = new OperationToPart()
+            { 
+                 OperationId =  id
+            };
+
+            return PartialView("_XferPartsForOperation", model);
+        }
+       
     }
 }
