@@ -120,10 +120,23 @@ namespace Service.Repository
             var data_ = appDbContext.OperationToParts
                            .Where(x => x.OperationId == operationToPart.OperationId && x.PartId == operationToPart.PartId);
             if (data_ != null && data_.Count() > 0)
-                throw new OP_Part_Unique_Exception("[Duplicate Part For This Operation] Data Invalid !");
+            {
+                // need to update XFERQTY @ OperationToParts db table
+                // 1
+                data_.FirstOrDefault().XFERQTY += operationToPart.XFERQTY;
 
+                // throw new OP_Part_Unique_Exception("[Duplicate Part For This Operation] Data Invalid !");
+            }
+            else
+            {
+                // 1
+                // add @ OperationToParts db table
+                appDbContext.OperationToParts.Add(operationToPart);
+            }                     
 
-            appDbContext.OperationToParts.Add(operationToPart);
+            // 2
+            part_.Qty -= operationToPart.XFERQTY;
+
             appDbContext.SaveChanges();
         }
         
@@ -138,6 +151,7 @@ namespace Service.Repository
             {
                 data.CustomerName = op.WorkOrder.CustomerOrder.CustomerName;
                 data.CustomerOrderId = (int)op.WorkOrder.CustomerOrderId;
+                data.CustomerOrderQTY = (int)op.WorkOrder.CustomerOrder.OrderQuantity;
                 data.OperationNumber = op.OperationNumber;
                 data.WorkOrderId = (int)op.WorkOrderId;
             }

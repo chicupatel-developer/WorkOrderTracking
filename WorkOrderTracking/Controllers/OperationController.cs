@@ -172,6 +172,7 @@ namespace WorkOrderTracking.Controllers
             var xferInfo = _opRepo.GetOperationDetails(id);
             ViewBag.CustomerOrderId = xferInfo.CustomerOrderId;
             ViewBag.CustomerName = xferInfo.CustomerName;
+            ViewBag.CustomerOrderQTY = xferInfo.CustomerOrderQTY;
             ViewBag.WorkOrderId = xferInfo.WorkOrderId;
             ViewBag.OperationNumber = xferInfo.OperationNumber;
 
@@ -182,6 +183,63 @@ namespace WorkOrderTracking.Controllers
 
             return PartialView("_XferPartsForOperation", model);
         }
-       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult XferPartsForOperation(OperationToPart operationToPart)
+        {
+            OperationResult retData = new OperationResult();
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _opRepo.XferPartsForOperation(operationToPart);
+
+                    retData.Message = "Parts Xfer Completed !";
+                    retData.ModelErrors = new List<string>();
+                    retData.StatusCode = 0;
+                }
+                else
+                {
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
+                    retData.ModelErrors = new List<string>();
+                    foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
+                    }
+                }
+            }
+            catch (Not_Enough_QTY_Exception neqEx)
+            {
+                retData.Message = neqEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Record_Not_Found_Exception rnfEx)
+            {
+                retData.Message = rnfEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (OP_Part_Unique_Exception dupPrtEx)
+            {
+                retData.Message = dupPrtEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            return Json(new { Result = retData });
+        }
+
     }
 }

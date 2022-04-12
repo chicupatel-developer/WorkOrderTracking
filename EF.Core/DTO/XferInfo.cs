@@ -8,6 +8,7 @@ namespace EF.Core.DTO
     {
         public int CustomerOrderId { get; set; }
         public string CustomerName { get; set; }
+        public int CustomerOrderQTY { get; set; }
         public int WorkOrderId { get; set; }
         public int OperationNumber { get; set; }
     }

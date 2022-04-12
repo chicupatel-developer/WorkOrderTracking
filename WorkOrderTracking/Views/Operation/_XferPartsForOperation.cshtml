@@ -5,6 +5,9 @@
     .xferPartsForOpModal {
         background-color: lightgreen;
     }
+    .customerOrderQTY {
+        color : blue;
+    }
 </style>
 
 <div class="modal fade" id="xferPartsForOp">
@@ -30,6 +33,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h5>Customer : @ViewBag.CustomerName [# @ViewBag.CustomerOrderId]</h5>
+                        <h5>Customer Order QTY [Required] : <span class="customerOrderQTY">@ViewBag.CustomerOrderQTY</span></h5>
                         <h5>WorkOrder # @ViewBag.WorkOrderId</h5>
                         @{
                             var opNumber = "";
@@ -70,7 +74,7 @@
                                 opNumber = "Rework_Hub - 90";
                             }
                         }
-                    <h5>Operation Number # [@ViewBag.OperationNumber] - @opNumber</h5>
+                        <h5>Operation Number # [@ViewBag.OperationNumber] - @opNumber</h5>
                     </div>
                 </div>
                 <p></p>

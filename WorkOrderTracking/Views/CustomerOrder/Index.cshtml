@@ -2,8 +2,15 @@
     ViewData["Title"] = "Customer Order - Home Page";
 }
 
+<style>
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
+</style>
+
 <div class="text-center">
-    <h3 class="display-6">Customer Orders</h3>
+    <h3 class="display-6"><span class="titleSpan"><u>Customer Orders</u></span></h3>
 </div>
 <div>
     <a asp-action="Create">Create - [Customer Order]</a>

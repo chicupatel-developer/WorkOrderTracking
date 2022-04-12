@@ -75,7 +75,7 @@ namespace Service.Repository
                 datas.Add(new SelectListItem()
                 {
                     Value = p.PartId.ToString(),
-                    Text = "[ " + p.PartId + " ] - " + p.Name + " [ QTY : " + p.Qty + " ]"
+                    Text = "[ " + p.PartId + " ] - " + p.Name + " [ Ava. Qty. : " + p.Qty + " ]"
                 });
             }
             return datas;

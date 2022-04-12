@@ -23,10 +23,15 @@
         color: blue;
         font-size: x-large;
     }
+
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
 </style>
 
 <div class="text-center">
-    <h3 class="display-6">Work Order --&gt;&gt; <u>[Operations]</u></h3>
+    <h3 class="display-6">Work Order --&gt;&gt; <span class="titleSpan"><u>[Operations]</u></span></h3>
 </div>
 <p></p>
 
@@ -186,6 +191,11 @@
                             class='btn btn-success assignPart'>
                         Assign Parts
                     </button>
+                    <button id="@item.OperationId"
+                            opNumber="@opNumber"
+                            class='btn btn-info viewPartHistory'>
+                        Parts History
+                    </button>
                 </td>
             </tr>
         }
@@ -217,6 +227,48 @@
                 $.get(url).done(function (data) {
                     PlaceHolderElement.html(data);
                     PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+            // assign parts for operation
+            // post
+            PlaceHolderElement.on('click', '.xferPartOp', function (event) {
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr('action');
+                var sendData = form.serialize();
+
+                var url = '@Url.Action("XferPartsForOperation", "Operation")';
+
+                $.post(url, sendData).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);
+                    var mErrors = '';
+                    if (response.result.statusCode == 0) {
+                        errorCode = 0;
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == -1) {
+                        errorCode = -1;
+                        bkTimer(response.result);
+                        // resetUI();
+                    }
+                    else if (response.result.statusCode == 1) {
+                        errorCode = 1;
+                        // model error
+                        mErrors += '<font color="red">';
+                        mErrors += response.result.message;
+                        mErrors += "<ul>";
+                        $.each(response.result.modelErrors, function (key, value) {
+                            mErrors += "<li>" + value + "</li>";
+                        });
+                        mErrors += "</ul></font>";
+                    }
+                    else {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    $('#opStatus').html(mErrors);
                 });
             });
 
