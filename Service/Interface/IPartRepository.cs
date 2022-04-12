@@ -1,4 +1,5 @@
-﻿using EF.Core.Models;
+﻿using EF.Core.DTO;
+using EF.Core.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace Service.Interface
         void DeletePart(int partId);
         void AddPart(Part part);
         List<SelectListItem> GetPartList();
+        PartHistoryData GetPartHistory(int OperationId);
     }
 }

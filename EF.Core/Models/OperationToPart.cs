@@ -20,6 +20,7 @@ namespace EF.Core.Models
         public int? PartId { get; set; }
         public Part Part { get; set; }
 
+        [Display(Name = "XFER QTY")]
         [Required(ErrorMessage = "XFER QTY is Required!")]
         [Range(1, 10000, ErrorMessage = "XFER QTY must be between 1 and 10000")]
         public int? XFERQTY { get; set; }

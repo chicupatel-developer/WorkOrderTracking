@@ -112,31 +112,31 @@
                     {
                         opNumber = "Hub_Single_Head - 20";
                     }
-                    if (item.OperationNumber == 30)
+                    if (item.OperationNumber == (int)30)
                     {
                         opNumber = "Hub_Double_Head - 30";
                     }
-                    if (item.OperationNumber == 40)
+                    if (item.OperationNumber == (int)40)
                     {
                         opNumber = "Push_Cups - 40";
                     }
-                    if (item.OperationNumber == 50)
+                    if (item.OperationNumber == (int)50)
                     {
                         opNumber = "Assembly_Spindle_Hub - 50";
                     }
-                    if (item.OperationNumber == 60)
+                    if (item.OperationNumber == (int)60)
                     {
                         opNumber = "Paint - 60";
                     }
-                    if (item.OperationNumber == 70)
+                    if (item.OperationNumber == (int)70)
                     {
                         opNumber = "Packaging - 70";
                     }
-                    if (item.OperationNumber == 80)
+                    if (item.OperationNumber == (int)80)
                     {
                         opNumber = "Rework_Spindle - 80";
                     }
-                    if (item.OperationNumber == 90)
+                    if (item.OperationNumber == (int)90)
                     {
                         opNumber = "Rework_Hub - 90";
                     }
@@ -212,6 +212,22 @@
             var PlaceHolderElement = $('#PlaceHolderHere');
 
             var errorCode = 0;
+
+
+            // get
+            // all part(s) history from operationid
+            $('.viewPartHistory').click(function () {
+                var operationId = $(this).attr("id");
+                console.log(operationId);
+
+                var url = '@Url.Action("GetPartHistory", "Part")' + '\\' + operationId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+
 
             // assign parts for operation
             // get

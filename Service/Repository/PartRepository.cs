@@ -7,6 +7,7 @@ using EF.Core;
 using System.Linq;
 using EF.Core.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service.Repository
 {
@@ -81,5 +82,40 @@ namespace Service.Repository
             return datas;
         }
 
+        public PartHistoryData GetPartHistory(int operationId)
+        {
+            PartHistoryData data = new PartHistoryData();
+            data.OperationId = operationId;
+            data.PartList = new List<PartData>();
+
+            var opToPart_ = appDbContext.OperationToParts.Include(x=>x.Operation).Include(x => x.Operation.WorkOrder)
+                                .Where(x => x.OperationId == operationId).FirstOrDefault();
+            if (opToPart_ != null)
+            {
+                data.OperationNumber = opToPart_.Operation.OperationNumber;
+                data.WorkOrderId = opToPart_.Operation.WorkOrder.WorkOrderId;
+            }
+
+            var operationToParts = appDbContext.OperationToParts.Include(x=>x.Part)
+                                    .Where(x => x.OperationId == operationId);
+            if(operationToParts!=null && operationToParts.Count() > 0)
+            {
+                foreach(var opToPart in operationToParts)
+                {
+                    var part_ = appDbContext.Parts
+                                    .Where(x => x.PartId == opToPart.PartId);
+                    if (part_ != null)
+                    {
+                        data.PartList.Add(new PartData()
+                        {
+                             PartId = part_.FirstOrDefault().PartId,
+                              PartName = part_.FirstOrDefault().Name,
+                               XFERQTY = (int)opToPart.XFERQTY
+                        });
+                    }
+                }
+            }
+            return data;
+        }
     }
 }

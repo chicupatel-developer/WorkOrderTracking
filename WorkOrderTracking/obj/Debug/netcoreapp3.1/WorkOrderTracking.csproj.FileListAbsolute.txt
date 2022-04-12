@@ -155,3 +155,4 @@ C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\Cr
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\_Edit.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.MvcApplicationPartsAssemblyInfo.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\_XferPartsForOperation.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Part\_GetPartHistory.cshtml.g.cs

@@ -166,5 +166,14 @@ namespace WorkOrderTracking.Controllers
             return Json(new { Result = retData });
         }
 
+        // get
+        // all part(s) history from operationid
+        public ActionResult GetPartHistory(int id)
+        {
+            var partHistory = _partRepo.GetPartHistory(id);
+            return PartialView("_GetPartHistory", partHistory);
+        }
+
+
     }
 }

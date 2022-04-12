@@ -1,0 +1,103 @@
+﻿@model EF.Core.DTO.PartHistoryData;
+
+<style>
+    .partHistoryModal {
+        background-color: lightblue;
+    }
+</style>
+
+<div class="modal fade" id="partHistory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header partHistoryModal">
+                <h4 class="modal-title" id="partHistoryLabel">
+                    Part History Data
+                </h4>            
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">             
+
+                <div>
+                    @{
+                        var opNumber = "";
+                        if (@Model.OperationNumber == (int)10)
+                        {
+                            opNumber = "Spindle - 10";
+                        }
+                        if (@Model.OperationNumber == (int)20)
+                        {
+                            opNumber = "Hub_Single_Head - 20";
+                        }
+                        if (@Model.OperationNumber == (int)30)
+                        {
+                            opNumber = "Hub_Double_Head - 30";
+                        }
+                        if (@Model.OperationNumber == (int)40)
+                        {
+                            opNumber = "Push_Cups - 40";
+                        }
+                        if (@Model.OperationNumber == (int)50)
+                        {
+                            opNumber = "Assembly_Spindle_Hub - 50";
+                        }
+                        if (@Model.OperationNumber == (int)60)
+                        {
+                            opNumber = "Paint - 60";
+                        }
+                        if (@Model.OperationNumber == (int)70)
+                        {
+                            opNumber = "Packaging - 70";
+                        }
+                        if (@Model.OperationNumber == (int)80)
+                        {
+                            opNumber = "Rework_Spindle - 80";
+                        }
+                        if (@Model.OperationNumber == (int)90)
+                        {
+                            opNumber = "Rework_Hub - 90";
+                        }
+                    }
+                    <h5>Operation # @Model.OperationId</h5>
+                    <h5>Operation :[ @Model.OperationNumber ] @opNumber</h5>
+                    <h5>Work Order # @Model.WorkOrderId</h5>
+                    <br />
+                    @foreach (var item in Model.PartList)
+                    {
+                        <h6>Part # @item.PartId</h6>
+                        <h6>Part Name : @item.PartName</h6>
+                        <h6>QTY XFER # @item.XFERQTY</h6>
+                        <hr />
+                        <br />
+                    }
+                </div>
+                <p></p>
+            </div>
+
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" 
+                        id="cancel" 
+                        class="btn btn-default" 
+                        type="button">close</button>            
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
