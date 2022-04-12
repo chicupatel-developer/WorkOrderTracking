@@ -26,7 +26,7 @@
 </style>
 
 <div class="text-center">
-    <h3 class="display-4">Work Order - Operations</h3>
+    <h3 class="display-6">Work Order --&gt;&gt; <u>[Operations]</u></h3>
 </div>
 <p></p>
 
@@ -182,6 +182,7 @@
                     </button>
 
                     <button id="@item.OperationId"
+                            opNumber="@opNumber"
                             class='btn btn-success assignPart'>
                         Assign Parts
                     </button>
@@ -207,6 +208,10 @@
             $('.assignPart').click(function () {
                 var operationId = $(this).attr("id");
                 console.log(operationId);
+
+                var opNumber = $(this).attr("opNumber");
+                console.log(opNumber);
+
 
                 var url = '@Url.Action("XferPartsForOperation", "Operation")' + '\\' + operationId;
                 $.get(url).done(function (data) {

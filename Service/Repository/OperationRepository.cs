@@ -126,5 +126,22 @@ namespace Service.Repository
             appDbContext.OperationToParts.Add(operationToPart);
             appDbContext.SaveChanges();
         }
+        
+        public XferInfo GetOperationDetails(int operationId)
+        {
+            XferInfo data = new XferInfo();
+
+            var op = appDbContext.Operations.Include(x => x.WorkOrder).Include(y => y.WorkOrder.CustomerOrder)
+                            .Where(z => z.OperationId == operationId).FirstOrDefault();
+
+            if(op!=null)
+            {
+                data.CustomerName = op.WorkOrder.CustomerOrder.CustomerName;
+                data.CustomerOrderId = (int)op.WorkOrder.CustomerOrderId;
+                data.OperationNumber = op.OperationNumber;
+                data.WorkOrderId = (int)op.WorkOrderId;
+            }
+            return data;
+        }
     }
 }

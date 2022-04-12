@@ -169,6 +169,12 @@ namespace WorkOrderTracking.Controllers
             var parts = _partRepo.GetPartList();
             ViewBag.Parts = parts;
 
+            var xferInfo = _opRepo.GetOperationDetails(id);
+            ViewBag.CustomerOrderId = xferInfo.CustomerOrderId;
+            ViewBag.CustomerName = xferInfo.CustomerName;
+            ViewBag.WorkOrderId = xferInfo.WorkOrderId;
+            ViewBag.OperationNumber = xferInfo.OperationNumber;
+
             OperationToPart model = new OperationToPart()
             { 
                  OperationId =  id
