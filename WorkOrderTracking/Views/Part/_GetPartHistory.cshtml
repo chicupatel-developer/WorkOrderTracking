@@ -11,7 +11,7 @@
         <div class="modal-content">
             <div class="modal-header partHistoryModal">
                 <h4 class="modal-title" id="partHistoryLabel">
-                    Part History Data
+                    Operation v/s Parts Data
                 </h4>            
 
                 <button type="button" class="close" data-dismiss="modal">
@@ -63,16 +63,14 @@
                         }
                     }
                     <h5>Operation # @Model.OperationId</h5>
-                    <h5>Operation :[ @Model.OperationNumber ] @opNumber</h5>
+                    <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
                     <h5>Work Order # @Model.WorkOrderId</h5>
-                    <br />
                     @foreach (var item in Model.PartList)
                     {
+                        <hr />
                         <h6>Part # @item.PartId</h6>
                         <h6>Part Name : @item.PartName</h6>
                         <h6>QTY XFER # @item.XFERQTY</h6>
-                        <hr />
-                        <br />
                     }
                 </div>
                 <p></p>
@@ -83,7 +81,7 @@
                 <button data-dismiss="modal" 
                         id="cancel" 
                         class="btn btn-default" 
-                        type="button">close</button>            
+                        type="button">Close</button>            
             </div>
         </div>
     </div>
