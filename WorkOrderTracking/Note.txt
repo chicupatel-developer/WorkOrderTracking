@@ -7,14 +7,13 @@
 - when workorder is Start_Running,,, then and then 
 operation can be any of (Start_Running, Pause_Running, Completed, Can_Not_Complete) 
 
-- workorder-startdate must be <= it's any of operations'-startdate
-
 - once operation-startdate is not null && operation-status != Not_Started,,,
 then user can not do [ operation-startdate is null or operation-status == Not_Started ]
 
 - once workorder-startdate is not null && workorder-status != Not_Started,,,
 then user can not do [ workorder-startdate is null or workorder-status == Not_Started ]
 
+wip - workorder-startdate must be <= it's any of operations'-startdate
 
 wip - if all operations of workorder is completed,,,
 then workorder must becomes completed automatically

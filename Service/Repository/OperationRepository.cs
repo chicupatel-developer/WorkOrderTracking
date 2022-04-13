@@ -76,16 +76,49 @@ namespace Service.Repository
             if (_op != null)
             {
 
-                // check for OpStatus and OpStartDate
-                if (operation.OperationStartDate == null && operation.OperationStatus != OperationStatus.Not_Started)
-                    throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
-
                 // check for it's parent workorder status
                 if (operation.OperationStatus != OperationStatus.Not_Started && _op.WorkOrder.WorkOrderStatus != WorkOrderStatus.Start_Running)
                     throw new OP_CanNot_Start_Running_Exception("WorkOrder Status Is Not [Start_Runing] !");
 
+                if (!(_op.OperationStartDate == null && _op.OperationStatus == OperationStatus.Not_Started))
+                {
+                    if (operation.OperationStartDate == null && operation.OperationStatus == OperationStatus.Not_Started)
+                        throw new OP_CanNot_Not_Started_Exception("Operation Can Not Be [Not_Started] !");
+                    else
+                    {
+                        if (operation.OperationStartDate == null)
+                            throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
+                        if (operation.OperationStatus == OperationStatus.Not_Started)
+                            throw new OP_CanNot_Not_Started_Exception("Operation Can Not Be [Not_Started] !");
+                    }
+                }
+
+                if (_op.OperationStartDate == null && _op.OperationStatus == OperationStatus.Not_Started)
+                {
+                    if (operation.OperationStartDate == null && operation.OperationStatus == OperationStatus.Not_Started)
+                    {
+                        // ok
+                    }
+                    else
+                    {
+                        if (operation.OperationStartDate != null && operation.OperationStatus != OperationStatus.Not_Started)
+                        {
+                            // ok
+                        }
+                        else
+                            throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
+                    }
+                }
+
+
+                /*
+                // check for OpStatus and OpStartDate
+                if (operation.OperationStartDate == null && operation.OperationStatus != OperationStatus.Not_Started)
+                    throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
+                             
                 if (operation.OperationStartDate == null || operation.OperationStatus == OperationStatus.Not_Started)
                     throw new OP_CanNot_Not_Started_Exception("Operation Can Not Be [Not_Started] !");
+                */
 
                 _op.OperationStartDate = operation.OperationStartDate;
                 _op.OperationStatus = operation.OperationStatus;
