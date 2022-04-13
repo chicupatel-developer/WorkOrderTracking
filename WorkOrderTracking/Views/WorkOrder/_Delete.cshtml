@@ -28,15 +28,6 @@
 </style>
 
 
-@{
-    string getWorkOrderStatus(WorkOrderStatus wos)
-    {
-        if (wos == 0)
-            return "Not Started";
-        return "<span>hihi</span>";
-    }
-}
-
 <div class="modal fade " id="deleteWO">
     <div class="modal-dialog">
         <div class="modal-content ">
@@ -83,16 +74,12 @@
                             if ((int)wos == 1)
                             {
                                 <span class="startRunning">@wos</span>
-                            }
+                            }                         
                             if ((int)wos == 2)
-                            {
-                                <span class="stopped">@wos</span>
-                            }
-                            if ((int)wos == 3)
                             {
                                 <span class="completed">@wos</span>
                             }
-                            if ((int)wos == 4)
+                            if ((int)wos == 3)
                             {
                                 <span class="cantComplete">@wos</span>
                             }

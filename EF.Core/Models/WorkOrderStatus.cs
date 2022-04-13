@@ -9,7 +9,6 @@ namespace EF.Core.Models
     {
         Not_Started,
         Start_Running,
-        Stopped,
         Completed,
         Can_Not_Complete
     }

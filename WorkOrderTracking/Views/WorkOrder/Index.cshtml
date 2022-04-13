@@ -9,9 +9,6 @@
     .startRunning {
         color: blue;
     }
-    .stopped {
-        color: Highlight;
-    }
     .completed {
         color: green;
     }
@@ -65,12 +62,10 @@
                 if (wos === 0)
                     return '<span class="notStarted">Not Started</span>';
                 if (wos === 1)
-                    return '<span class="startRunning">Start-Running</span>';
+                    return '<span class="startRunning">Start-Running</span>';               
                 if (wos === 2)
-                    return '<span class="stopped">Stopped</span>';
-                if (wos === 3)
                     return '<span class="completed">Completed</span>';
-                if (wos === 4)
+                if (wos === 3)
                     return '<span class="cantComplete">Can Not Complete</span>';
             }
 

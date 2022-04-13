@@ -1,9 +1,20 @@
-- if workorder-startdate is null then workorder-status must be 0 (not_started)
+- if workorder-startdate is null then workorder-status must be 0 (Not_Started)
 
-- if operation-startdate is null then operation-status must be 0 (not_started)
+- if operation-startdate is null then operation-status must be 0 (Not_Started)
 
 - workorder-operation combination is UNIQUE
 
-- if operation is NOT not_started and it's parent workorder is also not_started,,,
-then this parent workorder be start_running automatically at the time of
-updating this operation from not_started -> something else
+- when workorder is Start_Running,,, then and then 
+operation can be any of (Start_Running, Pause_Running, Completed, Can_Not_Complete) 
+
+- workorder-startdate must be <= it's any of operations'-startdate
+
+- once operation-startdate is not null && operation-status != Not_Started,,,
+then user can not do [ operation-startdate is null or operation-status == Not_Started ]
+
+- once workorder-startdate is not null && workorder-status != Not_Started,,,
+then user can not do [ workorder-startdate is null or workorder-status == Not_Started ]
+
+
+wip - if all operations of workorder is completed,,,
+then workorder must becomes completed automatically

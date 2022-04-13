@@ -142,7 +142,19 @@ namespace WorkOrderTracking.Controllers
                     }
                 }
             }
-            catch(OpStatus_OpStartDate_Exception opEx)
+            catch (OP_CanNot_Not_Started_Exception opcnnsEx)
+            {
+                retData.Message = opcnnsEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (OP_CanNot_Start_Running_Exception opcnsrEx)
+            {
+                retData.Message = opcnsrEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (OpStatus_OpStartDate_Exception opEx)
             {
                 retData.Message = opEx.Message;
                 retData.ModelErrors = new List<string>();

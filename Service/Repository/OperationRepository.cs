@@ -80,14 +80,12 @@ namespace Service.Repository
                 if (operation.OperationStartDate == null && operation.OperationStatus != OperationStatus.Not_Started)
                     throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
 
-                // 4
-                // check/edit for it's parent workorder status
-                if (operation.OperationStatus != OperationStatus.Not_Started && _op.WorkOrder.WorkOrderStatus == WorkOrderStatus.Not_Started)
-                {
-                    _op.WorkOrder.WorkOrderStatus = WorkOrderStatus.Start_Running;
-                    _op.WorkOrder.WorkOrderStartDate = operation.OperationStartDate;
-                }
+                // check for it's parent workorder status
+                if (operation.OperationStatus != OperationStatus.Not_Started && _op.WorkOrder.WorkOrderStatus != WorkOrderStatus.Start_Running)
+                    throw new OP_CanNot_Start_Running_Exception("WorkOrder Status Is Not [Start_Runing] !");
 
+                if (operation.OperationStartDate == null || operation.OperationStatus == OperationStatus.Not_Started)
+                    throw new OP_CanNot_Not_Started_Exception("Operation Can Not Be [Not_Started] !");
 
                 _op.OperationStartDate = operation.OperationStartDate;
                 _op.OperationStatus = operation.OperationStatus;

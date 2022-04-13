@@ -133,6 +133,12 @@ namespace WorkOrderTracking.Controllers
                     }
                 }
             }
+            catch (WO_CanNot_Not_Started_Exception wocnnsEx)
+            {
+                retData.Message = wocnnsEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
             catch (WoStatus_WoStartDate_Exception opEx)
             {
                 retData.Message = opEx.Message;

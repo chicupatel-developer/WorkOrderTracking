@@ -89,10 +89,38 @@ namespace Service.Repository
             var _wo = appDbContext.WorkOrders
                               .Where(x => x.WorkOrderId == workOrder.WorkOrderId).FirstOrDefault();
             if (_wo != null)
-            {
-                // check for OpStatus and OpStartDate
-                if (workOrder.WorkOrderStartDate == null && workOrder.WorkOrderStatus != WorkOrderStatus.Not_Started)
-                    throw new WoStatus_WoStartDate_Exception("[WorkOrder Start Date - WorkOrder Status] Data Invalid !");
+            {              
+                if(!(_wo.WorkOrderStartDate == null && _wo.WorkOrderStatus == WorkOrderStatus.Not_Started))
+                {
+                    if (workOrder.WorkOrderStartDate == null && workOrder.WorkOrderStatus == WorkOrderStatus.Not_Started)
+                        throw new WO_CanNot_Not_Started_Exception("WorkOrder Can Not Be [Not_Started] !");
+                    else
+                    {
+                        if(workOrder.WorkOrderStartDate==null)
+                            throw new WoStatus_WoStartDate_Exception("[WorkOrder Start Date - WorkOrder Status] Data Invalid !");
+                        if(workOrder.WorkOrderStatus==WorkOrderStatus.Not_Started)
+                            throw new WO_CanNot_Not_Started_Exception("WorkOrder Can Not Be [Not_Started] !");
+                    }
+                }
+
+                if (_wo.WorkOrderStartDate == null && _wo.WorkOrderStatus == WorkOrderStatus.Not_Started)
+                {
+                    if (workOrder.WorkOrderStartDate == null && workOrder.WorkOrderStatus == WorkOrderStatus.Not_Started)
+                    {
+                        // ok
+                    }
+                    else
+                    {
+                        if (workOrder.WorkOrderStartDate != null && workOrder.WorkOrderStatus != WorkOrderStatus.Not_Started)
+                        {
+                            // ok
+                        }
+                        else
+                            throw new WoStatus_WoStartDate_Exception("[WorkOrder Start Date - WorkOrder Status] Data Invalid !");
+                    }
+                }
+
+
 
                 _wo.WorkOrderStartDate = workOrder.WorkOrderStartDate;
                 _wo.WorkOrderStatus = workOrder.WorkOrderStatus;
