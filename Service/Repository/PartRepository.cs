@@ -88,14 +88,14 @@ namespace Service.Repository
             data.OperationId = operationId;
             data.PartList = new List<PartData>();
 
-            var opToPart_ = appDbContext.OperationToParts.Include(x=>x.Operation).Include(x => x.Operation.WorkOrder)
-                                .Where(x => x.OperationId == operationId).FirstOrDefault();
-            if (opToPart_ != null)
+            var op_ = appDbContext.Operations.Include(x => x.WorkOrder)
+                              .Where(x => x.OperationId == operationId).FirstOrDefault();
+            if (op_ != null)
             {
-                data.OperationNumber = opToPart_.Operation.OperationNumber;
-                data.WorkOrderId = opToPart_.Operation.WorkOrder.WorkOrderId;
+                data.OperationNumber = op_.OperationNumber;
+                data.WorkOrderId = op_.WorkOrder.WorkOrderId;
             }
-
+            
             var operationToParts = appDbContext.OperationToParts.Include(x=>x.Part)
                                     .Where(x => x.OperationId == operationId);
             if(operationToParts!=null && operationToParts.Count() > 0)
