@@ -108,22 +108,16 @@
                 #
             </th>
             <th>
-                OP
+                Operation
             </th>
             <th>
-                QTY Req.
-            </th>
-            <th>
-                QTY Done
-            </th>
-            <th>
-                OP Status
+                QTY 
             </th>
             <th>
                 OP Start Date
             </th>
             <th>
-                Op End Date
+                OP End Date
             </th>
             <th></th>
         </tr>
@@ -178,6 +172,10 @@
             }
             <td>
                 @opNumber
+                <br />
+                <span class="@GetClassFromOperationStatus(item.OperationStatus)">
+                    @Html.DisplayFor(modelItem => item.OperationStatus)
+                </span>
             </td>
 
 
@@ -194,17 +192,24 @@
             }
             <td>
                 <!-- @opdetails -->
-
-                @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                <span>
+                    Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                </span>
+                <br />
+                <span>
+                    Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
+                </span>                
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpQTYDone)
-            </td>
+         
 
+            <!--
+    <td class="@GetClassFromOperationStatus(item.OperationStatus)">
+        @Html.DisplayFor(modelItem => item.OperationStatus)
+        <br />
+        @opNumber
+    </td>
+        -->
 
-            <td class="@GetClassFromOperationStatus(item.OperationStatus)">
-                @Html.DisplayFor(modelItem => item.OperationStatus)
-            </td>
 
             @{
                 var opdate = "";

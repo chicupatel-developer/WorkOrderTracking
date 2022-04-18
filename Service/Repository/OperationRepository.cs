@@ -58,6 +58,8 @@ namespace Service.Repository
                 if (result)
                     throw new WO_OP_Unique_Exception("[Duplicate Operation For This WorkOrder] Data Invalid !");                                
             }
+            operation.OpQTYRequired = 0;
+            operation.OpQTYDone = 0;
             appDbContext.Operations.Add(operation);
             appDbContext.SaveChanges();
         }
@@ -115,6 +117,10 @@ namespace Service.Repository
                 if (operation.OperationStartDate!=null && (_op.WorkOrder.WorkOrderStartDate > operation.OperationStartDate))
                     throw new Invalid_OP_StartDate_Exception("Operation StarDate Must Be >= WorkOrder StartDate !");
 
+                // check for OpQTYDone >= OpQTYRequired 
+                if (operation.OperationStatus == OperationStatus.Completed && _op.OpQTYDone < _op.OpQTYRequired)
+                    throw new Invalid_OP_Status_Exception("Operation Can Not Be [Completed] !");
+
 
                 _op.OperationStartDate = operation.OperationStartDate;
                 _op.OperationStatus = operation.OperationStatus;
@@ -124,6 +130,7 @@ namespace Service.Repository
                 else
                     _op.OpQTYRequired = 0;
 
+               
                 appDbContext.SaveChanges();
             }
             else

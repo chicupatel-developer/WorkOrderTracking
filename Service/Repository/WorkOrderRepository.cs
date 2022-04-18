@@ -121,6 +121,21 @@ namespace Service.Repository
                 }
 
 
+                if (workOrder.WorkOrderStatus != _wo.WorkOrderStatus)
+                {
+                    var ops_ = appDbContext.Operations
+                           .Where(x => x.WorkOrderId == workOrder.WorkOrderId);
+                    if (ops_ != null && ops_.Count() > 0)
+                    {
+                        foreach (var op_ in ops_)
+                        {
+                            if (op_.OperationStatus != OperationStatus.Completed)
+                                throw new Invalid_WO_Status_Exception("WorkOrder Can Not Be [Completed] !");
+                        }
+                    }
+                }
+
+
                 // check for operation's start date and it's workorder's start date
                 // workorder-startdate<=operations'-startdate
                 if (workOrder.WorkOrderStartDate != null)
