@@ -1,4 +1,5 @@
-﻿@model EF.Core.DTO.PartHistoryData;
+﻿@using EF.Core.Models;
+@model EF.Core.DTO.PartHistoryData;
 
 <style>
     .partHistoryModal {
@@ -12,7 +13,7 @@
             <div class="modal-header partHistoryModal">
                 <h4 class="modal-title" id="partHistoryLabel">
                     Operation v/s Parts Data
-                </h4>            
+                </h4>
 
                 <button type="button" class="close" data-dismiss="modal">
                     <span>X</span>
@@ -20,44 +21,44 @@
             </div>
 
 
-            <div class="modal-body">             
+            <div class="modal-body">
 
                 <div>
                     @{
                         var opNumber = "";
-                        if (@Model.OperationNumber == (int)10)
+                        if (@Model.OperationNumber == (int)OperationNumber.Spindle)
                         {
                             opNumber = "Spindle - 10";
                         }
-                        if (@Model.OperationNumber == (int)20)
+                        if (@Model.OperationNumber == (int)OperationNumber.Hub_Single_Head)
                         {
                             opNumber = "Hub_Single_Head - 20";
                         }
-                        if (@Model.OperationNumber == (int)30)
+                        if (@Model.OperationNumber == (int)OperationNumber.Hub_Double_Head)
                         {
                             opNumber = "Hub_Double_Head - 30";
                         }
-                        if (@Model.OperationNumber == (int)40)
+                        if (@Model.OperationNumber == (int)OperationNumber.Push_Cups)
                         {
                             opNumber = "Push_Cups - 40";
                         }
-                        if (@Model.OperationNumber == (int)50)
+                        if (@Model.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
                         {
                             opNumber = "Assembly_Spindle_Hub - 50";
                         }
-                        if (@Model.OperationNumber == (int)60)
+                        if (@Model.OperationNumber == (int)OperationNumber.Paint)
                         {
                             opNumber = "Paint - 60";
                         }
-                        if (@Model.OperationNumber == (int)70)
+                        if (@Model.OperationNumber == (int)OperationNumber.Packaging)
                         {
                             opNumber = "Packaging - 70";
                         }
-                        if (@Model.OperationNumber == (int)80)
+                        if (@Model.OperationNumber == (int)OperationNumber.Rework_Spindle)
                         {
                             opNumber = "Rework_Spindle - 80";
                         }
-                        if (@Model.OperationNumber == (int)90)
+                        if (@Model.OperationNumber == (int)OperationNumber.Rework_Hub)
                         {
                             opNumber = "Rework_Hub - 90";
                         }
@@ -78,10 +79,12 @@
 
 
             <div class="modal-footer">
-                <button data-dismiss="modal" 
-                        id="cancel" 
-                        class="btn btn-default" 
-                        type="button">Close</button>            
+                <button data-dismiss="modal"
+                        id="cancel"
+                        class="btn btn-default"
+                        type="button">
+                    Close
+                </button>
             </div>
         </div>
     </div>

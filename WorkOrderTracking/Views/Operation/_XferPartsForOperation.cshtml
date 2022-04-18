@@ -37,39 +37,39 @@
                         <h5>WorkOrder # @ViewBag.WorkOrderId</h5>
                         @{
                             var opNumber = "";
-                            if (@ViewBag.OperationNumber == (int)10)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Spindle)
                             {
                                 opNumber = "Spindle - 10";
                             }
-                            if (@ViewBag.OperationNumber == (int)20)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Hub_Single_Head)
                             {
                                 opNumber = "Hub_Single_Head - 20";
                             }
-                            if (@ViewBag.OperationNumber == (int)30)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Hub_Double_Head)
                             {
                                 opNumber = "Hub_Double_Head - 30";
                             }
-                            if (@ViewBag.OperationNumber == (int)40)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Push_Cups)
                             {
                                 opNumber = "Push_Cups - 40";
                             }
-                            if (@ViewBag.OperationNumber == (int)50)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
                             {
                                 opNumber = "Assembly_Spindle_Hub - 50";
                             }
-                            if (@ViewBag.OperationNumber == (int)60)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Paint)
                             {
                                 opNumber = "Paint - 60";
                             }
-                            if (@ViewBag.OperationNumber == (int)70)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Packaging)
                             {
                                 opNumber = "Packaging - 70";
                             }
-                            if (@ViewBag.OperationNumber == (int)80)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Rework_Spindle)
                             {
                                 opNumber = "Rework_Spindle - 80";
                             }
-                            if (@ViewBag.OperationNumber == (int)90)
+                            if (@ViewBag.OperationNumber == (int)OperationNumber.Rework_Hub)
                             {
                                 opNumber = "Rework_Hub - 90";
                             }
