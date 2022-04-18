@@ -110,15 +110,11 @@ namespace Service.Repository
                     }
                 }
 
+                // check for operation's start date and it's workorder's start date
+                // workorder-startdate<=operations'-startdate                
+                if (operation.OperationStartDate!=null && (_op.WorkOrder.WorkOrderStartDate > operation.OperationStartDate))
+                    throw new Invalid_OP_StartDate_Exception("Operation StarDate Must Be >= WorkOrder StartDate !");
 
-                /*
-                // check for OpStatus and OpStartDate
-                if (operation.OperationStartDate == null && operation.OperationStatus != OperationStatus.Not_Started)
-                    throw new OpStatus_OpStartDate_Exception("[Operation Start Date - Operation Status] Data Invalid !");
-                             
-                if (operation.OperationStartDate == null || operation.OperationStatus == OperationStatus.Not_Started)
-                    throw new OP_CanNot_Not_Started_Exception("Operation Can Not Be [Not_Started] !");
-                */
 
                 _op.OperationStartDate = operation.OperationStartDate;
                 _op.OperationStatus = operation.OperationStatus;

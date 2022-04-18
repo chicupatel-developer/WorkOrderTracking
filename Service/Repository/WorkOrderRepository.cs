@@ -121,7 +121,22 @@ namespace Service.Repository
                 }
 
 
-
+                // check for operation's start date and it's workorder's start date
+                // workorder-startdate<=operations'-startdate
+                if (workOrder.WorkOrderStartDate != null)
+                {
+                    var ops_ = appDbContext.Operations
+                            .Where(x => x.WorkOrderId == workOrder.WorkOrderId);
+                    if (ops_ != null && ops_.Count() > 0)
+                    {
+                        foreach(var op_ in ops_)
+                        {
+                            if(op_.OperationStartDate<workOrder.WorkOrderStartDate)
+                                throw new Invalid_OP_StartDate_Exception("Operation StarDate Must Be >= WorkOrder StartDate !");
+                        }
+                    }
+                }            
+           
                 _wo.WorkOrderStartDate = workOrder.WorkOrderStartDate;
                 _wo.WorkOrderStatus = workOrder.WorkOrderStatus;
                 _wo.StatusNote = workOrder.StatusNote;
