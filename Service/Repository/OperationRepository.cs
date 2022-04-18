@@ -119,6 +119,10 @@ namespace Service.Repository
                 _op.OperationStartDate = operation.OperationStartDate;
                 _op.OperationStatus = operation.OperationStatus;
                 _op.Details = operation.Details;
+                if (operation.OpQTYRequired != null)
+                    _op.OpQTYRequired = operation.OpQTYRequired;
+                else
+                    _op.OpQTYRequired = 0;
 
                 appDbContext.SaveChanges();
             }

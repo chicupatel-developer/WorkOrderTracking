@@ -15,5 +15,28 @@ then user can not do [ workorder-startdate is null or workorder-status == Not_St
 
 - workorder-startdate must be <= it's any of operations'-startdate
 
-wip - if all operations of workorder is completed,,,
-then workorder must becomes completed automatically
+[Supervisor]
+- operation-startdate = first time when operation starts
+- operation-enddate = when operation ends
+
+- workorder-startdate = first time when workorder starts
+- workorder-enddate = when workorder ends
+
+wip - when OpQTYDone>=OpQTYRequired then,,,
+		- this operation-status can become operation-status-completed
+wip - when all operations for any workorder become
+	operation-status-completed then,,,
+		- workorder-status can become workorder-status-completed
+
+[Operator]							
+- operator can select 
+	workorder, 
+	operation-id / operation number,
+	operation-status (start-running/pause-running),
+		- start-running 
+			- Can not enter OpQtyDone
+			- operation-start-run-time
+		- pause-running 
+			- Must enter OpQtyDone
+			- operation-pause-run-time
+	op-time (hh:mm:ss)

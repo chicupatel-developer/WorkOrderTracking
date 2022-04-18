@@ -111,7 +111,10 @@
                 OP
             </th>
             <th>
-                OP Details
+                QTY Req.
+            </th>
+            <th>
+                QTY Done
             </th>
             <th>
                 OP Status
@@ -119,115 +122,138 @@
             <th>
                 OP Start Date
             </th>
+            <th>
+                Op End Date
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OperationId)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationId)
+            </td>
 
 
-                @{
-                    var opNumber = "";
-                    if (item.OperationNumber == (int)OperationNumber.Spindle)
-                    {
-                        opNumber = "Spindle - 10";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Hub_Single_Head)
-                    {
-                        opNumber = "Hub_Single_Head - 20";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                    {
-                        opNumber = "Hub_Double_Head - 30";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Push_Cups)
-                    {
-                        opNumber = "Push_Cups - 40";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                    {
-                        opNumber = "Assembly_Spindle_Hub - 50";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Paint)
-                    {
-                        opNumber = "Paint - 60";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Packaging)
-                    {
-                        opNumber = "Packaging - 70";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                    {
-                        opNumber = "Rework_Spindle - 80";
-                    }
-                    if (item.OperationNumber == (int)OperationNumber.Rework_Hub)
-                    {
-                        opNumber = "Rework_Hub - 90";
-                    }
+            @{
+                var opNumber = "";
+                if (item.OperationNumber == (int)OperationNumber.Spindle)
+                {
+                    opNumber = "Spindle - 10";
                 }
-                <td>
-                    @opNumber
-                </td>
-
-
-                @{
-                    var opdetails = "";
-                    if (item.Details != null)
-                    {
-                        opdetails = item.Details;
-                    }
-                    else
-                    {
-                        opdetails = "N/A";
-                    }
+                if (item.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                {
+                    opNumber = "Hub_Single_Head - 20";
                 }
-                <td>
-                    @opdetails
-                </td>
-                               
-              
-                <td class="@GetClassFromOperationStatus(item.OperationStatus)">
-                    @Html.DisplayFor(modelItem => item.OperationStatus)
-                </td>
-
-                @{
-                    var opdate = "";
-                    if (item.OperationStartDate != null)
-                    {
-                        opdate = item.OperationStartDate.Value.ToShortDateString();
-                    }
-                    else
-                    {
-                        opdate = "N/A";
-                    }
+                if (item.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                {
+                    opNumber = "Hub_Double_Head - 30";
                 }
-                <td>
-                    @opdate
-                </td>
+                if (item.OperationNumber == (int)OperationNumber.Push_Cups)
+                {
+                    opNumber = "Push_Cups - 40";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                {
+                    opNumber = "Assembly_Spindle_Hub - 50";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Paint)
+                {
+                    opNumber = "Paint - 60";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Packaging)
+                {
+                    opNumber = "Packaging - 70";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                {
+                    opNumber = "Rework_Spindle - 80";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Rework_Hub)
+                {
+                    opNumber = "Rework_Hub - 90";
+                }
+            }
+            <td>
+                @opNumber
+            </td>
 
-                <td>
-                    <button id="@item.OperationId"
-                            class='btn btn-primary opEdit'>
-                        Edit
-                    </button>
 
-                    <button id="@item.OperationId"
-                            opNumber="@opNumber"
-                            class='btn btn-success assignPart'>
-                        Assign Parts
-                    </button>
-                    <button id="@item.OperationId"
-                            opNumber="@opNumber"
-                            class='btn btn-info viewPartHistory'>
-                        Parts History
-                    </button>
-                </td>
-            </tr>
+            @{
+                var opdetails = "";
+                if (item.Details != null)
+                {
+                    opdetails = item.Details;
+                }
+                else
+                {
+                    opdetails = "N/A";
+                }
+            }
+            <td>
+                <!-- @opdetails -->
+
+                @Html.DisplayFor(modelItem => item.OpQTYRequired)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpQTYDone)
+            </td>
+
+
+            <td class="@GetClassFromOperationStatus(item.OperationStatus)">
+                @Html.DisplayFor(modelItem => item.OperationStatus)
+            </td>
+
+            @{
+                var opdate = "";
+                if (item.OperationStartDate != null)
+                {
+                    opdate = item.OperationStartDate.Value.ToShortDateString();
+                }
+                else
+                {
+                    opdate = "N/A";
+                }
+            }
+            <td>
+                @opdate
+            </td>
+
+            @{
+                var opEdate = "";
+                if (item.OperationEndDate != null)
+                {
+                    opEdate = item.OperationEndDate.Value.ToShortDateString();
+                }
+                else
+                {
+                    opEdate = "N/A";
+                }
+            }
+            <td>
+                @opEdate
+            </td>
+
+            <td>
+                <button id="@item.OperationId"
+                        class='btn btn-primary opEdit'>
+                    Edit
+                </button>
+
+                <button id="@item.OperationId"
+                        opNumber="@opNumber"
+                        class='btn btn-success assignPart'>
+                    Assign Parts
+                </button>
+                <button id="@item.OperationId"
+                        opNumber="@opNumber"
+                        class='btn btn-info viewPartHistory'>
+                    Parts History
+                </button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

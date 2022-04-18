@@ -95,6 +95,14 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label asp-for="OpQTYRequired" class="control-label"></label>
+                                        <input asp-for="OpQTYRequired"
+                                               class="form-control"
+                                               name="OpQTYRequired"
+                                               id="OpQTYRequired" />
+                                        <span asp-validation-for="OpQTYRequired" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
                                         <label asp-for="OperationStartDate" class="control-label"></label>
                                         <input asp-for="OperationStartDate"
                                                class="form-control"
@@ -110,7 +118,7 @@
                                                 asp-items="Html.GetEnumSelectList<OperationStatus>()"></select>
                                         <span asp-validation-for="OperationStatus" class="text-danger"></span>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label asp-for="Details" class="control-label"></label>
                                         <textarea asp-for="Details"

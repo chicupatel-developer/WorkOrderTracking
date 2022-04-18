@@ -29,6 +29,10 @@ namespace EF.Core.Models
         [Display(Name = "Status Note")]
         public string StatusNote { get; set; }
 
+        [Display(Name = "Work Order End Date")]
+        [DataType(DataType.Date)]
+        public DateTime? WorkOrderEndDate { get; set; }
+
         public ICollection<Operation> Operations { get; set; }
     }
 }

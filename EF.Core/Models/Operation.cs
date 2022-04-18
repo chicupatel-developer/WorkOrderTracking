@@ -31,6 +31,16 @@ namespace EF.Core.Models
         [DataType(DataType.Date)]
         public DateTime? OperationStartDate { get; set; }
 
+        [Display(Name = "Operation End Date")]
+        [DataType(DataType.Date)]
+        public DateTime? OperationEndDate { get; set; }
+
+        [Display(Name = "Operation QTY Required")]
+        public int? OpQTYRequired { get; set; }
+       
+        [Display(Name = "Operation QTY Done")]
+        public int? OpQTYDone { get; set; }
+
         public ICollection<OperationToPart> OperationToParts { get; set; }
 
     }

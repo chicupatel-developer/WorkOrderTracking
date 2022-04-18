@@ -42,6 +42,7 @@
             <th>#</th>
             <th>Customer</th>
             <th>WO Start Date</th>
+            <th>WO End Date</th>
             <th>WO Status</th>
             <th>Status Note</th>
             <th>Actions</th>
@@ -86,9 +87,19 @@
                         "data": "workOrderStartDate", render: function (data, type, row) {//data
 
                             if (row.workOrderStartDate == null) {
-                                return 'No - Date';
+                                return 'N/A';
                             } else {
                                 return moment(row.workOrderStartDate).format('DD MMM, YYYY');
+                            }
+                        }
+                    },
+                    {
+                        "data": "workOrderEndDate", render: function (data, type, row) {//data
+
+                            if (row.workOrderEndDate == null) {
+                                return 'N/A';
+                            } else {
+                                return moment(row.workOrderEndDate).format('DD MMM, YYYY');
                             }
                         }
                     },
@@ -97,7 +108,7 @@
                             return getWOStatus(row.workOrderStatus)
                         }
                     },
-                    { "data": "statusNote", "width": "25%" },
+                    { "data": "statusNote", "width": "15%" },
                     {
                         "data": null, "width": "25%", "defaultContent": "<button id='btnWOEdit' class='btn btn-primary'>Edit</button><span>|</span><button id='btnWODelete' class='btn btn-danger'>Delete</button><span>|</span><button id='btnOperations' class='btn btn-success'>Operations</button>"
                     },
