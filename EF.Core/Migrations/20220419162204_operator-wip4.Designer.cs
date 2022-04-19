@@ -4,14 +4,16 @@ using EF.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EF.Core.Migrations
 {
     [DbContext(typeof(WorkOrderTrackingContext))]
-    partial class WorkOrderTrackingContextModelSnapshot : ModelSnapshot
+    [Migration("20220419162204_operator-wip4")]
+    partial class operatorwip4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,13 +154,13 @@ namespace EF.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("OpPauseRunTime")
+                    b.Property<DateTime>("OpPauseRunTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("OpQtyDone")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("OpStartRunTime")
+                    b.Property<DateTime>("OpStartRunTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("OperationId")

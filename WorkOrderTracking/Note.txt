@@ -35,8 +35,8 @@ wip - when all operations for any workorder become
 	operation-status (start-running/pause-running),
 		- start-running 
 			- Can not enter OpQtyDone
-			- operation-start-run-time
+			- operation-start-run-time (auto(system date-time) - operator can not change time)
 		- pause-running 
 			- Must enter OpQtyDone
-			- operation-pause-run-time
+			- operation-pause-run-time (auto(system date-time) - operator can not change time)
 	op-time (hh:mm:ss)

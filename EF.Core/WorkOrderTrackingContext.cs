@@ -47,11 +47,19 @@ namespace EF.Core
             modelBuilder.Entity<OperationToPart>()
               .HasIndex(p => new { p.PartId, p.OperationId }).IsUnique();
 
+
+            // operator - operatoractivities
+            modelBuilder.Entity<Operator>()
+              .HasMany(a => a.OperatorActivities)
+              .WithOne(b => b.Operator);        
+
         }
         public DbSet<Part> Parts { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<CustomerOrder> CustomerOrders { get; set; }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<OperationToPart> OperationToParts { get; set; }
+        public DbSet<Operator> Operators { get; set; }
+        public DbSet<OperatorActivity> OperatorActivities { get; set; }
     }
 }

@@ -17,9 +17,9 @@
 
 <hr />
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-2">
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-8">
         <div class="container">
             <form id="opCreateForm"
                   name="opCreateForm"
@@ -29,51 +29,51 @@
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <label class="control-label">Work Order</label>
-                    @Html.DropDownList("WorkOrderId", (IEnumerable
-                                <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Work Order</label>
+                            @Html.DropDownList("WorkOrderId", (IEnumerable
+                                        <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OperationNumber" class="control-label"></label>
+                            <select asp-for="OperationNumber"
+                                    class="form-control"
+                                    asp-items="Html.GetEnumSelectList<OperationNumber>()"></select>
+                            <span asp-validation-for="OperationNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OperationStatus" class="control-label"></label>
+                            <select asp-for="OperationStatus"
+                                    class="form-control"
+                                    asp-items="Html.GetEnumSelectList<OperationStatus>()"></select>
+                            <span asp-validation-for="OperationStatus" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="OperationStartDate" class="control-label"></label>
+                            <input asp-for="OperationStartDate"
+                                   class="form-control"
+                                   name="OperationStartDate"
+                                   id="OperationStartDate" />
+                            <span asp-validation-for="OperationStartDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Details" class="control-label"></label>
+                            <textarea asp-for="Details"
+                                      class="form-control"
+                                      name="Details"
+                                      id="Details"
+                                      placeholder="details - ?">
+                            </textarea>
+                            <span asp-validation-for="Details" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-
-
-                <div class="form-group">
-                    <label asp-for="OperationNumber" class="control-label"></label>
-                    <select asp-for="OperationNumber"
-                            class="form-control"
-                            asp-items="Html.GetEnumSelectList<OperationNumber>()"></select>
-                    <span asp-validation-for="OperationNumber" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Details" class="control-label"></label>
-                    <textarea asp-for="Details"
-                              class="form-control"
-                              name="Details"
-                              id="Details"
-                              placeholder="details - ?">
-                     </textarea>
-                    <span asp-validation-for="Details" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="OperationStatus" class="control-label"></label>
-                    <select asp-for="OperationStatus"
-                            class="form-control"
-                            asp-items="Html.GetEnumSelectList<OperationStatus>()"></select>
-                    <span asp-validation-for="OperationStatus" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="OperationStartDate" class="control-label"></label>
-                    <input asp-for="OperationStartDate"
-                           class="form-control"
-                           name="OperationStartDate"
-                           id="OperationStartDate" />
-                    <span asp-validation-for="OperationStartDate" class="text-danger"></span>
-                </div>
-
-
-
                 <p></p>
                 <div class="form-group text-center">
                     <button type="button" class="btn btn-primary createOP">
@@ -83,7 +83,7 @@
             </form>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
     </div>
 </div>
 <div class="text-center">

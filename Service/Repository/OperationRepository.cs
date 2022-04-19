@@ -115,7 +115,7 @@ namespace Service.Repository
                 // check for operation's start date and it's workorder's start date
                 // workorder-startdate<=operations'-startdate                
                 if (operation.OperationStartDate!=null && (_op.WorkOrder.WorkOrderStartDate > operation.OperationStartDate))
-                    throw new Invalid_OP_StartDate_Exception("Operation StarDate Must Be >= WorkOrder StartDate !");
+                    throw new Invalid_OP_StartDate_Exception("Operation StartDate Must Be >= WorkOrder StartDate !");
 
                 // check for OpQTYDone >= OpQTYRequired 
                 if (operation.OperationStatus == OperationStatus.Completed && _op.OpQTYDone < _op.OpQTYRequired)
