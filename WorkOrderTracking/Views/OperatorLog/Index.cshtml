@@ -43,7 +43,14 @@
                             <label class="control-label">Work Order</label>
                             @Html.DropDownList("WorkOrderId", (IEnumerable
                                         <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
-                        </div>                     
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Operation</label>
+                            <select class="form-control"
+                                    id="OperationId"
+                                    name="OperationId">
+                            </select>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                       
@@ -72,8 +79,57 @@
 
             // disable some of the controls
             // $('#OperationStartDate').prop('readonly', true);
-            // $('#OperationStatus').prop('disabled', true);
+            $('#OperationId').prop('disabled', true);
 
+
+            $('#WorkOrderId').on('change', function () {
+                var woid = $(this).val(); // workorderid
+                $('#OperationId').prop('disabled', false);
+
+                $.ajax({
+                    type: "GET",
+                    url: "OperatorLog/GetOperations",
+                    data: "id=" + woid,
+                    success: function (data) {
+                        var s = '<option value="0">--Select Operation--</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                        }
+                        $("#OperationId").html(s);
+                    }
+                });
+            });
+
+         
+                        /*
+            $("body").on("change", "#WorkOrderId", function () {
+                // $("#WorkOrderId").val($(this).find("option:selected").text());
+                console.log($("#WorkOrderId").val($(this).find("option:selected").text()));
+            });
+                        */
+
+
+            function getOperations() {
+                var selectedVal = $("#WorkOrderId").value;
+                console.log(selectedVal);
+
+                /*
+                $.ajax({
+                    type: "GET",
+                    url: "OperatorLog/GetOperations/selectedVal",
+                    data: "{}",
+                    success: function (data) {
+                        var s = '<option value="0">--Select Operation--</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                        }
+                        $("#OperationId").html(s);
+                    }
+                });
+                */
+            };
+
+          
 
             $('.createOP').click(function () {
 

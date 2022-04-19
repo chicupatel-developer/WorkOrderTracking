@@ -36,5 +36,11 @@ namespace WorkOrderTracking.Controllers
 
             return View(workOrders);
         }
+
+        [HttpGet]
+        public JsonResult GetOperations(int id)
+        {            
+            return Json(_oprRepo.GetOperationList(id).ToList());
+        }
     }
 }
