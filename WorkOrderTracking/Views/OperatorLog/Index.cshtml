@@ -1,0 +1,94 @@
+﻿@using EF.Core.Models;
+
+@{
+    ViewData["Title"] = "Operator Home Page";
+}
+
+<style>
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
+</style>
+
+<div class="text-center">
+    <h3 class="display-6"><span class="titleSpan"><u>Operator - Log</u></span></h3>
+</div>
+
+<div class="container">
+    <div id="floater">
+    </div>
+    <div id="opStatus"></div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <div class="container">
+            <form id="opCreateForm"
+                  name="opCreateForm"
+                  asp-action="Create">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Work Order</label>
+                            @Html.DropDownList("WorkOrderId", (IEnumerable
+                                        <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
+                        </div>                     
+                    </div>
+                    <div class="col-sm-6">
+                      
+                    </div>
+                </div>
+                <p></p>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary createOP">
+                        Create New Operator-Log
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var errorCode = 0;
+
+            $('#floater').hide();
+
+            // disable some of the controls
+            // $('#OperationStartDate').prop('readonly', true);
+            // $('#OperationStatus').prop('disabled', true);
+
+
+            $('.createOP').click(function () {
+
+                var form = $('#opCreateForm');
+                // var actionUrl = form.attr('asp-action');
+                var actionUrl = 'Create';
+                var sendData = form.serialize();
+
+               
+            });
+
+        });
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

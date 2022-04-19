@@ -147,7 +147,7 @@ namespace Service.Repository
                         foreach(var op_ in ops_)
                         {
                             if(op_.OperationStartDate<workOrder.WorkOrderStartDate)
-                                throw new Invalid_OP_StartDate_Exception("Operation StarDate Must Be >= WorkOrder StartDate !");
+                                throw new Invalid_OP_StartDate_Exception("Operation StartDate Must Be >= WorkOrder StartDate !");
                         }
                     }
                 }            

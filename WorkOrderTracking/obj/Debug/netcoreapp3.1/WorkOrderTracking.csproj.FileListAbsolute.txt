@@ -20,8 +20,6 @@ C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\scopedcss\bundle\WorkOrd
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.TagHelpers.input.cache
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.TagHelpers.output.cache
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.RazorCoreGenerate.cache
-C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -156,3 +154,4 @@ C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\_E
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\WorkOrderTracking.MvcApplicationPartsAssemblyInfo.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Operation\_XferPartsForOperation.cshtml.g.cs
 C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\Part\_GetPartHistory.cshtml.g.cs
+C:\MVC-JQuery\WorkOrderTracking\obj\Debug\netcoreapp3.1\Razor\Views\OperatorLog\Index.cshtml.g.cs
