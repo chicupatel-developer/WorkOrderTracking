@@ -10,6 +10,7 @@ namespace Service.Interface
     public interface IOperatorLogRepository
     {
         List<SelectListItem> GetOperationList(int woid);
-        List<SelectListItem> GetWorkOrderList();      
+        List<SelectListItem> GetWorkOrderList();
+
     }
 }

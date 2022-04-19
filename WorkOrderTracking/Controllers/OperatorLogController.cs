@@ -34,7 +34,7 @@ namespace WorkOrderTracking.Controllers
             var workOrders = _oprRepo.GetWorkOrderList();
             ViewBag.WorkOrders = workOrders;
 
-            return View(workOrders);
+            return View();
         }
 
         [HttpGet]

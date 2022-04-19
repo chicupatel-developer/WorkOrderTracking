@@ -31,9 +31,15 @@ namespace EF.Core.Models
 
         [Required(ErrorMessage = "Operation Status is Required!")]
         [Display(Name = "Operation Status")]
-        public OperationStatus OperationStatus { get; set; }
+        public OperationStatusForOperator OperationStatus { get; set; }
+
+        [Display(Name = "QTY Done")]
         public int? OpQtyDone { get; set; }
+
+        [Display(Name = "[Start] Run Time")]
         public DateTime? OpStartRunTime { get; set; }
+
+        [Display(Name = "[Pause] Run Time")]
         public DateTime? OpPauseRunTime { get; set; }
     }
 }
