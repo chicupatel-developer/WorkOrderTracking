@@ -52,25 +52,27 @@ namespace Service.Repository
 
         public void AddOperatorLog(OperatorActivity operatorActivity)
         {
-            var op_ = appDbContext.Operations
-                           .Where(x => x.OperationId == operatorActivity.OperationId).FirstOrDefault();
-
-            if (operatorActivity.OperationStatus == OperationStatusForOperator.Start_Running)
+            // edit
+            // check for any previously running operator log
+            // operationstatus==0
+            var opLog = appDbContext.OperatorActivities
+                            // .Where(x => x.OperatorId == operatorActivity.OperatorId && x.OperationStatus == OperationStatusForOperator.Start_Running && x.WorkOrderId == operatorActivity.WorkOrderId && x.OperationId == operatorActivity.OperationId && x.OperationNumber == operatorActivity.OperationNumber).FirstOrDefault();
+                            .Where(x => x.OperatorId == operatorActivity.OperatorId && x.OperationStatus == OperationStatusForOperator.Start_Running ).FirstOrDefault();
+            if (opLog!=null)
             {
-                // start
-                operatorActivity.OpPauseRunTime = null;
-                operatorActivity.OpQtyDone = 0;
+                opLog.OpQtyDone = operatorActivity.OpQtyDone;
+                opLog.OperationStatus = operatorActivity.OperationStatus;
+                opLog.OpPauseRunTime = operatorActivity.OpPauseRunTime;
             }
+            // add
             else
             {
-                // pause
-                operatorActivity.OpStartRunTime = null;
+                var op_ = appDbContext.Operations
+                          .Where(x => x.OperationId == operatorActivity.OperationId).FirstOrDefault();
+                
+                operatorActivity.OperationNumber = (OperationNumber)op_.OperationNumber;
+                appDbContext.OperatorActivities.Add(operatorActivity);
             }
-            operatorActivity.OperationNumber = (OperationNumber)op_.OperationNumber;
-
-            operatorActivity.OperatorId = 1;
-
-            appDbContext.OperatorActivities.Add(operatorActivity);
             appDbContext.SaveChanges();
         }
 

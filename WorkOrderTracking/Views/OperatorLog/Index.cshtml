@@ -157,10 +157,18 @@
 
                 var form = $('#opCreateForm');
                 // var actionUrl = form.attr('asp-action');
-                var actionUrl = 'Create';
                 var sendData = form.serialize();
+                // var data = form.serialize() + '&OperatorId=' + 1;
+                var data = form.serialize() + '&OperatorId=' + 2;
+                var url = '@Url.Action("Create", "OperatorLog")';
 
-
+                $.post(url, data).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);                 
+                }).fail(function (error) {
+                    console.log("Ajax Call Error");
+                });
             });
 
         });
