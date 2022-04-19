@@ -50,6 +50,29 @@ namespace Service.Repository
             return datas;
         }
 
-       
+        public void AddOperatorLog(OperatorActivity operatorActivity)
+        {
+            var op_ = appDbContext.Operations
+                           .Where(x => x.OperationId == operatorActivity.OperationId).FirstOrDefault();
+
+            if (operatorActivity.OperationStatus == OperationStatusForOperator.Start_Running)
+            {
+                // start
+                operatorActivity.OpPauseRunTime = null;
+                operatorActivity.OpQtyDone = 0;
+            }
+            else
+            {
+                // pause
+                operatorActivity.OpStartRunTime = null;
+            }
+            operatorActivity.OperationNumber = (OperationNumber)op_.OperationNumber;
+
+            operatorActivity.OperatorId = 1;
+
+            appDbContext.OperatorActivities.Add(operatorActivity);
+            appDbContext.SaveChanges();
+        }
+
     }
 }

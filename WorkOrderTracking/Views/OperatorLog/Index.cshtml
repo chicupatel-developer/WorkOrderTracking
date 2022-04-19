@@ -37,7 +37,6 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
-
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -59,18 +58,31 @@
                                     id="OperationStatus"
                                     asp-items="Html.GetEnumSelectList<OperationStatusForOperator>()">
                             </select>
-                        </div>
+                        </div>                      
+                    </div>
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label asp-for="OpQtyDone" class="control-label"></label>
                             <input asp-for="OpQtyDone"
-                                      class="form-control"
-                                      name="OpQtyDone"
-                                      id="OpQtyDone"
-                                      placeholder="QTY Done - ?" />                            
+                                   class="form-control"
+                                   name="OpQtyDone"
+                                   id="OpQtyDone"
+                                   placeholder="QTY Done - ?" />
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-
+                        <div class="form-group">
+                            <label asp-for="OpStartRunTime" class="control-label"></label>
+                            <input asp-for="OpStartRunTime"
+                                   class="form-control"
+                                   name="OpStartRunTime"
+                                   id="OpStartRunTime" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OpPauseRunTime" class="control-label"></label>
+                            <input asp-for="OpPauseRunTime"
+                                   class="form-control"
+                                   name="OpPauseRunTime"
+                                   id="OpPauseRunTime" />
+                        </div>
                     </div>
                 </div>
                 <p></p>
@@ -98,6 +110,9 @@
             // $('#OperationStartDate').prop('readonly', true);
             $('#OperationId').prop('disabled', true);
             $('#OpQtyDone').prop('disabled', true);
+            $('#OpStartRunTime').prop('readonly', true);
+            $('#OpPauseRunTime').prop('readonly', true);
+
 
             $('#WorkOrderId').on('change', function () {
                 var woid = $(this).val(); // workorderid
@@ -117,20 +132,26 @@
                 });
             });
 
-
             $('#OperationStatus').on('change', function () {
                 var opStatus = $(this).val(); // int val,,, 0,1
                 console.log(opStatus);
 
-                if (opStatus == 1)
+                if (opStatus == 1) {
+                          // pause
                     $('#OpQtyDone').prop('disabled', false);
+                    $('#OpPauseRunTime').prop('readonly', false);
+                    $('#OpStartRunTime').prop('readonly', true);
+                    $('#OpStartRunTime').val('');
+                }
                 else {
+                          // start
                     $('#OpQtyDone').prop('disabled', true);
                     $('#OpQtyDone').val(0);
+                    $('#OpStartRunTime').prop('readonly', false);
+                    $('#OpPauseRunTime').prop('readonly', true);
+                    $('#OpPauseRunTime').val('');
                 }
-
             });
-
 
             $('.createOP').click(function () {
 
