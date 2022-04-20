@@ -1,0 +1,110 @@
+﻿@using Core.Auth.Authentication;
+@model Core.Auth.Authentication.LoginModel;
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
+</style>
+
+<div class="text-center">
+    <h3 class="display-6"><span class="titleSpan"><u>Login</u></span></h3>
+</div>
+
+<div class="container">
+    <div id="floater">
+    </div>
+    <div id="opStatus"></div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
+        <div class="container">
+            <form id="loginForm"
+                  name="loginForm"
+                  asp-action="Login">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username"
+                           class="form-control"
+                           name="Username"
+                           id="Username"
+                           placeholder="user name ?" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control"
+                           name="Password"
+                           id="Password"
+                           placeholder="password ?" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+
+                <p></p>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary login">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-4">
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var errorCode = 0;
+
+            $('#floater').hide();   
+
+            $('.login').click(function () {
+
+                var form = $('#loginForm');
+                var sendData = form.serialize();
+                var url = '@Url.Action("Login", "Authentication")';
+
+                console.log(sendData);
+
+                $.post(url, sendData).done(function (response) {
+                    console.log(response);
+                    console.log(response.response.responseCode);
+                    console.log(response.response.responseMessage);
+                
+                }).fail(function (response, error) {
+                    console.log("Ajax Call Error");
+                    console.log(response);
+                    console.log(response.responseJSON.response.responseCode);
+                    console.log(response.responseJSON.response.responseMessage);
+                });
+            });
+          
+
+        });
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

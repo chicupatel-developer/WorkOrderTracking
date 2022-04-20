@@ -1,0 +1,4 @@
+﻿EntityFrameworkCore\Add-Migration initial-auth-db-create -context Core.Auth.Authentication.ApplicationDbContext -OutputDir AuthenticationMigrations
+EntityFrameworkCore\update-database -context Core.Auth.Authentication.ApplicationDbContext
+
+
