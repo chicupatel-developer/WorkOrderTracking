@@ -52,28 +52,41 @@ namespace Service.Repository
 
         public void AddOperatorLog(OperatorActivity operatorActivity)
         {
-            // edit
-            // check for any previously running operator log
-            // operationstatus==0
-            var opLog = appDbContext.OperatorActivities
-                            // .Where(x => x.OperatorId == operatorActivity.OperatorId && x.OperationStatus == OperationStatusForOperator.Start_Running && x.WorkOrderId == operatorActivity.WorkOrderId && x.OperationId == operatorActivity.OperationId && x.OperationNumber == operatorActivity.OperationNumber).FirstOrDefault();
-                            .Where(x => x.OperatorId == operatorActivity.OperatorId && x.OperationStatus == OperationStatusForOperator.Start_Running ).FirstOrDefault();
-            if (opLog!=null)
+            // run
+            if (operatorActivity.OperationStatus == OperationStatusForOperator.Start_Running)
             {
-                opLog.OpQtyDone = operatorActivity.OpQtyDone;
-                opLog.OperationStatus = operatorActivity.OperationStatus;
-                opLog.OpPauseRunTime = operatorActivity.OpPauseRunTime;
-            }
-            // add
-            else
-            {
+                var opLog = appDbContext.OperatorActivities
+                               .Where(x => x.OperatorId == operatorActivity.OperatorId && x.OperationStatus == OperationStatusForOperator.Start_Running).FirstOrDefault();
+                if (opLog != null)
+                    throw new Invalid_Operator_Action_Exception("Operator Log Is Already Running ! First Pause Previous Log, Then Run New Log !");
+
                 var op_ = appDbContext.Operations
-                          .Where(x => x.OperationId == operatorActivity.OperationId).FirstOrDefault();
-                
+                        .Where(x => x.OperationId == operatorActivity.OperationId).FirstOrDefault();
+
                 operatorActivity.OperationNumber = (OperationNumber)op_.OperationNumber;
                 appDbContext.OperatorActivities.Add(operatorActivity);
+                appDbContext.SaveChanges();
             }
-            appDbContext.SaveChanges();
+            // pause
+            else
+            {
+                var opLog = appDbContext.OperatorActivities
+                             .Where(x => x.OperatorId == operatorActivity.OperatorId && x.OperationStatus == OperationStatusForOperator.Start_Running).FirstOrDefault();
+                if (opLog == null)
+                    throw new Invalid_Operator_Action_Exception("Operator Log Is Not Running ! First Run Your Log, Then Pause It !");
+
+                // check for same workorderid, operationid
+                if (opLog.WorkOrderId == operatorActivity.WorkOrderId && opLog.OperationId == operatorActivity.OperationId)
+                {
+                    opLog.OpQtyDone = operatorActivity.OpQtyDone;
+                    opLog.OperationStatus = operatorActivity.OperationStatus;
+                    opLog.OpPauseRunTime = operatorActivity.OpPauseRunTime;
+                    appDbContext.SaveChanges();
+                }
+                else
+                    throw new Invalid_Operator_LogData_Exception("Invalid Log Data ! Please Make Sure WorkOrder & Operation Data !");
+            
+            }
         }
 
     }

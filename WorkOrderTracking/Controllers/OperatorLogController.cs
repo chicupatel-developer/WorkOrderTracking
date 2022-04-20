@@ -73,7 +73,19 @@ namespace WorkOrderTracking.Controllers
                         }
                     }
                 }
-            }         
+            }
+            catch (Invalid_Operator_Action_Exception ioaEx)
+            {
+                retData.Message = ioaEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Invalid_Operator_LogData_Exception ioldEx)
+            {
+                retData.Message = ioldEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
             catch (Exception ex)
             {
                 retData.Message = "Server Error !";
