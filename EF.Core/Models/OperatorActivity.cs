@@ -41,5 +41,8 @@ namespace EF.Core.Models
 
         [Display(Name = "[Pause] Run Time")]
         public DateTime? OpPauseRunTime { get; set; }
+
+        [Display(Name = "[Cycle] Run Time")]
+        public TimeSpan? CycleTime { get; set; }
     }
 }

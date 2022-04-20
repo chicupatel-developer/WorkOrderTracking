@@ -53,11 +53,15 @@ namespace WorkOrderTracking.Controllers
             {              
                 if (ModelState.IsValid)
                 {
-                    _oprRepo.AddOperatorLog(operatorActivity);
+                    retData = DateAndQtyCheck(operatorActivity);
+                    if (retData.StatusCode == 0)
+                    {
+                        _oprRepo.AddOperatorLog(operatorActivity);
 
-                    retData.Message = "Operator-Log is Created !";
-                    retData.ModelErrors = new List<string>();
-                    retData.StatusCode = 0;                    
+                        retData.Message = "Operator-Log is Created !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = 0;
+                    }                                      
                 }
                 else
                 {
@@ -93,6 +97,49 @@ namespace WorkOrderTracking.Controllers
                 retData.StatusCode = -1;
             }
             return Json(new { Result = retData });
+        }
+        private OperationResult DateAndQtyCheck(OperatorActivity operatorActivity)
+        {
+            OperationResult retData = new OperationResult();
+            retData.StatusCode = 0;
+
+            if (operatorActivity.OperationStatus == OperationStatusForOperator.Start_Running && operatorActivity.OpStartRunTime==null)
+            {
+                ModelState.AddModelError("OpStartRunTime", "Operation Start Run Time Is Empty !");
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+            if (operatorActivity.OperationStatus == OperationStatusForOperator.Pause_Running && (operatorActivity.OpPauseRunTime == null || operatorActivity.OpQtyDone == null))
+            {
+                if(operatorActivity.OpPauseRunTime==null)
+                    ModelState.AddModelError("OpPauseRunTime", "Operation Pause Run Time Is Empty !");
+
+                if (operatorActivity.OpQtyDone == null)
+                    ModelState.AddModelError("OpQtyDone", "Operation Qty Done Is Empty !");
+
+                retData.Message = "Model is NOT Valid !";
+                retData.StatusCode = 1;
+                retData.ModelErrors = new List<string>();
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        string mError = error.ErrorMessage.ToString();
+                        retData.ModelErrors.Add(mError);
+                    }
+                }
+            }
+
+            return retData;
         }
     }
 }

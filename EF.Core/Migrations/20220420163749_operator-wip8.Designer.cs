@@ -4,14 +4,16 @@ using EF.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EF.Core.Migrations
 {
     [DbContext(typeof(WorkOrderTrackingContext))]
-    partial class WorkOrderTrackingContextModelSnapshot : ModelSnapshot
+    [Migration("20220420163749_operator-wip8")]
+    partial class operatorwip8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

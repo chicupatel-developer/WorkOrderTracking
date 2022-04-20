@@ -122,7 +122,7 @@
                     url: "OperatorLog/GetOperations",
                     data: "id=" + woid,
                     success: function (data) {
-                        var s = '<option value="0">--Select Operation--</option>';
+                        var s = '<option value="">--Select Operation--</option>';
                         for (var i = 0; i < data.length; i++) {
                             s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
                         }

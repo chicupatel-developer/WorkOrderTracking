@@ -81,6 +81,7 @@ namespace Service.Repository
                     opLog.OpQtyDone = operatorActivity.OpQtyDone;
                     opLog.OperationStatus = operatorActivity.OperationStatus;
                     opLog.OpPauseRunTime = operatorActivity.OpPauseRunTime;
+                    opLog.CycleTime = opLog.OpPauseRunTime.Value.Subtract(opLog.OpStartRunTime.Value);
                     appDbContext.SaveChanges();
                 }
                 else
