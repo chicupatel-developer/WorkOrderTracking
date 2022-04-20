@@ -69,7 +69,7 @@ namespace WorkOrderTracking
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=OperatorLog}/{action=Index}/{id?}");
             });
         }
     }
