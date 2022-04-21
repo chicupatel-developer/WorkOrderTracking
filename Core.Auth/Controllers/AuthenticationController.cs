@@ -55,7 +55,7 @@ namespace Core.Auth.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            var response = new Response();
+            OperationResult retData = new OperationResult();
             try
             {
                 // check for 500
@@ -90,40 +90,42 @@ namespace Core.Auth.Controllers
                             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                             );
 
-                        response.ResponseCode = 200;
-                        response.ResponseMessage = "Login Success !";
-
-                        return Ok(new
-                        {
-                            response = response,
-                            token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo,
-                            userName = model.Username,
-                            myRole = authClaims[2].Value
-                        });
+                        retData.Message = "Login Success !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = 0;
+                        retData.Token = new JwtSecurityTokenHandler().WriteToken(token);                        
+                        retData.Username = model.Username;
+                        retData.MyRole = authClaims[2].Value;
                     }
                     else
                     {
-                        response.ResponseCode = 401;
-                        response.ResponseMessage = "Username / Password Incorrect !";
-                        return BadRequest(new
-                        {
-                            response = response,
-                        });
+                        retData.Message = "Username / Password Incorrect !";
+                        retData.ModelErrors = new List<string>();
+                        retData.StatusCode = -1;                     
                     }
                 }
                 else
-                    return BadRequest(ModelState);
+                {
+                    retData.Message = "Model is NOT Valid !";
+                    retData.StatusCode = 1;
+                    retData.ModelErrors = new List<string>();
+                    foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            string mError = error.ErrorMessage.ToString();
+                            retData.ModelErrors.Add(mError);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                response.ResponseCode = 500;
-                response.ResponseMessage = "Server Error !";
-                return BadRequest(new
-                {
-                    response = response,
-                });
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;                
             }
+            return Json(new { Result = retData });
         }
 
 
