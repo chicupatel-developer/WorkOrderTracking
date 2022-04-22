@@ -1,0 +1,449 @@
+﻿@using EF.Core.Models;
+@model IEnumerable<EF.Core.Models.Operation>
+
+@{
+    ViewData["Title"] = "Work Order - Operations Home Page";
+}
+
+<style>
+    .headerDiv {
+        border: 2px solid black;
+    }
+
+    .zeroOperation {
+        color: red;
+        font-size: large;
+    }
+
+    .haveOperation {
+        color: blue;
+        font-size: x-large;
+    }
+
+    .customer {
+        color: blue;
+        font-size: x-large;
+    }
+
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
+
+    .notStarted {
+        color: red;
+    }
+
+    .startRunning {
+        color: blue;
+    }
+
+    .pauseRunning {
+        color: mediumpurple;
+        border: 2px solid red;
+    }
+
+    .completed {
+        color: green;
+    }
+
+    .cantComplete {
+        color: brown;
+    }
+</style>
+
+<div class="text-center">
+    <h3 class="display-6">Work Order --&gt;&gt; <span class="titleSpan"><u>[Operations]</u></span></h3>
+</div>
+<p></p>
+
+<div class="headerDiv">
+    <div class="text-center">
+        @{
+            if (Model.Count() > 0)
+            {
+                <span class="haveOperation">Work Order # @Model.FirstOrDefault().WorkOrderId</span>
+            }
+            else
+            {
+                <span class="zeroOperation">Work Order # @ViewBag.SelectedWorkOrderId has NO Operation !</span>
+            }
+        }
+    </div>
+    <div class="text-center">
+        @{
+            if (ViewBag.Customer != null)
+            {
+                <span class="customer">Customer : @ViewBag.Customer</span>
+            }
+            else
+            {
+                <span class="zeroOperation">Customer : N/A</span>
+            }
+        }
+    </div>
+</div>
+<p></p>
+
+
+<div>
+    <a asp-action="Create">Create - [Work Order - Operation]</a>
+</div>
+
+<!-- this will hold partial view (modal) -->
+<div id="PlaceHolderHere"></div>
+
+
+@functions{
+    public string GetClassFromOperationStatus(OperationStatus opStatus)
+    {
+        return opStatus == OperationStatus.Not_Started ? "notStarted" : opStatus == OperationStatus.Start_Running ? "startRunning" : opStatus == OperationStatus.Pause_Running ? "pauseRunning" : opStatus == OperationStatus.Completed ? "completed" : "cantComplete";
+    }
+}
+<p></p>
+<table class="table" id="operationsTable">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Operation
+            </th>
+            <th>
+                QTY 
+            </th>
+            <th>
+                OP Start Date
+            </th>
+            <th>
+                OP End Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationId)
+            </td>
+
+
+            @{
+                var opNumber = "";
+                if (item.OperationNumber == (int)OperationNumber.Spindle)
+                {
+                    opNumber = "Spindle - 10";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                {
+                    opNumber = "Hub_Single_Head - 20";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                {
+                    opNumber = "Hub_Double_Head - 30";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Push_Cups)
+                {
+                    opNumber = "Push_Cups - 40";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                {
+                    opNumber = "Assembly_Spindle_Hub - 50";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Paint)
+                {
+                    opNumber = "Paint - 60";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Packaging)
+                {
+                    opNumber = "Packaging - 70";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                {
+                    opNumber = "Rework_Spindle - 80";
+                }
+                if (item.OperationNumber == (int)OperationNumber.Rework_Hub)
+                {
+                    opNumber = "Rework_Hub - 90";
+                }
+            }
+            <td>
+                @opNumber
+                <br />
+                <span class="@GetClassFromOperationStatus(item.OperationStatus)">
+                    @Html.DisplayFor(modelItem => item.OperationStatus)
+                </span>
+            </td>
+
+
+            @{
+                var opdetails = "";
+                if (item.Details != null)
+                {
+                    opdetails = item.Details;
+                }
+                else
+                {
+                    opdetails = "N/A";
+                }
+            }
+            <td>
+                <!-- @opdetails -->
+                <span>
+                    Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                </span>
+                <br />
+                <span>
+                    Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
+                </span>                
+            </td>
+         
+
+            <!--
+    <td class="@GetClassFromOperationStatus(item.OperationStatus)">
+        @Html.DisplayFor(modelItem => item.OperationStatus)
+        <br />
+        @opNumber
+    </td>
+        -->
+
+
+            @{
+                var opdate = "";
+                if (item.OperationStartDate != null)
+                {
+                    opdate = item.OperationStartDate.Value.ToShortDateString();
+                }
+                else
+                {
+                    opdate = "N/A";
+                }
+            }
+            <td>
+                @opdate
+            </td>
+
+            @{
+                var opEdate = "";
+                if (item.OperationEndDate != null)
+                {
+                    opEdate = item.OperationEndDate.Value.ToShortDateString();
+                }
+                else
+                {
+                    opEdate = "N/A";
+                }
+            }
+            <td>
+                @opEdate
+            </td>
+
+            <td>
+                <button id="@item.OperationId"
+                        class='btn btn-primary opEdit'>
+                    Edit
+                </button>
+
+                <button id="@item.OperationId"
+                        opNumber="@opNumber"
+                        class='btn btn-success assignPart'>
+                    Assign Parts
+                </button>
+                <button id="@item.OperationId"
+                        opNumber="@opNumber"
+                        class='btn btn-info viewPartHistory'>
+                    Parts History
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var PlaceHolderElement = $('#PlaceHolderHere');
+
+            var errorCode = 0;
+
+            // get
+            // all part(s) history from operationid
+            $('.viewPartHistory').click(function () {
+                var operationId = $(this).attr("id");
+                console.log(operationId);
+
+                var url = '@Url.Action("GetPartHistory", "Part")' + '\\' + operationId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+
+
+            // assign parts for operation
+            // get
+            $('.assignPart').click(function () {
+                var operationId = $(this).attr("id");
+                console.log(operationId);
+
+                var opNumber = $(this).attr("opNumber");
+                console.log(opNumber);
+
+
+                var url = '@Url.Action("XferPartsForOperation", "Operation")' + '\\' + operationId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+            // assign parts for operation
+            // post
+            PlaceHolderElement.on('click', '.xferPartOp', function (event) {
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr('action');
+                var sendData = form.serialize();
+
+                var url = '@Url.Action("XferPartsForOperation", "Operation")';
+
+                $.post(url, sendData).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);
+                    var mErrors = '';
+                    if (response.result.statusCode == 0) {
+                        errorCode = 0;
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == -1) {
+                        errorCode = -1;
+                        bkTimer(response.result);
+                        // resetUI();
+                    }
+                    else if (response.result.statusCode == 1) {
+                        errorCode = 1;
+                        // model error
+                        mErrors += '<font color="red">';
+                        mErrors += response.result.message;
+                        mErrors += "<ul>";
+                        $.each(response.result.modelErrors, function (key, value) {
+                            mErrors += "<li>" + value + "</li>";
+                        });
+                        mErrors += "</ul></font>";
+                    }
+                    else {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    $('#opStatus').html(mErrors);
+                });
+            });
+
+            // edit
+            // get
+            $('.opEdit').click(function () {
+                var operationId = $(this).attr("id");
+                console.log(operationId);
+
+                var url = '@Url.Action("Edit", "Operation")' + '\\' + operationId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+            // edit - delete
+            // post
+            PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr('action');
+                var sendData = form.serialize();
+
+                var url = '@Url.Action("Edit", "Operation")';
+
+                $.post(url, sendData).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);
+                    var mErrors = '';
+                    if (response.result.statusCode == 0) {
+                        errorCode = 0;
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == -1) {
+                        errorCode = -1;
+                        bkTimer(response.result);
+                        // resetUI();
+                    }
+                    else if (response.result.statusCode == 1) {
+                        errorCode = 1;
+                        // model error
+                        mErrors += '<font color="red">';
+                        mErrors += response.result.message;
+                        mErrors += "<ul>";
+                        $.each(response.result.modelErrors, function (key, value) {
+                            mErrors += "<li>" + value + "</li>";
+                        });
+                        mErrors += "</ul></font>";
+                    }
+                    else {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    $('#opStatus').html(mErrors);
+                });
+            });
+
+            // success / dal error
+            function bkTimer(result) {
+                var div = $("#floater");
+                var content = '';
+                if (result.statusCode == 0) {
+                    content += '<img src="../../Images/success.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="green">' + result.message + '</font>';
+                }
+                else if (result.statusCode == -1) {
+                    content += '<img src="../../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.message + '</font>';
+                }
+                else {
+                    content += '<img src="../../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.Message + '</font>';
+                }
+                div.html(content);
+                div.fadeIn("slow");
+
+                if (errorCode == 0) {
+                    div.queue(function () {
+                        setTimeout(function () {
+                            div.dequeue();
+
+                            PlaceHolderElement.find('.modal').modal('hide');
+                            window.location.reload(true);
+
+                        }, 3000);
+                    });
+                    div.fadeOut("fast");
+                }
+                else {
+
+                }
+            };
+            function resetUI() {
+                $('#Details').val('');
+                $('#OperationStatus').val(0);
+                $('#OperationStartDate').val('');
+            };
+        });
+    </script>
+}

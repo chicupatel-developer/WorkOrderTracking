@@ -1,0 +1,73 @@
+﻿@model EF.Core.Models.CustomerOrder;
+
+<style>
+    .deleteModal{
+        background-color:lightcoral;
+    }
+</style>
+
+<div class="modal fade " id="deleteCO">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="modal-header deleteModal">
+                <h4 class="modal-title" id="deleteCOLabel">
+                    Are you sure want to delete !!!
+                </h4>            
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                
+                <div id="floater"></div>
+                <div id="opStatus"></div>
+                <p></p>
+
+                <div>
+                    <h5>Customer Order # @Model.CustomerOrderId</h5>
+                    <h5>Customer Name : @Model.CustomerName</h5>
+                    <span>Product : @Model.ProductName</span>
+                    <br />
+                    <span>Product Desc : @Model.ProductDesc</span>
+                    <br />
+                    <span>Order QTY : @Model.OrderQuantity</span>
+                    <br />
+                    <span>Order Date : @Model.OrderDate.Value.Date.ToString("dd-MMM-yyyy")</span>
+                </div>
+
+                <form action="CustomerOrder/Delete">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.HiddenFor(model => model.CustomerOrderId)                        
+                    </div>                  
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
+                <button class="btn btn-primary"
+                        data-save="modal"
+                        type="button">
+                    Delete Customer Order
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,13 @@
+using EF.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service.Interface;
+using Service.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +29,21 @@ namespace MVCCore.Auth
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            #region Repositories
+            services.AddTransient<IWorkOrderRepository, WorkOrderRepository>();
+            services.AddTransient<ICustomerOrderRepository, CustomerOrderRepository>();
+            services.AddTransient<IPartRepository, PartRepository>();
+            services.AddTransient<IOperationRepository, OperationRepository>();
+            services.AddTransient<IOperatorLogRepository, OperatorLogRepository>();
+            #endregion
+
+            #region WorkOrderTrackingContext
+            services.AddDbContext<WorkOrderTrackingContext>(options =>
+                    options.UseSqlServer(
+                      Configuration.GetConnectionString("WorkOrderTrackingConnection"),
+                      b => b.MigrationsAssembly(typeof(WorkOrderTrackingContext).Assembly.FullName)));
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,94 @@
+﻿@using EF.Core.Models;
+@model EF.Core.Models.WorkOrder;
+
+
+@{
+    ViewData["Title"] = "New - Work Order";
+}
+
+<div class="container">
+    <h3>New Work Order</h3>
+</div>
+<div class="container">
+    <div id="floater">
+    </div>
+    <div id="opStatus"></div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <div class="container">
+            <form id="woCreateForm"
+                  name="woCreateForm"
+                  asp-action="Create">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Customer Order</label>
+                            @Html.DropDownList("CustomerOrderId", (IEnumerable
+                                        <SelectListItem>)ViewBag.CustomerOrders, "--Select Customer Order--", new { @id = "CustomerOrderId", @class = "form-control", })
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="WorkOrderStartDate" class="control-label"></label>
+                            <input asp-for="WorkOrderStartDate"
+                                   class="form-control"
+                                   name="WorkOrderStartDate"
+                                   id="WorkOrderStartDate" />
+                            <span asp-validation-for="WorkOrderStartDate" class="text-danger"></span>
+                        </div>                        
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="WorkOrderStatus" class="control-label"></label>
+                            <select asp-for="WorkOrderStatus"
+                                    class="form-control"
+                                    asp-items="Html.GetEnumSelectList<WorkOrderStatus>()"></select>
+                            <span asp-validation-for="WorkOrderStatus" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StatusNote" class="control-label"></label>
+                            <textarea asp-for="StatusNote"
+                                      class="form-control"
+                                      name="StatusNote"
+                                      id="StatusNote"
+                                      placeholder="status note - ?">
+                            </textarea>
+                            <span asp-validation-for="StatusNote" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary createWO">
+                        Create New Work Order
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+
+    <script src="~/js/createWorkOrder_.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
+
+

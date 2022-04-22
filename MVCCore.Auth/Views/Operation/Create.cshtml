@@ -1,0 +1,201 @@
+﻿@using EF.Core.Models;
+@model EF.Core.Models.Operation;
+
+
+@{
+    ViewData["Title"] = "New - Operation";
+}
+
+<div class="container">
+    <h3>New Operation</h3>
+</div>
+<div class="container">
+    <div id="floater">
+    </div>
+    <div id="opStatus"></div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <div class="container">
+            <form id="opCreateForm"
+                  name="opCreateForm"
+                  asp-action="Create">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Work Order</label>
+                            @Html.DropDownList("WorkOrderId", (IEnumerable
+                                        <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OperationNumber" class="control-label"></label>
+                            <select asp-for="OperationNumber"
+                                    class="form-control"
+                                    asp-items="Html.GetEnumSelectList<OperationNumber>()"></select>
+                            <span asp-validation-for="OperationNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OperationStatus" class="control-label"></label>
+                            <select asp-for="OperationStatus"
+                                    class="form-control"
+                                    asp-items="Html.GetEnumSelectList<OperationStatus>()"></select>
+                            <span asp-validation-for="OperationStatus" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="OperationStartDate" class="control-label"></label>
+                            <input asp-for="OperationStartDate"
+                                   class="form-control"
+                                   name="OperationStartDate"
+                                   id="OperationStartDate" />
+                            <span asp-validation-for="OperationStartDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Details" class="control-label"></label>
+                            <textarea asp-for="Details"
+                                      class="form-control"
+                                      name="Details"
+                                      id="Details"
+                                      placeholder="details - ?">
+                            </textarea>
+                            <span asp-validation-for="Details" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary createOP">
+                        Create New Operation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+    </div>
+</div>
+<div class="text-center">
+    <a asp-controller="WorkOrder" asp-action="">Back</a>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var errorCode = 0;
+
+            $('#floater').hide();
+
+            // disable some of the controls
+            $('#OperationStartDate').prop('readonly', true);
+            $('#OperationStatus').prop('disabled', true);
+
+
+            $('.createOP').click(function () {
+
+                var form = $('#opCreateForm');
+                // var actionUrl = form.attr('asp-action');
+                var actionUrl = 'Create';
+                var sendData = form.serialize();
+
+                $.post(actionUrl, sendData).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);
+
+                    var mErrors = '';
+                    if (response.result.statusCode == 0) {
+                        errorCode = 0;
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == -1) {
+                        errorCode = -1;
+                        bkTimer(response.result);
+                        // resetUI();
+                    }
+                    else if (response.result.statusCode == 1) {
+                        errorCode = 1;
+                        // model error
+                        mErrors += '<font color="red">';
+                        mErrors += response.result.message;
+                        mErrors += "<ul>";
+                        $.each(response.result.modelErrors, function (key, value) {
+                            mErrors += "<li>" + value + "</li>";
+                        });
+                        mErrors += "</ul></font>";
+                    }
+                    else {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    $('#opStatus').html(mErrors);
+                }).fail(function (error) {
+                    alert("Ajax Call Error");
+                });
+            });
+
+            // success / dal error
+            function bkTimer(result) {
+                var div = $("#floater");
+                var content = '';
+                if (result.statusCode == 0) {
+                    content += '<img src="../Images/success.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="green">' + result.message + '</font>';
+                }
+                else if (result.statusCode == -1) {
+                    content += '<img src="../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.message + '</font>';
+                }
+                else {
+                    content += '<img src="../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.Message + '</font>';
+                }
+                div.html(content);
+                div.fadeIn("slow");
+
+                if (errorCode == 0) {
+                    console.log('error code = 0');
+                    div.queue(function () {
+                        setTimeout(function () {
+                            div.dequeue();
+                        }, 3000);
+                    });
+                    div.fadeOut("fast");
+                }
+                /*
+                else {
+                    console.log('error code != 0');
+                    $('#floater').show();
+                }
+                */
+            };
+
+            function resetUI() {
+                $('#OperationNumber').val(10);
+                $('#Details').val('');
+                $('#OperationStatus').val(0);
+                $('#WorkOrderId').val('');
+            };
+        });
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
+
+

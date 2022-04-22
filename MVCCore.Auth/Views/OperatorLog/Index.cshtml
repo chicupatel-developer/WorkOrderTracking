@@ -1,0 +1,248 @@
+﻿@using EF.Core.Models;
+@model EF.Core.Models.OperatorActivity;
+
+@{
+    ViewData["Title"] = "Operator Home Page";
+}
+
+<style>
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
+</style>
+
+<div class="text-center">
+    <h3 class="display-6"><span class="titleSpan"><u>Operator - Log</u></span></h3>
+</div>
+
+<div class="container">
+    <div id="floater">
+    </div>
+    <div id="opStatus"></div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <div class="container">
+            <form id="opCreateForm"
+                  name="opCreateForm"
+                  asp-action="Create">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Work Order</label>
+                            @Html.DropDownList("WorkOrderId", (IEnumerable
+                                        <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Operation</label>
+                            <select class="form-control"
+                                    id="OperationId"
+                                    name="OperationId">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Operation Status</label>
+                            <select asp-for="OperationStatus"
+                                    class="form-control"
+                                    id="OperationStatus"
+                                    asp-items="Html.GetEnumSelectList<OperationStatusForOperator>()">
+                            </select>
+                        </div>                      
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="OpQtyDone" class="control-label"></label>
+                            <input asp-for="OpQtyDone"
+                                   class="form-control"
+                                   name="OpQtyDone"
+                                   id="OpQtyDone"
+                                   placeholder="QTY Done - ?" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OpStartRunTime" class="control-label"></label>
+                            <input asp-for="OpStartRunTime"
+                                   class="form-control"
+                                   name="OpStartRunTime"
+                                   id="OpStartRunTime" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OpPauseRunTime" class="control-label"></label>
+                            <input asp-for="OpPauseRunTime"
+                                   class="form-control"
+                                   name="OpPauseRunTime"
+                                   id="OpPauseRunTime" />
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary createOP">
+                        Create New Operator-Log
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var errorCode = 0;
+
+            $('#floater').hide();
+
+            // disable some of the controls
+            $('#OperationId').prop('disabled', true);
+            $('#OpQtyDone').prop('disabled', true);
+            // $('#OpStartRunTime').prop('readonly', true);
+            $('#OpPauseRunTime').prop('readonly', true);
+
+
+            $('#WorkOrderId').on('change', function () {
+                var woid = $(this).val(); // workorderid
+                $('#OperationId').prop('disabled', false);
+
+                $.ajax({
+                    type: "GET",
+                    url: "OperatorLog/GetOperations",
+                    data: "id=" + woid,
+                    success: function (data) {
+                        var s = '<option value="">--Select Operation--</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                        }
+                        $("#OperationId").html(s);
+                    }
+                });
+            });
+
+            $('#OperationStatus').on('change', function () {
+                var opStatus = $(this).val(); // int val,,, 0,1
+                console.log(opStatus);
+
+                if (opStatus == 1) {
+                          // pause
+                    $('#OpQtyDone').prop('disabled', false);
+                    $('#OpPauseRunTime').prop('readonly', false);
+                    $('#OpStartRunTime').prop('readonly', true);
+                    $('#OpStartRunTime').val('');
+                }
+                else {
+                          // start
+                    $('#OpQtyDone').prop('disabled', true);
+                    $('#OpQtyDone').val(0);
+                    $('#OpStartRunTime').prop('readonly', false);
+                    $('#OpPauseRunTime').prop('readonly', true);
+                    $('#OpPauseRunTime').val('');
+                }
+            });
+
+            $('.createOP').click(function () {
+
+                var form = $('#opCreateForm');
+                // var actionUrl = form.attr('asp-action');
+                var sendData = form.serialize();
+                // var data = form.serialize() + '&OperatorId=' + 1;
+                var data = form.serialize() + '&OperatorId=' + 2;
+                var url = '@Url.Action("Create", "OperatorLog")';
+
+                $.post(url, data).done(function (response) {
+                    console.log(response);
+                    console.log(response.result.statusCode);
+                    console.log(response.result.message);
+                    var mErrors = '';
+                    if (response.result.statusCode == 0) {
+                        errorCode = 0;
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    else if (response.result.statusCode == -1) {
+                        errorCode = -1;
+                        bkTimer(response.result);
+                        // resetUI();
+                    }
+                    else if (response.result.statusCode == 1) {
+                        errorCode = 1;
+                        // model error
+                        mErrors += '<font color="red">';
+                        mErrors += response.result.message;
+                        mErrors += "<ul>";
+                        $.each(response.result.modelErrors, function (key, value) {
+                            mErrors += "<li>" + value + "</li>";
+                        });
+                        mErrors += "</ul></font>";
+                    }
+                    else {
+                        bkTimer(response.result);
+                        resetUI();
+                    }
+                    $('#opStatus').html(mErrors);
+                }).fail(function (error) {
+                    console.log("Ajax Call Error");
+                });
+            });
+            // success / dal error
+            function bkTimer(result) {
+                var div = $("#floater");
+                var content = '';
+                if (result.statusCode == 0) {
+                    content += '<img src="../../Images/success.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="green">' + result.message + '</font>';
+                }
+                else if (result.statusCode == -1) {
+                    content += '<img src="../../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.message + '</font>';
+                }
+                else {
+                    content += '<img src="../../Images/error.png" style = "width:50px;height:50px;" /> ';
+                    content += '<font color="red">' + result.Message + '</font>';
+                }
+                div.html(content);
+                div.fadeIn("slow");
+
+                if (errorCode == 0) {
+                    div.queue(function () {
+                        setTimeout(function () {
+                            div.dequeue();   
+                        }, 3000);
+                    });
+                    div.fadeOut("fast");
+                }
+            };
+            function resetUI() {
+                $('#WorkOrderId').val('');
+                $('#OperationId').val('');
+                $('#OperationStatus').val(0);
+                $('#OpQtyDone').val(0);
+                $('#OpStartRunTime').val('');
+                $('#OpPauseRunTime').val('');
+
+                $('#OperationId').prop('disabled', true);
+                $('#OpQtyDone').prop('disabled', true);
+                $('#OpPauseRunTime').prop('readonly', true);
+                $('#OpStartRunTime').prop('readonly', false);
+
+            };
+
+        });
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

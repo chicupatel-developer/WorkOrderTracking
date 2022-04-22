@@ -1,0 +1,62 @@
+﻿@model EF.Core.Models.CustomerOrder;
+
+<style>
+    .detailsModal{
+        background-color:lightgreen;
+    }
+    .h6Text {
+        color : red;
+    }
+</style>
+
+<div class="modal fade " id="detailsCO">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="modal-header detailsModal">
+                <h4 class="modal-title" id="detailsCOLabel">
+                    Customer Order Details !!!
+                </h4>            
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+           
+                <div>
+                    <h5>Customer Order # @Model.CustomerOrderId</h5>
+                    <h5>Customer Name : @Model.CustomerName</h5>
+                    <span>Product : @Model.ProductName</span>
+                    <br />
+                    <span>Product Desc : @Model.ProductDesc</span>
+                    <br />
+                    <h6 class="h6Text">
+                        Order QTY : @Model.OrderQuantity
+                    </h6>
+                    <h6>Order Date : @Model.OrderDate.Value.Date.ToString("dd-MMM-yyyy")</h6>
+                    <h6 class="h6Text">Order Due Date : @Model.OrderDueDate.Value.Date.ToString("dd-MMM-yyyy")</h6>
+                </div>               
+            </div>
+
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Close</button>            
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

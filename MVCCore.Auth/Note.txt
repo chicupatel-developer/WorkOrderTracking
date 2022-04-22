@@ -1,0 +1,42 @@
+- if workorder-startdate is null then workorder-status must be 0 (Not_Started)
+
+- if operation-startdate is null then operation-status must be 0 (Not_Started)
+
+- workorder-operation combination is UNIQUE
+
+- when workorder is Start_Running,,, then and then 
+operation can be any of (Start_Running, Pause_Running, Completed, Can_Not_Complete) 
+
+- once operation-startdate is not null && operation-status != Not_Started,,,
+then user can not do [ operation-startdate is null or operation-status == Not_Started ]
+
+- once workorder-startdate is not null && workorder-status != Not_Started,,,
+then user can not do [ workorder-startdate is null or workorder-status == Not_Started ]
+
+- workorder-startdate must be <= it's any of operations'-startdate
+
+[Supervisor]
+- operation-startdate = first time when operation starts
+- operation-enddate = when operation ends
+
+- workorder-startdate = first time when workorder starts
+- workorder-enddate = when workorder ends
+
+wip - when OpQTYDone>=OpQTYRequired then,,,
+		- this operation-status can become operation-status-completed
+wip - when all operations for any workorder become
+	operation-status-completed then,,,
+		- workorder-status can become workorder-status-completed
+
+[Operator]							
+- operator can select 
+	workorder, 
+	operation-id / operation number,
+	operation-status (start-running/pause-running),
+		- start-running 
+			- Can not enter OpQtyDone
+			- operation-start-run-time (auto(system date-time) - operator can not change time)
+		- pause-running 
+			- Must enter OpQtyDone
+			- operation-pause-run-time (auto(system date-time) - operator can not change time)
+	op-time (hh:mm:ss)
