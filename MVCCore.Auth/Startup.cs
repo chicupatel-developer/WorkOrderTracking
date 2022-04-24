@@ -44,6 +44,24 @@ namespace MVCCore.Auth
                       Configuration.GetConnectionString("WorkOrderTrackingConnection"),
                       b => b.MigrationsAssembly(typeof(WorkOrderTrackingContext).Assembly.FullName)));
             #endregion
+
+            /*
+            #region authorization policy
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("Admin");
+                    });           
+                options.AddPolicy("Operator",
+                 authBuilder =>
+                 {
+                     authBuilder.RequireRole("Operator");
+                 });
+            });
+            #endregion
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,12 +20,30 @@ namespace MVCCore.Auth.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DbContextConnection")));
 
-                services.AddDefaultIdentity<ApplicationUser>(options => 
-                { options.SignIn.RequireConfirmedAccount = false;
+                services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                 })
-                        .AddEntityFrameworkStores<AuthContext>();                    
+                     .AddEntityFrameworkStores<AuthContext>();
+
+                #region authorization policy
+                services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("Admin",
+                        authBuilder =>
+                        {
+                            authBuilder.RequireRole("Admin");
+                        });
+                    options.AddPolicy("Operator",
+                     authBuilder =>
+                     {
+                         authBuilder.RequireRole("Operator");
+                     });
+                });
+                #endregion
+
             });
         }
     }

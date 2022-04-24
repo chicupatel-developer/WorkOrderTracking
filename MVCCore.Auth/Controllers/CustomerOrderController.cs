@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MVCCore.Auth.Controllers
 {
-    [Authorize]
+    // [Authorize]
+    [Authorize("Admin")]
     public class CustomerOrderController : Controller
     {
         private readonly ILogger<CustomerOrderController> _logger;

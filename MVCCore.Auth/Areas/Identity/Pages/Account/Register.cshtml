@@ -1,5 +1,8 @@
 ﻿@page
 @model RegisterModel
+
+@using MVCCore.Auth.Data;
+
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
@@ -7,7 +10,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-route-returnUrl="@Model.ReturnUrl" method="post">   
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="row">
@@ -27,13 +30,16 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
+          
+        </div>
+        <div class="col-sm-6">          
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-        </div>     
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-6">
@@ -50,7 +56,7 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
         </div>
-    </div> 
+    </div>
     <button type="submit" class="btn btn-primary btn-block">Register</button>
 </form>
 
