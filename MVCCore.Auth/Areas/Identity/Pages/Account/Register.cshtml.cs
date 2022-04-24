@@ -31,15 +31,15 @@ namespace MVCCore.Auth.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender )
-            // RoleManager<IdentityRole> roleManager)
+            IEmailSender emailSender ,
+            RoleManager<IdentityRole> roleManager)
         {
           
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            // _roleManager = roleManager;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -51,6 +51,11 @@ namespace MVCCore.Auth.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Application Role")]
+            public AppRoles AppRole { get; set; }
+
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "First Name")]
@@ -99,13 +104,13 @@ namespace MVCCore.Auth.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    /*
-                    if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                        await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-                    if (!await roleManager.RoleExistsAsync(UserRoles.Operator))
-                        await roleManager.CreateAsync(new IdentityRole(UserRoles.Operator));
-                    await _userManager.AddToRoleAsync(user, Input.AppRole);
-                    */
+                    
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.Operator))
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.Operator));
+                    await _userManager.AddToRoleAsync(user, Input.AppRole == AppRoles.Admin ? AppRoles.Admin.ToString() : AppRoles.Operator.ToString());
+
 
                     _logger.LogInformation("User created a new account with password.");
 

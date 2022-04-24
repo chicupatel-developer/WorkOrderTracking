@@ -31,7 +31,13 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-          
+            <div class="form-group">
+                <label asp-for="Input.AppRole" class="control-label"></label>
+                <select asp-for="Input.AppRole"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<AppRoles>()"></select>
+                <span asp-validation-for="Input.AppRole" class="text-danger"></span>
+            </div>
         </div>
         <div class="col-sm-6">          
             <div class="form-group">

@@ -2,10 +2,13 @@ using EF.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCCore.Auth.Areas.Identity.Data;
+using MVCCore.Auth.Data;
 using Service.Interface;
 using Service.Repository;
 using System;
@@ -43,25 +46,8 @@ namespace MVCCore.Auth
                     options.UseSqlServer(
                       Configuration.GetConnectionString("WorkOrderTrackingConnection"),
                       b => b.MigrationsAssembly(typeof(WorkOrderTrackingContext).Assembly.FullName)));
-            #endregion
-
-            /*
-            #region authorization policy
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin",
-                    authBuilder =>
-                    {
-                        authBuilder.RequireRole("Admin");
-                    });           
-                options.AddPolicy("Operator",
-                 authBuilder =>
-                 {
-                     authBuilder.RequireRole("Operator");
-                 });
-            });
-            #endregion
-            */
+            #endregion            
+       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
