@@ -27,6 +27,10 @@ wip - when OpQTYDone>=OpQTYRequired then,,,
 wip - when all operations for any workorder become
 	operation-status-completed then,,,
 		- workorder-status can become workorder-status-completed
+wip - @ initial when operation is created then it's not-started,,,
+	when user edit it like completed and giving operation-start-date 
+	a valid value then it must not be edited and display error message to user
+
 
 [Operator]							
 - operator can select 

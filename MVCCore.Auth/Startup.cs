@@ -39,6 +39,7 @@ namespace MVCCore.Auth
             services.AddTransient<IPartRepository, PartRepository>();
             services.AddTransient<IOperationRepository, OperationRepository>();
             services.AddTransient<IOperatorLogRepository, OperatorLogRepository>();
+            services.AddTransient<IOperatorRepository, OperatorRepository>();
             #endregion
 
             #region WorkOrderTrackingContext
@@ -55,7 +56,8 @@ namespace MVCCore.Auth
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/home/error");
             }
             else
             {

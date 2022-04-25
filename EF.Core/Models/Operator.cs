@@ -20,5 +20,8 @@ namespace EF.Core.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public ICollection<OperatorActivity> OperatorActivities { get; set; }
+
+        // this column refers to AspNetUsers->Id 
+        public string UserId { get; set; }
     }
 }

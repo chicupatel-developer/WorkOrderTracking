@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interface\IOperatorLogRepository - Copy.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EF.Core\EF.Core.csproj" />
   </ItemGroup>
 
