@@ -51,6 +51,10 @@ namespace MVCCore.Auth.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Display(Name = "Profile Picture")]
+            public byte[] ProfilePicture { get; set; }
+
+
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Application Role")]

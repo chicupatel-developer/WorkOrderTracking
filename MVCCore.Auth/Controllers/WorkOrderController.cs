@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MVCCore.Auth.Controllers
 {
-    [Authorize]
+    [Authorize("Admin")]
     public class WorkOrderController : Controller
     {
         private readonly ILogger<WorkOrderController> _logger;

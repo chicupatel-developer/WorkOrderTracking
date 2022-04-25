@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MVCCore.Auth.Controllers
 {
-    [Authorize]
+    [Authorize("Operator")]
     public class OperatorLogController : Controller
     {
         private readonly ILogger<OperationController> _logger;
