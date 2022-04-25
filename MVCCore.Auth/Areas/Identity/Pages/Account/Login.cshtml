@@ -6,16 +6,17 @@
     Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
 }
 
+<!--
 <h1>@ViewData["Title"]</h1>
-
+    -->
 
 
 <div class="col-md-10 offset-md-1">
     <section>
-        <div class="login-form-icon">
+        <div class="login-form-icon text-center">
             <i class="fas fa-user-circle fa-9x text-secondary"></i>
         </div>
-        <form id="account" method="post">          
+        <form id="account" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
@@ -37,7 +38,7 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Log in</button>
-            </div>          
+            </div>
         </form>
     </section>
 </div>

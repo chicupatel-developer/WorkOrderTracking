@@ -14,5 +14,6 @@ namespace MVCCore.Auth.Areas.Identity.Data
 
         [PersonalData]
         public string LastName { get; set; }
+
     }
 }
