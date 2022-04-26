@@ -118,6 +118,8 @@
                         Create New Operator-Log
                     </button>
                 </div>
+                <div id="@user.Id" class="userIdClass">
+                </div>
             </form>
         </div>
     </div>
@@ -186,12 +188,12 @@
                 var sendData = form.serialize();
                 // var data = form.serialize() + '&OperatorId=' + 1;
                 // var data = form.serialize() + '&OperatorId=' + 2;
-                var userId = @user.Id;
-
+                var userId = $('.userIdClass').attr("id");
                 
-                var data = form.serialize() + '&UserId=' + userId;
+                var data = form.serialize() + '&UserId=' + userId + '&OperatorId=' + 0;
                 var url = '@Url.Action("Create", "OperatorLog")';
 
+                
                 $.post(url, data).done(function (response) {
                     console.log(response);
                     console.log(response.result.statusCode);

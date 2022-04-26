@@ -55,8 +55,11 @@ namespace MVCCore.Auth.Controllers
             {
                 if (operatorActivity != null)
                     operatorActivity.OperatorId = _oprRepo.GetOperator(operatorActivity.UserId).OperatorId;
-                
+                    // operatorActivity.OperatorId = 0;
 
+                if (operatorActivity.OperatorId < 1)
+                    throw new Invalid_Operator_Exception("Invalid Operator !");
+                
                 if (ModelState.IsValid)
                 {
                     retData = DateAndQtyCheck(operatorActivity);
@@ -83,6 +86,12 @@ namespace MVCCore.Auth.Controllers
                         }
                     }
                 }
+            }
+            catch (Invalid_Operator_Exception ioEx)
+            {
+                retData.Message = ioEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
             }
             catch (Invalid_Operator_Action_Exception ioaEx)
             {

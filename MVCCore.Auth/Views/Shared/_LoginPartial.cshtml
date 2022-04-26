@@ -116,11 +116,10 @@ else if (SignInManager.IsSignedIn(User) && User.IsInRole("Operator"))
                title="Manage">
                 Hello
                 <!--
-    <span class="userData"> @UserManager.GetUserName(User)! </span>
-    -->
-                @*
-        <span class="userData"> @user.FirstName, @user.LastName ! </span>
-                *@
+                <span class="userData"> @UserManager.GetUserName(User)! </span>
+                -->              
+                <span class="userData"> @user.FirstName, @user.LastName ! </span>
+               
             </a>
         </li>
         <li class="nav-item userData">
