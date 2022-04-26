@@ -60,12 +60,21 @@ namespace Service.Repository
                 if (opLog != null)
                     throw new Invalid_Operator_Action_Exception("Operator Log Is Already Running ! First Pause Previous Log, Then Run New Log !");
 
+                
+
                 var op_ = appDbContext.Operations
                         .Where(x => x.OperationId == operatorActivity.OperationId).FirstOrDefault();
 
-                operatorActivity.OperationNumber = (OperationNumber)op_.OperationNumber;
-                appDbContext.OperatorActivities.Add(operatorActivity);
-                appDbContext.SaveChanges();
+                // if supervisor has not start_running this operationid then,,,
+                // operator can not start_running this operationid
+                if (op_.OperationStatus == OperationStatus.Start_Running)
+                {
+                    operatorActivity.OperationNumber = (OperationNumber)op_.OperationNumber;
+                    appDbContext.OperatorActivities.Add(operatorActivity);
+                    appDbContext.SaveChanges();
+                }
+                else
+                    throw new Operator_CanNot_StartRun_OP_Exception("Operation Is Not [Start_Running] By Supervisor !");
             }
             // pause
             else
@@ -78,10 +87,18 @@ namespace Service.Repository
                 // check for same workorderid, operationid
                 if (opLog.WorkOrderId == operatorActivity.WorkOrderId && opLog.OperationId == operatorActivity.OperationId)
                 {
+                    // operator-activity
                     opLog.OpQtyDone = operatorActivity.OpQtyDone;
                     opLog.OperationStatus = operatorActivity.OperationStatus;
                     opLog.OpPauseRunTime = operatorActivity.OpPauseRunTime;
                     opLog.CycleTime = opLog.OpPauseRunTime.Value.Subtract(opLog.OpStartRunTime.Value);
+
+                    // operation
+                    // update OpQTYDone
+                    var op = appDbContext.Operations
+                                .Where(x => x.OperationId == opLog.OperationId).FirstOrDefault();
+                    op.OpQTYDone += operatorActivity.OpQtyDone;
+
                     appDbContext.SaveChanges();
                 }
                 else

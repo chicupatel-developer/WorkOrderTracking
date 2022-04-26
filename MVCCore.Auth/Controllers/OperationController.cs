@@ -144,6 +144,12 @@ namespace MVCCore.Auth.Controllers
                     }
                 }
             }
+            catch (OP_CanNot_Completed_Exception ocncEx)
+            {
+                retData.Message = ocncEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
             catch (Invalid_OP_Status_Exception iopsEx)
             {
                 retData.Message = iopsEx.Message;

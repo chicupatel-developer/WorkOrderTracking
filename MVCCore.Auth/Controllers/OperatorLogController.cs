@@ -87,6 +87,12 @@ namespace MVCCore.Auth.Controllers
                     }
                 }
             }
+            catch (Operator_CanNot_StartRun_OP_Exception ocnsropEx)
+            {
+                retData.Message = ocnsropEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
             catch (Invalid_Operator_Exception ioEx)
             {
                 retData.Message = ioEx.Message;

@@ -15,21 +15,28 @@ then user can not do [ workorder-startdate is null or workorder-status == Not_St
 
 - workorder-startdate must be <= it's any of operations'-startdate
 
+- if operation is Not_Started then,,,
+it can not be Completed directly means operation must follow,,,
+Not_Started -> Start_Running -> Completed sequence
+
+- when OpQTYDone>=OpQTYRequired then,,,
+		- this operation-status can become operation-status-completed
+- when operation-status-completed by supervisor then,,,
+	- operator can not do either operation-status-start_running or operation-status-pause_running
+- when operation-pause-running by supervisor then,,,
+	- operator can not do either operation-status-start_running or operation-status-pause_running
+- when all operations for any workorder become
+	operation-status-completed then,,,
+		- workorder-status can become workorder-status-completed
+- when workorder-status-completed by supervisor then,,,
+	- it's any operations can not be anything except operation-status-completed
+
 [Supervisor]
 - operation-startdate = first time when operation starts
 - operation-enddate = when operation ends
 
 - workorder-startdate = first time when workorder starts
 - workorder-enddate = when workorder ends
-
-wip - when OpQTYDone>=OpQTYRequired then,,,
-		- this operation-status can become operation-status-completed
-wip - when all operations for any workorder become
-	operation-status-completed then,,,
-		- workorder-status can become workorder-status-completed
-wip - @ initial when operation is created then it's not-started,,,
-	when user edit it like completed and giving operation-start-date 
-	a valid value then it must not be edited and display error message to user
 
 
 [Operator]							

@@ -77,6 +77,12 @@ namespace Service.Repository
                                   .Where(x => x.OperationId == operation.OperationId).FirstOrDefault();
             if (_op != null)
             {
+                // operation can not be completed until start_running first
+                if (operation.OperationStatus == OperationStatus.Completed && _op.OperationStatus == OperationStatus.Not_Started)
+                    throw new OP_CanNot_Completed_Exception("Operation Can Not Be [Completed] !");
+
+                if(operation.OperationStatus==OperationStatus.Completed && _op.OpQTYDone<_op.OpQTYRequired )
+                    throw new OP_CanNot_Completed_Exception("Operation Can Not Be [Completed] ! QTY Done < QTY Required !");
 
                 // check for it's parent workorder status
                 if (operation.OperationStatus != OperationStatus.Not_Started && _op.WorkOrder.WorkOrderStatus != WorkOrderStatus.Start_Running)
