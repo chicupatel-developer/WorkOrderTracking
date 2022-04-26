@@ -90,5 +90,11 @@ namespace Service.Repository
             }
         }
 
+        public Operator GetOperator(string userId)
+        {
+            return appDbContext.Operators
+                        .Where(x => x.UserId == userId).FirstOrDefault();
+        }
+
     }
 }

@@ -12,5 +12,6 @@ namespace Service.Interface
         List<SelectListItem> GetOperationList(int woid);
         List<SelectListItem> GetWorkOrderList();
         void AddOperatorLog(OperatorActivity operatorActivity);
+        Operator GetOperator(string userId);
     }
 }

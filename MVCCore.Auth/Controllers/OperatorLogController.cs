@@ -52,7 +52,11 @@ namespace MVCCore.Auth.Controllers
             OperationResult retData = new OperationResult();
 
             try
-            {              
+            {
+                if (operatorActivity != null)
+                    operatorActivity.OperatorId = _oprRepo.GetOperator(operatorActivity.UserId).OperatorId;
+                
+
                 if (ModelState.IsValid)
                 {
                     retData = DateAndQtyCheck(operatorActivity);

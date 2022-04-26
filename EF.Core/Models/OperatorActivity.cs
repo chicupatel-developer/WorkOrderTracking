@@ -16,6 +16,7 @@ namespace EF.Core.Models
         [Required(ErrorMessage = "Operator is Required!")]
         public int? OperatorId { get; set; }
         public Operator Operator { get; set; }
+        public string UserId { get; set; }
 
 
         [Required(ErrorMessage = "WorkOrder is Required!")]

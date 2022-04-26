@@ -1,4 +1,10 @@
-﻿@using EF.Core.Models;
+﻿@using Microsoft.AspNetCore.Identity
+@using MVCCore.Auth.Areas.Identity.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@using EF.Core.Models;
 @model EF.Core.Models.OperatorActivity;
 
 @{
@@ -10,7 +16,28 @@
         background-color: lightgoldenrodyellow;
         color: red;
     }
+
+    .operatorData {
+        color: blue;
+        font-size: small;
+        border: 2px solid red;
+        padding: 5px;
+    }
 </style>
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<!--
+<div class="text-left operatorData">
+    Operator : @User.Identity.Name <br />
+    First Name : @user.FirstName <br />
+    Last Name : @user.LastName <br />
+    User Id : @user.Id <br />
+</div>
+-->
+
 
 <div class="text-center">
     <h3 class="display-6"><span class="titleSpan"><u>Operator - Log</u></span></h3>
@@ -58,7 +85,7 @@
                                     id="OperationStatus"
                                     asp-items="Html.GetEnumSelectList<OperationStatusForOperator>()">
                             </select>
-                        </div>                      
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -158,7 +185,11 @@
                 // var actionUrl = form.attr('asp-action');
                 var sendData = form.serialize();
                 // var data = form.serialize() + '&OperatorId=' + 1;
-                var data = form.serialize() + '&OperatorId=' + 2;
+                // var data = form.serialize() + '&OperatorId=' + 2;
+                var userId = @user.Id;
+
+                
+                var data = form.serialize() + '&UserId=' + userId;
                 var url = '@Url.Action("Create", "OperatorLog")';
 
                 $.post(url, data).done(function (response) {
@@ -218,7 +249,7 @@
                 if (errorCode == 0) {
                     div.queue(function () {
                         setTimeout(function () {
-                            div.dequeue();   
+                            div.dequeue();
                         }, 3000);
                     });
                     div.fadeOut("fast");

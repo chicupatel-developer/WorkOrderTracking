@@ -15,54 +15,65 @@
     }
 </style>
 
+@*
+    @{
+        var user = await UserManager.GetUserAsync(User);
+    }
+*@
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
-<ul class="nav navbar-nav">
+    var user = await UserManager.GetUserAsync(User);
 
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area=""
-           asp-controller="Home"
-           asp-action="Index">
-            <i class="fa fa-home fa-lg" aria-hidden="true"></i>
-            Home
-        </a>
-    </li>
+    <ul class="nav navbar-nav">
 
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" 
-           asp-controller="Part" 
-           asp-action="Index">
-            <i class="fab fa-product-hunt fa-lg"></i>
-            Parts
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" 
-           asp-controller="CustomerOrder" 
-           asp-action="Index">
-            <i class="fab fa-first-order fa-lg"></i>
-            Customer-Orders
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" 
-           asp-controller="WorkOrder" 
-           asp-action="Index">
-            <i class="fa fa-industry fa-lg" aria-hidden="true"></i>
-            Work-Orders [Operations]
-        </a>
-    </li>
-</ul>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+                <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+                Home
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area=""
+               asp-controller="Part"
+               asp-action="Index">
+                <i class="fab fa-product-hunt fa-lg"></i>
+                Parts
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area=""
+               asp-controller="CustomerOrder"
+               asp-action="Index">
+                <i class="fab fa-first-order fa-lg"></i>
+                Customer-Orders
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area=""
+               asp-controller="WorkOrder"
+               asp-action="Index">
+                <i class="fa fa-industry fa-lg" aria-hidden="true"></i>
+                Work-Orders [Operations]
+            </a>
+        </li>
+    </ul>
 
     <ul class="navbar-nav ">
         <li class="nav-item ">
-            <a id="manage" class="nav-link text-dark " 
-               asp-area="Identity" 
-               asp-page="/Account/Manage/Index" 
+            <a id="manage" class="nav-link text-dark "
+               asp-area="Identity"
+               asp-page="/Account/Manage/Index"
                title="Manage">
-            Hello 
-            <span class="userData"> @UserManager.GetUserName(User)! </span></a>
+                Hello
+                <!--
+                <span class="userData"> @UserManager.GetUserName(User)! </span>
+                -->
+                <span class="userData"> @user.FirstName, @user.LastName ! </span>
+            </a>
         </li>
         <li class="nav-item userData">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -76,28 +87,41 @@
 }
 else if (SignInManager.IsSignedIn(User) && User.IsInRole("Operator"))
 {
-<ul class="nav navbar-nav">   
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area=""
-           asp-controller="Home"
-           asp-action="Index">
-            <i class="fa fa-home fa-lg" aria-hidden="true"></i>
-            Home
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area=""
-           asp-controller="OperatorLog"
-           asp-action="Index">
-            <i class="fa fa-industry fa-lg" aria-hidden="true"></i>
-            Operator-Log
-        </a>
-    </li>
-</ul>
+    var user = await UserManager.GetUserAsync(User);
+
+    <ul class="nav navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+                <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+                Home
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area=""
+               asp-controller="OperatorLog"
+               asp-action="Index">
+                <i class="fa fa-industry fa-lg" aria-hidden="true"></i>
+                Operator-Log
+            </a>
+        </li>
+    </ul>
 
     <ul class="navbar-nav ">
         <li class="nav-item ">
-            <a id="manage" class="nav-link text-dark " asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello <span class="userData"> @UserManager.GetUserName(User)! </span></a>
+            <a id="manage" class="nav-link text-dark "
+               asp-area="Identity"
+               asp-page="/Account/Manage/Index"
+               title="Manage">
+                Hello
+                <!--
+    <span class="userData"> @UserManager.GetUserName(User)! </span>
+    -->
+                @*
+        <span class="userData"> @user.FirstName, @user.LastName ! </span>
+                *@
+            </a>
         </li>
         <li class="nav-item userData">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -113,8 +137,8 @@ else
 {
     <ul class="nav navbar-nav ">
         <li class="nav-item">
-            <a class="nav-link text-dark " id="register" 
-               asp-area="Identity" 
+            <a class="nav-link text-dark " id="register"
+               asp-area="Identity"
                asp-page="/Account/Register">
                 <i class="fa fa-user-plus fa-lg" aria-hidden="true"></i>
                 Register
