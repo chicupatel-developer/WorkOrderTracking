@@ -50,6 +50,9 @@
     .cantComplete {
         color: brown;
     }
+    .completedOpQty {
+        border: 3px solid green;
+    }
 </style>
 
 <div class="text-center">
@@ -116,9 +119,6 @@
             <th>
                 OP Start Date
             </th>
-            <th>
-                OP End Date
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -126,9 +126,19 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OperationId)
-            </td>
+            @if (item.OpQTYDone >= item.OpQTYRequired)
+            {
+                <td>
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    @Html.DisplayFor(modelItem => item.OperationId)
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.OperationId)
+                </td>
+            }
 
 
             @{
@@ -190,17 +200,36 @@
                     opdetails = "N/A";
                 }
             }
-            <td>
-                <!-- @opdetails -->
-                <span>
-                    Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
-                </span>
-                <br />
-                <span>
-                    Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
-                </span>                
-            </td>
-         
+
+            @if (item.OpQTYDone >= item.OpQTYRequired)
+            {
+                <td class="completedOpQty">
+                    <!-- @opdetails -->
+                    <span>
+                        Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                    </span>
+                    <br />
+                    <span>
+                        Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
+                    </span>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <!-- @opdetails -->
+                    <span>
+                        Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                    </span>
+                    <br />
+                    <span>
+                        Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
+                    </span>
+                </td>
+            }
+
+
+
 
             <!--
     <td class="@GetClassFromOperationStatus(item.OperationStatus)">
@@ -224,21 +253,6 @@
             }
             <td>
                 @opdate
-            </td>
-
-            @{
-                var opEdate = "";
-                if (item.OperationEndDate != null)
-                {
-                    opEdate = item.OperationEndDate.Value.ToShortDateString();
-                }
-                else
-                {
-                    opEdate = "N/A";
-                }
-            }
-            <td>
-                @opEdate
             </td>
 
             <td>

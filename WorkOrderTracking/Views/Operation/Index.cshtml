@@ -116,9 +116,6 @@
             <th>
                 OP Start Date
             </th>
-            <th>
-                OP End Date
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -224,21 +221,6 @@
             }
             <td>
                 @opdate
-            </td>
-
-            @{
-                var opEdate = "";
-                if (item.OperationEndDate != null)
-                {
-                    opEdate = item.OperationEndDate.Value.ToShortDateString();
-                }
-                else
-                {
-                    opEdate = "N/A";
-                }
-            }
-            <td>
-                @opEdate
             </td>
 
             <td>

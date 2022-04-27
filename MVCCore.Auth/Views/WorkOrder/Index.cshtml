@@ -42,7 +42,6 @@
             <th>#</th>
             <th>Customer</th>
             <th>WO Start Date</th>
-            <th>WO End Date</th>
             <th>WO Status</th>
             <th>Status Note</th>
             <th>Actions</th>
@@ -92,17 +91,7 @@
                                 return moment(row.workOrderStartDate).format('DD MMM, YYYY');
                             }
                         }
-                    },
-                    {
-                        "data": "workOrderEndDate", render: function (data, type, row) {//data
-
-                            if (row.workOrderEndDate == null) {
-                                return 'N/A';
-                            } else {
-                                return moment(row.workOrderEndDate).format('DD MMM, YYYY');
-                            }
-                        }
-                    },
+                    },                   
                     {
                         "data": "workOrderStatus", render: function (data, type, row) {//data
                             return getWOStatus(row.workOrderStatus)
