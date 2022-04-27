@@ -213,7 +213,7 @@ namespace Service.Repository
 
             data.OperationHistory = new List<HistoryData>();
 
-            var opLog = appDbContext.OperatorActivities
+            var opLog = appDbContext.OperatorActivities.Include(x=>x.Operator)
                             .Where(x => x.OperationId == opid);
             if (opLog != null && opLog.Count() > 0)
             {
@@ -223,11 +223,14 @@ namespace Service.Repository
                     {
                         CycleTime = (TimeSpan)opl.CycleTime,
                         OperatorId = (int)opl.OperatorId,
+                        OperatorName = opl.Operator.FirstName+", "+opl.Operator.LastName,
                         OpPauseRunTime = (DateTime)opl.OpPauseRunTime,
                         OpStartRunTime = (DateTime)opl.OpStartRunTime,
                         QtyDone = (int)opl.OpQtyDone
                     });
                 }
+
+                data.OperationHistory = data.OperationHistory.OrderBy(x => x.OperatorId).ToList();
             }
             return data;
         }

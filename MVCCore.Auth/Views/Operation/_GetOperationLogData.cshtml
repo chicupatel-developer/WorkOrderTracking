@@ -5,10 +5,13 @@
     .operationLogModal {
         background-color: lightblue;
     }
+    .modalWindow {
+        max-width: 80% !important;
+    }
 </style>
 
 <div class="modal fade" id="operationLog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modalWindow">
         <div class="modal-content">
             <div class="modal-header operationLogModal">
                 <h4 class="modal-title" id="operationLogLabel">
@@ -66,14 +69,48 @@
                     <h5>Operation # @Model.OperationId</h5>
                     <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
                     <h5>Work Order # @Model.WorkOrderId</h5>
-                    @foreach (var item in Model.OperationHistory)
-                    {
-                        <hr />
-                        <h6>Start Time : @item.OpStartRunTime</h6>
-                        <h6>Pause Name : @item.OpPauseRunTime</h6>
-                        <h6>Cycle Time : @item.CycleTime</h6>
-                        <h6>Qty Done : @item.QtyDone</h6>
-                    }
+                    <table class="table" id="operationsTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Operator
+                                </th>
+                                <th>
+                                    Start Time
+                                </th>
+                                <th>
+                                    Pause Time
+                                </th>
+                                <th>
+                                    Cycle Time
+                                </th>
+                                <th>
+                                    Qty Done
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OperationHistory) { 
+                            <tr>
+                                <td>
+                                    [ @item.OperatorId ] @item.OperatorName
+                                </td>
+                                <td>
+                                    @item.OpStartRunTime.ToString("dd, MMM hh:mm tt")
+                                </td>
+                                <td>
+                                    @item.OpPauseRunTime.ToString("dd, MMM hh:mm tt")
+                                </td>
+                                <td>
+                                    @item.CycleTime
+                                </td>
+                                <td>
+                                    @item.QtyDone
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>                 
                 </div>
                 <p></p>
             </div>
