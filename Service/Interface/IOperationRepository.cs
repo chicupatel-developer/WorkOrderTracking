@@ -16,5 +16,6 @@ namespace Service.Interface
         void EditOperation(Operation operation);
         void XferPartsForOperation(OperationToPart operationToPart);
         XferInfo GetOperationDetails(int operationId);
+        OperationLog GetOperationLogData(int opid);
     }
 }

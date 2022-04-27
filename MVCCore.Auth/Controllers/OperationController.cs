@@ -273,5 +273,12 @@ namespace MVCCore.Auth.Controllers
             return Json(new { Result = retData });
         }
 
+        // get
+        // operation log from operationid
+        public ActionResult GetOperationLogData(int id)
+        {
+            var operationLog = _opRepo.GetOperationLogData(id);
+            return PartialView("_GetOperationLogData", operationLog);
+        }
     }
 }

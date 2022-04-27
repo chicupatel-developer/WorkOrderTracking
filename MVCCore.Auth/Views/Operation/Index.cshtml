@@ -258,18 +258,27 @@
             <td>
                 <button id="@item.OperationId"
                         class='btn btn-primary opEdit'>
-                    Edit
+                    <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+                    
                 </button>
 
                 <button id="@item.OperationId"
                         opNumber="@opNumber"
                         class='btn btn-success assignPart'>
-                    Assign Parts
+                    Parts
+                    <i class="fa fa-tasks" aria-hidden="true"></i>
                 </button>
                 <button id="@item.OperationId"
                         opNumber="@opNumber"
-                        class='btn btn-info viewPartHistory'>
-                    Parts History
+                        class='btn btn-success viewPartHistory'>
+                    Parts
+                    <i class="fa fa-history" aria-hidden="true"></i>
+                </button>
+                <button id="@item.OperationId"
+                        opNumber="@opNumber"
+                        class='btn btn-info viewOperationLog'>
+                    Operation
+                    <i class="fa fa-sitemap" aria-hidden="true"></i>
                 </button>
             </td>
         </tr>
@@ -287,6 +296,22 @@
             var PlaceHolderElement = $('#PlaceHolderHere');
 
             var errorCode = 0;
+
+            // get
+            // operation log from operationid
+            // @@db table : OperatorActivities 
+            $('.viewOperationLog').click(function () {
+                var operationId = $(this).attr("id");
+                console.log(operationId);
+
+                var url = '@Url.Action("GetOperationLogData", "Operation")' + '\\' + operationId;
+                $.get(url).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                });
+            });
+
+
 
             // get
             // all part(s) history from operationid

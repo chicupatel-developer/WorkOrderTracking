@@ -124,5 +124,6 @@ namespace Service.Repository
             data.QtyRequired = op.OpQTYRequired==null ? 0 : (int)op.OpQTYRequired;
             return data;
         }
+
     }
 }

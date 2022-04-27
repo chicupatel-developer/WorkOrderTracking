@@ -201,5 +201,35 @@ namespace Service.Repository
             }
             return data;
         }
+
+        public OperationLog GetOperationLogData(int opid)
+        {
+            OperationLog data = new OperationLog();
+            data.OperationId = opid;
+            var op = appDbContext.Operations.Include(x => x.WorkOrder)
+                                    .Where(x => x.OperationId == opid).FirstOrDefault();
+            data.OperationNumber = op.OperationNumber;
+            data.WorkOrderId = (int)op.WorkOrderId;
+
+            data.OperationHistory = new List<HistoryData>();
+
+            var opLog = appDbContext.OperatorActivities
+                            .Where(x => x.OperationId == opid);
+            if (opLog != null && opLog.Count() > 0)
+            {
+                foreach (var opl in opLog)
+                {
+                    data.OperationHistory.Add(new HistoryData()
+                    {
+                        CycleTime = (TimeSpan)opl.CycleTime,
+                        OperatorId = (int)opl.OperatorId,
+                        OpPauseRunTime = (DateTime)opl.OpPauseRunTime,
+                        OpStartRunTime = (DateTime)opl.OpStartRunTime,
+                        QtyDone = (int)opl.OpQtyDone
+                    });
+                }
+            }
+            return data;
+        }
     }
 }
