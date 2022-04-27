@@ -162,5 +162,13 @@ namespace MVCCore.Auth.Controllers
 
             return retData;
         }
+
+        [HttpGet]
+        public JsonResult GetOperationQtyData(int id)
+        {
+            return Json(_oprRepo.GetOperationQtyData(id));
+        }
+
+
     }
 }

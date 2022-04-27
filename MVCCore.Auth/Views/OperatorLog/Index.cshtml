@@ -23,6 +23,11 @@
         border: 2px solid red;
         padding: 5px;
     }
+    .operationQtyData {
+        color: blue;
+        margin-top:-10px;
+        margin-bottom:5px;
+    }
 </style>
 
 @{
@@ -73,6 +78,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Operation</label>
+                            <div id="OperationQtyData" class="operationQtyData"></div>
                             <select class="form-control"
                                     id="OperationId"
                                     name="OperationId">
@@ -141,7 +147,6 @@
             // $('#OpStartRunTime').prop('readonly', true);
             $('#OpPauseRunTime').prop('readonly', true);
 
-
             $('#WorkOrderId').on('change', function () {
                 var woid = $(this).val(); // workorderid
                 $('#OperationId').prop('disabled', false);
@@ -158,6 +163,25 @@
                         $("#OperationId").html(s);
                     }
                 });
+            });
+
+            $('#OperationId').on('change', function () {
+                var opid = $(this).val(); 
+                if (opid != '') {
+                    $.ajax({
+                        type: "GET",
+                        url: "OperatorLog/GetOperationQtyData",
+                        data: "id=" + opid,
+                        success: function (data) {
+                            console.log(data);
+
+                            var s = '[ Qty Done : ' + data.qtyDone + ', Qty Req : ' + data.qtyRequired + ' ]';
+                            $("#OperationQtyData").html(s);
+                        }
+                    });
+                }
+                else
+                    $("#OperationQtyData").html('');
             });
 
             $('#OperationStatus').on('change', function () {

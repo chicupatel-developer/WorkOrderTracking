@@ -13,5 +13,6 @@ namespace Service.Interface
         List<SelectListItem> GetWorkOrderList();
         void AddOperatorLog(OperatorActivity operatorActivity);
         Operator GetOperator(string userId);
+        OperationQtyData GetOperationQtyData(int opId);
     }
 }

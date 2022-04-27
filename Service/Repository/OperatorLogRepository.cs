@@ -113,5 +113,16 @@ namespace Service.Repository
                         .Where(x => x.UserId == userId).FirstOrDefault();            
         }
 
+        public OperationQtyData GetOperationQtyData(int opId)
+        {
+            OperationQtyData data = new OperationQtyData();
+            data.OperationId = opId;
+
+            var op = appDbContext.Operations
+                        .Where(x => x.OperationId == opId).FirstOrDefault();
+            data.QtyDone = op.OpQTYDone==null ? 0 : (int)op.OpQTYDone;
+            data.QtyRequired = op.OpQTYRequired==null ? 0 : (int)op.OpQTYRequired;
+            return data;
+        }
     }
 }
