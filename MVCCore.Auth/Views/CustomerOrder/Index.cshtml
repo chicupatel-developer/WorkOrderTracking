@@ -32,7 +32,7 @@
             <th>QTY</th>
             <th>Order Date</th>
             <th>Due Date</th>
-            <th>Actions</th>
+            <th></th>
         </tr>
     </thead>
 </table>
@@ -68,9 +68,19 @@
                         }
                     },
                     {
-                        "data": null, "defaultContent": "<button id='btnCOEdit' class='btn btn-primary'>Edit</button><span>|</span><button id='btnCODelete' class='btn btn-danger'>Delete</button>"
+                        "data": null, "defaultContent": "<button id='btnCOEdit' class='btn btn-primary'><i class='fa fa-edit fa-lg' aria-hidden='true'></i></button><span>&nbsp;</span><button id='btnCODelete' class='btn btn-danger'><i class='fa fa-trash fa-lg'></i></button><span>&nbsp;</span><button id='btnCOProgress' class='btn btn-success'><i class='fa fa-spinner fa-lg'></i> Order</button>"
                     },
                 ],
+            });
+
+            // customer order progress
+            // get
+            $('#customerOrdersTable tbody').on('click', '[id*=btnCOProgress]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var customerOrderId = data.customerOrderId;
+                console.log(customerOrderId);
+                
             });
 
 

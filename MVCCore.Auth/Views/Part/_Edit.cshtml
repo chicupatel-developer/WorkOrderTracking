@@ -4,6 +4,12 @@
     .editModal {
         background-color: lightblue;
     }
+    .qtyStyle {
+        width: 200px;
+    }
+    .nameStyle {
+        width: 400px;
+    }
 </style>
 
 <div class="modal fade" id="editPart">
@@ -41,7 +47,7 @@
                         <input asp-for="Name"
                                id="Name"
                                name="Name"
-                               class="form-control" />
+                               class="form-control nameStyle" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -58,7 +64,7 @@
                         <input asp-for="Qty"
                                id="Qty"
                                name="Qty"
-                               class="form-control" />
+                               class="form-control qtyStyle" />
                         <span asp-validation-for="Qty" class="text-danger"></span>
                     </div>
                 </form>
