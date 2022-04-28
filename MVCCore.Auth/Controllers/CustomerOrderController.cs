@@ -241,5 +241,14 @@ namespace MVCCore.Auth.Controllers
             }         
             return Json(new { Result = retData });
         }
+
+
+        [HttpGet]
+        public ActionResult GetCustomerOrderProgress(int id)
+        {
+            var cop = _custOrderRepo.GetCustomerOrderProgress(id);
+            return PartialView("_GetCustomerOrderProgress", cop);
+        }
+
     }
 }

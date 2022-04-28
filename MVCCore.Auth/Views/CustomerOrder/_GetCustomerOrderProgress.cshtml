@@ -1,0 +1,177 @@
+﻿@model EF.Core.DTO.CustomerOrderProgress;
+
+<style>
+    .deleteModal{
+        background-color:lightgreen;
+    }
+    .modalWindow {
+        max-width: 60% !important;
+    }
+    .daysLeftSpan{
+        color : red;
+        font-size: large;
+    }
+    .notAV {
+        color: red;
+        font-size: x-large;
+    }  
+</style>
+
+<div class="modal fade " id="coProgress">
+    <div class="modal-dialog modalWindow">
+        <div class="modal-content ">
+            <div class="modal-header coProgressModal">
+                <h4 class="modal-title" id="coProgressLabel">
+                    Customer Order Progress
+                </h4>            
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                @if (Model.CustomerOrder != null)
+                {
+                    <div>
+                        <h4><u>Customer Order</u></h4>
+                        <h5>Customer Order # @Model.CustomerOrder.CustomerOrderId</h5>
+                        <h5>Customer Name : @Model.CustomerOrder.CustomerName</h5>
+                        <span>Order QTY : @Model.CustomerOrder.OrderQuantity</span>
+                        <br />
+                        <span>Order Date : @Model.CustomerOrder.OrderDate.Value.Date.ToString("dd-MMM-yyyy")</span>
+                        <br />
+                        <span>Order Due Date : @Model.CustomerOrder.OrderDueDate.Value.Date.ToString("dd-MMM-yyyy")</span>
+                        <br />
+                        @{
+                            System.TimeSpan diffResult = (Model.CustomerOrder.OrderDueDate.Value.Date - DateTime.Now.Date);
+
+                        }
+                        <span class="daysLeftSpan">
+                            Days Left : @diffResult.Days
+                        </span>
+                    </div>
+                    <hr />
+                    @if (Model.WorkOrder != null)
+                    {
+                        <div>
+                            <h4><u>Work-Order</u></h4>
+                            <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
+                            <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
+                            @{ 
+                                string woStartDate = null;
+                                if (Model.WorkOrder.WorkOrderStartDate != null) {
+                                    woStartDate = Model.WorkOrder.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy");
+                                }
+                                else
+                                {
+                                    woStartDate = "N/A";
+                                }
+                            }
+                            <span>Work Order Start Date : @woStartDate</span>
+                        </div>
+                        <br />
+                        @if (Model.Operations.Count() > 0)
+                        {
+                            <h4><u>Operations</u></h4>
+                            <table class="table" id="operationsTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                            Start Date
+                                        </th>
+                                        <th>
+                                            Qty Done
+                                        </th>
+                                        <th>
+                                            Qty Required
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Operations)
+                                    {
+                                        <tr>
+                                            @if (item.OpQTYDone >= item.OpQTYRequired)
+                                            {
+                                                <td>
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @item.OperationId
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.OperationId
+                                                </td>
+                                            }
+                                            <td>
+                                                @item.OperationStatus
+                                            </td>
+                                            <td>
+                                                @item.OperationStartDate.Value.Date.ToString("dd, MMM ")
+                                            </td>
+                                            <td>
+                                                @item.OpQTYDone
+                                            </td>
+                                            <td>
+                                                @item.OpQTYRequired
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <hr />
+                            <div class="notAV">
+                                Operations Not Found !
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="notAV">
+                            Work Order Not Found !
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="notAV">
+                        Customer Order Not Found !
+                    </div>
+                }
+
+
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>             
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

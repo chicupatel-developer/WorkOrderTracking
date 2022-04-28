@@ -63,5 +63,35 @@ namespace Service.Repository
             appDbContext.SaveChanges();
         }
 
+        public CustomerOrderProgress GetCustomerOrderProgress(int cid)
+        {
+            CustomerOrderProgress data = new CustomerOrderProgress();
+            data.CustomerOrder = null;
+            data.WorkOrder = null;
+            data.Operations = new List<Operation>();
+
+            var co = appDbContext.CustomerOrders
+                            .Where(x => x.CustomerOrderId == cid).FirstOrDefault();
+            if (co != null)
+            {
+                data.CustomerOrder = co;
+
+                var wo = appDbContext.WorkOrders
+                            .Where(x => x.CustomerOrderId == co.CustomerOrderId).FirstOrDefault();
+                if (wo != null)
+                {
+                    data.WorkOrder = wo;
+
+                    var ops = appDbContext.Operations
+                                .Where(x => x.WorkOrderId == wo.WorkOrderId);
+                    if(ops!=null && ops.Count() > 0)
+                    {
+                        data.Operations = ops.ToList();
+                    }
+                }                
+            }
+
+            return data;
+        }
     }
 }

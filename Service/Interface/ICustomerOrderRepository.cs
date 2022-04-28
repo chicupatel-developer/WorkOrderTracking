@@ -1,4 +1,5 @@
-﻿using EF.Core.Models;
+﻿using EF.Core.DTO;
+using EF.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Service.Interface
         CustomerOrder GetCustomerOrder(int customerOrderId);
         void EditCustomerOrder(CustomerOrder customerOrder);
         void DeleteCustomerOrder(int customerOrderId);
+        CustomerOrderProgress GetCustomerOrderProgress(int cid);
     }
 }
