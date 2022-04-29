@@ -9,6 +9,11 @@ namespace EF.Core.DTO
     {
         public CustomerOrder CustomerOrder { get; set; }
         public WorkOrder WorkOrder { get; set; }
-        public List<Operation> Operations { get; set; }
+        public List<OperationData> OperationDatas { get; set; }
+    }
+    public class OperationData
+    {
+        public Operation Operation { get; set;  }
+        public List<OperatorActivity> OperationHistory { get; set; }
     }
 }

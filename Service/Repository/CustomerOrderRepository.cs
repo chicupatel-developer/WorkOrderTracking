@@ -1,6 +1,7 @@
 ﻿using EF.Core;
 using EF.Core.DTO;
 using EF.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace Service.Repository
             CustomerOrderProgress data = new CustomerOrderProgress();
             data.CustomerOrder = null;
             data.WorkOrder = null;
-            data.Operations = new List<Operation>();
+            data.OperationDatas = new List<OperationData>();
 
             var co = appDbContext.CustomerOrders
                             .Where(x => x.CustomerOrderId == cid).FirstOrDefault();
@@ -86,7 +87,23 @@ namespace Service.Repository
                                 .Where(x => x.WorkOrderId == wo.WorkOrderId);
                     if(ops!=null && ops.Count() > 0)
                     {
-                        data.Operations = ops.ToList();
+                        foreach(var op in ops)
+                        {
+                            OperationData opData = new OperationData();
+                            opData.Operation = op;
+                            opData.OperationHistory = new List<OperatorActivity>();
+                            var oprs = appDbContext.OperatorActivities.Include(x=>x.Operator)
+                                        .Where(x => x.OperationId == op.OperationId);
+                            if(oprs!=null && oprs.Count() > 0)
+                            {
+                                foreach(var opr in oprs)
+                                {
+                                    opData.OperationHistory.Add(opr);
+                                }                              
+                            }
+
+                            data.OperationDatas.Add(opData);
+                        }
                     }
                 }                
             }

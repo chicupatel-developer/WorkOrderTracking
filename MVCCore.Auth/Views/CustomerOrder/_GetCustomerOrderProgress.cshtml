@@ -1,11 +1,12 @@
-﻿@model EF.Core.DTO.CustomerOrderProgress;
+﻿@using EF.Core.Models;
+@model EF.Core.DTO.CustomerOrderProgress;
 
 <style>
-    .deleteModal{
-        background-color:lightgreen;
+    .coProgressModal {
+        background-color: lightgreen;
     }
     .modalWindow {
-        max-width: 60% !important;
+        max-width: 75% !important;
     }
     .daysLeftSpan{
         color : red;
@@ -14,7 +15,23 @@
     .notAV {
         color: red;
         font-size: x-large;
-    }  
+    }
+    .oprActivityTr {
+        margin-left: 100px;
+        color: brown;
+        border: 2px solid brown;
+    }
+    .oprActivityTh {
+        margin-left: 100px;
+        color: brown;
+        border: 2px solid brown;
+    }
+    .opTr{
+        color:blue;
+    }
+    .trEmpty{
+        height:50px;
+    }
 </style>
 
 <div class="modal fade " id="coProgress">
@@ -72,7 +89,7 @@
                             <span>Work Order Start Date : @woStartDate</span>
                         </div>
                         <br />
-                        @if (Model.Operations.Count() > 0)
+                        @if (Model.OperationDatas.Count() > 0)
                         {
                             <h4><u>Operations</u></h4>
                             <table class="table" id="operationsTable">
@@ -82,7 +99,7 @@
                                             #
                                         </th>
                                         <th>
-                                            Status
+                                            Operation
                                         </th>
                                         <th>
                                             Start Date
@@ -96,35 +113,195 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.Operations)
+                                    @foreach (var item in Model.OperationDatas)
                                     {
-                                        <tr>
-                                            @if (item.OpQTYDone >= item.OpQTYRequired)
+                                    <tr class="opTr">
+                                        @if (item.Operation.OpQTYDone >= item.Operation.OpQTYRequired)
+                                        {
+                                            <td>
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                                @item.Operation.OperationId
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @item.Operation.OperationId
+                                            </td>
+                                        }
+                                        <td>
+                                            <span>
+                                                @{
+                                                    var opNumber = "";
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Spindle)
+                                                    {
+                                                        opNumber = "Spindle - 10";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                                                    {
+                                                        opNumber = "Hub_Single_Head - 20";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                                                    {
+                                                        opNumber = "Hub_Double_Head - 30";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Push_Cups)
+                                                    {
+                                                        opNumber = "Push_Cups - 40";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                                                    {
+                                                        opNumber = "Assembly_Spindle_Hub - 50";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Paint)
+                                                    {
+                                                        opNumber = "Paint - 60";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Packaging)
+                                                    {
+                                                        opNumber = "Packaging - 70";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                                                    {
+                                                        opNumber = "Rework_Spindle - 80";
+                                                    }
+                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Hub)
+                                                    {
+                                                        opNumber = "Rework_Hub - 90";
+                                                    }
+                                                }
+                                                @opNumber
+                                                <br />
+                                                @item.Operation.OperationStatus
+                                            </span>                                            
+                                        </td>
+                                        @{
+                                            var opStartDate = "";
+                                            if (item.Operation.OperationStartDate != null)
                                             {
-                                                <td>
-                                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                                    @item.OperationId
-                                                </td>
+                                                opStartDate = item.Operation.OperationStartDate.Value.ToString("dd, MMM");
                                             }
                                             else
                                             {
-                                                <td>
-                                                    @item.OperationId
-                                                </td>
+                                                opStartDate = "N/A";
                                             }
-                                            <td>
-                                                @item.OperationStatus
-                                            </td>
-                                            <td>
-                                                @item.OperationStartDate.Value.Date.ToString("dd, MMM ")
-                                            </td>
-                                            <td>
-                                                @item.OpQTYDone
-                                            </td>
-                                            <td>
-                                                @item.OpQTYRequired
-                                            </td>
-                                        </tr>
+                                        }
+                                        <td>
+                                            @opStartDate
+                                        </td>
+
+                                        @{
+                                            var opQtyDn = "";
+                                            if (item.Operation.OpQTYDone != null)
+                                            {
+                                                opQtyDn = item.Operation.OpQTYDone.ToString();
+                                            }
+                                            else
+                                            {
+                                                opQtyDn = "N/A";
+                                            }
+                                        }
+                                        <td>
+                                            @opQtyDn
+                                        </td>
+
+                                        @{
+                                            var opQtyReq = "";
+                                            if (item.Operation.OpQTYRequired != null)
+                                            {
+                                                opQtyReq = item.Operation.OpQTYRequired.ToString();
+                                            }
+                                            else
+                                            {
+                                                opQtyReq = "N/A";
+                                            }
+                                        }
+                                        <td>
+                                            @opQtyReq
+                                        </td>
+                                    </tr>
+
+                                        @if (item.OperationHistory != null && item.OperationHistory.Count() > 0)
+                                        {                                          
+                                            <tr class="oprActivityTh">
+                                                <th>Operator</th>
+                                                <th>Operation</th>
+                                                <th>Qty Done</th>
+                                                <th>Start Time</th>
+                                                <th>Pause Time</th>
+                                                <th>Cycle Time</th>
+                                            </tr>
+
+
+                                            @foreach (var opH in item.OperationHistory)
+                                            {
+                                                <tr class="oprActivityTr">
+                                                    <td>
+                                                        # @opH.OperatorId ] @opH.Operator.FirstName
+                                                    </td>
+                                                    <td>
+                                                        <span>
+                                                            @opH.OperationStatus
+                                                        </span>
+                                                    </td>
+                                                    @{
+                                                        var opQtyDone = "";
+                                                        if (opH.OpQtyDone != null)
+                                                        {
+                                                            opQtyDone = opH.OpQtyDone.ToString();
+                                                        }
+                                                        else
+                                                        {
+                                                            opQtyDone = "N/A";
+                                                        }
+                                                    }
+                                                    <td>
+                                                        @opQtyDone
+                                                    </td>
+
+                                                    @{
+                                                        var opStartTime = "";
+                                                        if (opH.OpStartRunTime != null)
+                                                        {
+                                                            opStartTime = opH.OpStartRunTime.Value.ToString("dd, MMM hh:mm tt");
+                                                        }
+                                                        else
+                                                        {
+                                                            opStartTime = "N/A";
+                                                        }
+                                                    }
+                                                    <td>
+                                                        @opStartTime
+                                                    </td>
+
+                                                    @{
+                                                        var opPauseTime = "";
+                                                        if (opH.OpStartRunTime != null)
+                                                        {
+                                                            opPauseTime = opH.OpPauseRunTime.Value.ToString("dd, MMM hh:mm tt");
+                                                        }
+                                                        else
+                                                        {
+                                                            opPauseTime = "N/A";
+                                                        }
+                                                    }
+                                                    <td>
+                                                        @opPauseTime
+                                                    </td>
+                                                    <td>
+                                                        @opH.CycleTime
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr class="trEmpty"></tr>
+                                        }
+                                        else {
+                                           <tr>
+                                               <td colspan="4" class="notAV">
+                                                   This Operation Not Started Yet !
+                                               </td>
+                                           </tr>              
+                                        }                           
                                     }
                                 </tbody>
                             </table>
