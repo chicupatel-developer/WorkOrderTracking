@@ -4,6 +4,7 @@ using EF.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Service.Interface;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,7 +108,33 @@ namespace Service.Repository
                     }
                 }                
             }
+            return data;
+        }
 
+        public OperationProgressChartData GetOperationProgressForCustomerOrder(int cid)
+        {
+            OperationProgressChartData data = new OperationProgressChartData();
+            data.OperationNumbers = new ArrayList();
+            data.QtyDone = new ArrayList();
+            data.QtyRequired = new ArrayList();
+
+            var co = appDbContext.CustomerOrders.Include(x=>x.WorkOrder)
+                            .Where(x => x.CustomerOrderId == cid).FirstOrDefault();
+
+            if(co!=null && co.WorkOrder != null)
+            {
+                var ops = appDbContext.Operations
+                            .Where(x => x.WorkOrderId == co.WorkOrder.WorkOrderId);
+                if(ops!=null && ops.Count() > 0)
+                {
+                    foreach(var op in ops)
+                    {
+                        data.OperationNumbers.Add(op.OperationNumber);
+                        data.QtyDone.Add(op.OpQTYDone != null ? (int)op.OpQTYDone : 0);
+                        data.QtyDone.Add(op.OpQTYRequired != null ? (int)op.OpQTYRequired : 0);
+                    }                    
+                }
+            }
             return data;
         }
     }

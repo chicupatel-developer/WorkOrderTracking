@@ -14,5 +14,6 @@ namespace Service.Interface
         void EditCustomerOrder(CustomerOrder customerOrder);
         void DeleteCustomerOrder(int customerOrderId);
         CustomerOrderProgress GetCustomerOrderProgress(int cid);
+        OperationProgressChartData GetOperationProgressForCustomerOrder(int cid);
     }
 }

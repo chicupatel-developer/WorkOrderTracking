@@ -56,8 +56,8 @@ namespace MVCCore.Auth
         {
             if (env.IsDevelopment())
             {
-                // app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/home/error");
+                app.UseDeveloperExceptionPage();
+                // app.UseExceptionHandler("/home/error");
             }
             else
             {

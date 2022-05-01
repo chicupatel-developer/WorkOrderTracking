@@ -8,9 +8,9 @@ Technology
 
 - Repository pattern
 
-- EF Transaction
+- Identity (Authentication / Authorization)
 
-- Sql Server, T-Sql, Stored Procedures with Transaction
+- Sql Server
 
 - Razor View, Partial View
 

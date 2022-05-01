@@ -7,6 +7,11 @@
         background-color: lightgoldenrodyellow;
         color: red;
     }
+    .graph {
+        width: 100%;
+        height: 300px;
+        border: 1px solid black;
+    }
 </style>
 
 <div class="text-center">
@@ -16,13 +21,23 @@
     <a asp-action="Create">Create - [Customer Order]</a>
 </div>
 
+
+<!-- customer order v/s operations progress -->
+<!-- bar chart -->
+<div id="graphContainer" class="graph"></div>
+<p></p>
+<hr />
+
+
+
+
 <!-- this will hold partial view (modal) -->
 <div id="PlaceHolderHere"></div>
 
 <hr />
 <p></p>
-<table id="customerOrdersTable" 
-       class="table table-sm table-bordered table-striped" 
+<table id="customerOrdersTable"
+       class="table table-sm table-bordered table-striped"
        style="width:100%">
     <thead>
         <tr>
@@ -80,11 +95,32 @@
                 console.log(data);
                 var customerOrderId = data.customerOrderId;
                 console.log(customerOrderId);
+
+                // bar chart
+                var barData = [[10, -20, 125, 230, -25, 245, 260, 20, 125, 125, 305, 110], [150, -50, 175, 280, -75, 295, 210, -70, 185, -20, 355, 160]];
+
+                /* Horizontally accumulated Graph
+                We set labels for X axis instead of numerical values
+                You can see problems with different sign bar values at AUG and OCT
+                */
+                var container = document.getElementById("graphContainer");
+                var myGraph = new BarGraph(container);
+                myGraph.draw({
+                    data: barData,
+                    colors: ["#0F0", "blue"],
+                    labelsX: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DIC"],
+                    fontSize: "9px"
+                });
+                // bar chart end
+
+
+                /*
                 var url = 'CustomerOrder\\GetCustomerOrderProgress\\' + customerOrderId;
                 $.get(url).done(function (data) {
                     PlaceHolderElement.html(data);
                     PlaceHolderElement.find('.modal').modal('show');
                 });
+                */
             });
 
 
@@ -189,7 +225,7 @@
                         }, 3000);
                     });
                     div.fadeOut("fast");
-                }              
+                }
             };
             function resetUI() {
                 $('#CustomerName').val('');

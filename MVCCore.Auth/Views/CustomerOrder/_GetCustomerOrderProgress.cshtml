@@ -5,33 +5,41 @@
     .coProgressModal {
         background-color: lightgreen;
     }
+
     .modalWindow {
         max-width: 75% !important;
     }
-    .daysLeftSpan{
-        color : red;
+
+    .daysLeftSpan {
+        color: red;
         font-size: large;
     }
+
     .notAV {
         color: red;
         font-size: x-large;
     }
+
     .oprActivityTr {
         margin-left: 100px;
         color: brown;
         border: 2px solid brown;
     }
+
     .oprActivityTh {
         margin-left: 100px;
         color: brown;
         border: 2px solid brown;
     }
-    .opTr{
-        color:blue;
+
+    .opTr {
+        color: blue;
     }
-    .trEmpty{
-        height:50px;
+
+    .trEmpty {
+        height: 50px;
     }
+  
 </style>
 
 <div class="modal fade " id="coProgress">
@@ -40,12 +48,15 @@
             <div class="modal-header coProgressModal">
                 <h4 class="modal-title" id="coProgressLabel">
                     Customer Order Progress
-                </h4>            
+                </h4>
 
                 <button type="button" class="close" data-dismiss="modal">
                     <span>X</span>
                 </button>
             </div>
+
+
+          
 
 
             <div class="modal-body">
@@ -76,9 +87,10 @@
                             <h4><u>Work-Order</u></h4>
                             <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
                             <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
-                            @{ 
+                            @{
                                 string woStartDate = null;
-                                if (Model.WorkOrder.WorkOrderStartDate != null) {
+                                if (Model.WorkOrder.WorkOrderStartDate != null)
+                                {
                                     woStartDate = Model.WorkOrder.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy");
                                 }
                                 else
@@ -115,114 +127,114 @@
                                 <tbody>
                                     @foreach (var item in Model.OperationDatas)
                                     {
-                                    <tr class="opTr">
-                                        @if (item.Operation.OpQTYDone >= item.Operation.OpQTYRequired)
-                                        {
+                                        <tr class="opTr">
+                                            @if (item.Operation.OpQTYDone >= item.Operation.OpQTYRequired)
+                                            {
+                                                <td>
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @item.Operation.OperationId
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.Operation.OperationId
+                                                </td>
+                                            }
                                             <td>
-                                                <i class="fa fa-check" aria-hidden="true"></i>
-                                                @item.Operation.OperationId
+                                                <span>
+                                                    @{
+                                                        var opNumber = "";
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Spindle)
+                                                        {
+                                                            opNumber = "Spindle - 10";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                                                        {
+                                                            opNumber = "Hub_Single_Head - 20";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                                                        {
+                                                            opNumber = "Hub_Double_Head - 30";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Push_Cups)
+                                                        {
+                                                            opNumber = "Push_Cups - 40";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                                                        {
+                                                            opNumber = "Assembly_Spindle_Hub - 50";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Paint)
+                                                        {
+                                                            opNumber = "Paint - 60";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Packaging)
+                                                        {
+                                                            opNumber = "Packaging - 70";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                                                        {
+                                                            opNumber = "Rework_Spindle - 80";
+                                                        }
+                                                        if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Hub)
+                                                        {
+                                                            opNumber = "Rework_Hub - 90";
+                                                        }
+                                                    }
+                                                    @opNumber
+                                                    <br />
+                                                    @item.Operation.OperationStatus
+                                                </span>
                                             </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                                @item.Operation.OperationId
-                                            </td>
-                                        }
-                                        <td>
-                                            <span>
-                                                @{
-                                                    var opNumber = "";
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Spindle)
-                                                    {
-                                                        opNumber = "Spindle - 10";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Single_Head)
-                                                    {
-                                                        opNumber = "Hub_Single_Head - 20";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                                                    {
-                                                        opNumber = "Hub_Double_Head - 30";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Push_Cups)
-                                                    {
-                                                        opNumber = "Push_Cups - 40";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                                                    {
-                                                        opNumber = "Assembly_Spindle_Hub - 50";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Paint)
-                                                    {
-                                                        opNumber = "Paint - 60";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Packaging)
-                                                    {
-                                                        opNumber = "Packaging - 70";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                                                    {
-                                                        opNumber = "Rework_Spindle - 80";
-                                                    }
-                                                    if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Hub)
-                                                    {
-                                                        opNumber = "Rework_Hub - 90";
-                                                    }
+                                            @{
+                                                var opStartDate = "";
+                                                if (item.Operation.OperationStartDate != null)
+                                                {
+                                                    opStartDate = item.Operation.OperationStartDate.Value.ToString("dd, MMM");
                                                 }
-                                                @opNumber
-                                                <br />
-                                                @item.Operation.OperationStatus
-                                            </span>                                            
-                                        </td>
-                                        @{
-                                            var opStartDate = "";
-                                            if (item.Operation.OperationStartDate != null)
-                                            {
-                                                opStartDate = item.Operation.OperationStartDate.Value.ToString("dd, MMM");
+                                                else
+                                                {
+                                                    opStartDate = "N/A";
+                                                }
                                             }
-                                            else
-                                            {
-                                                opStartDate = "N/A";
-                                            }
-                                        }
-                                        <td>
-                                            @opStartDate
-                                        </td>
+                                            <td>
+                                                @opStartDate
+                                            </td>
 
-                                        @{
-                                            var opQtyDn = "";
-                                            if (item.Operation.OpQTYDone != null)
-                                            {
-                                                opQtyDn = item.Operation.OpQTYDone.ToString();
+                                            @{
+                                                var opQtyDn = "";
+                                                if (item.Operation.OpQTYDone != null)
+                                                {
+                                                    opQtyDn = item.Operation.OpQTYDone.ToString();
+                                                }
+                                                else
+                                                {
+                                                    opQtyDn = "N/A";
+                                                }
                                             }
-                                            else
-                                            {
-                                                opQtyDn = "N/A";
-                                            }
-                                        }
-                                        <td>
-                                            @opQtyDn
-                                        </td>
+                                            <td>
+                                                @opQtyDn
+                                            </td>
 
-                                        @{
-                                            var opQtyReq = "";
-                                            if (item.Operation.OpQTYRequired != null)
-                                            {
-                                                opQtyReq = item.Operation.OpQTYRequired.ToString();
+                                            @{
+                                                var opQtyReq = "";
+                                                if (item.Operation.OpQTYRequired != null)
+                                                {
+                                                    opQtyReq = item.Operation.OpQTYRequired.ToString();
+                                                }
+                                                else
+                                                {
+                                                    opQtyReq = "N/A";
+                                                }
                                             }
-                                            else
-                                            {
-                                                opQtyReq = "N/A";
-                                            }
-                                        }
-                                        <td>
-                                            @opQtyReq
-                                        </td>
-                                    </tr>
+                                            <td>
+                                                @opQtyReq
+                                            </td>
+                                        </tr>
 
                                         @if (item.OperationHistory != null && item.OperationHistory.Count() > 0)
-                                        {                                          
+                                        {
                                             <tr class="oprActivityTh">
                                                 <th>Operator</th>
                                                 <th>Operation</th>
@@ -295,13 +307,15 @@
                                             }
                                             <tr class="trEmpty"></tr>
                                         }
-                                        else {
-                                           <tr>
-                                               <td colspan="4" class="notAV">
-                                                   This Operation Not Started Yet !
-                                               </td>
-                                           </tr>              
-                                        }                           
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="4" class="notAV">
+                                                    This Operation Not Started Yet !
+                                                </td>
+                                            </tr>
+
+                                        }
                                     }
                                 </tbody>
                             </table>
@@ -334,12 +348,11 @@
 
 
             <div class="modal-footer">
-                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>             
+                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
             </div>
         </div>
     </div>
 </div>
-
 
 
 

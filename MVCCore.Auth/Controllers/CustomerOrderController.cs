@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MVCCore.Auth.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections;
 
 namespace MVCCore.Auth.Controllers
 {
@@ -249,6 +250,8 @@ namespace MVCCore.Auth.Controllers
             var cop = _custOrderRepo.GetCustomerOrderProgress(id);
             return PartialView("_GetCustomerOrderProgress", cop);
         }
+
+
 
     }
 }
