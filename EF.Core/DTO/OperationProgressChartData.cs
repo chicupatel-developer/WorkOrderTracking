@@ -7,8 +7,7 @@ namespace EF.Core.DTO
 {
     public class OperationProgressChartData
     {
-        public ArrayList OperationNumbers { get; set; }
-        public ArrayList QtyDone { get; set; }
-        public ArrayList QtyRequired { get; set; }
+        public string OperationNumber { get; set; }
+        public int QtyDone { get; set; }        
     }
 }

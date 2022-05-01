@@ -111,13 +111,10 @@ namespace Service.Repository
             return data;
         }
 
-        public OperationProgressChartData GetOperationProgressForCustomerOrder(int cid)
+        public List<OperationProgressChartData> GetOperationProgressForCustomerOrder(int cid)
         {
-            OperationProgressChartData data = new OperationProgressChartData();
-            data.OperationNumbers = new ArrayList();
-            data.QtyDone = new ArrayList();
-            data.QtyRequired = new ArrayList();
-
+            List<OperationProgressChartData> data = new List<OperationProgressChartData>();
+            
             var co = appDbContext.CustomerOrders.Include(x=>x.WorkOrder)
                             .Where(x => x.CustomerOrderId == cid).FirstOrDefault();
 
@@ -129,9 +126,11 @@ namespace Service.Repository
                 {
                     foreach(var op in ops)
                     {
-                        data.OperationNumbers.Add(op.OperationNumber);
-                        data.QtyDone.Add(op.OpQTYDone != null ? (int)op.OpQTYDone : 0);
-                        data.QtyDone.Add(op.OpQTYRequired != null ? (int)op.OpQTYRequired : 0);
+                        data.Add(new OperationProgressChartData()
+                        {
+                             OperationNumber = op.OperationNumber+"",
+                              QtyDone = (op.OpQTYDone!=null ? (int)op.OpQTYDone : 0)
+                        });
                     }                    
                 }
             }

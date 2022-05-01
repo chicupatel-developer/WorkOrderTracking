@@ -6,12 +6,7 @@
     .titleSpan {
         background-color: lightgoldenrodyellow;
         color: red;
-    }
-    .graph {
-        width: 100%;
-        height: 300px;
-        border: 1px solid black;
-    }
+    }   
 </style>
 
 <div class="text-center">
@@ -23,10 +18,12 @@
 
 
 <!-- customer order v/s operations progress -->
-<!-- bar chart -->
-<div id="graphContainer" class="graph"></div>
-<p></p>
-<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div id="chartdiv" style="width: 600px; height: 350px;">
+        </div>
+    </div>
+</div>
 
 
 
@@ -53,9 +50,73 @@
 </table>
 
 @section Scripts {
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            function loadBarChart() {
+                google.charts.load('current', { 'packages': ['corechart'] });
+                //Call function after Google Chart is loaded, it is required, otherwise you may get error
+                google.charts.setOnLoadCallback(DrawonLoad);
+
+            }
+            loadBarChart();
+
+          
+            function DrawonLoad() {
+                $(function () {
+
+                    console.log('loading bar chart!!!');
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/CustomerOrder/GetPiechartJSON',
+                        success: function (chartsdata) {
+                            // Callback that creates and populates a data table,
+                            // instantiates the pie chart, passes in the data and
+                            // draws it.
+
+                            //get jsonList from Object
+                            var Data = chartsdata.chartData;
+                            var data = new google.visualization.DataTable();
+
+                            console.log(Data);
+
+                            data.addColumn('string', 'OperationNumber');
+                            data.addColumn('number', 'QtyDone');
+
+                            //Loop through each list data
+                            for (var i = 0; i < Data.length; i++) {
+                                data.addRow([Data[i].operationNumber, Data[i].qtyDone]);
+                            }
+
+                            // console.log(data);
+
+                            // Instantiate and draw our chart, passing in some options
+                            // var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+                            var chart = new google.visualization.BarChart(document.getElementById('chartdiv'));
+
+                            //Draw pie chart command with data and chart options
+                            chart.draw(data,
+                                {
+                                    title: "Google pie Chart in ASP.NET Core MVC",
+                                    position: "top",
+                                    fontsize: "14px",
+                                });
+                        },
+                        error: function () {
+                            alert("Error loading data! Please try again.");
+                        }
+                    });
+                })
+            }
+
+
+
+
 
             var errorCode = 0;
 
@@ -95,24 +156,6 @@
                 console.log(data);
                 var customerOrderId = data.customerOrderId;
                 console.log(customerOrderId);
-
-                // bar chart
-                var barData = [[10, -20, 125, 230, -25, 245, 260, 20, 125, 125, 305, 110], [150, -50, 175, 280, -75, 295, 210, -70, 185, -20, 355, 160]];
-
-                /* Horizontally accumulated Graph
-                We set labels for X axis instead of numerical values
-                You can see problems with different sign bar values at AUG and OCT
-                */
-                var container = document.getElementById("graphContainer");
-                var myGraph = new BarGraph(container);
-                myGraph.draw({
-                    data: barData,
-                    colors: ["#0F0", "blue"],
-                    labelsX: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DIC"],
-                    fontSize: "9px"
-                });
-                // bar chart end
-
 
                 /*
                 var url = 'CustomerOrder\\GetCustomerOrderProgress\\' + customerOrderId;
