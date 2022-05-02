@@ -1,0 +1,408 @@
+﻿@using EF.Core.Models;
+@model EF.Core.DTO.CustomerOrderProgress;
+
+@{
+    ViewData["Title"] = "Customer Order Progress";
+}
+
+<style>
+    .daysLeftSpan {
+        color: red;
+        font-size: large;
+    }
+
+    .notAV {
+        color: red;
+        font-size: x-large;
+    }
+
+    .oprActivityTr {
+        margin-left: 100px;
+        color: brown;
+        border: 2px solid brown;
+    }
+
+    .oprActivityTh {
+        margin-left: 100px;
+        color: brown;
+        border: 2px solid brown;
+    }
+
+    .opTr {
+        color: blue;
+    }
+
+    .trEmpty {
+        height: 50px;
+    }
+</style>
+
+<div class="text-center">
+    <h3 class="display-6">Customer Order Progress</h3>
+</div>
+<p></p>
+
+<!-- customer order v/s operations progress -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="@ViewBag.SelectedCustomerOrderId" id="chartdiv" style="width: 100%; height: 400px;">
+        </div>
+    </div>
+</div>
+<p></p>
+<hr />
+
+<div class="container">
+    @if (Model.CustomerOrder != null)
+    {
+        <div>
+            <h4><u>Customer Order</u></h4>
+            <h5>Customer Order # @Model.CustomerOrder.CustomerOrderId</h5>
+            <h5>Customer Name : @Model.CustomerOrder.CustomerName</h5>
+            <span>Order QTY : @Model.CustomerOrder.OrderQuantity</span>
+            <br />
+            <span>Order Date : @Model.CustomerOrder.OrderDate.Value.Date.ToString("dd-MMM-yyyy")</span>
+            <br />
+            <span>Order Due Date : @Model.CustomerOrder.OrderDueDate.Value.Date.ToString("dd-MMM-yyyy")</span>
+            <br />
+            @{
+                System.TimeSpan diffResult = (Model.CustomerOrder.OrderDueDate.Value.Date - DateTime.Now.Date);
+
+            }
+            <span class="daysLeftSpan">
+                Days Left : @diffResult.Days
+            </span>
+        </div>
+        <hr />
+        @if (Model.WorkOrder != null)
+        {
+            <div>
+                <h4><u>Work-Order</u></h4>
+                <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
+                <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
+                @{
+                    string woStartDate = null;
+                    if (Model.WorkOrder.WorkOrderStartDate != null)
+                    {
+                        woStartDate = Model.WorkOrder.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy");
+                    }
+                    else
+                    {
+                        woStartDate = "N/A";
+                    }
+                }
+                <span>Work Order Start Date : @woStartDate</span>
+            </div>
+            <br />
+            @if (Model.OperationDatas.Count() > 0)
+            {
+                <h4><u>Operations</u></h4>
+                <table class="table" id="operationsTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Operation
+                            </th>
+                            <th>
+                                Start Date
+                            </th>
+                            <th>
+                                Qty Done
+                            </th>
+                            <th>
+                                Qty Required
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OperationDatas)
+                        {
+                            <tr class="opTr">
+                                @if (item.Operation.OpQTYDone >= item.Operation.OpQTYRequired)
+                                {
+                                    <td>
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        @item.Operation.OperationId
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @item.Operation.OperationId
+                                    </td>
+                                }
+                                <td>
+                                    <span>
+                                        @{
+                                            var opNumber = "";
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Spindle)
+                                            {
+                                                opNumber = "Spindle - 10";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                                            {
+                                                opNumber = "Hub_Single_Head - 20";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                                            {
+                                                opNumber = "Hub_Double_Head - 30";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Push_Cups)
+                                            {
+                                                opNumber = "Push_Cups - 40";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                                            {
+                                                opNumber = "Assembly_Spindle_Hub - 50";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Paint)
+                                            {
+                                                opNumber = "Paint - 60";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Packaging)
+                                            {
+                                                opNumber = "Packaging - 70";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                                            {
+                                                opNumber = "Rework_Spindle - 80";
+                                            }
+                                            if (@item.Operation.OperationNumber == (int)OperationNumber.Rework_Hub)
+                                            {
+                                                opNumber = "Rework_Hub - 90";
+                                            }
+                                        }
+                                        @opNumber
+                                        <br />
+                                        @item.Operation.OperationStatus
+                                    </span>
+                                </td>
+                                @{
+                                    var opStartDate = "";
+                                    if (item.Operation.OperationStartDate != null)
+                                    {
+                                        opStartDate = item.Operation.OperationStartDate.Value.ToString("dd, MMM");
+                                    }
+                                    else
+                                    {
+                                        opStartDate = "N/A";
+                                    }
+                                }
+                                <td>
+                                    @opStartDate
+                                </td>
+
+                                @{
+                                    var opQtyDn = "";
+                                    if (item.Operation.OpQTYDone != null)
+                                    {
+                                        opQtyDn = item.Operation.OpQTYDone.ToString();
+                                    }
+                                    else
+                                    {
+                                        opQtyDn = "N/A";
+                                    }
+                                }
+                                <td>
+                                    @opQtyDn
+                                </td>
+
+                                @{
+                                    var opQtyReq = "";
+                                    if (item.Operation.OpQTYRequired != null)
+                                    {
+                                        opQtyReq = item.Operation.OpQTYRequired.ToString();
+                                    }
+                                    else
+                                    {
+                                        opQtyReq = "N/A";
+                                    }
+                                }
+                                <td>
+                                    @opQtyReq
+                                </td>
+                            </tr>
+
+                            @if (item.OperationHistory != null && item.OperationHistory.Count() > 0)
+                            {
+                                <tr class="oprActivityTh">
+                                    <th>Operator</th>
+                                    <th>Operation</th>
+                                    <th>Qty Done</th>
+                                    <th>Start Time</th>
+                                    <th>Pause Time</th>
+                                    <th>Cycle Time</th>
+                                </tr>
+
+
+                                @foreach (var opH in item.OperationHistory)
+                                {
+                                    <tr class="oprActivityTr">
+                                        <td>
+                                            # @opH.OperatorId ] @opH.Operator.FirstName
+                                        </td>
+                                        <td>
+                                            <span>
+                                                @opH.OperationStatus
+                                            </span>
+                                        </td>
+                                        @{
+                                            var opQtyDone = "";
+                                            if (opH.OpQtyDone != null)
+                                            {
+                                                opQtyDone = opH.OpQtyDone.ToString();
+                                            }
+                                            else
+                                            {
+                                                opQtyDone = "N/A";
+                                            }
+                                        }
+                                        <td>
+                                            @opQtyDone
+                                        </td>
+
+                                        @{
+                                            var opStartTime = "";
+                                            if (opH.OpStartRunTime != null)
+                                            {
+                                                opStartTime = opH.OpStartRunTime.Value.ToString("dd, MMM hh:mm tt");
+                                            }
+                                            else
+                                            {
+                                                opStartTime = "N/A";
+                                            }
+                                        }
+                                        <td>
+                                            @opStartTime
+                                        </td>
+
+                                        @{
+                                            var opPauseTime = "";
+                                            if (opH.OpStartRunTime != null)
+                                            {
+                                                opPauseTime = opH.OpPauseRunTime.Value.ToString("dd, MMM hh:mm tt");
+                                            }
+                                            else
+                                            {
+                                                opPauseTime = "N/A";
+                                            }
+                                        }
+                                        <td>
+                                            @opPauseTime
+                                        </td>
+                                        <td>
+                                            @opH.CycleTime
+                                        </td>
+                                    </tr>
+                                }
+                                <tr class="trEmpty"></tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="notAV">
+                                        This Operation Not Started Yet !
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <hr />
+                <div class="notAV">
+                    Operations Not Found !
+                </div>
+            }
+        }
+        else
+        {
+            <div class="notAV">
+                Work Order Not Found !
+            </div>
+        }
+    }
+    else
+    {
+        <div class="notAV">
+            Customer Order Not Found !
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+  
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback();
+
+            var customerOrderId = $('#chartdiv').attr("class");
+            console.log(customerOrderId);
+
+            var url = '@Url.Action("GetOperationProgressForCustomerOrder", "CustomerOrder")' + '\\' + customerOrderId;
+
+            $.ajax({
+                type: 'GET',
+                // url: '/CustomerOrder/GetOperationProgressForCustomerOrder',
+                url: url,
+                success: function (chartsdata) {
+
+                    var Data = chartsdata.chartData;
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'Operation Number');
+                    data.addColumn('number', 'Qty Done');
+                    data.addColumn('number', 'Qty Required');
+
+                    for (var i = 0; i < Data.length; i++) {
+                        data.addRow([Data[i].operationNumber, Data[i].qtyDone, Data[i].qtyRequired]);
+                    }
+
+                    // var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+                    // var chart = new google.visualization.BarChart(document.getElementById('chartdiv'));
+                    var chart = new google.visualization.ColumnChart(document.getElementById('chartdiv'));
+
+                    chart.draw(data,
+                        {
+                            title: "Customer Order v/s Operations Progress",
+                            position: "top",
+                            fontsize: "14px",
+                            vAxis: {
+                                title: "QTY (Done / Required)",
+                                textStyle: {
+                                    fontSize: 16,
+                                    color: 'black',
+                                    bold: true,
+                                    italic: true
+                                }
+                            },
+                            hAxis: {
+                                title: "Operation Number",
+                                textStyle: {
+                                    fontSize: 16,
+                                    color: 'black',
+                                    bold: true,
+                                    italic: true
+                                }
+                            },
+                        });
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.");
+                }
+
+            });
+
+        });
+    </script>
+}

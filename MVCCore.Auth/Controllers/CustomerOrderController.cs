@@ -248,7 +248,8 @@ namespace MVCCore.Auth.Controllers
         public ActionResult GetCustomerOrderProgress(int id)
         {
             var cop = _custOrderRepo.GetCustomerOrderProgress(id);
-            return PartialView("_GetCustomerOrderProgress", cop);
+            ViewBag.SelectedCustomerOrderId = id;
+            return View("CustomerOrderProgress", cop);
         }
 
         public JsonResult GetOperationProgressForCustomerOrder(int id)

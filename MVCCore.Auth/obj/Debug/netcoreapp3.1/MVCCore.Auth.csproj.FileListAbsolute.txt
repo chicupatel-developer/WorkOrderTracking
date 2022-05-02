@@ -198,3 +198,4 @@ C:\MVC-JQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\_Delete
 C:\MVC-JQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\Razor\Views\WorkOrder\_Edit.cshtml.g.cs
 C:\MVC-JQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\Razor\Views\Operation\_GetOperationLogData.cshtml.g.cs
 C:\MVC-JQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\Razor\Views\CustomerOrder\_GetCustomerOrderProgress.cshtml.g.cs
+C:\MVC-JQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\Razor\Views\CustomerOrder\CustomerOrderProgress.cshtml.g.cs
