@@ -125,10 +125,14 @@ namespace Service.Repository
                 if(ops!=null && ops.Count() > 0)
                 {
                     foreach(var op in ops)
-                    {
+                    {                      
+                        int opNumber = op.OperationNumber;
+                        var opString = (OperationNumber)opNumber;
+                        string opName = opString.ToString();
+
                         data.Add(new OperationProgressChartData()
                         {
-                             OperationNumber = op.OperationNumber+"",
+                             OperationNumber = op.OperationNumber+ "[ " +opName + " ]",
                               QtyDone = (op.OpQTYDone!=null ? (int)op.OpQTYDone : 0),
                                QtyRequired = (op.OpQTYRequired != null ? (int)op.OpQTYRequired : 0)
                         });
