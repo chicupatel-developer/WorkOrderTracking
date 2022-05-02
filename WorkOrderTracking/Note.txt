@@ -2,6 +2,8 @@
 
 - if operation-startdate is null then operation-status must be 0 (Not_Started)
 
+- user can not create more than 1 work-order for any customer-order
+
 - workorder-operation combination is UNIQUE
 
 - when workorder is Start_Running,,, then and then 

@@ -90,7 +90,13 @@ namespace MVCCore.Auth.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (WO_OP_Unique_Exception wouEx)
+            {
+                retData.Message = wouEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Exception ex)
             {
                 retData.Message = "Server Error !";
                 retData.ModelErrors = new List<string>();

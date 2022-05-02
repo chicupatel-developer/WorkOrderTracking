@@ -129,7 +129,8 @@ namespace Service.Repository
                         data.Add(new OperationProgressChartData()
                         {
                              OperationNumber = op.OperationNumber+"",
-                              QtyDone = (op.OpQTYDone!=null ? (int)op.OpQTYDone : 0)
+                              QtyDone = (op.OpQTYDone!=null ? (int)op.OpQTYDone : 0),
+                               QtyRequired = (op.OpQTYRequired != null ? (int)op.OpQTYRequired : 0)
                         });
                     }                    
                 }

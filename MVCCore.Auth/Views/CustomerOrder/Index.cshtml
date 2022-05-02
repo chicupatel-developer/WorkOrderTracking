@@ -20,7 +20,7 @@
 <!-- customer order v/s operations progress -->
 <div class="row">
     <div class="col-lg-12">
-        <div id="chartdiv" style="width: 600px; height: 350px;">
+        <div id="chartdiv" style="width: 100%; height: 400px;">
         </div>
     </div>
 </div>
@@ -51,70 +51,80 @@
 
 @section Scripts {
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
 
     <script type="text/javascript">
 
         $(document).ready(function () {
+                    
 
             function loadBarChart() {
                 google.charts.load('current', { 'packages': ['corechart'] });
-                //Call function after Google Chart is loaded, it is required, otherwise you may get error
                 google.charts.setOnLoadCallback(DrawonLoad);
-
             }
-            loadBarChart();
-
-          
+            // loadBarChart();
             function DrawonLoad() {
                 $(function () {
+                    var data = table.row($(this).parents('tr')).data();
+                    console.log(data);
+                    var customerOrderId = data.customerOrderId;
+                    console.log(customerOrderId);
 
-                    console.log('loading bar chart!!!');
+                    var url = '@Url.Action("GetOperationProgressForCustomerOrder", "CustomerOrder")' + '\\' + customerOrderId;
+
 
                     $.ajax({
                         type: 'GET',
-                        url: '/CustomerOrder/GetPiechartJSON',
+                        // url: '/CustomerOrder/GetOperationProgressForCustomerOrder',
+                        url: url,
                         success: function (chartsdata) {
-                            // Callback that creates and populates a data table,
-                            // instantiates the pie chart, passes in the data and
-                            // draws it.
 
-                            //get jsonList from Object
                             var Data = chartsdata.chartData;
                             var data = new google.visualization.DataTable();
 
-                            console.log(Data);
+                            data.addColumn('string', 'Operation Number');
+                            data.addColumn('number', 'Qty Done');
+                            data.addColumn('number', 'Qty Required');
 
-                            data.addColumn('string', 'OperationNumber');
-                            data.addColumn('number', 'QtyDone');
-
-                            //Loop through each list data
                             for (var i = 0; i < Data.length; i++) {
-                                data.addRow([Data[i].operationNumber, Data[i].qtyDone]);
+                                data.addRow([Data[i].operationNumber, Data[i].qtyDone, Data[i].qtyRequired]);
                             }
 
-                            // console.log(data);
-
-                            // Instantiate and draw our chart, passing in some options
                             // var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
-                            var chart = new google.visualization.BarChart(document.getElementById('chartdiv'));
+                            // var chart = new google.visualization.BarChart(document.getElementById('chartdiv'));
+                            var chart = new google.visualization.ColumnChart(document.getElementById('chartdiv'));
 
-                            //Draw pie chart command with data and chart options
                             chart.draw(data,
                                 {
-                                    title: "Google pie Chart in ASP.NET Core MVC",
+                                    title: "Customer Order v/s Operations Progress",
                                     position: "top",
                                     fontsize: "14px",
+                                    vAxis: {
+                                        title: "QTY (Done / Required)",
+                                        textStyle: {
+                                            fontSize: 16,
+                                            color: 'black',
+                                            bold: true,
+                                            italic: true
+                                        }
+                                    },
+                                    hAxis: {
+                                        title: "Operation Number",
+                                        textStyle: {
+                                            fontSize: 16,
+                                            color: 'black',
+                                            bold: true,
+                                            italic: true
+                                        } },
                                 });
                         },
                         error: function () {
                             alert("Error loading data! Please try again.");
                         }
                     });
+
                 })
             }
-
-
 
 
 
@@ -151,12 +161,13 @@
 
             // customer order progress
             // get
+            /*
             $('#customerOrdersTable tbody').on('click', '[id*=btnCOProgress]', function () {
                 var data = table.row($(this).parents('tr')).data();
                 console.log(data);
                 var customerOrderId = data.customerOrderId;
                 console.log(customerOrderId);
-
+            */
                 /*
                 var url = 'CustomerOrder\\GetCustomerOrderProgress\\' + customerOrderId;
                 $.get(url).done(function (data) {
@@ -164,8 +175,7 @@
                     PlaceHolderElement.find('.modal').modal('show');
                 });
                 */
-            });
-
+            // });
 
             // edit
             // get
@@ -278,6 +288,81 @@
                 $('#OrderDate').val('');
                 $('#OrderDueDate').val('');
             };
+
+
+
+            // customer order v/s operations progress
+                $('#customerOrdersTable tbody').on('click', '[id*=btnCOProgress]', function () {
+
+                google.charts.load('current', { 'packages': ['corechart'] });
+                google.charts.setOnLoadCallback();
+
+                var data = table.row($(this).parents('tr')).data();
+                console.log(data);
+                var customerOrderId = data.customerOrderId;
+                console.log(customerOrderId);
+
+                var url = '@Url.Action("GetOperationProgressForCustomerOrder", "CustomerOrder")' + '\\' + customerOrderId;
+
+                $.ajax({
+                    type: 'GET',
+                    // url: '/CustomerOrder/GetOperationProgressForCustomerOrder',
+                    url: url,
+                    success: function (chartsdata) {
+
+                        var Data = chartsdata.chartData;
+                        var data = new google.visualization.DataTable();
+
+                        data.addColumn('string', 'Operation Number');
+                        data.addColumn('number', 'Qty Done');
+                        data.addColumn('number', 'Qty Required');
+
+                        for (var i = 0; i < Data.length; i++) {
+                            data.addRow([Data[i].operationNumber, Data[i].qtyDone, Data[i].qtyRequired]);
+                        }
+
+                        // var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+                        // var chart = new google.visualization.BarChart(document.getElementById('chartdiv'));
+                        var chart = new google.visualization.ColumnChart(document.getElementById('chartdiv'));
+
+                        chart.draw(data,
+                            {
+                                title: "Customer Order v/s Operations Progress",
+                                position: "top",
+                                fontsize: "14px",
+                                vAxis: {
+                                    title: "QTY (Done / Required)",
+                                    textStyle: {
+                                        fontSize: 16,
+                                        color: 'black',
+                                        bold: true,
+                                        italic: true
+                                    }
+                                },
+                                hAxis: {
+                                    title: "Operation Number",
+                                    textStyle: {
+                                        fontSize: 16,
+                                        color: 'black',
+                                        bold: true,
+                                        italic: true
+                                    }
+                                },
+                            });
+                    },
+                    error: function () {
+                        alert("Error loading data! Please try again.");
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
         });
     </script>
 }

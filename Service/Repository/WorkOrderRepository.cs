@@ -73,6 +73,11 @@ namespace Service.Repository
 
         public void AddWorkOrder(WorkOrder workOrder)
         {
+            var wo = appDbContext.WorkOrders
+                        .Where(x => x.CustomerOrderId == workOrder.CustomerOrderId).FirstOrDefault();
+            if (wo != null)
+                throw new WO_OP_Unique_Exception("Work-Order Already Exist For This Customer-Order !");
+
             appDbContext.WorkOrders.Add(workOrder);
             appDbContext.SaveChanges();
         }

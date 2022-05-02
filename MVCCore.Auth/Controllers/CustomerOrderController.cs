@@ -251,9 +251,9 @@ namespace MVCCore.Auth.Controllers
             return PartialView("_GetCustomerOrderProgress", cop);
         }
 
-        public JsonResult GetPiechartJSON(int id)
+        public JsonResult GetOperationProgressForCustomerOrder(int id)
         {
-            var list = _custOrderRepo.GetOperationProgressForCustomerOrder(13);
+            var list = _custOrderRepo.GetOperationProgressForCustomerOrder(id);
 
             return Json(new { chartData = list });
         }
