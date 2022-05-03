@@ -22,6 +22,10 @@
         font-size: small;
         border: 2px solid red;
         padding: 5px;
+        width: 400px;
+    }
+    table, th, td {
+        border: 1px dotted blue;
     }
 </style>
 
@@ -72,11 +76,17 @@
                 </div>
             </div>
             <div class="col-sm-9">
-                 <table id="commenttable" border="1" width="100%">
+                 <table id="logData" width="100%" border="1" >
                     <thead>
-                        <tr style="font-weight:bold;">
+                        <tr style="font-weight:bold; color: darkcyan;">
                             <th>#</th>
-                            <th>Operator #</th>
+                            <th>WorkOrder #</th>
+                            <th>Operation</th>
+                            <th>Status</th>
+                            <th>Qty Done</th>
+                            <th>Start Time</th>
+                            <th>Pause Time</th>
+                            <th>Cycle Time</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,15 +123,47 @@
                         console.log(response.myLog);
                         console.log(response.result.message);
 
-                        $("#commenttable > tbody").empty();
+                        $("#logData > tbody").empty();
 
                         $.each(response.myLog, function (index, value) {
                             // alert(index + ": " + value);
+
+                            /*
+                            var opStartTime = new Date(value.opStartRunTime);
+                            console.log(opStartTime);
+                            console.log(opStartTime.getMonth());
+                            const month = opStartTime.toLocaleString('default', { month: 'long' });
+                            console.log(month);
+                            console.log(opStartTime.getDate());
+                            const time = opStartTime.toLocaleString('default', { hour: 'numeric', minute: 'numeric', hour12: true });
+                            console.log(time);
+                            */
+
+
+                            var opStartTime = new Date(value.opStartRunTime);                                                    
+                            var monthStartTime_ = opStartTime.toLocaleString('default', { month: 'long' });
+                            var dateStartTime_ = opStartTime.getDate();
+
+                            var opPauseTime = new Date(value.opPauseRunTime);
+                            var monthPauseTime_ = opPauseTime.toLocaleString('default', { month: 'long' });
+                            var datePauseTime_ = opPauseTime.getDate();
+
+                            var hours_ = value.cycleTime.value.hours;
+                            var minutes_ = value.cycleTime.value.minutes;
+
+
                             var tr;
                             tr = $('<tr/>');
                             tr.append("<td>" + value.operatorActivityId + "</td>");
-                            tr.append("<td>" + value.operatorId + "</td>");
-                            $('#commenttable').append(tr);
+                            tr.append("<td>" + value.workOrderId + "</td>");
+                            tr.append("<td>" + value.operationNumber + "</td>");
+                            tr.append("<td>" + value.operationStatus + "</td>");
+                            tr.append("<td>" + value.opQtyDone + "</td>");
+                            tr.append("<td>" + monthStartTime_ + ", " + dateStartTime_ + "</td>");
+                            tr.append("<td>" + monthPauseTime_ + ", " + datePauseTime_ + "</td>");
+                            tr.append("<td>" + hours_ + ":" + minutes_ + "</td>");
+
+                            $('#logData').append(tr);
                         });
                       
 

@@ -8,6 +8,7 @@ namespace EF.Core.Models
     {
         Today,
         This_Week,
-        This_Month
+        This_Month,
+        Previous_Month
     }
 }

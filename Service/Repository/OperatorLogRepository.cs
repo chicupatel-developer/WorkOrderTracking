@@ -162,6 +162,18 @@ namespace Service.Repository
                     datas = data_.ToList();
             }
 
+            if (logDataOptions.LogDataRange == ViewMyLogData.Previous_Month)
+            {
+                DateTime date = DateTime.Today;
+                int lastMonth = DateTime.Now.AddMonths(-1).Month;
+                int currentYear = DateTime.Now.Year;
+
+                var data_ = appDbContext.OperatorActivities
+                            .Where(x => x.UserId == logDataOptions.UserId && x.OpStartRunTime.Value.Month == lastMonth && x.OpStartRunTime.Value.Year == currentYear);
+                if (data_ != null && data_.Count() > 0)
+                    datas = data_.ToList();
+            }
+
             return datas;
         }
     }
