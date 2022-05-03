@@ -72,7 +72,16 @@
                 </div>
             </div>
             <div class="col-sm-9">
-
+                 <table id="commenttable" border="1" width="100%">
+                    <thead>
+                        <tr style="font-weight:bold;">
+                            <th>#</th>
+                            <th>Operator #</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                 </table>
             </div>
         </div>
     </form>
@@ -103,6 +112,19 @@
                         // success
                         console.log(response.myLog);
                         console.log(response.result.message);
+
+                        $("#commenttable > tbody").empty();
+
+                        $.each(response.myLog, function (index, value) {
+                            // alert(index + ": " + value);
+                            var tr;
+                            tr = $('<tr/>');
+                            tr.append("<td>" + value.operatorActivityId + "</td>");
+                            tr.append("<td>" + value.operatorId + "</td>");
+                            $('#commenttable').append(tr);
+                        });
+                      
+
                     }
                     if (response.result.statusCode == -1) {
                         // server error
