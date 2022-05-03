@@ -6,6 +6,11 @@
 }
 
 <style>
+     .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }   
+
     .daysLeftSpan {
         color: red;
         font-size: large;
@@ -35,16 +40,27 @@
     .trEmpty {
         height: 50px;
     }
+    .reportContent{
+        margin-top:50px;
+    }
+    .headerContent {
+        padding: 20px;
+        border: 2px solid brown;
+    }
 </style>
 
 <div class="text-center">
-    <h3 class="display-6">Customer Order Progress</h3>
+    <h3 class="display-6">
+        <span class="titleSpan">
+            <u>Customer Order Progress Report</u>
+        </span>
+    </h3>
 </div>
 <p></p>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3">
+<div class="container reportContent">
+    <div class="row headerContent">
+        <div class="col-sm-6 offset-sm-1">
             @if (Model.CustomerOrder != null)
             {
                 <div>
@@ -73,26 +89,35 @@
                 </div>
             }
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             @if (Model.WorkOrder != null)
             {
-                <div>
-                    <h4><u>Work-Order</u></h4>
-                    <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
-                    <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
-                    @{
-                        string woStartDate = null;
-                        if (Model.WorkOrder.WorkOrderStartDate != null)
-                        {
-                            woStartDate = Model.WorkOrder.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy");
-                        }
-                        else
-                        {
-                            woStartDate = "N/A";
-                        }
+            <div>
+                <h4><u>Work-Order</u></h4>
+                <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
+                <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
+                @{
+                    string woStartDate = null;
+                    if (Model.WorkOrder.WorkOrderStartDate != null)
+                    {
+                        woStartDate = Model.WorkOrder.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy");
                     }
-                    <span>Work Order Start Date : @woStartDate</span>
+                    else
+                    {
+                        woStartDate = "N/A";
+                    }
+                }
+                <span>Work Order Start Date : @woStartDate</span>
+                <p></p>
+                <div id="loadChart"
+                     class="container">
+                    <button id="getChart"
+                            class="btn btn-primary"
+                            type="button">
+                        Customer-Order v/s Operations Progress
+                    </button>
                 </div>
+            </div>
             }
             else
             {
@@ -101,29 +126,27 @@
                 </div>
             }
         </div>
-        <div class="col-sm-6">
-            <div id="loadChart"
-                 class="container">
-                <button id="getChart"
-                        class="btn btn-primary"
-                        type="button">
-                    Customer-Order v/s Operations Progress
-                </button>
-            </div>
+    </div>
+
+    <p></p>
+    <div class="row">
+        <div class="col-sm-12">           
             <div class="row chartArea">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <div class="@ViewBag.SelectedCustomerOrderId"
                          id="chartdiv">
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-    <hr />
+
+    <p></p>
     <div class="row">
         <div class="col-sm-10">
             @if (Model.OperationDatas.Count() > 0)
-            {
+            {                
                 <h4><u>Operations</u></h4>
                 <table class="table" id="operationsTable">
                     <thead>
@@ -390,19 +413,37 @@
                             data.addRow([Data[i].operationNumber, Data[i].qtyDone, Data[i].qtyRequired]);
                         }
 
+                        var view = new google.visualization.DataView(data);
+                        view.setColumns([0,1,
+                            {
+                                calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation"
+                            },
+                            2,
+                            {
+                                calc: "stringify",
+                                sourceColumn: 2,
+                                type: "string",
+                                role: "annotation"
+                            }]);
+
                         // var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
                         // var chart = new google.visualization.BarChart(document.getElementById('chartdiv'));
                         var chart = new google.visualization.ColumnChart(document.getElementById('chartdiv'));
 
-                        chart.draw(data,
+                        // chart.draw(data,
+                        chart.draw(view,
                             {
+                                colors: ['lightgreen', 'red'],
                                 title: "Customer Order v/s Operations Progress",
                                 position: "top",
                                 fontsize: "14px",
                                 vAxis: {
                                     title: "QTY (Done / Required)",
                                     textStyle: {
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         color: 'black',
                                         bold: true,
                                         italic: true
@@ -411,7 +452,7 @@
                                 hAxis: {
                                     title: "Operation Number",
                                     textStyle: {
-                                        fontSize: 16,
+                                        fontSize: 12,
                                         color: 'black',
                                         bold: true,
                                         italic: true
