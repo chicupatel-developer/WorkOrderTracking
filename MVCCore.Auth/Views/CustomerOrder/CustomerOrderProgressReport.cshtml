@@ -1,15 +1,15 @@
 ﻿@using EF.Core.Models;
-@model EF.Core.DTO.CustomerOrderProgress;
+@model EF.Core.DTO.CustomerOrderProgressReportData;
 
 @{
     ViewData["Title"] = "Customer Order Progress";
 }
 
 <style>
-     .titleSpan {
+    .titleSpan {
         background-color: lightgoldenrodyellow;
         color: red;
-    }   
+    }
 
     .daysLeftSpan {
         color: red;
@@ -40,9 +40,11 @@
     .trEmpty {
         height: 50px;
     }
-    .reportContent{
-        margin-top:50px;
+
+    .reportContent {
+        margin-top: 50px;
     }
+
     .headerContent {
         padding: 20px;
         border: 2px solid brown;
@@ -92,32 +94,33 @@
         <div class="col-sm-5">
             @if (Model.WorkOrder != null)
             {
-            <div>
-                <h4><u>Work-Order</u></h4>
-                <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
-                <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
-                @{
-                    string woStartDate = null;
-                    if (Model.WorkOrder.WorkOrderStartDate != null)
-                    {
-                        woStartDate = Model.WorkOrder.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy");
+                <div>
+                    <h4><u>Work-Order</u></h4>
+                    <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
+                    <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
+                    @{
+                        string woStartDate = null;
+                        if (Model.WorkOrder.WorkOrderStartDate != null)
+                        {
+                            woStartDate = Model.WorkOrder.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy");
+                        }
+                        else
+                        {
+                            woStartDate = "N/A";
+                        }
                     }
-                    else
-                    {
-                        woStartDate = "N/A";
-                    }
-                }
-                <span>Work Order Start Date : @woStartDate</span>
-                <p></p>
-                <div id="loadChart"
-                     class="container">
-                    <button id="getChart"
-                            class="btn btn-primary"
-                            type="button">
-                        Customer-Order v/s Operations Progress
-                    </button>
+                    <span>Work Order Start Date : @woStartDate</span>
+                    <p></p>
+                    <div id="loadChart"
+                         class="container">
+                        <button id="getChart"
+                                class="btn btn-primary"
+                                type="button">
+                            <i class="fas fa-chart-bar fa-lg"></i>
+                            Operations Progress
+                        </button>
+                    </div>
                 </div>
-            </div>
             }
             else
             {
@@ -130,7 +133,7 @@
 
     <p></p>
     <div class="row">
-        <div class="col-sm-12">           
+        <div class="col-sm-12">
             <div class="row chartArea">
                 <div class="col-sm-12">
                     <div class="@ViewBag.SelectedCustomerOrderId"
@@ -146,7 +149,7 @@
     <div class="row">
         <div class="col-sm-10">
             @if (Model.OperationDatas.Count() > 0)
-            {                
+            {
                 <h4><u>Operations</u></h4>
                 <table class="table" id="operationsTable">
                     <thead>
@@ -377,42 +380,30 @@
 
 
 @section Scripts {
-  
+
     <script type="text/javascript">
-
         $(document).ready(function () {
-
             $('#chartArea').hide();
             $('#loadChart').show();
-
             google.charts.load('current', { 'packages': ['corechart'] });
             google.charts.setOnLoadCallback();
-
-
             $('#getChart').on('click', function () {
-
                 var customerOrderId = $('#chartdiv').attr("class");
                 console.log(customerOrderId);
-
-                var url = '@Url.Action("GetOperationProgressForCustomerOrder", "CustomerOrder")' + '\\' + customerOrderId;
-
+                var url = '@Url.Action("GetCustomerOrderProgressChart", "CustomerOrder")' + '\\' + customerOrderId;
                 $.ajax({
                     type: 'GET',
                     // url: '/CustomerOrder/GetOperationProgressForCustomerOrder',
                     url: url,
                     success: function (chartsdata) {
-
                         var Data = chartsdata.chartData;
                         var data = new google.visualization.DataTable();
-
                         data.addColumn('string', 'Operation Number');
                         data.addColumn('number', 'Qty Done');
                         data.addColumn('number', 'Qty Required');
-
                         for (var i = 0; i < Data.length; i++) {
                             data.addRow([Data[i].operationNumber, Data[i].qtyDone, Data[i].qtyRequired]);
                         }
-
                         var view = new google.visualization.DataView(data);
                         view.setColumns([0,1,
                             {
@@ -428,11 +419,9 @@
                                 type: "string",
                                 role: "annotation"
                             }]);
-
                         // var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
                         // var chart = new google.visualization.BarChart(document.getElementById('chartdiv'));
                         var chart = new google.visualization.ColumnChart(document.getElementById('chartdiv'));
-
                         // chart.draw(data,
                         chart.draw(view,
                             {
@@ -459,19 +448,17 @@
                                     }
                                 },
                             });
-
                         $('#chartArea').show();
                         $('#loadChart').hide();
-
                     },
                     error: function () {
                         console.log("Error loading data! Please try again.");
                         $('#chartArea').hide();
                         $('#loadChart').show();
                     }
-
                 });
             });
         });
     </script>
 }
+

@@ -13,7 +13,7 @@ namespace Service.Interface
         CustomerOrder GetCustomerOrder(int customerOrderId);
         void EditCustomerOrder(CustomerOrder customerOrder);
         void DeleteCustomerOrder(int customerOrderId);
-        CustomerOrderProgress GetCustomerOrderProgress(int cid);
-        List<OperationProgressChartData> GetOperationProgressForCustomerOrder(int cid);
+        CustomerOrderProgressReportData GetCustomerOrderProgressReport(int cid);
+        List<CustomerOrderProgressChartData> GetCustomerOrderProgressChart(int cid);
     }
 }

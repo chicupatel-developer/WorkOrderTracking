@@ -65,9 +65,9 @@ namespace Service.Repository
             appDbContext.SaveChanges();
         }
 
-        public CustomerOrderProgress GetCustomerOrderProgress(int cid)
+        public CustomerOrderProgressReportData GetCustomerOrderProgressReport(int cid)
         {
-            CustomerOrderProgress data = new CustomerOrderProgress();
+            CustomerOrderProgressReportData data = new CustomerOrderProgressReportData();
             data.CustomerOrder = null;
             data.WorkOrder = null;
             data.OperationDatas = new List<OperationData>();
@@ -111,9 +111,9 @@ namespace Service.Repository
             return data;
         }
 
-        public List<OperationProgressChartData> GetOperationProgressForCustomerOrder(int cid)
+        public List<CustomerOrderProgressChartData> GetCustomerOrderProgressChart(int cid)
         {
-            List<OperationProgressChartData> data = new List<OperationProgressChartData>();
+            List<CustomerOrderProgressChartData> data = new List<CustomerOrderProgressChartData>();
             
             var co = appDbContext.CustomerOrders.Include(x=>x.WorkOrder)
                             .Where(x => x.CustomerOrderId == cid).FirstOrDefault();
@@ -130,7 +130,7 @@ namespace Service.Repository
                         var opString = (OperationNumber)opNumber;
                         string opName = opString.ToString();
 
-                        data.Add(new OperationProgressChartData()
+                        data.Add(new CustomerOrderProgressChartData()
                         {
                              OperationNumber = op.OperationNumber+ "[ " +opName + " ]",
                               QtyDone = (op.OpQTYDone!=null ? (int)op.OpQTYDone : 0),

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EF.Core.DTO
 {
-    public class CustomerOrderProgress
+    public class CustomerOrderProgressReportData
     {
         public CustomerOrder CustomerOrder { get; set; }
         public WorkOrder WorkOrder { get; set; }

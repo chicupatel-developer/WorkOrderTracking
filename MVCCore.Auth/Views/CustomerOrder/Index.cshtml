@@ -196,7 +196,7 @@
                 var customerOrderId = data.customerOrderId;
                 console.log(customerOrderId);
 
-                var url = '@Url.Action("GetCustomerOrderProgress", "CustomerOrder")' + '\\' + customerOrderId;
+                var url = '@Url.Action("GetCustomerOrderProgressReport", "CustomerOrder")' + '\\' + customerOrderId;
                 window.location.href = url;
 
             });

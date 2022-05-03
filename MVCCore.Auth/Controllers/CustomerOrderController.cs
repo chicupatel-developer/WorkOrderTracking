@@ -245,16 +245,16 @@ namespace MVCCore.Auth.Controllers
 
 
         [HttpGet]
-        public ActionResult GetCustomerOrderProgress(int id)
+        public ActionResult GetCustomerOrderProgressReport(int id)
         {
-            var cop = _custOrderRepo.GetCustomerOrderProgress(id);
+            var coprd = _custOrderRepo.GetCustomerOrderProgressReport(id);
             ViewBag.SelectedCustomerOrderId = id;
-            return View("CustomerOrderProgress", cop);
+            return View("CustomerOrderProgressReport", coprd);
         }
 
-        public JsonResult GetOperationProgressForCustomerOrder(int id)
+        public JsonResult GetCustomerOrderProgressChart(int id)
         {
-            var list = _custOrderRepo.GetOperationProgressForCustomerOrder(id);
+            var list = _custOrderRepo.GetCustomerOrderProgressChart(id);
 
             return Json(new { chartData = list });
         }
