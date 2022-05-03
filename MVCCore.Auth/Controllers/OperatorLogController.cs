@@ -169,7 +169,37 @@ namespace MVCCore.Auth.Controllers
             return Json(_oprRepo.GetOperationQtyData(id));
         }
 
-      
+
+        public IActionResult ViewMyLog()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult GetMyLogData(OperatorLogDataView myLogData)
+        {
+            OperationResult retData = new OperationResult();          
+
+            try
+            {
+                var myLog = _oprRepo.GetMyLogData(myLogData);
+
+                retData.Message = "Operator-Log Data Is Ready !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = 0;
+
+                return Json(new { Result = retData, MyLog = myLog } );
+            }         
+            catch (Exception ex)
+            {
+                retData.Message = "Server Error !";
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+                return Json(new { Result = retData });
+            }            
+        }
+
+
 
     }
 }

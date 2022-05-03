@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Service.Interface;
+using Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,5 +126,43 @@ namespace Service.Repository
             return data;
         }
 
+        public List<OperatorActivity> GetMyLogData(OperatorLogDataView logDataOptions)
+        {
+            List<OperatorActivity> datas = new List<OperatorActivity>();
+
+            if (logDataOptions.LogDataRange == ViewMyLogData.Today)
+            {
+                var data_= appDbContext.OperatorActivities
+                            .Where(x => x.UserId == logDataOptions.UserId && x.OpStartRunTime.Value.Date == DateTime.Now.Date);
+                if (data_ != null && data_.Count() > 0)
+                    datas = data_.ToList();
+            }
+                
+            if (logDataOptions.LogDataRange == ViewMyLogData.This_Week)
+            {
+                DateTime date = DateTime.Today;
+                DateTime firstDayOfWeek = DateTimeExt.GetFirstDayOfWeek(date);
+                DateTime lastDayOfWeek = DateTimeExt.GetLasttDayOfWeek(date);
+
+                var data_ = appDbContext.OperatorActivities
+                            .Where(x => x.UserId == logDataOptions.UserId && x.OpStartRunTime.Value.Date >= firstDayOfWeek.Date && x.OpStartRunTime.Value.Date <= lastDayOfWeek.Date);
+                if (data_ != null && data_.Count() > 0)
+                    datas = data_.ToList();
+            }
+          
+            if (logDataOptions.LogDataRange == ViewMyLogData.This_Month)
+            {
+                DateTime date = DateTime.Today;
+                int currentMonth = DateTime.Now.Month;
+                int currentYear = DateTime.Now.Year;
+
+                var data_ = appDbContext.OperatorActivities
+                            .Where(x => x.UserId == logDataOptions.UserId && x.OpStartRunTime.Value.Month == currentMonth && x.OpStartRunTime.Value.Year == currentYear);
+                if (data_ != null && data_.Count() > 0)
+                    datas = data_.ToList();
+            }
+
+            return datas;
+        }
     }
 }

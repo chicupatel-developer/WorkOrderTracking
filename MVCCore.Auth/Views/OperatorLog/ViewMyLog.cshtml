@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MVCCore.Auth.Areas.Identity.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@using EF.Core.Models;
+@model EF.Core.DTO.OperatorLogDataView;
+
+
+@{
+    ViewData["Title"] = "View My-Log Home Page";
+}
+
+<style>
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
+
+    .operatorData {
+        color: blue;
+        font-size: small;
+        border: 2px solid red;
+        padding: 5px;
+    }
+</style>
+
+
+<div class="text-center">
+    <h3 class="display-6"><span class="titleSpan"><u>View My-Log</u></span></h3>
+</div>
+
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+<div class="text-left operatorData">
+    Operator : @User.Identity.Name <br />
+    First Name : @user.FirstName <br />
+    Last Name : @user.LastName <br />
+    User Id : @user.Id <br />
+</div>
+
+
+
+<p></p>
+<div class="container">
+    <form id="myLogDataForm"
+          name="myLogDataForm"
+          asp-action="GetMyLogData">
+
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Select Log-Data Range</label>
+                    <select asp-for="LogDataRange"
+                            class="form-control"
+                            id="LogDataRange"
+                            asp-items="Html.GetEnumSelectList<ViewMyLogData>()">
+                    </select>
+                </div>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary viewMyLogData">
+                        View My-Log Data !
+                    </button>
+                </div>
+                <div id="@user.Id" class="userIdClass">
+                </div>
+            </div>
+            <div class="col-sm-9">
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.viewMyLogData').click(function () {
+
+                var form = $('#myLogDataForm');
+                var sendData = form.serialize();              
+                var userId = $('.userIdClass').attr("id");
+
+                var data = form.serialize() + '&UserId=' + userId;
+                var url = '@Url.Action("GetMyLogData", "OperatorLog")';
+
+
+                $.post(url, data).done(function (response) {
+                    // console.log(response);
+
+                    if (response.result.statusCode == 0) {
+                        // success
+                        console.log(response.myLog);
+                        console.log(response.result.message);
+                    }
+                    if (response.result.statusCode == -1) {
+                        // server error
+                        console.log(response.result.message);
+                    }
+                }).fail(function (error) {
+                    console.log("Ajax Call Error");
+                });
+            });
+
+        });
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
