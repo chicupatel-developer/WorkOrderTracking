@@ -335,7 +335,7 @@
 
                                         @{
                                             var opPauseTime = "";
-                                            if (opH.OpStartRunTime != null)
+                                            if (opH.OpPauseRunTime != null)
                                             {
                                                 opPauseTime = opH.OpPauseRunTime.Value.ToString("dd, MMM hh:mm tt");
                                             }
@@ -347,10 +347,22 @@
                                         <td>
                                             @opPauseTime
                                         </td>
+
+                                        @{
+                                            var cycleTime = "";
+                                            if (opH.CycleTime != null)
+                                            {
+                                                cycleTime = @opH.CycleTime.ToString();
+                                            }
+                                            else
+                                            {
+                                                cycleTime = "N/A";
+                                            }
+                                        }
                                         <td>
-                                            @opH.CycleTime
+                                            @cycleTime
                                         </td>
-                                    </tr>
+                                    </tr>                                
                                 }
                                 <tr class="trEmpty"></tr>
                             }
