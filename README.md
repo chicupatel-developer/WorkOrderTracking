@@ -21,6 +21,7 @@ Technology
 
 
 # Database
+![db_dia](https://user-images.githubusercontent.com/26190114/166802303-b1a54a9b-656e-46d7-91a6-9df148a7947d.PNG)
 
 
 # Screens
