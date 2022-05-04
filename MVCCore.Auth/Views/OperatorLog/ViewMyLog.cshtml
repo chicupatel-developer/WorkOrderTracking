@@ -105,6 +105,37 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            function getOperationStatus(opStatus) {
+                if (opStatus == 0)
+                    return 'Start';
+                else
+                    return 'Pause';
+            }
+
+            function getOperation(opNumber) {
+                if (opNumber == 10)
+                    return 'Spindle';
+                else if (opNumber == 20)
+                    return 'Hub_Single_Head';
+                else if (opNumber == 30)
+                    return 'Hub_Double_Head';
+                else if (opNumber == 40)
+                    return 'Push_Cups';
+                else if (opNumber == 50)
+                    return 'Assembly_Spindle_Hub';
+                else if (opNumber == 60)
+                    return 'Paint';
+                else if (opNumber == 70)
+                    return 'Packaging' ;
+                else if (opNumber == 80)
+                    return 'Rework_Spindle';
+                else if (opNumber == 90)
+                    return 'Rework_Hub' ;
+                else
+                    return opNumber;
+            }
+
+
             $('.viewMyLogData').click(function () {
 
                 var form = $('#myLogDataForm');
@@ -139,29 +170,67 @@
                             console.log(time);
                             */
 
+                            var qtyDisplay;
+                            if (value.opQtyDone != null)
+                                qtyDisplay = value.opQtyDone;
+                            else
+                                qtyDisplay = "N/A";
 
-                            var opStartTime = new Date(value.opStartRunTime);                                                    
-                            var monthStartTime_ = opStartTime.toLocaleString('default', { month: 'long' });
-                            var dateStartTime_ = opStartTime.getDate();
 
-                            var opPauseTime = new Date(value.opPauseRunTime);
-                            var monthPauseTime_ = opPauseTime.toLocaleString('default', { month: 'long' });
-                            var datePauseTime_ = opPauseTime.getDate();
+                            var opStartTime;
+                            var monthStartTime_;
+                            var dateStartTime_;
+                            var startTime_;
+                            var opStartTimeDisplay;
+                            if (value.opStartRunTime != null) {
+                                opStartTime = new Date(value.opStartRunTime);
+                                monthStartTime_ = opStartTime.toLocaleString('default', { month: 'long' });
+                                dateStartTime_ = opStartTime.getDate();
+                                startTime_ = opStartTime.toLocaleString('default', { hour: 'numeric', minute: 'numeric', hour12: true });
+                                opStartTimeDisplay = monthStartTime_ + ", " + dateStartTime_ + " [" + startTime_ + "] ";
+                            }
+                            else
+                                opStartTimeDisplay = "N/A";
 
-                            var hours_ = value.cycleTime.value.hours;
-                            var minutes_ = value.cycleTime.value.minutes;
 
+                            var opPauseTime;
+                            var monthPauseTime_;
+                            var datePauseTime_;
+                            var pauseTime_;
+                            var opPauseTimeDisplay;
+                            if (value.opPauseRunTime != null) {
+                                opPauseTime = new Date(value.opPauseRunTime);
+                                monthPauseTime_ = opPauseTime.toLocaleString('default', { month: 'long' });
+                                datePauseTime_ = opPauseTime.getDate();
+                                pauseTime_ = opPauseTime.toLocaleString('default', { hour: 'numeric', minute: 'numeric', hour12: true });
+                                opPauseTimeDisplay = monthPauseTime_ + ", " + datePauseTime_ + " [" + pauseTime_ + "] ";
+                            }
+                            else
+                                opPauseTimeDisplay = "N/A";
+
+
+                            var hours_;
+                            var minutes_;
+                            var timeDisplay;
+                            if (value.cycleTime != null) {
+                                hours_ = value.cycleTime.value.hours;
+                                minutes_ = value.cycleTime.value.minutes;
+                                timeDisplay = hours_ + ":" + minutes_;
+                            }
+                            else
+                                timeDisplay = "N/A";
+                       
 
                             var tr;
                             tr = $('<tr/>');
                             tr.append("<td>" + value.operatorActivityId + "</td>");
                             tr.append("<td>" + value.workOrderId + "</td>");
-                            tr.append("<td>" + value.operationNumber + "</td>");
-                            tr.append("<td>" + value.operationStatus + "</td>");
-                            tr.append("<td>" + value.opQtyDone + "</td>");
-                            tr.append("<td>" + monthStartTime_ + ", " + dateStartTime_ + "</td>");
-                            tr.append("<td>" + monthPauseTime_ + ", " + datePauseTime_ + "</td>");
-                            tr.append("<td>" + hours_ + ":" + minutes_ + "</td>");
+                            tr.append("<td>" + getOperation(value.operationNumber) + "<br />" + "[ " + value.operationNumber + " ]" + "</td>");
+                            tr.append("<td>" + getOperationStatus(value.operationStatus) + "</td>");
+                            tr.append("<td>" + qtyDisplay + "</td>");
+                            tr.append("<td>" + opStartTimeDisplay + "</td>");
+                            tr.append("<td>" + opPauseTimeDisplay + "</td>");
+                            tr.append("<td>" + timeDisplay + "</td>");
 
                             $('#logData').append(tr);
                         });

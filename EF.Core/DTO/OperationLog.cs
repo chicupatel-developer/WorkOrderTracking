@@ -16,9 +16,9 @@ namespace EF.Core.DTO
     {
         public int OperatorId { get; set; }       
         public string OperatorName { get; set; }
-        public DateTime OpStartRunTime { get; set; }
-        public DateTime OpPauseRunTime { get; set; }
-        public TimeSpan CycleTime { get; set; }
-        public int QtyDone { get; set; }
+        public DateTime? OpStartRunTime { get; set; }
+        public DateTime? OpPauseRunTime { get; set; }
+        public TimeSpan? CycleTime { get; set; }
+        public int? QtyDone { get; set; }
     }
 }

@@ -219,14 +219,26 @@ namespace Service.Repository
             {
                 foreach (var opl in opLog)
                 {
+                    TimeSpan? cycleTime_ = null;
+                    if (opl.CycleTime != null)
+                        cycleTime_ = (TimeSpan)opl.CycleTime;
+
+                    DateTime? startRunTime = null;
+                    if (opl.OpStartRunTime != null)
+                        startRunTime = (DateTime)opl.OpStartRunTime;
+
+                    DateTime? pauseRunTime = null;
+                    if (opl.OpPauseRunTime != null)
+                        pauseRunTime = (DateTime)opl.OpPauseRunTime;
+
                     data.OperationHistory.Add(new HistoryData()
                     {
-                        CycleTime = (TimeSpan)opl.CycleTime,
+                        CycleTime = cycleTime_,
                         OperatorId = (int)opl.OperatorId,
                         OperatorName = opl.Operator.FirstName+", "+opl.Operator.LastName,
-                        OpPauseRunTime = (DateTime)opl.OpPauseRunTime,
-                        OpStartRunTime = (DateTime)opl.OpStartRunTime,
-                        QtyDone = (int)opl.OpQtyDone
+                        OpPauseRunTime =pauseRunTime,
+                        OpStartRunTime = startRunTime,
+                        QtyDone = (opl.OpQtyDone!=null ? (int)opl.OpQtyDone : 0 )
                     });
                 }
 
