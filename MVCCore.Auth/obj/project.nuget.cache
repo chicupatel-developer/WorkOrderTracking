@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OfxIzkf3i17MgFbdano+8bXGG6pi1S3V8qwGRCAALKjtPETt7Cn1T4cgGZtrGGiqvMX1ngsODbUi7g+kHf6LpA==",
+  "dgSpecHash": "+XJOyIR91/G6VE66SkQBBMO8mnBQdQ6rtUyfcT+7axi5/OPjcKJESnSyafMwn7XGnswbkfEFQ/eHSlmPIFZxZA==",
   "success": true,
-  "projectFilePath": "C:\\MVC-JQuery\\MVCCore.Auth\\MVCCore.Auth.csproj",
+  "projectFilePath": "C:\\WorkOrder-Tracking-jQuery\\MVCCore.Auth\\MVCCore.Auth.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ankit_2\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.2.0\\microsoft.aspnetcore.antiforgery.2.2.0.nupkg.sha512",
     "C:\\Users\\ankit_2\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

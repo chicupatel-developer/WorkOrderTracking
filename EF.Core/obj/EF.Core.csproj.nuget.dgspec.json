@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj": {}
+    "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj": {}
   },
   "projects": {
-    "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj": {
+    "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj",
+        "projectUniqueName": "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj",
         "projectName": "EF.Core",
-        "projectPath": "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj",
+        "projectPath": "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj",
         "packagesPath": "C:\\Users\\ankit_2\\.nuget\\packages\\",
-        "outputPath": "C:\\MVC-JQuery\\EF.Core\\obj\\",
+        "outputPath": "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -8051,11 +8051,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\MVC-JQuery\\Service\\Service.csproj",
+      "projectUniqueName": "C:\\WorkOrder-Tracking-jQuery\\Service\\Service.csproj",
       "projectName": "Service",
-      "projectPath": "C:\\MVC-JQuery\\Service\\Service.csproj",
+      "projectPath": "C:\\WorkOrder-Tracking-jQuery\\Service\\Service.csproj",
       "packagesPath": "C:\\Users\\ankit_2\\.nuget\\packages\\",
-      "outputPath": "C:\\MVC-JQuery\\Service\\obj\\",
+      "outputPath": "C:\\WorkOrder-Tracking-jQuery\\Service\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -8075,8 +8075,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj": {
-              "projectPath": "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj"
+            "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj": {
+              "projectPath": "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj"
             }
           }
         }

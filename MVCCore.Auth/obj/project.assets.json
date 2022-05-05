@@ -10058,11 +10058,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\MVC-JQuery\\MVCCore.Auth\\MVCCore.Auth.csproj",
+      "projectUniqueName": "C:\\WorkOrder-Tracking-jQuery\\MVCCore.Auth\\MVCCore.Auth.csproj",
       "projectName": "MVCCore.Auth",
-      "projectPath": "C:\\MVC-JQuery\\MVCCore.Auth\\MVCCore.Auth.csproj",
+      "projectPath": "C:\\WorkOrder-Tracking-jQuery\\MVCCore.Auth\\MVCCore.Auth.csproj",
       "packagesPath": "C:\\Users\\ankit_2\\.nuget\\packages\\",
-      "outputPath": "C:\\MVC-JQuery\\MVCCore.Auth\\obj\\",
+      "outputPath": "C:\\WorkOrder-Tracking-jQuery\\MVCCore.Auth\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -10082,11 +10082,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj": {
-              "projectPath": "C:\\MVC-JQuery\\EF.Core\\EF.Core.csproj"
+            "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj": {
+              "projectPath": "C:\\WorkOrder-Tracking-jQuery\\EF.Core\\EF.Core.csproj"
             },
-            "C:\\MVC-JQuery\\Service\\Service.csproj": {
-              "projectPath": "C:\\MVC-JQuery\\Service\\Service.csproj"
+            "C:\\WorkOrder-Tracking-jQuery\\Service\\Service.csproj": {
+              "projectPath": "C:\\WorkOrder-Tracking-jQuery\\Service\\Service.csproj"
             }
           }
         }

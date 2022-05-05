@@ -10,3 +10,15 @@ C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.dll
 C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.pdb
 C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.genruntimeconfig.cache
 C:\MVC-JQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.csproj.AssemblyReference.cache
+C:\WorkOrder-Tracking-jQuery\EF.Core\bin\Debug\netcoreapp3.1\EF.Core.deps.json
+C:\WorkOrder-Tracking-jQuery\EF.Core\bin\Debug\netcoreapp3.1\EF.Core.runtimeconfig.json
+C:\WorkOrder-Tracking-jQuery\EF.Core\bin\Debug\netcoreapp3.1\EF.Core.runtimeconfig.dev.json
+C:\WorkOrder-Tracking-jQuery\EF.Core\bin\Debug\netcoreapp3.1\EF.Core.dll
+C:\WorkOrder-Tracking-jQuery\EF.Core\bin\Debug\netcoreapp3.1\EF.Core.pdb
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.csproj.AssemblyReference.cache
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.AssemblyInfoInputs.cache
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.AssemblyInfo.cs
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.csproj.CoreCompileInputs.cache
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.dll
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.pdb
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.genruntimeconfig.cache

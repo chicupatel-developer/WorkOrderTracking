@@ -10,3 +10,15 @@ C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.CoreCompileInputs.c
 C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.CopyComplete
 C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.dll
 C:\MVC-JQuery\Service\obj\Debug\netcoreapp3.1\Service.pdb
+C:\WorkOrder-Tracking-jQuery\Service\bin\Debug\netcoreapp3.1\Service.deps.json
+C:\WorkOrder-Tracking-jQuery\Service\bin\Debug\netcoreapp3.1\Service.dll
+C:\WorkOrder-Tracking-jQuery\Service\bin\Debug\netcoreapp3.1\Service.pdb
+C:\WorkOrder-Tracking-jQuery\Service\bin\Debug\netcoreapp3.1\EF.Core.dll
+C:\WorkOrder-Tracking-jQuery\Service\bin\Debug\netcoreapp3.1\EF.Core.pdb
+C:\WorkOrder-Tracking-jQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.AssemblyReference.cache
+C:\WorkOrder-Tracking-jQuery\Service\obj\Debug\netcoreapp3.1\Service.AssemblyInfoInputs.cache
+C:\WorkOrder-Tracking-jQuery\Service\obj\Debug\netcoreapp3.1\Service.AssemblyInfo.cs
+C:\WorkOrder-Tracking-jQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.CoreCompileInputs.cache
+C:\WorkOrder-Tracking-jQuery\Service\obj\Debug\netcoreapp3.1\Service.csproj.CopyComplete
+C:\WorkOrder-Tracking-jQuery\Service\obj\Debug\netcoreapp3.1\Service.dll
+C:\WorkOrder-Tracking-jQuery\Service\obj\Debug\netcoreapp3.1\Service.pdb
