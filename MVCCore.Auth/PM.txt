@@ -1,6 +1,5 @@
 ﻿EntityFrameworkCore\Add-Migration initial-auth-db-create -context MVCCore.Auth.Data.AuthContext -OutputDir AuthenticationMigrations
 EntityFrameworkCore\update-database -context MVCCore.Auth.Data.AuthContext
 
-EntityFrameworkCore\Add-Migration edit-operator-table -context EF.Core.WorkOrderTrackingContext
+EntityFrameworkCore\Add-Migration edit-part-table -context EF.Core.WorkOrderTrackingContext
 EntityFrameworkCore\update-database -context EF.Core.WorkOrderTrackingContext
-
