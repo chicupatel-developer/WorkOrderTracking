@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PartFiles\" />
+    <Folder Include="wwwroot\PartFiles\" />
+  </ItemGroup>
+
 </Project>

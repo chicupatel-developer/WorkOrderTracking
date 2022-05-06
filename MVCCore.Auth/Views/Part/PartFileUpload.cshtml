@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Part-File Upload - Home Page";
+}
+
+<style>
+    .titleSpan {
+        background-color: lightgoldenrodyellow;
+        color: red;
+    }
+    .messageDiv {
+        color: green;
+        font-weight: bold;
+    }
+    .errorDiv {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+
+<div class="text-center">
+    <h3 class="display-6"><span class="titleSpan"><u>Part - File Upload</u></span></h3>
+</div>
+<div>
+    <a asp-action="Index">Back To Part List</a>
+</div>
+
+<hr />
+<p></p>
+
+<div class="container fullPagePostBack">
+    <!-- full page post back -->
+    <form method="post"
+          enctype="multipart/form-data"
+          asp-controller="Part" asp-action="PartFileUpload_Post">
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Upload one or more files using this form:</p>
+                <input type="file" name="files" multiple />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Upload" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- jQuery Ajax call to MVC post action,,, returns Json result-->
+<div class="container">
+    <form id="fileUploadForm"
+          method="post"
+          enctype="multipart/form-data"
+          asp-controller="Part" asp-action="PartFileUpload_Post_Json">
+        Upload file:
+        <input type="file" id="uploadFile" name="uploadFile" />
+        <input type="submit" value="Upload" />
+
+        <div>
+            <br />
+            <div class="messageDiv"></div>
+            <br />
+            <div class="errorDiv"></div>
+            <br />
+            File Name: <strong><span id="fileNameSpan"></span></strong>
+            <br />
+            File Size: <strong><span id="fileSizeSpan"></span></strong>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('.fullPagePostBack').hide();
+
+
+            $("#fileUploadForm").submit(function (e) {
+                e.preventDefault();
+
+                var data = new FormData();
+                data.append("formFile", $("#uploadFile")[0].files[0]);
+
+                $.ajax({
+                    type: 'post',
+                    url: "/Part/PartFileUpload_Post_Json",
+                    data: data,
+                    processData: false,
+                    contentType: false
+                }).done(function (result) {
+                    if (result.status === "success") {
+                        $(".messageDiv").html(result.status);
+                        $("#fileNameSpan").html(result.fileName);
+                        $("#fileSizeSpan").html(result.fileSize);
+                        $(".errorDiv").html('');
+                    }
+                    else {
+                        $(".errorDiv").html(result.status);
+                        $(".messageDiv").html('');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -10,6 +10,9 @@ using EF.Core.Models;
 using Service.Interface;
 using EF.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace MVCCore.Auth.Controllers
 {
@@ -176,6 +179,68 @@ namespace MVCCore.Auth.Controllers
             return PartialView("_GetPartHistory", partHistory);
         }
 
+        // part file-upload
+        public ActionResult PartFileUpload_Get(int id)
+        {
+            ViewBag.SelectedPartId = id;
+            return View("PartFileUpload");
+        }        
+        public async Task<IActionResult> PartFileUpload_Post(List<IFormFile> files)
+        {
+            try
+            {
+                // throw new Exception();
 
+                var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "PartFiles");
+
+                long size = files.Sum(f => f.Length);
+
+                var filePaths = new List<string>();
+
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        var fileName = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
+                        var finalPath = Path.Combine(uploadFolder, fileName);
+
+                        filePaths.Add(finalPath);
+
+                        using (var stream = new FileStream(finalPath, FileMode.Create))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
+                    }
+                }
+                return Ok(new { status = "Part - File Upload Success !", count = files.Count, size, filePaths });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = "Server Error ! File Can Not Upload At This Time !" });
+            }         
+        }
+        public async Task<IActionResult> PartFileUpload_Post_Json(IFormFile formFile)
+        {
+            try
+            {
+                // throw new Exception();
+
+                var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "PartFiles");
+
+                var fileName = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + ContentDispositionHeaderValue.Parse(formFile.ContentDisposition)
+                      .FileName.Trim('"');
+                var finalPath = Path.Combine(uploadFolder, fileName);
+
+                using var stream = new FileStream(finalPath, FileMode.Create);
+
+                await formFile.CopyToAsync(stream);
+                return Json(new { status = "Part - File Upload Success !", fileName = formFile.FileName, fileSize = formFile.Length });
+            }
+            catch (Exception ex)
+            {
+                // return Json(new { status = "error " + ex.Message });
+                return Json(new { status = "Server Error ! File Can Not Upload At This Time !" });
+            }
+        }
     }
 }
