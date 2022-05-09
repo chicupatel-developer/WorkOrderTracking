@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
 
 namespace MVCCore.Auth.Controllers
 {
@@ -21,12 +23,15 @@ namespace MVCCore.Auth.Controllers
     {
         private readonly ILogger<PartController> _logger;
         private readonly IPartRepository _partRepo;
+        private IHostingEnvironment Environment;
 
-        public PartController(IPartRepository partRepo, ILogger<PartController> logger)
+
+        public PartController(IHostingEnvironment _environment, IPartRepository partRepo, ILogger<PartController> logger)
         {
             _partRepo = partRepo;
             _logger = logger;
-        }     
+            Environment = _environment;
+        }
 
         public IActionResult Index()
         {
@@ -182,7 +187,6 @@ namespace MVCCore.Auth.Controllers
         // part file-upload
         public ActionResult PartFileUpload_Get(int id)
         {
-            ViewBag.SelectedPartId = id;
             var part = _partRepo.GetPart(id);
             return View("PartFileUpload", part);
         }        
@@ -225,18 +229,21 @@ namespace MVCCore.Auth.Controllers
             try
             {
                 // throw new Exception();
-
-                var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "PartFiles");
-
+                
+                string wwwPath = this.Environment.WebRootPath;
+                string contentPath = this.Environment.ContentRootPath;
+                string path = Path.Combine(this.Environment.WebRootPath, "PartFiles");
+  
                 var fileName = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + ContentDispositionHeaderValue.Parse(formFile.ContentDisposition)
                       .FileName.Trim('"');
-                var finalPath = Path.Combine(uploadFolder, fileName);
+                
+                var finalPath = Path.Combine(path, fileName);
 
                 using var stream = new FileStream(finalPath, FileMode.Create);
 
                 await formFile.CopyToAsync(stream);
 
-                _partRepo.UpdatePartFile(partId, formFile.FileName);
+                _partRepo.UpdatePartFile(partId, fileName);
 
                 return Json(new { status="success", message = "Part - File Upload Success !", fileName = formFile.FileName, fileSize = formFile.Length });
             }

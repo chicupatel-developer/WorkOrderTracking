@@ -40,7 +40,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+                     
             var errorCode = 0;
 
             $('#floater').hide();
@@ -56,8 +56,14 @@
                     { "data": "qty", "width": "5%" },
                     { "data": "name" },
                     { "data": "desc", "width": "30%" },
-                    { "data": "partFile", "width": "15%" },
+                    // { "data": "partFile" },
+                   
                     {
+                        "data": "partFile", render: function (data, type, row) {//data  
+                            return '<img src="PartFiles/' + data + '" height="65" width="65">';                           
+                        }
+                    },
+                    {   
                         "data": null, "defaultContent": "<button id='btnPartEdit' class='btn btn-primary'><i class='fa fa-edit fa-lg' aria-hidden='true'></i></button><span>&nbsp;</span><button id='btnPartDelete' class='btn btn-danger'><i class='fa fa-trash fa-lg'></i></button><span>&nbsp;</span><button id='btnFileUpload' class='btn btn-success'><i class='fa fa-upload fa-lg'></i></button>"
                     },
                 ]
@@ -69,7 +75,7 @@
                 console.log(data);
                 var partId = data.partId;
                 console.log(partId);
-              
+
                 var url = '@Url.Action("PartFileUpload_Get", "Part")' + '\\' + partId;
                 window.location.href = url;
 
