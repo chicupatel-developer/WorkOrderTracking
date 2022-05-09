@@ -7,6 +7,10 @@
         background-color: lightgoldenrodyellow;
         color: red;
     }
+    .noPartFile{
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 <div class="text-center">
@@ -60,7 +64,7 @@
                    
                     {
                         "data": "partFile", render: function (data, type, row) {//data  
-                            return '<img src="PartFiles/' + data + '" height="65" width="65">';                           
+                            return data==null ? '<span class="noPartFile">N/A</span>' : '<img src="PartFiles/' + data + '" height="65" width="65">';                           
                         }
                     },
                     {   
