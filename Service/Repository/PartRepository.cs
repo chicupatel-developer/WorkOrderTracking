@@ -117,5 +117,13 @@ namespace Service.Repository
             }
             return data;
         }
+
+        public void UpdatePartFile(int partId, string partFileName)
+        {
+            var part = appDbContext.Parts
+                            .Where(x => x.PartId == partId).FirstOrDefault();
+            part.PartFile = partFileName;
+            appDbContext.SaveChanges();
+        }
     }
 }

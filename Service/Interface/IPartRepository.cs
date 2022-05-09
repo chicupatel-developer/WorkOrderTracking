@@ -16,5 +16,6 @@ namespace Service.Interface
         void AddPart(Part part);
         List<SelectListItem> GetPartList();
         PartHistoryData GetPartHistory(int OperationId);
+        void UpdatePartFile(int partId, string partFileName);
     }
 }

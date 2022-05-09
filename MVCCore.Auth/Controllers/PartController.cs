@@ -183,7 +183,8 @@ namespace MVCCore.Auth.Controllers
         public ActionResult PartFileUpload_Get(int id)
         {
             ViewBag.SelectedPartId = id;
-            return View("PartFileUpload");
+            var part = _partRepo.GetPart(id);
+            return View("PartFileUpload", part);
         }        
         public async Task<IActionResult> PartFileUpload_Post(List<IFormFile> files)
         {
@@ -219,7 +220,7 @@ namespace MVCCore.Auth.Controllers
                 return BadRequest(new { status = "Server Error ! File Can Not Upload At This Time !" });
             }         
         }
-        public async Task<IActionResult> PartFileUpload_Post_Json(IFormFile formFile)
+        public async Task<IActionResult> PartFileUpload_Post_Json(IFormFile formFile, int partId)
         {
             try
             {
@@ -234,12 +235,15 @@ namespace MVCCore.Auth.Controllers
                 using var stream = new FileStream(finalPath, FileMode.Create);
 
                 await formFile.CopyToAsync(stream);
-                return Json(new { status = "Part - File Upload Success !", fileName = formFile.FileName, fileSize = formFile.Length });
+
+                _partRepo.UpdatePartFile(partId, formFile.FileName);
+
+                return Json(new { status="success", message = "Part - File Upload Success !", fileName = formFile.FileName, fileSize = formFile.Length });
             }
             catch (Exception ex)
             {
                 // return Json(new { status = "error " + ex.Message });
-                return Json(new { status = "Server Error ! File Can Not Upload At This Time !" });
+                return Json(new { status="fail", message = "Server Error ! File Can Not Upload At This Time !" });
             }
         }
     }

@@ -33,6 +33,7 @@ namespace EF.Core.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Desc = table.Column<string>(nullable: false),
+                    PartFile = table.Column<string>(nullable: false),
                     CustomerOrderId = table.Column<int>(nullable: false),
                     WorkOrderId = table.Column<int>(nullable: false)
                 },

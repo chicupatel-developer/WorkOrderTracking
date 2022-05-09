@@ -1,4 +1,6 @@
-﻿@{
+﻿@model EF.Core.Models.Part;
+
+@{
     ViewData["Title"] = "Part-File Upload - Home Page";
 }
 
@@ -7,13 +9,23 @@
         background-color: lightgoldenrodyellow;
         color: red;
     }
+
     .messageDiv {
         color: green;
         font-weight: bold;
     }
+
     .errorDiv {
         color: red;
         font-weight: bold;
+    }
+
+    .partData {
+        color: blue;
+        font-size: small;
+        border: 2px solid red;
+        padding: 5px;
+        width: 400px;
     }
 </style>
 
@@ -25,6 +37,16 @@
 </div>
 
 <hr />
+<p></p>
+
+
+<div class="text-left partData">
+    Part # @Model.PartId
+    <br />
+    Name : @Model.Name
+    <br />
+    Desc : @Model.Desc
+</div>
 <p></p>
 
 <div class="container fullPagePostBack">
@@ -57,16 +79,17 @@
         <input type="file" id="uploadFile" name="uploadFile" />
         <input type="submit" value="Upload" />
 
-        <div>
+        <div class="apiResponse">
             <br />
             <div class="messageDiv"></div>
             <br />
             <div class="errorDiv"></div>
             <br />
-            File Name: <strong><span id="fileNameSpan"></span></strong>
+            File Name: <strong><span class="fileNameSpan"></span></strong>
             <br />
-            File Size: <strong><span id="fileSizeSpan"></span></strong>
+            File Size: <strong><span class="fileSizeSpan"></span></strong>
         </div>
+        <span id="@Model.PartId" class="partIdClass"></span>
     </form>
 </div>
 
@@ -77,13 +100,19 @@
         $(document).ready(function () {
 
             $('.fullPagePostBack').hide();
-
+            $('.apiResponse').hide();
 
             $("#fileUploadForm").submit(function (e) {
                 e.preventDefault();
 
+                $('.apiResponse').show();
+
+                var partId = $('.partIdClass').attr("id");
+                console.log(partId);
+
                 var data = new FormData();
                 data.append("formFile", $("#uploadFile")[0].files[0]);
+                data.append("partId", partId);
 
                 $.ajax({
                     type: 'post',
@@ -92,15 +121,20 @@
                     processData: false,
                     contentType: false
                 }).done(function (result) {
+
+                    $('#uploadFile').val('');
+
                     if (result.status === "success") {
-                        $(".messageDiv").html(result.status);
-                        $("#fileNameSpan").html(result.fileName);
-                        $("#fileSizeSpan").html(result.fileSize);
+                        $(".messageDiv").html(result.message);
+                        $(".fileNameSpan").html(result.fileName);
+                        $(".fileSizeSpan").html(result.fileSize);
                         $(".errorDiv").html('');
                     }
                     else {
-                        $(".errorDiv").html(result.status);
+                        $(".errorDiv").html(result.message);
                         $(".messageDiv").html('');
+                        $(".fileNameSpan").html('N/A');
+                        $(".fileSizeSpan").html('N/A');
                     }
                 });
             });

@@ -20,6 +20,8 @@ namespace EF.Core.Models
         [Range(1, 10000, ErrorMessage = "QTY must be between 1 and 10000")]
         public int? Qty { get; set; }
 
+        public string PartFile { get; set; }
+
         public ICollection<OperationToPart> OperationToParts { get; set; }
     }
 }

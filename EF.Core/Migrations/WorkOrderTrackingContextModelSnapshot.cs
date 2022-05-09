@@ -211,6 +211,10 @@ namespace EF.Core.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<string>("PartFile")
+                      .IsRequired()
+                      .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PartId");
 
                     b.ToTable("Parts");
