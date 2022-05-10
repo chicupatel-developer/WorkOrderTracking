@@ -34,14 +34,30 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public ActionResult<DataTableResponse> GetAllCustomerOrders()
         {
-            var custOrders = _custOrderRepo.GetAllCustomerOrders();
-
-            return new DataTableResponse
+            try
             {
-                RecordsTotal = custOrders.Count(),
-                RecordsFiltered = 10,
-                Data = custOrders.ToArray()
-            };
+                // throw new Exception();
+
+                var custOrders = _custOrderRepo.GetAllCustomerOrders();
+
+                return new DataTableResponse
+                {
+                    RecordsTotal = custOrders.Count(),
+                    RecordsFiltered = 10,
+                    Data = custOrders.ToArray()
+                };
+            }
+            catch(Exception ex)
+            {
+                var custOrders = new List<CustomerOrder>();
+
+                return new DataTableResponse
+                {
+                    RecordsTotal = 0,
+                    RecordsFiltered = 10,
+                    Data = custOrders.ToArray()
+                };
+            }         
         }
 
 
@@ -162,8 +178,17 @@ namespace MVCCore.Auth.Controllers
 
         public ActionResult Edit(int id)
         {
-            var co = _custOrderRepo.GetCustomerOrder(id);
-            return PartialView("_Edit", co);
+            try
+            {
+                // throw new Exception();
+
+                var co = _custOrderRepo.GetCustomerOrder(id);
+                return PartialView("_Edit", co);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_Edit", null);
+            }          
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -219,8 +244,17 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public ActionResult GetCustomerOrderForDelete(int id)
         {
-            var co = _custOrderRepo.GetCustomerOrder(id);
-            return PartialView("_Delete", co);
+            try
+            {
+                // throw new Exception();
+
+                var co = _custOrderRepo.GetCustomerOrder(id);
+                return PartialView("_Delete", co);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_Delete", null);
+            }       
         }
         [HttpPost]
         public JsonResult Delete(CustomerOrder customerOrder)
@@ -247,16 +281,36 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public ActionResult GetCustomerOrderProgressReport(int id)
         {
-            var coprd = _custOrderRepo.GetCustomerOrderProgressReport(id);
-            ViewBag.SelectedCustomerOrderId = id;
-            return View("CustomerOrderProgressReport", coprd);
+            try
+            {
+                // throw new Exception();
+
+                var coprd = _custOrderRepo.GetCustomerOrderProgressReport(id);
+                ViewBag.SelectedCustomerOrderId = id;
+                return View("CustomerOrderProgressReport", coprd);
+            }
+            catch(Exception ex)
+            {                
+                ViewBag.SelectedCustomerOrderId = id;
+                return View("CustomerOrderProgressReport", null);
+            }           
         }
 
         public JsonResult GetCustomerOrderProgressChart(int id)
         {
-            var list = _custOrderRepo.GetCustomerOrderProgressChart(id);
+            try
+            {
+                // throw new Exception();
 
-            return Json(new { chartData = list });
+                var list = _custOrderRepo.GetCustomerOrderProgressChart(id);
+                return Json(new { chartData = list });
+            }
+            catch(Exception ex)
+            {
+                var list = new List<CustomerOrderProgressChartData>();
+                return Json(new { chartData = list });
+            }
+         
         }
     }
 }
