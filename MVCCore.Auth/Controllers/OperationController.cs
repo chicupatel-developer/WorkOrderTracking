@@ -33,21 +33,43 @@ namespace MVCCore.Auth.Controllers
 
         public IActionResult Index(int id)
         {
-            var ops = _opRepo.GetAllWorkOrderOperations(id);
-            ViewBag.SelectedWorkOrderId = id;
+            try
+            {
+                // throw new Exception();
 
-            var customer = _wOrderRepo.GetCustomerName(id);
-            ViewBag.Customer = customer;
+                var ops = _opRepo.GetAllWorkOrderOperations(id);
+                ViewBag.SelectedWorkOrderId = id;
 
-            return View(ops);
+                var customer = _wOrderRepo.GetCustomerName(id);
+                ViewBag.Customer = customer;
+
+                return View(ops);
+            }
+            catch(Exception ex)
+            {
+                ViewBag.SelectedWorkOrderId = id;
+                ViewBag.Customer = null;
+
+                return View(null);
+            }         
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var workOrders = _opRepo.GetWorkOrderList();
-            ViewBag.WorkOrders = workOrders;
-            return View();
+            try
+            {
+                // throw new Exception();
+
+                var workOrders = _opRepo.GetWorkOrderList();
+                ViewBag.WorkOrders = workOrders;
+                return View();
+            }
+            catch(Exception ex)
+            {
+                ViewBag.WorkOrders = null;
+                return View();
+            }        
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -104,8 +126,17 @@ namespace MVCCore.Auth.Controllers
 
         public ActionResult Edit(int id)
         {
-            var op = _opRepo.GetOperation(id);
-            return PartialView("_Edit", op);
+            try
+            {
+                // throw new Exception();
+
+                var op = _opRepo.GetOperation(id);
+                return PartialView("_Edit", op);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_Edit", null);
+            }         
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -198,22 +229,32 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public IActionResult XferPartsForOperation(int id)
         {
-            var parts = _partRepo.GetPartList();
-            ViewBag.Parts = parts;
+            try
+            {
+                // throw new Exception();
 
-            var xferInfo = _opRepo.GetOperationDetails(id);
-            ViewBag.CustomerOrderId = xferInfo.CustomerOrderId;
-            ViewBag.CustomerName = xferInfo.CustomerName;
-            ViewBag.CustomerOrderQTY = xferInfo.CustomerOrderQTY;
-            ViewBag.WorkOrderId = xferInfo.WorkOrderId;
-            ViewBag.OperationNumber = xferInfo.OperationNumber;
+                var parts = _partRepo.GetPartList();
+                ViewBag.Parts = parts;
 
-            OperationToPart model = new OperationToPart()
-            { 
-                 OperationId =  id
-            };
+                var xferInfo = _opRepo.GetOperationDetails(id);
+                ViewBag.CustomerOrderId = xferInfo.CustomerOrderId;
+                ViewBag.CustomerName = xferInfo.CustomerName;
+                ViewBag.CustomerOrderQTY = xferInfo.CustomerOrderQTY;
+                ViewBag.WorkOrderId = xferInfo.WorkOrderId;
+                ViewBag.OperationNumber = xferInfo.OperationNumber;
 
-            return PartialView("_XferPartsForOperation", model);
+                OperationToPart model = new OperationToPart()
+                {
+                    OperationId = id
+                };
+
+                return PartialView("_XferPartsForOperation", model);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_XferPartsForOperation", null);
+            }
+         
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -277,8 +318,17 @@ namespace MVCCore.Auth.Controllers
         // operation log from operationid
         public ActionResult GetOperationLogData(int id)
         {
-            var operationLog = _opRepo.GetOperationLogData(id);
-            return PartialView("_GetOperationLogData", operationLog);
+            try
+            {
+                // throw new Exception();
+
+                var operationLog = _opRepo.GetOperationLogData(id);
+                return PartialView("_GetOperationLogData", operationLog);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_GetOperationLogData", null);
+            }          
         }
     }
 }

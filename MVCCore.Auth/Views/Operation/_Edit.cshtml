@@ -5,6 +5,10 @@
     .editModal {
         background-color: lightblue;
     }
+    .opNotFound {
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 <div class="modal fade" id="editOP">
@@ -23,119 +27,128 @@
 
             <div class="modal-body">
 
-                <div id="floater"></div>
-                <div id="opStatus"></div>
-                <p></p>
+                @if (Model != null)
+                {
+                    <div id="floater"></div>
+                    <div id="opStatus"></div>
+                    <p></p>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <form action="Operation/Edit">
-                            @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="Operation/Edit">
+                                @Html.AntiForgeryToken()
 
-                            <div asp-validation-summary="ModelOnly"
-                                 class="text-danger">
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-1">
-                                    @Html.HiddenFor(model => model.WorkOrderId)
-                                    @Html.HiddenFor(model => model.OperationId)
-                                    @Html.HiddenFor(model => model.OperationNumber)
+                                <div asp-validation-summary="ModelOnly"
+                                     class="text-danger">
                                 </div>
-                                <div class="col-md-11">
-                                    <div class="form-group">
-                                        <h5>Work Order # @Model.WorkOrderId</h5>
-                                    </div>
-                                    <div class="form-group">
-                                        <h5>Operation # @Model.OperationId</h5>
-                                    </div>
-                                    <div class="form-group">
-                                        @{
-                                            var opNumber = "";
-                                            if (@Model.OperationNumber == (int)OperationNumber.Spindle)
-                                            {
-                                                opNumber = "Spindle - 10";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Hub_Single_Head)
-                                            {
-                                                opNumber = "Hub_Single_Head - 20";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                                            {
-                                                opNumber = "Hub_Double_Head - 30";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Push_Cups)
-                                            {
-                                                opNumber = "Push_Cups - 40";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                                            {
-                                                opNumber = "Assembly_Spindle_Hub - 50";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Paint)
-                                            {
-                                                opNumber = "Paint - 60";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Packaging)
-                                            {
-                                                opNumber = "Packaging - 70";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                                            {
-                                                opNumber = "Rework_Spindle - 80";
-                                            }
-                                            if (@Model.OperationNumber == (int)OperationNumber.Rework_Hub)
-                                            {
-                                                opNumber = "Rework_Hub - 90";
-                                            }
-                                        }
-                                        <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
-                                    </div>
 
-                                </div>   
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="OpQTYRequired" class="control-label"></label>
-                                        <input asp-for="OpQTYRequired"
-                                               class="form-control"
-                                               name="OpQTYRequired"
-                                               id="OpQTYRequired" />
-                                        <span asp-validation-for="OpQTYRequired" class="text-danger"></span>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        @Html.HiddenFor(model => model.WorkOrderId)
+                                        @Html.HiddenFor(model => model.OperationId)
+                                        @Html.HiddenFor(model => model.OperationNumber)
                                     </div>
-                                    <div class="form-group">
-                                        <label asp-for="OperationStartDate" class="control-label"></label>
-                                        <input asp-for="OperationStartDate"
-                                               class="form-control"
-                                               name="OperationStartDate"
-                                               id="OperationStartDate" />
-                                        <span asp-validation-for="OperationStartDate" class="text-danger"></span>
-                                    </div>                                                                 
+                                    <div class="col-md-11">
+                                        <div class="form-group">
+                                            <h5>Work Order # @Model.WorkOrderId</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>Operation # @Model.OperationId</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            @{
+                                                var opNumber = "";
+                                                if (@Model.OperationNumber == (int)OperationNumber.Spindle)
+                                                {
+                                                    opNumber = "Spindle - 10";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                                                {
+                                                    opNumber = "Hub_Single_Head - 20";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                                                {
+                                                    opNumber = "Hub_Double_Head - 30";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Push_Cups)
+                                                {
+                                                    opNumber = "Push_Cups - 40";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                                                {
+                                                    opNumber = "Assembly_Spindle_Hub - 50";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Paint)
+                                                {
+                                                    opNumber = "Paint - 60";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Packaging)
+                                                {
+                                                    opNumber = "Packaging - 70";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                                                {
+                                                    opNumber = "Rework_Spindle - 80";
+                                                }
+                                                if (@Model.OperationNumber == (int)OperationNumber.Rework_Hub)
+                                                {
+                                                    opNumber = "Rework_Hub - 90";
+                                                }
+                                            }
+                                            <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="OperationStatus" class="control-label"></label>
-                                        <select asp-for="OperationStatus"
-                                                class="form-control"
-                                                asp-items="Html.GetEnumSelectList<OperationStatus>()"></select>
-                                        <span asp-validation-for="OperationStatus" class="text-danger"></span>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="OpQTYRequired" class="control-label"></label>
+                                            <input asp-for="OpQTYRequired"
+                                                   class="form-control"
+                                                   name="OpQTYRequired"
+                                                   id="OpQTYRequired" />
+                                            <span asp-validation-for="OpQTYRequired" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="OperationStartDate" class="control-label"></label>
+                                            <input asp-for="OperationStartDate"
+                                                   class="form-control"
+                                                   name="OperationStartDate"
+                                                   id="OperationStartDate" />
+                                            <span asp-validation-for="OperationStartDate" class="text-danger"></span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label asp-for="Details" class="control-label"></label>
-                                        <textarea asp-for="Details"
-                                                  class="form-control"
-                                                  name="Details"
-                                                  id="Details">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="OperationStatus" class="control-label"></label>
+                                            <select asp-for="OperationStatus"
+                                                    class="form-control"
+                                                    asp-items="Html.GetEnumSelectList<OperationStatus>()"></select>
+                                            <span asp-validation-for="OperationStatus" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Details" class="control-label"></label>
+                                            <textarea asp-for="Details"
+                                                      class="form-control"
+                                                      name="Details"
+                                                      id="Details">
                                         </textarea>
-                                        <span asp-validation-for="Details" class="text-danger"></span>
+                                            <span asp-validation-for="Details" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="container opNotFound">
+                        Operation Not Found !
+                    </div>
+                }
             </div>
 
             <div class="modal-footer">
@@ -145,11 +158,16 @@
                         type="button">
                     Cancel
                 </button>
-                <button class="btn btn-primary"
-                        data-save="modal"
-                        type="button">
-                    Edit Operation
-                </button>
+
+                @if (Model != null)
+                {
+                    <button class="btn btn-primary"
+                            data-save="modal"
+                            type="button">
+                        Edit Operation
+                    </button>
+                }
+
             </div>
         </div>
     </div>

@@ -8,6 +8,10 @@
     .customerOrderQTY {
         color : blue;
     }
+    .serverError {
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 <div class="modal fade" id="xferPartsForOp">
@@ -26,99 +30,111 @@
 
             <div class="modal-body">
 
-                <div id="floater"></div>
-                <div id="opStatus"></div>
-                <p></p>
+                @if (Model != null)
+                {
+                    <div id="floater"></div>
+                    <div id="opStatus"></div>
+                    <p></p>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <h5>Customer : @ViewBag.CustomerName [# @ViewBag.CustomerOrderId]</h5>
-                        <h5>Customer Order QTY [Required] : <span class="customerOrderQTY">@ViewBag.CustomerOrderQTY</span></h5>
-                        <h5>WorkOrder # @ViewBag.WorkOrderId</h5>
-                        @{
-                            var opNumber = "";
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Spindle)
-                            {
-                                opNumber = "Spindle - 10";
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>Customer : @ViewBag.CustomerName [# @ViewBag.CustomerOrderId]</h5>
+                            <h5>Customer Order QTY [Required] : <span class="customerOrderQTY">@ViewBag.CustomerOrderQTY</span></h5>
+                            <h5>WorkOrder # @ViewBag.WorkOrderId</h5>
+                            @{
+                                var opNumber = "";
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Spindle)
+                                {
+                                    opNumber = "Spindle - 10";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                                {
+                                    opNumber = "Hub_Single_Head - 20";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                                {
+                                    opNumber = "Hub_Double_Head - 30";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Push_Cups)
+                                {
+                                    opNumber = "Push_Cups - 40";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                                {
+                                    opNumber = "Assembly_Spindle_Hub - 50";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Paint)
+                                {
+                                    opNumber = "Paint - 60";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Packaging)
+                                {
+                                    opNumber = "Packaging - 70";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                                {
+                                    opNumber = "Rework_Spindle - 80";
+                                }
+                                if (@ViewBag.OperationNumber == (int)OperationNumber.Rework_Hub)
+                                {
+                                    opNumber = "Rework_Hub - 90";
+                                }
                             }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Hub_Single_Head)
-                            {
-                                opNumber = "Hub_Single_Head - 20";
-                            }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                            {
-                                opNumber = "Hub_Double_Head - 30";
-                            }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Push_Cups)
-                            {
-                                opNumber = "Push_Cups - 40";
-                            }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                            {
-                                opNumber = "Assembly_Spindle_Hub - 50";
-                            }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Paint)
-                            {
-                                opNumber = "Paint - 60";
-                            }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Packaging)
-                            {
-                                opNumber = "Packaging - 70";
-                            }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                            {
-                                opNumber = "Rework_Spindle - 80";
-                            }
-                            if (@ViewBag.OperationNumber == (int)OperationNumber.Rework_Hub)
-                            {
-                                opNumber = "Rework_Hub - 90";
-                            }
-                        }
-                        <h5>Operation : [@ViewBag.OperationNumber] @opNumber</h5>
+                            <h5>Operation : [@ViewBag.OperationNumber] @opNumber</h5>
+                        </div>
                     </div>
-                </div>
-                <p></p>
+                    <p></p>
 
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <form action="Operation/XferPartsForOperation">
-                            @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="Operation/XferPartsForOperation">
+                                @Html.AntiForgeryToken()
 
-                            <div asp-validation-summary="ModelOnly"
-                                 class="text-danger">
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    @Html.HiddenFor(model => model.OperationId)
+                                <div asp-validation-summary="ModelOnly"
+                                     class="text-danger">
                                 </div>
 
-                                <div class="col-md-6">
-
-                                    <div class="form-group">
-                                        <label class="control-label">Part</label>
-                                        @Html.DropDownList("PartId", (IEnumerable
-                                        <SelectListItem>)ViewBag.Parts, "--Select Part--", new { @id = "PartId", @class = "form-control", })
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.HiddenFor(model => model.OperationId)
                                     </div>
 
-                                    <div class="form-group">
-                                        <label asp-for="XFERQTY" class="control-label"></label>
-                                        <input asp-for="XFERQTY"
-                                               class="form-control"
-                                               name="XFERQTY"
-                                               id="XFERQTY"
-                                               placeholder="xfer qty - ?" />
-                                        <span asp-validation-for="XFERQTY" class="text-danger"></span>
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label class="control-label">Part</label>
+                                            @Html.DropDownList("PartId", (IEnumerable
+                                            <SelectListItem>)ViewBag.Parts, "--Select Part--", new { @id = "PartId", @class = "form-control", })
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="XFERQTY" class="control-label"></label>
+                                            <input asp-for="XFERQTY"
+                                                   class="form-control"
+                                                   name="XFERQTY"
+                                                   id="XFERQTY"
+                                                   placeholder="xfer qty - ?" />
+                                            <span asp-validation-for="XFERQTY" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="container serverError">
+                        Server Error !
+                    </div>
+                }
+
+
+
             </div>
 
             <div class="modal-footer">
@@ -128,10 +144,14 @@
                         type="button">
                     Cancel
                 </button>
-                <button type="button"
-                        class="btn btn-primary xferPartOp">
-                    X-Fer Parts For Operation
-                </button>
+                @if (Model != null)
+                {
+                    <button type="button"
+                            class="btn btn-primary xferPartOp">
+                        X-Fer Parts For Operation
+                    </button>
+                }
+
             </div>
         </div>
     </div>

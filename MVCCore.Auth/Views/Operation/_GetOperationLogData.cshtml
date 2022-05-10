@@ -8,6 +8,10 @@
     .modalWindow {
         max-width: 80% !important;
     }
+    .serverError {
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 <div class="modal fade" id="operationLog">
@@ -26,139 +30,150 @@
 
             <div class="modal-body">
 
-                <div>
-                    @{
-                        var opNumber = "";
-                        if (@Model.OperationNumber == (int)OperationNumber.Spindle)
-                        {
-                            opNumber = "Spindle - 10";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Hub_Single_Head)
-                        {
-                            opNumber = "Hub_Single_Head - 20";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                        {
-                            opNumber = "Hub_Double_Head - 30";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Push_Cups)
-                        {
-                            opNumber = "Push_Cups - 40";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                        {
-                            opNumber = "Assembly_Spindle_Hub - 50";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Paint)
-                        {
-                            opNumber = "Paint - 60";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Packaging)
-                        {
-                            opNumber = "Packaging - 70";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                        {
-                            opNumber = "Rework_Spindle - 80";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Rework_Hub)
-                        {
-                            opNumber = "Rework_Hub - 90";
-                        }
-                    }
-                    <h5>Operation # @Model.OperationId</h5>
-                    <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
-                    <h5>Work Order # @Model.WorkOrderId</h5>
-                    <table class="table" id="operationsTable">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Operator
-                                </th>
-                                <th>
-                                    Start Time
-                                </th>
-                                <th>
-                                    Pause Time
-                                </th>
-                                <th>
-                                    Cycle Time
-                                </th>
-                                <th>
-                                    Qty Done
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.OperationHistory) { 
-                            <tr>
-                                <td>
-                                    [ @item.OperatorId ] @item.OperatorName
-                                </td>
-                                @{
-                                    if (@item.OpStartRunTime != null)
-                                    {
-                                        <td>
-                                            @item.OpStartRunTime.Value.ToString("dd, MMM hh:mm tt")
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            N/A
-                                        </td>
-                                    }
-                                }
+                @if (Model != null)
+                {
 
-                                @{
-                                    if (@item.OpPauseRunTime != null)
-                                    {
-                                        <td>
-                                            @item.OpPauseRunTime.Value.ToString("dd, MMM hh:mm tt")
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            N/A
-                                        </td>
-                                    }
-                                }
-
-                                @{
-                                    if (@item.CycleTime != null)
-                                    {
-                                        <td>
-                                            @item.CycleTime
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            N/A
-                                        </td>
-                                    }
-                                }
-
-                                @{
-                                    if (@item.QtyDone != null)
-                                    {
-                                        <td>
-                                            @item.QtyDone
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            N/A
-                                        </td>
-                                    }
-                                }
-                            </tr>
+                    <div>
+                        @{
+                            var opNumber = "";
+                            if (@Model.OperationNumber == (int)OperationNumber.Spindle)
+                            {
+                                opNumber = "Spindle - 10";
                             }
-                        </tbody>
-                    </table>                 
-                </div>
+                            if (@Model.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                            {
+                                opNumber = "Hub_Single_Head - 20";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                            {
+                                opNumber = "Hub_Double_Head - 30";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Push_Cups)
+                            {
+                                opNumber = "Push_Cups - 40";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                            {
+                                opNumber = "Assembly_Spindle_Hub - 50";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Paint)
+                            {
+                                opNumber = "Paint - 60";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Packaging)
+                            {
+                                opNumber = "Packaging - 70";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                            {
+                                opNumber = "Rework_Spindle - 80";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Rework_Hub)
+                            {
+                                opNumber = "Rework_Hub - 90";
+                            }
+                        }
+                        <h5>Operation # @Model.OperationId</h5>
+                        <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
+                        <h5>Work Order # @Model.WorkOrderId</h5>
+                        <table class="table" id="operationsTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Operator
+                                    </th>
+                                    <th>
+                                        Start Time
+                                    </th>
+                                    <th>
+                                        Pause Time
+                                    </th>
+                                    <th>
+                                        Cycle Time
+                                    </th>
+                                    <th>
+                                        Qty Done
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OperationHistory)
+                                {
+                                    <tr>
+                                        <td>
+                                            [ @item.OperatorId ] @item.OperatorName
+                                        </td>
+                                        @{
+                                            if (@item.OpStartRunTime != null)
+                                            {
+                                                <td>
+                                                    @item.OpStartRunTime.Value.ToString("dd, MMM hh:mm tt")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    N/A
+                                                </td>
+                                            }
+                                        }
+
+                                        @{
+                                            if (@item.OpPauseRunTime != null)
+                                            {
+                                                <td>
+                                                    @item.OpPauseRunTime.Value.ToString("dd, MMM hh:mm tt")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    N/A
+                                                </td>
+                                            }
+                                        }
+
+                                        @{
+                                            if (@item.CycleTime != null)
+                                            {
+                                                <td>
+                                                    @item.CycleTime
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    N/A
+                                                </td>
+                                            }
+                                        }
+
+                                        @{
+                                            if (@item.QtyDone != null)
+                                            {
+                                                <td>
+                                                    @item.QtyDone
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    N/A
+                                                </td>
+                                            }
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="container serverError">
+                        Server Error !
+                    </div>
+                }
                 <p></p>
             </div>
 

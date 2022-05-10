@@ -50,8 +50,13 @@
     .cantComplete {
         color: brown;
     }
+
     .completedOpQty {
         border: 3px solid green;
+    }
+    .serverError {
+        color: red;
+        font-size: x-large;
     }
 </style>
 
@@ -60,232 +65,242 @@
 </div>
 <p></p>
 
-<div class="headerDiv">
-    <div class="text-center">
-        @{
-            if (Model.Count() > 0)
-            {
-                <span class="haveOperation">Work Order # @Model.FirstOrDefault().WorkOrderId</span>
+@if (Model != null)
+{
+
+
+    <div class="headerDiv">
+        <div class="text-center">
+            @{
+                if (Model.Count() > 0)
+                {
+                    <span class="haveOperation">Work Order # @Model.FirstOrDefault().WorkOrderId</span>
+                }
+                else
+                {
+                    <span class="zeroOperation">Work Order # @ViewBag.SelectedWorkOrderId has NO Operation !</span>
+                }
             }
-            else
-            {
-                <span class="zeroOperation">Work Order # @ViewBag.SelectedWorkOrderId has NO Operation !</span>
+        </div>
+        <div class="text-center">
+            @{
+                if (ViewBag.Customer != null)
+                {
+                    <span class="customer">Customer : @ViewBag.Customer</span>
+                }
+                else
+                {
+                    <span class="zeroOperation">Customer : N/A</span>
+                }
             }
-        }
+        </div>
     </div>
-    <div class="text-center">
-        @{
-            if (ViewBag.Customer != null)
-            {
-                <span class="customer">Customer : @ViewBag.Customer</span>
-            }
-            else
-            {
-                <span class="zeroOperation">Customer : N/A</span>
-            }
-        }
+    <p></p>
+
+
+    <div>
+        <a asp-action="Create">Create - [Work Order - Operation]</a>
     </div>
-</div>
-<p></p>
+
+    <!-- this will hold partial view (modal) -->
+    <div id="PlaceHolderHere"></div>
 
 
-<div>
-    <a asp-action="Create">Create - [Work Order - Operation]</a>
-</div>
-
-<!-- this will hold partial view (modal) -->
-<div id="PlaceHolderHere"></div>
-
-
-@functions{
-    public string GetClassFromOperationStatus(OperationStatus opStatus)
-    {
-        return opStatus == OperationStatus.Not_Started ? "notStarted" : opStatus == OperationStatus.Start_Running ? "startRunning" : opStatus == OperationStatus.Pause_Running ? "pauseRunning" : opStatus == OperationStatus.Completed ? "completed" : "cantComplete";
-    }
-}
-<p></p>
-<table class="table" id="operationsTable">
-    <thead>
-        <tr>
-            <th>
-                #
-            </th>
-            <th>
-                Operation
-            </th>
-            <th>
-                QTY 
-            </th>
-            <th>
-                OP Start Date
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+    @functions{
+        public string GetClassFromOperationStatus(OperationStatus opStatus)
         {
-        <tr>
-            @if (item.OpQTYDone >= item.OpQTYRequired)
-            {
-                <td>
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                    @Html.DisplayFor(modelItem => item.OperationId)
-                </td>
-            }
-            else
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.OperationId)
-                </td>
-            }
-
-
-            @{
-                var opNumber = "";
-                if (item.OperationNumber == (int)OperationNumber.Spindle)
-                {
-                    opNumber = "Spindle - 10";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Hub_Single_Head)
-                {
-                    opNumber = "Hub_Single_Head - 20";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                {
-                    opNumber = "Hub_Double_Head - 30";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Push_Cups)
-                {
-                    opNumber = "Push_Cups - 40";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                {
-                    opNumber = "Assembly_Spindle_Hub - 50";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Paint)
-                {
-                    opNumber = "Paint - 60";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Packaging)
-                {
-                    opNumber = "Packaging - 70";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                {
-                    opNumber = "Rework_Spindle - 80";
-                }
-                if (item.OperationNumber == (int)OperationNumber.Rework_Hub)
-                {
-                    opNumber = "Rework_Hub - 90";
-                }
-            }
-            <td>
-                @opNumber
-                <br />
-                <span class="@GetClassFromOperationStatus(item.OperationStatus)">
-                    @Html.DisplayFor(modelItem => item.OperationStatus)
-                </span>
-            </td>
-
-
-            @{
-                var opdetails = "";
-                if (item.Details != null)
-                {
-                    opdetails = item.Details;
-                }
-                else
-                {
-                    opdetails = "N/A";
-                }
-            }
-
-            @if (item.OpQTYDone >= item.OpQTYRequired)
-            {
-                <td class="completedOpQty">
-                    <!-- @opdetails -->
-                    <span>
-                        Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
-                    </span>
-                    <br />
-                    <span>
-                        Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
-                    </span>
-                </td>
-            }
-            else
-            {
-                <td>
-                    <!-- @opdetails -->
-                    <span>
-                        Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
-                    </span>
-                    <br />
-                    <span>
-                        Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
-                    </span>
-                </td>
-            }
-
-
-
-
-            <!--
-    <td class="@GetClassFromOperationStatus(item.OperationStatus)">
-        @Html.DisplayFor(modelItem => item.OperationStatus)
-        <br />
-        @opNumber
-    </td>
-        -->
-
-
-            @{
-                var opdate = "";
-                if (item.OperationStartDate != null)
-                {
-                    opdate = item.OperationStartDate.Value.ToShortDateString();
-                }
-                else
-                {
-                    opdate = "N/A";
-                }
-            }
-            <td>
-                @opdate
-            </td>
-
-            <td>
-                <button id="@item.OperationId"
-                        class='btn btn-primary opEdit'>
-                    <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
-                    
-                </button>
-
-                <button id="@item.OperationId"
-                        opNumber="@opNumber"
-                        class='btn btn-success assignPart'>
-                    Parts
-                    <i class="fa fa-tasks" aria-hidden="true"></i>
-                </button>
-                <button id="@item.OperationId"
-                        opNumber="@opNumber"
-                        class='btn btn-success viewPartHistory'>
-                    Parts
-                    <i class="fa fa-history" aria-hidden="true"></i>
-                </button>
-                <button id="@item.OperationId"
-                        opNumber="@opNumber"
-                        class='btn btn-info viewOperationLog'>
-                    Operation Log
-                    <i class="fa fa-sitemap" aria-hidden="true"></i>
-                </button>
-            </td>
-        </tr>
+            return opStatus == OperationStatus.Not_Started ? "notStarted" : opStatus == OperationStatus.Start_Running ? "startRunning" : opStatus == OperationStatus.Pause_Running ? "pauseRunning" : opStatus == OperationStatus.Completed ? "completed" : "cantComplete";
         }
-    </tbody>
-</table>
+    }
+    <p></p>
+    <table class="table" id="operationsTable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Operation
+                </th>
+                <th>
+                    QTY
+                </th>
+                <th>
+                    OP Start Date
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @if (item.OpQTYDone >= item.OpQTYRequired)
+                    {
+                        <td>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            @Html.DisplayFor(modelItem => item.OperationId)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OperationId)
+                        </td>
+                    }
 
+
+                    @{
+                        var opNumber = "";
+                        if (item.OperationNumber == (int)OperationNumber.Spindle)
+                        {
+                            opNumber = "Spindle - 10";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                        {
+                            opNumber = "Hub_Single_Head - 20";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                        {
+                            opNumber = "Hub_Double_Head - 30";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Push_Cups)
+                        {
+                            opNumber = "Push_Cups - 40";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                        {
+                            opNumber = "Assembly_Spindle_Hub - 50";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Paint)
+                        {
+                            opNumber = "Paint - 60";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Packaging)
+                        {
+                            opNumber = "Packaging - 70";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                        {
+                            opNumber = "Rework_Spindle - 80";
+                        }
+                        if (item.OperationNumber == (int)OperationNumber.Rework_Hub)
+                        {
+                            opNumber = "Rework_Hub - 90";
+                        }
+                    }
+                    <td>
+                        @opNumber
+                        <br />
+                        <span class="@GetClassFromOperationStatus(item.OperationStatus)">
+                            @Html.DisplayFor(modelItem => item.OperationStatus)
+                        </span>
+                    </td>
+
+
+                    @{
+                        var opdetails = "";
+                        if (item.Details != null)
+                        {
+                            opdetails = item.Details;
+                        }
+                        else
+                        {
+                            opdetails = "N/A";
+                        }
+                    }
+
+                    @if (item.OpQTYDone >= item.OpQTYRequired)
+                    {
+                        <td class="completedOpQty">
+                            <!-- @opdetails -->
+                            <span>
+                                Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                            </span>
+                            <br />
+                            <span>
+                                Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
+                            </span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <!-- @opdetails -->
+                            <span>
+                                Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                            </span>
+                            <br />
+                            <span>
+                                Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
+                            </span>
+                        </td>
+                    }
+
+
+
+
+                    <!--
+                    <td class="@GetClassFromOperationStatus(item.OperationStatus)">
+                        @Html.DisplayFor(modelItem => item.OperationStatus)
+                        <br />
+                        @opNumber
+                    </td>
+                        -->
+
+
+                    @{
+                        var opdate = "";
+                        if (item.OperationStartDate != null)
+                        {
+                            opdate = item.OperationStartDate.Value.ToShortDateString();
+                        }
+                        else
+                        {
+                            opdate = "N/A";
+                        }
+                    }
+                    <td>
+                        @opdate
+                    </td>
+
+                    <td>
+                        <button id="@item.OperationId"
+                                class='btn btn-primary opEdit'>
+                            <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+
+                        </button>
+
+                        <button id="@item.OperationId"
+                                opNumber="@opNumber"
+                                class='btn btn-success assignPart'>
+                            Parts
+                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                        </button>
+                        <button id="@item.OperationId"
+                                opNumber="@opNumber"
+                                class='btn btn-success viewPartHistory'>
+                            Parts
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </button>
+                        <button id="@item.OperationId"
+                                opNumber="@opNumber"
+                                class='btn btn-info viewOperationLog'>
+                            Operation Log
+                            <i class="fa fa-sitemap" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="container serverError">
+        Server Error !
+    </div>
+}
 
 
 @section Scripts {
@@ -299,7 +314,7 @@
 
             // get
             // operation log from operationid
-            // @@db table : OperatorActivities 
+            // @@db table : OperatorActivities
             $('.viewOperationLog').click(function () {
                 var operationId = $(this).attr("id");
                 console.log(operationId);
