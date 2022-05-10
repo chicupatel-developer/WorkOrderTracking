@@ -41,14 +41,29 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public ActionResult<DataTableResponse> GetAllParts()
         {
-            var custOrders = _partRepo.GetAllParts();
-
-            return new DataTableResponse
+            try
             {
-                RecordsTotal = custOrders.Count(),
-                RecordsFiltered = 10,
-                Data = custOrders.ToArray()
-            };
+                // throw new Exception();
+
+                var custOrders = _partRepo.GetAllParts();
+
+                return new DataTableResponse
+                {
+                    RecordsTotal = custOrders.Count(),
+                    RecordsFiltered = 10,
+                    Data = custOrders.ToArray()
+                };
+            }
+            catch(Exception ex)
+            {
+                List<Part> data = new List<Part>();
+                return new DataTableResponse
+                {
+                    RecordsTotal = 0,
+                    RecordsFiltered = 10,
+                    Data = data.ToArray()
+                };
+            }           
         }      
 
         [HttpGet]
@@ -99,9 +114,17 @@ namespace MVCCore.Auth.Controllers
     
         public ActionResult Edit(int id)  
         {
-            // int id = 1;
-            var part = _partRepo.GetPart(id);           
-            return PartialView("_Edit", part);    
+            try
+            {
+                // throw new Exception();
+
+                var part = _partRepo.GetPart(id);
+                return PartialView("_Edit", part);
+            }
+            catch(Exception ex)
+            {                
+                return PartialView("_Edit", null);
+            }            
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -151,8 +174,17 @@ namespace MVCCore.Auth.Controllers
 
         public ActionResult GetPartForDelete(int id)
         {
-            var part = _partRepo.GetPart(id);
-            return PartialView("_Delete", part);
+            try
+            {
+                // throw new Exception();
+
+                var part = _partRepo.GetPart(id);
+                return PartialView("_Delete", part);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_Delete", null);
+            }           
         }
         [HttpPost]
         public JsonResult Delete(Part part)
@@ -180,15 +212,33 @@ namespace MVCCore.Auth.Controllers
         // all part(s) history from operationid
         public ActionResult GetPartHistory(int id)
         {
-            var partHistory = _partRepo.GetPartHistory(id);
-            return PartialView("_GetPartHistory", partHistory);
+            try
+            {
+                // throw new Exception();
+
+                var partHistory = _partRepo.GetPartHistory(id);
+                return PartialView("_GetPartHistory", partHistory);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_GetPartHistory", null);
+            }          
         }
 
         // part file-upload
         public ActionResult PartFileUpload_Get(int id)
         {
-            var part = _partRepo.GetPart(id);
-            return View("PartFileUpload", part);
+            try
+            {
+                // throw new Exception();
+
+                var part = _partRepo.GetPart(id);
+                return View("PartFileUpload", part);
+            }
+            catch(Exception ex)
+            {
+                return View("PartFileUpload", null);
+            }          
         }        
         public async Task<IActionResult> PartFileUpload_Post(List<IFormFile> files)
         {

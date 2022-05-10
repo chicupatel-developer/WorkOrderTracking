@@ -5,6 +5,10 @@
     .partHistoryModal {
         background-color: lightgreen;
     }
+    .partNotFound {
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 <div class="modal fade" id="partHistory">
@@ -23,57 +27,68 @@
 
             <div class="modal-body">
 
-                <div>
-                    @{
-                        var opNumber = "";
-                        if (@Model.OperationNumber == (int)OperationNumber.Spindle)
-                        {
-                            opNumber = "Spindle - 10";
+                @if (Model != null)
+                {
+                    <div>
+                        @{
+                            var opNumber = "";
+                            if (@Model.OperationNumber == (int)OperationNumber.Spindle)
+                            {
+                                opNumber = "Spindle - 10";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                            {
+                                opNumber = "Hub_Single_Head - 20";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                            {
+                                opNumber = "Hub_Double_Head - 30";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Push_Cups)
+                            {
+                                opNumber = "Push_Cups - 40";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                            {
+                                opNumber = "Assembly_Spindle_Hub - 50";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Paint)
+                            {
+                                opNumber = "Paint - 60";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Packaging)
+                            {
+                                opNumber = "Packaging - 70";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                            {
+                                opNumber = "Rework_Spindle - 80";
+                            }
+                            if (@Model.OperationNumber == (int)OperationNumber.Rework_Hub)
+                            {
+                                opNumber = "Rework_Hub - 90";
+                            }
                         }
-                        if (@Model.OperationNumber == (int)OperationNumber.Hub_Single_Head)
+                        <h5>Operation # @Model.OperationId</h5>
+                        <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
+                        <h5>Work Order # @Model.WorkOrderId</h5>
+                        @foreach (var item in Model.PartList)
                         {
-                            opNumber = "Hub_Single_Head - 20";
+                            <hr />
+                            <h6>Part # @item.PartId</h6>
+                            <h6>Part Name : @item.PartName</h6>
+                            <h6>QTY XFER # @item.XFERQTY</h6>
                         }
-                        if (@Model.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                        {
-                            opNumber = "Hub_Double_Head - 30";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Push_Cups)
-                        {
-                            opNumber = "Push_Cups - 40";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                        {
-                            opNumber = "Assembly_Spindle_Hub - 50";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Paint)
-                        {
-                            opNumber = "Paint - 60";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Packaging)
-                        {
-                            opNumber = "Packaging - 70";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                        {
-                            opNumber = "Rework_Spindle - 80";
-                        }
-                        if (@Model.OperationNumber == (int)OperationNumber.Rework_Hub)
-                        {
-                            opNumber = "Rework_Hub - 90";
-                        }
-                    }
-                    <h5>Operation # @Model.OperationId</h5>
-                    <h5>Operation : [@Model.OperationNumber] @opNumber</h5>
-                    <h5>Work Order # @Model.WorkOrderId</h5>
-                    @foreach (var item in Model.PartList)
-                    {
-                        <hr />
-                        <h6>Part # @item.PartId</h6>
-                        <h6>Part Name : @item.PartName</h6>
-                        <h6>QTY XFER # @item.XFERQTY</h6>
-                    }
-                </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="container partNotFound">
+                        <span>Part History Not Found !</span>
+                        <br />
+                        <span>Server Error !</span>
+                    </div>
+                }
                 <p></p>
             </div>
 

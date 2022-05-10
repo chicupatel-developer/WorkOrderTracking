@@ -4,15 +4,29 @@
     .deleteModal{
         background-color:lightcoral;
     }
+    .partNotFound {
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 <div class="modal fade" id="deletePart">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header deleteModal">
-                <h4 class="modal-title" id="deletePartLabel">
-                    Are you sure want to delete !!!
-                </h4>            
+
+                @if (Model != null)
+                {
+                    <h4 class="modal-title" id="deletePartLabel">
+                        Are you sure want to delete !!!
+                    </h4>
+                }
+                else
+                {
+                    <h4 class="modal-title" id="deletePartLabel">
+                        Delete Part
+                    </h4>
+                }
 
                 <button type="button" class="close" data-dismiss="modal">
                     <span>X</span>
@@ -21,35 +35,52 @@
 
 
             <div class="modal-body">
-                
-                <div id="floater"></div>
-                <div id="opStatus"></div>
-                <p></p>
+                @if (Model != null)
+                {
+                    <div id="floater"></div>
+                    <div id="opStatus"></div>
+                    <p></p>
 
-                <div>
-                    <h5>Part # @Model.PartId</h5>
-                    <h5>Name : @Model.Name</h5>                 
-                    <span>Desc : @Model.Desc</span>
-                    <br />
-                    <span>QTY : @Model.Qty</span>
-                </div>
+                    <div>
+                        <h5>Part # @Model.PartId</h5>
+                        <h5>Name : @Model.Name</h5>
+                        <span>Desc : @Model.Desc</span>
+                        <br />
+                        <span>QTY : @Model.Qty</span>
+                    </div>
 
-                <form action="Part/Delete">
-                    @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        @Html.HiddenFor(model => model.PartId)                        
-                    </div>                  
-                </form>
+                    <form action="Part/Delete">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.PartId)
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="container partNotFound">
+                        Part Not Found !
+                    </div>
+                }
             </div>
 
 
             <div class="modal-footer">
-                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
-                <button class="btn btn-primary"
-                        data-save="modal"
+                <button data-dismiss="modal" 
+                        id="cancel" 
+                        class="btn btn-default" 
                         type="button">
-                    Delete Part
+                    Cancel
                 </button>
+                
+                @if (Model != null) { 
+                    <button class="btn btn-primary"
+                            data-save="modal"
+                            type="button">
+                        Delete Part
+                    </button>
+                }
+                
             </div>
         </div>
     </div>
