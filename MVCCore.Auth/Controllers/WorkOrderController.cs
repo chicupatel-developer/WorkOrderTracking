@@ -34,30 +34,64 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public ActionResult<DataTableResponse> GetAllWorkOrders()
         {
-            var wOrders = _wOrderRepo.GetAllWorkOrders();
-
-            return new DataTableResponse
+            try
             {
-                RecordsTotal = wOrders.Count(),
-                RecordsFiltered = 10,
-                // Data = wOrders.ToArray()
-                Data = wOrders.ToArray()
-            };
+                // throw new Exception();
+
+                var wOrders = _wOrderRepo.GetAllWorkOrders();
+
+                return new DataTableResponse
+                {
+                    RecordsTotal = wOrders.Count(),
+                    RecordsFiltered = 10,
+                    Data = wOrders.ToArray()
+                };
+            }
+            catch(Exception ex)
+            {
+                var wOrders = new List<WorkOrder>();
+
+                return new DataTableResponse
+                {
+                    RecordsTotal = wOrders.Count(),
+                    RecordsFiltered = 10,
+                    Data = wOrders.ToArray()
+                };
+            }        
         }
 
         [HttpGet]
         public ActionResult GetCustomerOrderDetails(int id)
         {
-            var co = _custOrderRepo.GetCustomerOrder(id);
-            return PartialView("_CustomerOrderDetails", co);
+            try
+            {
+                // throw new Exception();
+
+                var co = _custOrderRepo.GetCustomerOrder(id);
+                return PartialView("_CustomerOrderDetails", co);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_CustomerOrderDetails", null);
+            }          
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var customerOrders = _wOrderRepo.GetCustomerOrderList();
-            ViewBag.CustomerOrders = customerOrders;
-            return View();
+            try
+            {
+                // throw new Exception();
+
+                var customerOrders = _wOrderRepo.GetCustomerOrderList();
+                ViewBag.CustomerOrders = customerOrders;
+                return View();
+            }
+            catch(Exception ex)
+            {
+                ViewBag.CustomerOrders = null;
+                return View();
+            }       
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -107,8 +141,17 @@ namespace MVCCore.Auth.Controllers
 
         public ActionResult Edit(int id)
         {
-            var wo = _wOrderRepo.GetWorkOrder(id);
-            return PartialView("_Edit", wo);
+            try
+            {
+                // throw new Exception();
+
+                var wo = _wOrderRepo.GetWorkOrder(id);
+                return PartialView("_Edit", wo);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_Edit", null);
+            }            
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -183,8 +226,17 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public ActionResult GetWorkOrderForDelete(int id)
         {
-            var co = _wOrderRepo.GetWorkOrder(id);
-            return PartialView("_Delete", co);
+            try
+            {
+                // throw new Exception();
+
+                var co = _wOrderRepo.GetWorkOrder(id);
+                return PartialView("_Delete", co);
+            }
+            catch(Exception ex)
+            {
+                return PartialView("_Delete", null);
+            }        
         }
         [HttpPost]
         public JsonResult Delete(WorkOrder workOrder)

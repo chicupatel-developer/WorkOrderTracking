@@ -283,7 +283,7 @@ namespace MVCCore.Auth.Controllers
         {
             try
             {
-                // throw new Exception();
+                throw new Exception();
 
                 var coprd = _custOrderRepo.GetCustomerOrderProgressReport(id);
                 ViewBag.SelectedCustomerOrderId = id;

@@ -25,6 +25,11 @@
     .cantComplete {
         color: brown;
     }
+    .woNotFound {
+        color: red;
+        font-size: x-large;
+    }
+
 </style>
 
 
@@ -32,10 +37,18 @@
     <div class="modal-dialog">
         <div class="modal-content ">
             <div class="modal-header deleteModal">
-                <h4 class="modal-title" id="deleteWOLabel">
-                    Are you sure want to delete !!!
-                </h4>
-
+                @if (Model != null)
+                {
+                    <h4 class="modal-title" id="deleteWOLabel">
+                        Are you sure want to delete !!!
+                    </h4>
+                }
+                else
+                {
+                    <h4 class="modal-title" id="deleteWOLabel">
+                        Delete Work Order
+                    </h4>
+                }
                 <button type="button" class="close" data-dismiss="modal">
                     <span>X</span>
                 </button>
@@ -44,69 +57,87 @@
 
             <div class="modal-body">
 
-                <div id="floater"></div>
-                <div id="opStatus"></div>
-                <p></p>
+                @if (Model != null)
+                {
+                    <div id="floater"></div>
+                    <div id="opStatus"></div>
+                    <p></p>
 
-                <div>
-                    <h5>Work Order # @Model.WorkOrderId</h5>
-                    <h5>Customer Order # @Model.CustomerOrderId</h5>
-                    
-                    @{
-                        if (Model.WorkOrderStartDate == null)
-                        {
-                            <span>Work Order Start Date : No - Date</span>
-                        }
-                        else
-                        {
-                            <span>Work Order Start Date : @Model.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy")</span>
-                        }
-                    }
-                    <br />
+                    <div>
+                        <h5>Work Order # @Model.WorkOrderId</h5>
+                        <h5>Customer Order # @Model.CustomerOrderId</h5>
 
-                    @{
-                        void RenderWorkOrderStatus(WorkOrderStatus wos)
-                        {
-                            if ((int)wos == 0)
+                        @{
+                            if (Model.WorkOrderStartDate == null)
                             {
-                                <span class="notStarted">@wos</span>
+                                <span>Work Order Start Date : No - Date</span>
                             }
-                            if ((int)wos == 1)
+                            else
                             {
-                                <span class="startRunning">@wos</span>
-                            }                         
-                            if ((int)wos == 2)
-                            {
-                                <span class="completed">@wos</span>
-                            }
-                            if ((int)wos == 3)
-                            {
-                                <span class="cantComplete">@wos</span>
+                                <span>Work Order Start Date : @Model.WorkOrderStartDate.Value.Date.ToString("dd-MMM-yyyy")</span>
                             }
                         }
-                        <span>Work Order Status: </span> RenderWorkOrderStatus(Model.WorkOrderStatus);
-                    }
-                    <br />
+                        <br />
 
-                    <span>Status Note : @Model.StatusNote</span>
-                </div>
+                        @{
+                            void RenderWorkOrderStatus(WorkOrderStatus wos)
+                            {
+                                if ((int)wos == 0)
+                                {
+                                    <span class="notStarted">@wos</span>
+                                }
+                                if ((int)wos == 1)
+                                {
+                                    <span class="startRunning">@wos</span>
+                                }
+                                if ((int)wos == 2)
+                                {
+                                    <span class="completed">@wos</span>
+                                }
+                                if ((int)wos == 3)
+                                {
+                                    <span class="cantComplete">@wos</span>
+                                }
+                            }
+                            <span>Work Order Status: </span> RenderWorkOrderStatus(Model.WorkOrderStatus);
+                        }
+                        <br />
 
-                <form action="WorkOrder/Delete">
-                    @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        @Html.HiddenFor(model => model.WorkOrderId)
+                        <span>Status Note : @Model.StatusNote</span>
                     </div>
-                </form>
+
+                    <form action="WorkOrder/Delete">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.WorkOrderId)
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="container woNotFound">
+                        Work Order Not Found !
+                    </div>
+                }
             </div>
 
 
             <div class="modal-footer">
-                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
-                <button class="btn btn-primary"
-                        data-save="modal"
+                <button data-dismiss="modal" 
+                        id="cancel" 
+                        class="btn btn-default" 
                         type="button">
-                    Delete Work Order
+                    Cancel
                 </button>
+
+                @if (Model != null)
+                {
+                    <button class="btn btn-primary"
+                            data-save="modal"
+                            type="button">
+                        Delete Work Order
+                    </button>
+                }
             </div>
         </div>
     </div>

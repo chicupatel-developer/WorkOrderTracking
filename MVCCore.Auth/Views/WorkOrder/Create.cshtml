@@ -6,78 +6,110 @@
     ViewData["Title"] = "New - Work Order";
 }
 
-<div class="container">
-    <h3>New Work Order</h3>
-</div>
-<div class="container">
-    <div id="floater">
+
+<style>
+    .woNotFound {
+        color: red;
+        font-size: x-large;
+    }
+</style>
+
+
+@if (ViewBag.CustomerOrders != null)
+{
+
+    <div class="container">
+        <h3>New Work Order</h3>
     </div>
-    <div id="opStatus"></div>
-</div>
-
-<hr />
-<div class="row">
-    <div class="col-sm-2">
+    <div class="container">
+        <div id="floater">
+        </div>
+        <div id="opStatus"></div>
     </div>
-    <div class="col-sm-8">
-        <div class="container">
-            <form id="woCreateForm"
-                  name="woCreateForm"
-                  asp-action="Create">
 
-                @Html.AntiForgeryToken()
+    <hr />
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-8">
+            <div class="container">
+                <form id="woCreateForm"
+                      name="woCreateForm"
+                      asp-action="Create">
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="control-label">Customer Order</label>
-                            @Html.DropDownList("CustomerOrderId", (IEnumerable
-                                        <SelectListItem>)ViewBag.CustomerOrders, "--Select Customer Order--", new { @id = "CustomerOrderId", @class = "form-control", })
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Customer Order</label>
+                                @Html.DropDownList("CustomerOrderId", (IEnumerable
+                                            <SelectListItem>)ViewBag.CustomerOrders, "--Select Customer Order--", new { @id = "CustomerOrderId", @class = "form-control", })
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="WorkOrderStartDate" class="control-label"></label>
+                                <input asp-for="WorkOrderStartDate"
+                                       class="form-control"
+                                       name="WorkOrderStartDate"
+                                       id="WorkOrderStartDate" />
+                                <span asp-validation-for="WorkOrderStartDate" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="WorkOrderStartDate" class="control-label"></label>
-                            <input asp-for="WorkOrderStartDate"
-                                   class="form-control"
-                                   name="WorkOrderStartDate"
-                                   id="WorkOrderStartDate" />
-                            <span asp-validation-for="WorkOrderStartDate" class="text-danger"></span>
-                        </div>                        
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label asp-for="WorkOrderStatus" class="control-label"></label>
-                            <select asp-for="WorkOrderStatus"
-                                    class="form-control"
-                                    asp-items="Html.GetEnumSelectList<WorkOrderStatus>()"></select>
-                            <span asp-validation-for="WorkOrderStatus" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="StatusNote" class="control-label"></label>
-                            <textarea asp-for="StatusNote"
-                                      class="form-control"
-                                      name="StatusNote"
-                                      id="StatusNote"
-                                      placeholder="status note - ?">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="WorkOrderStatus" class="control-label"></label>
+                                <select asp-for="WorkOrderStatus"
+                                        class="form-control"
+                                        asp-items="Html.GetEnumSelectList<WorkOrderStatus>()"></select>
+                                <span asp-validation-for="WorkOrderStatus" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="StatusNote" class="control-label"></label>
+                                <textarea asp-for="StatusNote"
+                                          class="form-control"
+                                          name="StatusNote"
+                                          id="StatusNote"
+                                          placeholder="status note - ?">
                             </textarea>
-                            <span asp-validation-for="StatusNote" class="text-danger"></span>
+                                <span asp-validation-for="StatusNote" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <p></p>
-                <div class="form-group text-center">
-                    <button type="button" class="btn btn-primary createWO">
-                        Create New Work Order
-                    </button>
-                </div>
-            </form>
+                    <p></p>
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary createWO">
+                            Create New Work Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2">
         </div>
     </div>
-    <div class="col-sm-2">
+}
+else
+{
+    <div class="container">
+        <h3>New Work Order</h3>
     </div>
-</div>
+    <p></p>
+    <hr />
+    <p></p>
+    <div class="container woNotFound">
+        <span>Customer-Orders Not Found !</span>
+        <br />
+        <span>So Work Order Can Not Be Created !</span>
+        <p></p>
+    </div>
+}
+
+
+
+
 <div class="text-center">
     <a asp-action="Index">Back to List</a>
 </div>

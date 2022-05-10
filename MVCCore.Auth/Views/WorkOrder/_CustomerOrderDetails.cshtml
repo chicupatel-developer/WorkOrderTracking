@@ -7,6 +7,10 @@
     .h6Text {
         color : red;
     }
+    .woNotFound {
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 <div class="modal fade " id="detailsCO">
@@ -24,25 +28,38 @@
 
 
             <div class="modal-body">
-           
-                <div>
-                    <h5>Customer Order # @Model.CustomerOrderId</h5>
-                    <h5>Customer Name : @Model.CustomerName</h5>
-                    <span>Product : @Model.ProductName</span>
-                    <br />
-                    <span>Product Desc : @Model.ProductDesc</span>
-                    <br />
-                    <h6 class="h6Text">
-                        Order QTY : @Model.OrderQuantity
-                    </h6>
-                    <h6>Order Date : @Model.OrderDate.Value.Date.ToString("dd-MMM-yyyy")</h6>
-                    <h6 class="h6Text">Order Due Date : @Model.OrderDueDate.Value.Date.ToString("dd-MMM-yyyy")</h6>
-                </div>               
+
+                @if (Model != null)
+                {
+                    <div>
+                        <h5>Customer Order # @Model.CustomerOrderId</h5>
+                        <h5>Customer Name : @Model.CustomerName</h5>
+                        <span>Product : @Model.ProductName</span>
+                        <br />
+                        <span>Product Desc : @Model.ProductDesc</span>
+                        <br />
+                        <h6 class="h6Text">
+                            Order QTY : @Model.OrderQuantity
+                        </h6>
+                        <h6>Order Date : @Model.OrderDate.Value.Date.ToString("dd-MMM-yyyy")</h6>
+                        <h6 class="h6Text">Order Due Date : @Model.OrderDueDate.Value.Date.ToString("dd-MMM-yyyy")</h6>
+                    </div>
+                }
+                else
+                {
+                    <div class="container woNotFound">
+                        Customer Order Details Not Found !
+                    </div>
+                }
             </div>
 
-
             <div class="modal-footer">
-                <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Close</button>            
+                <button data-dismiss="modal" 
+                        id="cancel" 
+                        class="btn btn-default" 
+                        type="button">
+                    Close
+                </button>            
             </div>
         </div>
     </div>
