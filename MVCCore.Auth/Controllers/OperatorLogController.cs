@@ -33,16 +33,34 @@ namespace MVCCore.Auth.Controllers
 
         public IActionResult Index()
         {
-            var workOrders = _oprRepo.GetWorkOrderList();
-            ViewBag.WorkOrders = workOrders;
+            try
+            {
+                // throw new Exception();
 
-            return View();
+                var workOrders = _oprRepo.GetWorkOrderList();
+                ViewBag.WorkOrders = workOrders;
+                return View();
+            }
+            catch(Exception ex)
+            {
+                ViewBag.WorkOrders = null;
+                return View();
+            }          
         }
 
         [HttpGet]
         public JsonResult GetOperations(int id)
-        {            
-            return Json(_oprRepo.GetOperationList(id).ToList());
+        {
+            try
+            {
+                // throw new Exception();
+
+                return Json(_oprRepo.GetOperationList(id).ToList());
+            }
+            catch(Exception ex)
+            {
+                return Json(new {statusCode = -1, message = "Server Error !" });
+            }            
         }
 
         [HttpPost]
@@ -166,7 +184,16 @@ namespace MVCCore.Auth.Controllers
         [HttpGet]
         public JsonResult GetOperationQtyData(int id)
         {
-            return Json(_oprRepo.GetOperationQtyData(id));
+            try
+            {
+                // throw new Exception();
+
+                return Json(_oprRepo.GetOperationQtyData(id));
+            }
+            catch (Exception ex)
+            {
+                return Json(new { statusCode = -1, message = "Qty Data N/A !" });
+            }
         }
 
 
@@ -182,6 +209,8 @@ namespace MVCCore.Auth.Controllers
 
             try
             {
+                // throw new Exception();
+
                 var myLog = _oprRepo.GetMyLogData(myLogData);
 
                 retData.Message = "Operator-Log Data Is Ready !";
@@ -198,8 +227,6 @@ namespace MVCCore.Auth.Controllers
                 return Json(new { Result = retData });
             }            
         }
-
-
 
     }
 }

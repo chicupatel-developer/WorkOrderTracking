@@ -27,6 +27,11 @@
     table, th, td {
         border: 1px dotted blue;
     }
+    .serverError {
+        margin-top: 50px;
+        color: red;
+        font-size: x-large;
+    }
 </style>
 
 
@@ -76,7 +81,7 @@
                 </div>
             </div>
             <div class="col-sm-9">
-                 <table id="logData" width="100%" border="1" >
+                <table id="logData" width="100%" border="1">
                     <thead>
                         <tr style="font-weight:bold; color: darkcyan;">
                             <th>#</th>
@@ -91,7 +96,10 @@
                     </thead>
                     <tbody>
                     </tbody>
-                 </table>
+                </table>
+
+                <div class="text-center container serverError">
+                </div>
             </div>
         </div>
     </form>
@@ -153,6 +161,8 @@
                         // success
                         console.log(response.myLog);
                         console.log(response.result.message);
+
+                        $('.serverError').html('');
 
                         $("#logData > tbody").empty();
 
@@ -240,6 +250,7 @@
                     if (response.result.statusCode == -1) {
                         // server error
                         console.log(response.result.message);
+                        $('.serverError').html(response.result.message);
                     }
                 }).fail(function (error) {
                     console.log("Ajax Call Error");

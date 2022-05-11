@@ -23,10 +23,16 @@
         border: 2px solid red;
         padding: 5px;
     }
+
     .operationQtyData {
         color: blue;
-        margin-top:-10px;
-        margin-bottom:5px;
+        margin-top: -10px;
+        margin-bottom: 5px;
+    }
+
+    .serverError {
+        color: red;
+        font-size: x-large;
     }
 </style>
 
@@ -48,90 +54,106 @@
     <h3 class="display-6"><span class="titleSpan"><u>Create Operator - Log</u></span></h3>
 </div>
 
-<div class="container">
-    <div id="floater">
+
+@if (ViewBag.WorkOrders != null)
+{
+    <div class="container">
+        <div id="floater">
+        </div>
+        <div id="opStatus"></div>
     </div>
-    <div id="opStatus"></div>
-</div>
 
-<hr />
-<div class="row">
-    <div class="col-sm-2">
-    </div>
-    <div class="col-sm-8">
-        <div class="container">
-            <form id="opCreateForm"
-                  name="opCreateForm"
-                  asp-action="Create">
+    <hr />
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-8">
+            <div class="container">
+                <form id="opCreateForm"
+                      name="opCreateForm"
+                      asp-action="Create">
 
-                @Html.AntiForgeryToken()
+                    @Html.AntiForgeryToken()
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="control-label">Work Order</label>
-                            @Html.DropDownList("WorkOrderId", (IEnumerable
-                                        <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Work Order</label>
+                                @Html.DropDownList("WorkOrderId", (IEnumerable
+                                            <SelectListItem>)ViewBag.WorkOrders, "--Select Work Order--", new { @id = "WorkOrderId", @class = "form-control", })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Operation</label>
+                                <div id="OperationQtyData" class="operationQtyData"></div>
+                                <select class="form-control"
+                                        id="OperationId"
+                                        name="OperationId">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Operation Status</label>
+                                <select asp-for="OperationStatus"
+                                        class="form-control"
+                                        id="OperationStatus"
+                                        asp-items="Html.GetEnumSelectList<OperationStatusForOperator>()">
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label">Operation</label>
-                            <div id="OperationQtyData" class="operationQtyData"></div>
-                            <select class="form-control"
-                                    id="OperationId"
-                                    name="OperationId">
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Operation Status</label>
-                            <select asp-for="OperationStatus"
-                                    class="form-control"
-                                    id="OperationStatus"
-                                    asp-items="Html.GetEnumSelectList<OperationStatusForOperator>()">
-                            </select>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="OpQtyDone" class="control-label"></label>
+                                <input asp-for="OpQtyDone"
+                                       class="form-control"
+                                       name="OpQtyDone"
+                                       id="OpQtyDone"
+                                       placeholder="QTY Done - ?" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OpStartRunTime" class="control-label"></label>
+                                <input asp-for="OpStartRunTime"
+                                       class="form-control"
+                                       name="OpStartRunTime"
+                                       id="OpStartRunTime" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OpPauseRunTime" class="control-label"></label>
+                                <input asp-for="OpPauseRunTime"
+                                       class="form-control"
+                                       name="OpPauseRunTime"
+                                       id="OpPauseRunTime" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label asp-for="OpQtyDone" class="control-label"></label>
-                            <input asp-for="OpQtyDone"
-                                   class="form-control"
-                                   name="OpQtyDone"
-                                   id="OpQtyDone"
-                                   placeholder="QTY Done - ?" />
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="OpStartRunTime" class="control-label"></label>
-                            <input asp-for="OpStartRunTime"
-                                   class="form-control"
-                                   name="OpStartRunTime"
-                                   id="OpStartRunTime" />
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="OpPauseRunTime" class="control-label"></label>
-                            <input asp-for="OpPauseRunTime"
-                                   class="form-control"
-                                   name="OpPauseRunTime"
-                                   id="OpPauseRunTime" />
-                        </div>
+                    <p></p>
+                    <div class="form-group text-center">
+                        <button type="button" 
+                                class="btn btn-primary createOP">
+                            Create New Operator-Log
+                        </button>
                     </div>
-                </div>
-                <p></p>
-                <div class="form-group text-center">
-                    <button type="button" class="btn btn-primary createOP">
-                        Create New Operator-Log
-                    </button>
-                </div>
-                <div id="@user.Id" class="userIdClass">
-                </div>
-            </form>
+                    <div id="@user.Id" class="userIdClass">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2">
         </div>
     </div>
-    <div class="col-sm-2">
+}
+else
+{  
+    <p></p>
+    <div class="container serverError">
+        <span>Work-Orders Not Found !</span>
+        <br />
+        <span>So Operator-Log Can Not Be Created !</span>
+        <p></p>
     </div>
-</div>
+}
+
 
 @section Scripts {
 
@@ -156,17 +178,26 @@
                     url: "OperatorLog/GetOperations",
                     data: "id=" + woid,
                     success: function (data) {
-                        var s = '<option value="">--Select Operation--</option>';
-                        for (var i = 0; i < data.length; i++) {
-                            s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+
+                        if (data.statusCode != -1) {
+                            $('.createOP').show();
+                            var s = '<option value="">--Select Operation--</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                            }
+                            $("#OperationId").html(s);
                         }
-                        $("#OperationId").html(s);
+                        else {
+                            errorCode = 0;
+                            bkTimer(data);
+                            $('.createOP').hide();
+                        }                       
                     }
                 });
             });
 
             $('#OperationId').on('change', function () {
-                var opid = $(this).val(); 
+                var opid = $(this).val();
                 if (opid != '') {
                     $.ajax({
                         type: "GET",
@@ -174,10 +205,15 @@
                         data: "id=" + opid,
                         success: function (data) {
                             console.log(data);
-
-                            var s = '[ Qty Done : ' + data.qtyDone + ', Qty Req : ' + data.qtyRequired + ' ]';
+                            var s = '';
+                            if (data.statusCode != -1) {
+                                s = '[ Qty Done : ' + data.qtyDone + ', Qty Req : ' + data.qtyRequired + ' ]';                                
+                            }
+                            else {
+                                s = data.message;
+                            }
                             $("#OperationQtyData").html(s);
-                        }
+                        },                       
                     });
                 }
                 else
@@ -213,11 +249,11 @@
                 // var data = form.serialize() + '&OperatorId=' + 1;
                 // var data = form.serialize() + '&OperatorId=' + 2;
                 var userId = $('.userIdClass').attr("id");
-                
+
                 var data = form.serialize() + '&UserId=' + userId + '&OperatorId=' + 0;
                 var url = '@Url.Action("Create", "OperatorLog")';
 
-                
+
                 $.post(url, data).done(function (response) {
                     console.log(response);
                     console.log(response.result.statusCode);
@@ -267,7 +303,7 @@
                 }
                 else {
                     content += '<img src="../../Images/error.png" style = "width:50px;height:50px;" /> ';
-                    content += '<font color="red">' + result.Message + '</font>';
+                    content += '<font color="red">' + result.message + '</font>';
                 }
                 div.html(content);
                 div.fadeIn("slow");
@@ -293,6 +329,8 @@
                 $('#OpQtyDone').prop('disabled', true);
                 $('#OpPauseRunTime').prop('readonly', true);
                 $('#OpStartRunTime').prop('readonly', false);
+
+                $("#OperationQtyData").html('');
 
             };
 
