@@ -226,7 +226,13 @@ namespace MVCCore.Auth.Controllers
                     }
                 }
             }
-            catch(Record_Not_Found_Exception rnfEx)
+            catch (Invalid_WO_StartDate_Exception iwosdEx)
+            {
+                retData.Message = iwosdEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
+            catch (Record_Not_Found_Exception rnfEx)
             {
                 retData.Message = rnfEx.Message;
                 retData.ModelErrors = new List<string>();

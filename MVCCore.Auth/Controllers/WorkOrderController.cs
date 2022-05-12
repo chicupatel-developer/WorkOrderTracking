@@ -184,6 +184,12 @@ namespace MVCCore.Auth.Controllers
                     }
                 }
             }
+            catch (Invalid_WO_StartDate_Exception iwosdEx)
+            {
+                retData.Message = iwosdEx.Message;
+                retData.ModelErrors = new List<string>();
+                retData.StatusCode = -1;
+            }
             catch (Invalid_WO_Status_Exception iwosEx)
             {
                 retData.Message = iwosEx.Message;

@@ -17,6 +17,8 @@ then user can not do [ workorder-startdate is null or workorder-status == Not_St
 
 - workorder-startdate must be <= it's any of operations'-startdate
 
+- workorder-startdate must be >= it's customerorder's order-date
+
 - if operation is Not_Started then,,,
 it can not be Completed directly means operation must follow,,,
 Not_Started -> Start_Running -> Completed sequence

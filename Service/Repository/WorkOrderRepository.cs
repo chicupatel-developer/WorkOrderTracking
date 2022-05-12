@@ -91,10 +91,14 @@ namespace Service.Repository
      
         public void EditWorkOrder(WorkOrder workOrder)
         {
-            var _wo = appDbContext.WorkOrders
+            var _wo = appDbContext.WorkOrders.Include(x=>x.CustomerOrder)
                               .Where(x => x.WorkOrderId == workOrder.WorkOrderId).FirstOrDefault();
+                    
             if (_wo != null)
-            {              
+            {
+                if (workOrder.WorkOrderStartDate != null && _wo.CustomerOrder.OrderDate > workOrder.WorkOrderStartDate)
+                    throw new Invalid_WO_StartDate_Exception("WorkOrder-StartDate Must Be >= CustomerOrder-Date !");
+
                 if(!(_wo.WorkOrderStartDate == null && _wo.WorkOrderStatus == WorkOrderStatus.Not_Started))
                 {
                     if (workOrder.WorkOrderStartDate == null && workOrder.WorkOrderStatus == WorkOrderStatus.Not_Started)
@@ -126,7 +130,7 @@ namespace Service.Repository
                 }
 
 
-                if (workOrder.WorkOrderStatus != _wo.WorkOrderStatus)
+                if (workOrder.WorkOrderStatus != _wo.WorkOrderStatus && workOrder.WorkOrderStatus!=WorkOrderStatus.Start_Running)
                 {
                     var ops_ = appDbContext.Operations
                            .Where(x => x.WorkOrderId == workOrder.WorkOrderId);

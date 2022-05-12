@@ -41,10 +41,17 @@ namespace Service.Repository
         }        
         public void EditCustomerOrder(CustomerOrder customerOrder)
         {
-            var _co = appDbContext.CustomerOrders
+            var _co = appDbContext.CustomerOrders.Include(x=>x.WorkOrder)
                               .Where(x => x.CustomerOrderId == customerOrder.CustomerOrderId).FirstOrDefault();
             if (_co != null)
             {
+                if (_co.WorkOrder != null)
+                {
+                    if (customerOrder.OrderDate > _co.WorkOrder.WorkOrderStartDate)
+                    {
+                        throw new Invalid_WO_StartDate_Exception("WorkOrder-StartDate Must Be >= CustomerOrder-Date !");
+                    }
+                }
                 _co.CustomerName = customerOrder.CustomerName;
                 _co.OrderDate = customerOrder.OrderDate;
                 _co.OrderDueDate = customerOrder.OrderDueDate;
