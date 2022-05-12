@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		BusinessProcess.txt = BusinessProcess.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APICore.Auth", "APICore.Auth\APICore.Auth.csproj", "{4A9090EB-55AE-4044-8E10-A499E6114F02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{89444FDE-E117-445F-877D-51A0E6B0615C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89444FDE-E117-445F-877D-51A0E6B0615C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89444FDE-E117-445F-877D-51A0E6B0615C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9090EB-55AE-4044-8E10-A499E6114F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9090EB-55AE-4044-8E10-A499E6114F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9090EB-55AE-4044-8E10-A499E6114F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9090EB-55AE-4044-8E10-A499E6114F02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
