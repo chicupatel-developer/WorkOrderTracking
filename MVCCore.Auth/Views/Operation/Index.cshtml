@@ -50,10 +50,7 @@
     .cantComplete {
         color: brown;
     }
-
-    .completedOpQty {
-        border: 3px solid green;
-    }
+   
     .serverError {
         color: red;
         font-size: x-large;
@@ -134,163 +131,141 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    @if (item.OpQTYDone >= item.OpQTYRequired)
-                    {
-                        <td>
-                            <i class="fa fa-check" aria-hidden="true"></i>
-                            @Html.DisplayFor(modelItem => item.OperationId)
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OperationId)
-                        </td>
-                    }
-
-
-                    @{
-                        var opNumber = "";
-                        if (item.OperationNumber == (int)OperationNumber.Spindle)
-                        {
-                            opNumber = "Spindle - 10";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Hub_Single_Head)
-                        {
-                            opNumber = "Hub_Single_Head - 20";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Hub_Double_Head)
-                        {
-                            opNumber = "Hub_Double_Head - 30";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Push_Cups)
-                        {
-                            opNumber = "Push_Cups - 40";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
-                        {
-                            opNumber = "Assembly_Spindle_Hub - 50";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Paint)
-                        {
-                            opNumber = "Paint - 60";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Packaging)
-                        {
-                            opNumber = "Packaging - 70";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Rework_Spindle)
-                        {
-                            opNumber = "Rework_Spindle - 80";
-                        }
-                        if (item.OperationNumber == (int)OperationNumber.Rework_Hub)
-                        {
-                            opNumber = "Rework_Hub - 90";
-                        }
-                    }
+            <tr>
+                @if (item.OpQTYDone >= item.OpQTYRequired)
+                {
                     <td>
-                        @opNumber
-                        <br />
-                        <span class="@GetClassFromOperationStatus(item.OperationStatus)">
-                            @Html.DisplayFor(modelItem => item.OperationStatus)
-                        </span>
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        @Html.DisplayFor(modelItem => item.OperationId)
                     </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OperationId)
+                    </td>
+                }
 
 
-                    @{
-                        var opdetails = "";
-                        if (item.Details != null)
-                        {
-                            opdetails = item.Details;
-                        }
-                        else
-                        {
-                            opdetails = "N/A";
-                        }
-                    }
-
-                    @if (item.OpQTYDone >= item.OpQTYRequired)
+                @{
+                    var opNumber = "";
+                    if (item.OperationNumber == (int)OperationNumber.Spindle)
                     {
-                        <td class="completedOpQty">
-                            <!-- @opdetails -->
-                            <span>
-                                Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
-                            </span>
-                            <br />
-                            <span>
-                                Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
-                            </span>
-                        </td>
+                        opNumber = "Spindle - 10";
                     }
-                    else
+                    if (item.OperationNumber == (int)OperationNumber.Hub_Single_Head)
                     {
-                        <td>
-                            <!-- @opdetails -->
-                            <span>
-                                Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
-                            </span>
-                            <br />
-                            <span>
-                                Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
-                            </span>
-                        </td>
+                        opNumber = "Hub_Single_Head - 20";
                     }
-
-
-
-
-                    <!--
-                    <td class="@GetClassFromOperationStatus(item.OperationStatus)">
+                    if (item.OperationNumber == (int)OperationNumber.Hub_Double_Head)
+                    {
+                        opNumber = "Hub_Double_Head - 30";
+                    }
+                    if (item.OperationNumber == (int)OperationNumber.Push_Cups)
+                    {
+                        opNumber = "Push_Cups - 40";
+                    }
+                    if (item.OperationNumber == (int)OperationNumber.Assembly_Spindle_Hub)
+                    {
+                        opNumber = "Assembly_Spindle_Hub - 50";
+                    }
+                    if (item.OperationNumber == (int)OperationNumber.Paint)
+                    {
+                        opNumber = "Paint - 60";
+                    }
+                    if (item.OperationNumber == (int)OperationNumber.Packaging)
+                    {
+                        opNumber = "Packaging - 70";
+                    }
+                    if (item.OperationNumber == (int)OperationNumber.Rework_Spindle)
+                    {
+                        opNumber = "Rework_Spindle - 80";
+                    }
+                    if (item.OperationNumber == (int)OperationNumber.Rework_Hub)
+                    {
+                        opNumber = "Rework_Hub - 90";
+                    }
+                }
+                <td>
+                    @opNumber
+                    <br />
+                    <span class="@GetClassFromOperationStatus(item.OperationStatus)">
                         @Html.DisplayFor(modelItem => item.OperationStatus)
-                        <br />
-                        @opNumber
-                    </td>
-                        -->
+                    </span>
+                </td>
 
 
-                    @{
-                        var opdate = "";
-                        if (item.OperationStartDate != null)
-                        {
-                            opdate = item.OperationStartDate.Value.ToShortDateString();
-                        }
-                        else
-                        {
-                            opdate = "N/A";
-                        }
+                @{
+                    var opdetails = "";
+                    if (item.Details != null)
+                    {
+                        opdetails = item.Details;
                     }
-                    <td>
-                        @opdate
-                    </td>
+                    else
+                    {
+                        opdetails = "N/A";
+                    }
+                }
+                <!--
+                <td>
+                    <div>
+                        @opdetails
+                    </div>
+                </td>
+                -->
 
-                    <td>
-                        <button id="@item.OperationId"
-                                class='btn btn-primary opEdit'>
-                            <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+                <td>
+                    <span>
+                        Req : @Html.DisplayFor(modelItem => item.OpQTYRequired)
+                    </span>
+                    <br />
+                    <span>
+                        Done : @Html.DisplayFor(modelItem => item.OpQTYDone)
+                    </span>
+                </td>
 
-                        </button>
+                @{
+                    var opdate = "";
+                    if (item.OperationStartDate != null)
+                    {
+                        opdate = item.OperationStartDate.Value.ToShortDateString();
+                    }
+                    else
+                    {
+                        opdate = "N/A";
+                    }
+                }
+                <td>
+                    @opdate
+                </td>
 
-                        <button id="@item.OperationId"
-                                opNumber="@opNumber"
-                                class='btn btn-success assignPart'>
-                            Parts
-                            <i class="fa fa-tasks" aria-hidden="true"></i>
-                        </button>
-                        <button id="@item.OperationId"
-                                opNumber="@opNumber"
-                                class='btn btn-success viewPartHistory'>
-                            Parts
-                            <i class="fa fa-history" aria-hidden="true"></i>
-                        </button>
-                        <button id="@item.OperationId"
-                                opNumber="@opNumber"
-                                class='btn btn-info viewOperationLog'>
-                            Operation Log
-                            <i class="fa fa-sitemap" aria-hidden="true"></i>
-                        </button>
-                    </td>
-                </tr>
+                <td>
+                    <button id="@item.OperationId"
+                            class='btn btn-primary opEdit'>
+                        <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+
+                    </button>
+
+                    <button id="@item.OperationId"
+                            opNumber="@opNumber"
+                            class='btn btn-success assignPart'>
+                        Parts
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                    </button>
+                    <button id="@item.OperationId"
+                            opNumber="@opNumber"
+                            class='btn btn-success viewPartHistory'>
+                        Parts
+                        <i class="fa fa-history" aria-hidden="true"></i>
+                    </button>
+                    <button id="@item.OperationId"
+                            opNumber="@opNumber"
+                            class='btn btn-info viewOperationLog'>
+                        Operation Log
+                        <i class="fa fa-sitemap" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

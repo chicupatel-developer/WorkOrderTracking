@@ -2,8 +2,128 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .header{
+        color: blue;
+        font-size : large;
+        text-decoration: underline;
+        padding-bottom : 10px;
+    }
+</style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center header">Login</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>
+                            Authenticated User can Login with System
+                        </li>
+                        <li>
+                            After Successful Authentication,,, Token, User, Role and other informations are returned to client and saved in browser's session
+                        </li>
+                        <li>
+                            As per User's Role,,, User is redirected in either [Admin] Area or [Operator] Area
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center header">Register</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>
+                            User can Register either as Admin or Operator Role
+                        </li>
+                        <li>
+                            After Successful Registration,,, as per User's Role,,, User is redirected in either [Admin] Area or [Operator] Area
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center header">Role : Admin</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>
+                            Parts
+                            <ul>
+                                <li>
+                                    View - Filter List of Parts (jQuery DataTable)
+                                </li>
+                                <li>
+                                    Add / Edit / Delete - Part
+                                </li>
+                                <li>
+                                    Add / Edit - Part Image
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Customer-Orders
+                            <ul>
+                                <li>
+                                    View - Filter List of Customer Orders (jQuery DataTable)
+                                </li>
+                                <li>
+                                    Add / Edit / Delete - Customer Order
+                                </li>
+                                <li>
+                                    View Customer Order Progress Report Data
+                                    <ul>
+                                        <li>
+                                            View Customer Order v/s Operations Progress Chart (google chart api)
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Work-Orders
+                            <ul>
+                                <li>
+                                    View - Filter List of Work Orders (jQuery DataTable)
+                                </li>
+                                <li>
+                                    Add / Edit / Delete - Work Order
+                                </li>
+                                <li>
+                                    View Customer Order Details
+                                </li>
+                                <li>
+                                    View List of Operations Connected with Work Order
+                                    <br />
+                                    <span><u>Operations</u></span>
+                                    <br />
+                                    <ul>
+                                        <li>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center header">Role : Operator</div>
+                <div class="panel-body">
+                    <ul>
+                       
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
