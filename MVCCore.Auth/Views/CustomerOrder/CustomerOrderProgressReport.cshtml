@@ -54,6 +54,12 @@
         color: red;
         font-size: x-large;
     }
+
+    .woStatus{
+        color : orangered;
+        font-family: Italic;
+        font-size: x-large;
+    }
 </style>
 
 <div class="text-center">
@@ -106,7 +112,11 @@
                     <div>
                         <h4><u>Work-Order</u></h4>
                         <h5>Work Order # @Model.WorkOrder.WorkOrderId</h5>
-                        <h5>Work Order Status : @Model.WorkOrder.WorkOrderStatus</h5>
+                        <h5>Work Order Status : 
+                            <span class="woStatus">
+                                <b>@Model.WorkOrder.WorkOrderStatus</b>
+                            </span>
+                        </h5>
                         @{
                             string woStartDate = null;
                             if (Model.WorkOrder.WorkOrderStartDate != null)

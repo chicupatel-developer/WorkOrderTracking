@@ -4,10 +4,9 @@
 
 <style>
     .header{
-        color: blue;
+        color: forestgreen;
         font-size : large;
-        text-decoration: underline;
-        padding-bottom : 10px;
+        padding-bottom : 10px;        
     }
 </style>
 
@@ -15,7 +14,7 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading text-center header">Login</div>
+                <div class="panel-heading text-center header"><b>Login</b></div>
                 <div class="panel-body">
                     <ul>
                         <li>
@@ -33,7 +32,7 @@
         </div>
         <div class="col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading text-center header">Register</div>
+                <div class="panel-heading text-center header"><b>Register</b></div>
                 <div class="panel-body">
                     <ul>
                         <li>
@@ -50,64 +49,84 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading text-center header">Role : Admin</div>
+                <div class="panel-heading text-center header"><b>Parts [Role: Admin]</b></div>
                 <div class="panel-body">
                     <ul>
                         <li>
-                            Parts
+                            View - Filter List of Parts (jQuery DataTable)
+                        </li>
+                        <li>
+                            Add / Edit / Delete - Part
+                        </li>
+                        <li>
+                            Add / Edit - Part Image
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center header"><b>Customer-Orders [Role: Admin]</b></div>
+                <div class="panel-body">
+                    <ul>
+                        <li>
+                            View - Filter List of Customer Orders (jQuery DataTable)
+                        </li>
+                        <li>
+                            Add / Edit / Delete - Customer Order
+                        </li>
+                        <li>
+                            View Customer Order Progress Report Data
                             <ul>
                                 <li>
-                                    View - Filter List of Parts (jQuery DataTable)
-                                </li>
-                                <li>
-                                    Add / Edit / Delete - Part
-                                </li>
-                                <li>
-                                    Add / Edit - Part Image
+                                    View Customer Order v/s Operations Progress Chart (google chart api)
                                 </li>
                             </ul>
                         </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center header"><b>Work-Orders [Role: Admin]</b></div>
+                <div class="panel-body">
+                    <ul>
                         <li>
-                            Customer-Orders
-                            <ul>
-                                <li>
-                                    View - Filter List of Customer Orders (jQuery DataTable)
-                                </li>
-                                <li>
-                                    Add / Edit / Delete - Customer Order
-                                </li>
-                                <li>
-                                    View Customer Order Progress Report Data
-                                    <ul>
-                                        <li>
-                                            View Customer Order v/s Operations Progress Chart (google chart api)
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            View - Filter List of Work Orders (jQuery DataTable)
                         </li>
                         <li>
-                            Work-Orders
+                            Add / Edit / Delete - Work Order
+                        </li>
+                        <li>
+                            View Customer Order Details
+                        </li>
+                        <li>
+                            View List of Operations Connected with Work Order
+                            <br />
+                            <span class="text-center header">
+                                Work Order --&gt; Operations
+                            </span>                            
+                            <br />
                             <ul>
                                 <li>
-                                    View - Filter List of Work Orders (jQuery DataTable)
+                                    Create New Operation for Work Order
                                 </li>
                                 <li>
-                                    Add / Edit / Delete - Work Order
+                                    Edit Operation for Work Order
                                 </li>
                                 <li>
-                                    View Customer Order Details
+                                    Transfer Parts for Operation
                                 </li>
                                 <li>
-                                    View List of Operations Connected with Work Order
-                                    <br />
-                                    <span><u>Operations</u></span>
-                                    <br />
-                                    <ul>
-                                        <li>
-
-                                        </li>
-                                    </ul>
+                                    View History of Parts Transfer for Operation
+                                </li>
+                                <li>
+                                    View Operation Log <br />
+                                    [Operator, Start-Time, Pause-Time, Cycle-Time, Qty-Done]
                                 </li>
                             </ul>
                         </li>
@@ -117,10 +136,24 @@
         </div>
         <div class="col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading text-center header">Role : Operator</div>
+                <div class="panel-heading text-center header"><b>Operator Log [Role: Operator]</b></div>
                 <div class="panel-body">
                     <ul>
-                       
+                        <li>
+                            Create Operator Log 
+                        </li>
+                        <li>
+                            View Today's Activity Log
+                        </li>
+                        <li>
+                            View Current Week's Activity Log
+                        </li>
+                        <li>
+                            View Current Month's Activity Log
+                        </li>
+                        <li>
+                            View Previous Month's Activity Log
+                        </li>
                     </ul>
                 </div>
             </div>
