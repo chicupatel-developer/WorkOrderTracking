@@ -1,11 +1,4 @@
-<div class="container">
-    <div class="homePageHeader">
-        <h3>University-Admin</h3>
-        <h5>
-            Technology : .Net Core Web API / EF Core / SQL Server / Angular / Custom JWT & Google oauth2 Authentication
-        </h5>
-    </div>
-    <hr />
+<div class="container">    
     <p></p>
     <div class="row">
         <div class="col-sm-6">
@@ -18,10 +11,7 @@
                     <ul>
                         <li>
                             Custom JWT Authentication (UserName/Password)
-                        </li>
-                        <li>
-                            Google oauth2 Authentication
-                        </li>
+                        </li>                     
                     </ul>
                 </div>
                 <p></p>
@@ -37,7 +27,7 @@
                             [Admin] Role - Maps User's Profile with Admin Role
                         </li>
                         <li>
-                            [Student] Role - Maps Student's Profile with Student Role
+                            [Operator] Role - Maps User's Profile with Operator Role
                         </li>
                     </ul>
                 </div>
@@ -45,67 +35,135 @@
             </div>
             <div>
                 <div class="titleHeader">
-                    <b>Student - Role</b>
+                    <b>Parts [Role: Admin]</b>
                 </div>
                 <p></p>
                 <div class="titleBody">
                     <ul>
-                        <li>My-Courses
-                            <ul>
-                                <li>
-                                    List of Courses And Related Faculties (View)
-                                </li>
-                                <li>
-                                    List of Assignments Related To Assigned Courses (View)
-                                    <ul>
-                                        <li>Download Assignment</li>
-                                        <li>Submit Assignment [Submit Assignment Not Possible before Download
-                                            Assignment]</li>
-                                    </ul>
-                                </li>
-                            </ul>
+                        <li>
+                            View - Filter List of Parts 
                         </li>
+                        <li>
+                            Add / Edit / Delete - Part
+                        </li>
+                        <li>
+                            Add / Edit - Part Image
+                        </li>                     
                     </ul>
                 </div>
                 <p></p>
-                <hr />
+            </div>
+            <div>
+                <div class="titleHeader">
+                    <b>Work-Orders [Role: Admin]</b>
+                </div>
+                <p></p>
+                <div class="titleBody">
+                    <ul>
+                        <li>
+                            View - Filter List of Work Orders 
+                        </li>
+                        <li>
+                            Add / Edit / Delete - Work Order
+                        </li>
+                        <li>
+                            View Customer Order Details
+                        </li>
+                        <li>
+                            View List of Operations Connected with Work Order
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <div class="col-sm-5">
+        <div class="col-sm-6">          
             <div>
                 <div class="titleHeader">
-                    <b>Admin - Role</b>
+                    <b>Work Order --&gt; Operations [Role: Admin]</b>
                 </div>
                 <p></p>
                 <div class="titleBody">
                     <ul>
-                        <li>Department (CRUD)</li>
-                        <li>Faculty (CRUD)</li>
-                        <li>Course (CRUD)]</li>
-                        <li>Student (CRUD)</li>
-                        <li>Map Student To Courses</li>
-                        <li>Assignment (Add)
+                        <li>
+                            Create New Operation for Work Order
+                        </li>
+                        <li>
+                            Edit Operation for Work Order
+                        </li>
+                        <li>
+                            Transfer Parts for Operation
+                        </li>
+                        <li>
+                            View History of Parts Transfer for Operation
+                        </li>
+                        <li>
+                            View Operation Log
+                            <br />
                             <ul>
                                 <li>
-                                    File Upload
-                                </li>
-                                <li>
-                                    Assignment Details Post
-                                </li>
-                                <li>
-                                    Map Assignment To Department-Faculty-Course
+                                    [Operator, Start-Time, Pause-Time, Cycle-Time, Qty-Done]
                                 </li>
                             </ul>
                         </li>
-                        <li>Assignment (View)</li>
-                        <li>Assignment (Search By Department And/Or Faculty)</li>
-                        <li>Assignment (Download)</li>
                     </ul>
                 </div>
-                <p></p>
-                <hr />
             </div>
-        </div>
+
+            <div>
+                <div class="titleHeader">
+                    <b>Customer-Orders [Role: Admin]</b>
+                </div>
+                <p></p>
+                <div class="titleBody">
+                    <ul>
+                        <li>
+                            View - Filter List of Customer Orders 
+                        </li>
+                        <li>
+                            Add / Edit / Delete - Customer Order
+                        </li>
+                        <li>
+                            View Customer Order Progress Report Data
+                        </li>
+                        <li>
+                            View History of Parts Transfer for Operation
+                            <br />
+                            <ul>
+                                <li>
+                                    View Customer Order v/s Operations Progress Chart (google chart api)
+                                </li>
+                            </ul>
+                        </li>                     
+                    </ul>
+                </div>
+            </div>
+            
+            <div>
+                <div class="titleHeader">
+                    <b>Operator Log [Role: Operator]</b>
+                </div>
+                <p></p>
+                <div class="titleBody">
+                    <ul>
+                        <li>
+                            Create Operator Log
+                        </li>
+                        <li>
+                            View Today's Activity Log
+                        </li>
+                        <li>
+                            View Current Week's Activity Log
+                        </li>
+                        <li>
+                            View Current Month's Activity Log
+                        </li>
+                        <li>
+                            View Previous Month's Activity Log
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>    
     </div>
 </div>

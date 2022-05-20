@@ -16,6 +16,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // components
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
+import { PartComponent } from './part/part.component';
+import { CustomerOrderComponent } from './customer-order/customer-order.component';
+import { WorkOrderComponent } from './work-order/work-order.component';
+import { OperationComponent } from './operation/operation.component';
+import { SigninComponent } from './signin/signin.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 // services
 
@@ -25,7 +31,13 @@ import { HeaderComponent } from './header/header.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    PartComponent,
+    CustomerOrderComponent,
+    WorkOrderComponent,
+    OperationComponent,
+    SigninComponent,
+    RegistrationComponent
   ],
   imports: [   
     BrowserModule,    
