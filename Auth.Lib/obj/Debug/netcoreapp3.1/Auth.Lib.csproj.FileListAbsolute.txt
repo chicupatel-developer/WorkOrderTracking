@@ -1,0 +1,11 @@
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\bin\Debug\netcoreapp3.1\Auth.Lib.deps.json
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\bin\Debug\netcoreapp3.1\Auth.Lib.runtimeconfig.json
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\bin\Debug\netcoreapp3.1\Auth.Lib.runtimeconfig.dev.json
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\bin\Debug\netcoreapp3.1\Auth.Lib.dll
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\bin\Debug\netcoreapp3.1\Auth.Lib.pdb
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\obj\Debug\netcoreapp3.1\Auth.Lib.AssemblyInfoInputs.cache
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\obj\Debug\netcoreapp3.1\Auth.Lib.AssemblyInfo.cs
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\obj\Debug\netcoreapp3.1\Auth.Lib.csproj.CoreCompileInputs.cache
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\obj\Debug\netcoreapp3.1\Auth.Lib.dll
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\obj\Debug\netcoreapp3.1\Auth.Lib.pdb
+C:\WorkOrder-Tracking-jQuery\Auth.Lib\obj\Debug\netcoreapp3.1\Auth.Lib.genruntimeconfig.cache

@@ -14,7 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		BusinessProcess.txt = BusinessProcess.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APICore.Auth", "APICore.Auth\APICore.Auth.csproj", "{4A9090EB-55AE-4044-8E10-A499E6114F02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APICore.Auth", "APICore.Auth\APICore.Auth.csproj", "{4A9090EB-55AE-4044-8E10-A499E6114F02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Lib", "Auth.Lib\Auth.Lib.csproj", "{FC74B120-3AB3-44F9-9A31-F6E0AFE526DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{4A9090EB-55AE-4044-8E10-A499E6114F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A9090EB-55AE-4044-8E10-A499E6114F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A9090EB-55AE-4044-8E10-A499E6114F02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC74B120-3AB3-44F9-9A31-F6E0AFE526DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC74B120-3AB3-44F9-9A31-F6E0AFE526DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC74B120-3AB3-44F9-9A31-F6E0AFE526DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC74B120-3AB3-44F9-9A31-F6E0AFE526DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
