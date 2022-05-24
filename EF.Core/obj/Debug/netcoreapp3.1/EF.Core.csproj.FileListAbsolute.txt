@@ -21,3 +21,4 @@ C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.csproj.Core
 C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.dll
 C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.pdb
 C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.genruntimeconfig.cache
+C:\WorkOrder-Tracking-jQuery\EF.Core\obj\Debug\netcoreapp3.1\EF.Core.csproj.AssemblyReference.cache

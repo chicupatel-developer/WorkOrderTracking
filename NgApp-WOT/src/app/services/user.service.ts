@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 })
 export class UserService {
 
-  public API = 'https://localhost:44354/api';
+  public API = 'https://localhost:44359/api';
   public AUTHENTICATE_API = `${this.API}/Authenticate`;
 
   headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -71,7 +71,7 @@ export class UserService {
 
   // ok
   // register
-  register(registerModel, MyRole): Observable<any> {
-    return this.http.post(this.AUTHENTICATE_API + '/register/'+MyRole, registerModel)
+  register(registerModel): Observable<any> {
+    return this.http.post(this.AUTHENTICATE_API + '/register', registerModel)
   }
 }

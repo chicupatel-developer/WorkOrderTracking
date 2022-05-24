@@ -9,7 +9,7 @@ export class LocalDataService {
   private MyRole;
 
   private UserName;
-
+  private FullName;
 
   constructor() { }
 
@@ -27,5 +27,11 @@ export class LocalDataService {
   }
   getUserName() {
     return this.UserName;
+  }
+  setFullName(val) {
+    this.FullName = val;
+  }
+  getFullName() {
+    return this.FullName;
   }
 }

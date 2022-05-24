@@ -70,7 +70,7 @@ namespace APICore.Auth.Controllers
                         signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                         );
 
-                    _response.ResponseCode = 200;
+                    _response.ResponseCode = 0;
                     _response.ResponseMessage = "Login Success!";
 
                     return Ok(new
@@ -86,8 +86,8 @@ namespace APICore.Auth.Controllers
                 }
                 else
                 {
-                    _response.ResponseCode = 401;
-                    _response.ResponseError = "Username / Password Incorrect!";
+                    _response.ResponseCode = -1;
+                    _response.ResponseMessage = "Username / Password Incorrect!";
                     return Ok(new
                     {
                         response = _response,
@@ -96,8 +96,8 @@ namespace APICore.Auth.Controllers
             }
             catch (Exception ex)
             {
-                _response.ResponseCode = 500;
-                _response.ResponseError = "Server Error!";
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
                 return Ok(new
                 {
                     response = _response,
@@ -117,7 +117,7 @@ namespace APICore.Auth.Controllers
             {
                 var userExists = await userManager.FindByNameAsync(model.Email);
                 if (userExists != null)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = 500, ResponseError = "User already exists!" });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = -1, ResponseMessage = "User already exists!" });
 
                 ApplicationUser user = new ApplicationUser()
                 {
@@ -130,7 +130,7 @@ namespace APICore.Auth.Controllers
 
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = 500, ResponseError = "User creation fails!" });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = -1, ResponseMessage = "User creation fails!" });
 
                 if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
                     await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
@@ -140,14 +140,12 @@ namespace APICore.Auth.Controllers
                 await userManager.AddToRoleAsync(user, model.AppRole);
                 
                 _response.ResponseCode = 0;
-                _response.ResponseMessage = "User created successfully!";
-                _response.ResponseError = null;
+                _response.ResponseMessage = "User created successfully!";                
             }
             catch (Exception ex)
             {
                 _response.ResponseCode = -1;
                 _response.ResponseMessage = "Server Error!";
-                _response.ResponseError = ex.Message.ToString();
             }
             return Ok(_response);
         }

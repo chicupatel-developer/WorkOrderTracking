@@ -9,7 +9,6 @@ namespace APICore.Auth.DTO
     {
         public int ResponseCode { get; set; }
         public string ResponseMessage { get; set; }
-        public string ResponseError { get; set; }
 
     }
 }
