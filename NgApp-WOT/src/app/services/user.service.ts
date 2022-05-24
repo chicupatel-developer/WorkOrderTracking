@@ -20,6 +20,14 @@ export class UserService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
+
+  private _authChangeSub = new Subject<boolean>()
+  public authChanged = this._authChangeSub.asObservable();
+  public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
+    this._authChangeSub.next(isAuthenticated);
+  };
+
+
   constructor(
     private http: HttpClient,
     public router: Router,
