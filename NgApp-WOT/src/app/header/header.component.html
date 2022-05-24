@@ -26,7 +26,7 @@
 
         <ngx-navbar-collapse id="navbarSupportedContent">
             <b>
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class='nav-link' aria-current="page" 
                             [routerLink]="['/home']">
@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li class="nav-item"
-                        *ngIf="this.userService.isAdmin" >
+                        *ngIf="this.userService.isLoggedIn && this.userService.isAdmin" >
                         <a class="nav-link" 
                             [routerLink]="['/part']">
                             <i class="bi bi-display"></i>
@@ -43,7 +43,7 @@
                         </a>
                     </li>
                     <li class="nav-item"
-                        *ngIf="this.userService.isAdmin" >
+                        *ngIf="this.userService.isLoggedIn && this.userService.isAdmin" >
                         <a class="nav-link" 
                             [routerLink]="['/customer-order']">
                             <i class="bi-gear-fill"></i>
@@ -51,7 +51,7 @@
                         </a>
                     </li>
                     <li class="nav-item" 
-                        *ngIf="this.userService.isAdmin">
+                        *ngIf="this.userService.isLoggedIn && this.userService.isAdmin">
                         <a class="nav-link" 
                             [routerLink]="['/work-order']">
                             <i class="bi-file-word-fill"></i>
@@ -61,14 +61,14 @@
                     </li>
 
                     <li class="nav-item" 
-                        *ngIf="!this.userService.isAdmin">
+                        *ngIf="this.userService.isLoggedIn && !this.userService.isAdmin">
                         <a class="nav-link" 
                             [routerLink]="['/create-op-log']">
                             Create Log
                         </a>
                     </li>
                     <li class="nav-item"
-                        *ngIf="!this.userService.isAdmin">
+                        *ngIf="this.userService.isLoggedIn && !this.userService.isAdmin">
                         <a class="nav-link" 
                             [routerLink]="['/view-op-log']">
                             View Log
@@ -76,27 +76,91 @@
                     </li>
                 </ul>
             </b>
+
+            <ul class="navbar-nav ms-auto ">
+                <li class="nav-item" *ngIf="!this.userService.isLoggedIn">
+                    <a class='nav-link' [routerLink]="['/signin']">
+                        <i class="bi bi-person-plus"></i>
+                        Login
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="!this.userService.isLoggedIn">
+                    <a class='nav-link' [routerLink]="['/registration']">
+                        <i class="bi bi-person-square"></i>
+                        Registration
+                    </a>
+                </li>
+                <label class="adminUser" *ngIf="this.userService.isLoggedIn && this.userService.isAdmin">
+                    <b>
+                        Welcome...{{this.localDataService.getFullName()}} !
+                    </b>
+                </label>
+                <label class="operatorUser" *ngIf="this.userService.isLoggedIn && !this.userService.isAdmin">
+                    <b>
+                        Welcome...{{this.localDataService.getFullName()}} !
+                    </b>
+                </label>
+                <button (click)="logout()" *ngIf="this.userService.isLoggedIn" type="button" class="btn btn-danger">
+                    Logout
+                </button>
+            </ul>
+
         </ngx-navbar-collapse>
 
+
+        <!-- 
         <ngx-navbar-collapse id="navbarSupportedContent">
             <b>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" >
+               
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"
+                        *ngIf="!this.userService.isLoggedIn" >
                         <a class='nav-link' 
                             [routerLink]="['/signin']">
                             <i class="bi bi-person-plus"></i>
                             Login
                         </a>
                     </li>
-                    <li class="nav-item" >
+                    <li class="nav-item" 
+                        *ngIf="!this.userService.isLoggedIn" >
                         <a class='nav-link' 
                             [routerLink]="['/registration']">
                             <i class="bi bi-person-square"></i>
                             Registration
                         </a>
-                    </li>                 
+                    </li>    
+                    <label 
+                        class="adminUser"
+                        *ngIf="this.userService.isLoggedIn && this.userService.isAdmin">
+                        <b>
+                            Welcome...{{this.localDataService.getFullName()}} !
+                        </b>
+                    </label>
+                    <label 
+                        class="operatorUser"
+                        *ngIf="this.userService.isLoggedIn && !this.userService.isAdmin">
+                        <b>
+                            Welcome...{{this.localDataService.getFullName()}} !
+                        </b>
+                    </label>
+                    <button 
+                        (click)="logout()" 
+                        *ngIf="this.userService.isLoggedIn" 
+                        type="button" 
+                        class="btn btn-danger">
+                            Logout
+                    </button>
                 </ul>
+
+
+              
+
             </b>
         </ngx-navbar-collapse>
+        -->
+
+     
+     
+
     </div>
 </nav>

@@ -25,4 +25,8 @@ export class HeaderComponent implements OnInit {
     this.localDataService.setMyRole(localStorage.getItem('myRole'));
   }
 
+  logout() {
+    this.userService.doLogout();   
+  }
+
 }

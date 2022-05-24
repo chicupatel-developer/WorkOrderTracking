@@ -65,12 +65,14 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.loginError = '';
+    this.errors = [];
+
     this.submitted = true;
 
     if (this.form.invalid) {
       return;
     }
-    // console.log(JSON.stringify(this.form.value, null, 2));
       var userTokenData = {
         UserName: '',
         Token: '',
@@ -160,6 +162,4 @@ export class SigninComponent implements OnInit {
     this.submitted = false;
     this.form.reset();
   }
-
-
 }

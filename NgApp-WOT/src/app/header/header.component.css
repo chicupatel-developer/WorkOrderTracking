@@ -8,3 +8,16 @@
     font-size: large;
     margin-right: 50px;
 }
+
+.adminUser{
+    font-size: large;
+    color: red;
+    margin-right: 20px;
+    margin-top: 6px;
+}
+.operatorUser {
+    font-size: large;
+    color: blue;
+    margin-right: 20px;
+    margin-top: 6px;
+}

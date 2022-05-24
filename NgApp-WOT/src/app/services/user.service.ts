@@ -67,9 +67,11 @@ export class UserService {
   doLogout() {
     let removeToken = localStorage.removeItem('token');
     let removeUserName = localStorage.removeItem('userName');
+    let removeFullName = localStorage.removeItem('fullName');
     let removeMyRole = localStorage.removeItem('myRole');
 
     this.localDataService.setUserName('');
+    this.localDataService.setFullName('');
     this.localDataService.setMyRole('');
 
     if (removeToken == null) {
