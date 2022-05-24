@@ -24,7 +24,9 @@ export class SigninComponent implements OnInit {
     Password: ''
   };
 
-  // ok
+  loginError = '';
+  errors: string[];
+
   constructor(
     private formBuilder: FormBuilder,
     public userService: UserService,
@@ -126,12 +128,14 @@ export class SigninComponent implements OnInit {
             // redirect to home page
             setTimeout(() => {
               this.router.navigate(['/home']);
-            }, 5000);
+            }, 2000);
           }
           // error
           else {
 
-            console.log(res.response);
+            this.loginError = res.response.responseMessage;
+            this.errors = [];
+            // console.log(res.response);
 
             this.localDataService.setUserName('');
             this.localDataService.setFullName('');
@@ -143,6 +147,11 @@ export class SigninComponent implements OnInit {
         },
         err => {   
           console.log(err);
+          console.log('this is 400');
+            
+          this.loginError = '';
+          this.errors = [];
+          this.errors = this.localDataService.display400andEx(err,'Signin');
         }
       );     
   }

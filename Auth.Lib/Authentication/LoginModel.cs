@@ -10,7 +10,7 @@ namespace Auth.Lib.Authentication
     public class LoginModel
     {
         [Required(ErrorMessage = "User Name / Email is required")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is required")]

@@ -34,4 +34,25 @@ export class LocalDataService {
   getFullName() {
     return this.FullName;
   }
+
+  // 400
+  display400andEx(error, componentName): string[] {
+    var errors = [];
+    if (error.status == 400) {
+      
+      console.log(error.error.errors[0]);
+      
+      if (error.error.errors != null) {      
+        for (var key in error.error.errors) {
+          errors.push(error.error.errors[key]);
+        }
+      } else {
+        errors.push('[' + componentName + ']  Bad Request !');
+      }
+    }
+    else {
+      console.log(error);
+    }
+    return errors;
+  }
 }

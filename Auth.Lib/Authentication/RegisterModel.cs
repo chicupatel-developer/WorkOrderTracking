@@ -9,27 +9,27 @@ namespace Auth.Lib.Authentication
 {
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Role is required")]
         [DataType(DataType.Text)]
         [Display(Name = "Application Role")]
         public string AppRole { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "First Name is required")]
         [DataType(DataType.Text)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Last Name is required")]
         [DataType(DataType.Text)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

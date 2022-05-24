@@ -4,9 +4,19 @@
             <div class="card">
                 <div class="card-header">
                     <h3>Login</h3>
-                    <h5 style="font-size:medium; color: red;">
-                        
+                    <h5 class="displayError">
+                        {{loginError}}
                     </h5>
+                    <div *ngIf="errors?.length > 0" 
+                        class="displayError">
+                        <h6>
+                            <ul>
+                                <li *ngFor="let error of errors">
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </h6>
+                    </div>
                 </div>
                 <div class="card-body">
                     <form [formGroup]="form" 
