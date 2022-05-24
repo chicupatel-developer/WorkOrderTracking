@@ -8,6 +8,9 @@ import { WorkOrderComponent } from './work-order/work-order.component';
 import { OperationComponent } from './operation/operation.component';
 import { SigninComponent } from './signin/signin.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { CreateOperatorLogComponent } from './create-operator-log/create-operator-log.component';
+import { ViewOperatorLogComponent } from './view-operator-log/view-operator-log.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,6 +21,8 @@ const routes: Routes = [
   { path: 'operation', component: OperationComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'registration', component: RegistrationComponent },
+  { path: 'create-op-log', component: CreateOperatorLogComponent },
+  { path: 'view-op-log', component: ViewOperatorLogComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 

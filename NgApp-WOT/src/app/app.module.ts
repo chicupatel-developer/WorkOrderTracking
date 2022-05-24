@@ -22,6 +22,8 @@ import { WorkOrderComponent } from './work-order/work-order.component';
 import { OperationComponent } from './operation/operation.component';
 import { SigninComponent } from './signin/signin.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { CreateOperatorLogComponent } from './create-operator-log/create-operator-log.component';
+import { ViewOperatorLogComponent } from './view-operator-log/view-operator-log.component';
 
 // services
 
@@ -37,7 +39,9 @@ import { RegistrationComponent } from './registration/registration.component';
     WorkOrderComponent,
     OperationComponent,
     SigninComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    CreateOperatorLogComponent,
+    ViewOperatorLogComponent
   ],
   imports: [   
     BrowserModule,    
