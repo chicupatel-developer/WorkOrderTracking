@@ -12,7 +12,7 @@ namespace Auth.Lib.Authentication
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Application Role")]
-        public AppRoles AppRole { get; set; }
+        public string AppRole { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
