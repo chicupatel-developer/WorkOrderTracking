@@ -1,26 +1,22 @@
 # WorkOrder-Tracking-Service
 
-### Server : DotNet Core MVC / Web API Core / EF Core
-### Client(1) : Razor / JQuery / Ajax / Javascript / Html, Css, Bootstrap
-### Client(2) : Angular / Html, Css, Bootstrap
-### Client(3) : React-Redux / Html, Css, Bootstrap
-
-
 Technology
 ----------
-- MVC .Net Core - 3.1, Razor
+- MVC .Net Core - 3.1, Web API Core - 3.1, EF Core
 
 - Repository pattern
 
-- Identity (Authentication / Authorization)
+- Identity (Authentication / Authorization) [MVC .Net Core]
+
+- Token Based Authentication / Authorization [Web API Core]
 
 - Sql Server
 
-- JQuery, Ajax, Javascript, Html, Css, Bootstrap
+- Client(1) : Razor, JQuery, Ajax, Javascript, Html, Css, Bootstrap
 
-- Angular 
+- Client(2) : Angular, Html, Css, Bootstrap
 
-- React - Redux
+- Client(3) : React - Redux, Html, Css, Bootstrap
 
 
 ## System Diagram->
