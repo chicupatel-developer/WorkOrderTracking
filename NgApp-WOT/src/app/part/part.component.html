@@ -1,1 +1,66 @@
-<p>part works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card">
+                <div class="card-header" 
+                    style="background-color: lightyellow;">
+                    <h4>
+                        Parts
+                    </h4>
+                </div>
+                <div class="card-body">             
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Desc</th>
+                                <th>Qty</th>
+                                <th>File</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of parts">
+                                <td>{{p.partId}}</td>
+                                <td>
+                                    {{p.name}}
+                                </td>
+                                <td>
+                                    {{p.desc}}
+                                </td>
+                                <td>
+                                    {{p.qty}}
+                                </td>
+                                <td>
+                                    {{p.partFile}}
+                                </td>    
+                                <td>
+                                    <div class="row">
+                                        <div class="col-1"></div>
+                                        <div class="col-1">
+                                            <button type="button" 
+                                                (click)="editPart(p)" 
+                                                class="btn btn-primary">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-1"></div>
+                                        <div class="col-1">
+                                            <button type="button" 
+                                                (click)="removePart(p)" 
+                                                class="btn btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-8"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
