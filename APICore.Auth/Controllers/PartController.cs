@@ -30,7 +30,7 @@ namespace APICore.Auth.Controllers
             _response = new APIResponse();
             try
             {
-                // throw new Exception();
+                throw new Exception();
 
                 var allParts = _partRepo.GetAllParts();
                 return Ok(allParts);

@@ -1,64 +1,95 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-10 mx-auto">
+        <div class="col-md-12 mx-auto">
             <div class="card">
                 <div class="card-header" 
                     style="background-color: lightyellow;">
                     <h4>
                         Parts
+
+                        <span *ngIf="responseColor=='red'"
+                            class="responseClass" >
+                            [ {{apiResponse}} ]
+                        </span>                        
                     </h4>
                 </div>
-                <div class="card-body">             
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Desc</th>
-                                <th>Qty</th>
-                                <th>File</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let p of parts">
-                                <td>{{p.partId}}</td>
-                                <td>
-                                    {{p.name}}
-                                </td>
-                                <td>
-                                    {{p.desc}}
-                                </td>
-                                <td>
-                                    {{p.qty}}
-                                </td>
-                                <td>
-                                    {{p.partFile}}
-                                </td>    
-                                <td>
-                                    <div class="row">
-                                        <div class="col-1"></div>
-                                        <div class="col-1">
-                                            <button type="button" 
-                                                (click)="editPart(p)" 
-                                                class="btn btn-primary">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
+                <div class="card-body">  
+                    <div
+                        *ngIf="parts?.length>0; else noParts"
+                        class="container">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Desc</th>
+                                    <th>Qty</th>
+                                    <th>File</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let p of parts">
+                                    <td>{{p.partId}}</td>
+                                    <td>
+                                        {{p.name}}
+                                    </td>
+                                    <td>
+                                        <span *ngIf="p.desc!=null && p.desc.length>10; else fullDesc">
+                                            {{p.desc.substring(0,10)}}...
+                                        </span>
+                                        <ng-template #fullDesc>
+                                            {{p.desc}}
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        {{p.qty}}
+                                    </td>                                  
+                                    
+                                    <td>   
+                                        <span *ngIf="p.partFile!=null; else noImage">
+                                            <img width="35" height="35" [src]="p.partFilePath" />
+                                        </span>
+                                        <ng-template #noImage>
+                                            N/A
+                                        </ng-template>
+                                    </td>
+                                
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-1">
+                                                <button type="button" 
+                                                    (click)="editPart(p)" 
+                                                    class="btn btn-primary">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-1"></div>
+                                            <div class="col-1">
+                                                <button type="button" 
+                                                    (click)="removePart(p)" 
+                                                    class="btn btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-8"></div>
                                         </div>
-                                        <div class="col-1"></div>
-                                        <div class="col-1">
-                                            <button type="button" 
-                                                (click)="removePart(p)" 
-                                                class="btn btn-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </div>
-                                        <div class="col-8"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ng-template #noParts>
+                        <div class="container">
+                            <span class="noParts">
+                                Parts Not Found !
+                            </span>                            
+                        </div>
+                    </ng-template>
+                   
+
+               
                 </div>
             </div>
         </div>

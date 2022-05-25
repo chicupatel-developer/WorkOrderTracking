@@ -12,10 +12,13 @@ import { LocalDataService } from '../services/local-data.service';
 })
 export class PartComponent implements OnInit {
 
+  partFilePath = "https://localhost:44359/PartFiles/";
+  
   parts: Array<any>;
 
   apiResponse = '';  
   responseColor = '';
+  responseClass = '';
 
   constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router) { }
 
@@ -28,14 +31,24 @@ export class PartComponent implements OnInit {
       .subscribe(
         data => {          
           console.log(data);
+
+          data.map((part, i) => {
+            part.partFilePath = this.partFilePath+''+part.partFile;
+          });
+
+
           this.parts = data;
           this.responseColor = 'green';
           this.apiResponse = 'Success!';
+          this.responseClass = 'successResponse';
+
+          console.log(this.parts);
         },
         error => {
           console.log(error.error);
           this.responseColor = 'red';
           this.apiResponse = error.error;
+          this.responseClass = 'errorResponse';
           this.parts = [];
       });
   }

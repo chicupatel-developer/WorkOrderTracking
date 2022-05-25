@@ -1,0 +1,12 @@
+.noParts {
+    color : red;
+    font-size: x-large;
+}
+
+.errorResponse { 
+    color : red;
+}
+
+.successResponse {
+    color: green;
+}
