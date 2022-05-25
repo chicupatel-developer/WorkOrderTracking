@@ -1,9 +1,9 @@
 # WorkOrder-Tracking-Service
 
-# Server : DotNet Core MVC / EF Core
-# Client(1) : Razor / JQuery / Ajax / Javascript / Html, Css, Bootstrap
-# Client(2) : Angular / Html, Css, Bootstrap
-# Client(3) : React-Redux / Html, Css, Bootstrap
+### Server : DotNet Core MVC / Web API Core / EF Core
+### Client(1) : Razor / JQuery / Ajax / Javascript / Html, Css, Bootstrap
+### Client(2) : Angular / Html, Css, Bootstrap
+### Client(3) : React-Redux / Html, Css, Bootstrap
 
 
 Technology
