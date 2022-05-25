@@ -1,10 +1,14 @@
 # WorkOrder-Tracking-Service
 
-# DotNet Core MVC / EF Core / Razor / JQuery / Ajax / Javascript 
+# Server : DotNet Core MVC / EF Core
+# Client(1) : Razor / JQuery / Ajax / Javascript / Html, Css, Bootstrap
+# Client(2) : Angular / Html, Css, Bootstrap
+# Client(3) : React-Redux / Html, Css, Bootstrap
+
 
 Technology
 ----------
-- MVC .Net Core - 3.1
+- MVC .Net Core - 3.1, Razor
 
 - Repository pattern
 
@@ -12,9 +16,11 @@ Technology
 
 - Sql Server
 
-- Razor View, Partial View
+- JQuery, Ajax, Javascript, Html, Css, Bootstrap
 
-- JQuery, Ajax, Javascript, Html, CSS, Bootstrap
+- Angular 
+
+- React - Redux
 
 
 ## System Diagram->
