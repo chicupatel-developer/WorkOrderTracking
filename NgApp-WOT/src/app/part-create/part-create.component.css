@@ -9,3 +9,7 @@
 .nameField {
     width: 400px;
 }
+
+.cancelBtn {
+    float: right;
+}

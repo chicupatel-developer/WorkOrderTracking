@@ -25,6 +25,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { CreateOperatorLogComponent } from './create-operator-log/create-operator-log.component';
 import { ViewOperatorLogComponent } from './view-operator-log/view-operator-log.component';
 import { PartCreateComponent } from './part-create/part-create.component';
+import { PartEditComponent } from './part-edit/part-edit.component';
 
 // services
 
@@ -43,7 +44,8 @@ import { PartCreateComponent } from './part-create/part-create.component';
     RegistrationComponent,
     CreateOperatorLogComponent,
     ViewOperatorLogComponent,
-    PartCreateComponent
+    PartCreateComponent,
+    PartEditComponent
   ],
   imports: [   
     BrowserModule,    

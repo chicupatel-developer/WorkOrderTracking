@@ -48,7 +48,7 @@ namespace APICore.Auth.Controllers
             _response = new APIResponse();
             try
             {
-                throw new Exception();
+                // throw new Exception();
                 _partRepo.AddPart(part);
                 _response.ResponseCode = 0;
                 _response.ResponseMessage = "Part Added Successfully!";
