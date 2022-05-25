@@ -30,7 +30,7 @@ namespace APICore.Auth.Controllers
             _response = new APIResponse();
             try
             {
-                throw new Exception();
+                // throw new Exception();
 
                 var allParts = _partRepo.GetAllParts();
                 return Ok(allParts);
@@ -39,6 +39,26 @@ namespace APICore.Auth.Controllers
             {
                 return BadRequest("Server Error!");                
             }         
+        }
+
+        [HttpPost]
+        [Route("createPart")]
+        public IActionResult CreatePart(Part part)
+        {
+            _response = new APIResponse();
+            try
+            {
+                throw new Exception();
+                _partRepo.AddPart(part);
+                _response.ResponseCode = 0;
+                _response.ResponseMessage = "Part Added Successfully!";
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
         }
     }
 }

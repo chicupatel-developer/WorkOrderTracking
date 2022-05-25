@@ -1,3 +1,7 @@
+.componentHeader {
+    background-color: lightyellow;
+}
+
 .noParts {
     color : red;
     font-size: x-large;

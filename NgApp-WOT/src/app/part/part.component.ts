@@ -61,4 +61,11 @@ export class PartComponent implements OnInit {
     console.log(part);
   }
 
+  createPart() {
+    // redirect to part-create
+    setTimeout(() => {
+      this.router.navigate(['/part-create']);
+    }, 500);
+  }
+
 }

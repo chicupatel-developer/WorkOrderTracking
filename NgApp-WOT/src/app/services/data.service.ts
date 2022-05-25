@@ -17,4 +17,7 @@ export class DataService {
   getAllParts(): Observable<Array<any>> {
     return this.http.get<Array<any>>(this.PART_API + '/allParts');
   }
+  createPart(partModel): Observable<any> {
+    return this.http.post(this.PART_API + '/createPart', partModel)
+  }
 }

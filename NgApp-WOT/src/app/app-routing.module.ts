@@ -10,7 +10,7 @@ import { SigninComponent } from './signin/signin.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { CreateOperatorLogComponent } from './create-operator-log/create-operator-log.component';
 import { ViewOperatorLogComponent } from './view-operator-log/view-operator-log.component';
-
+import { PartCreateComponent } from './part-create/part-create.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'create-op-log', component: CreateOperatorLogComponent },
   { path: 'view-op-log', component: ViewOperatorLogComponent },
+  { path: 'part-create', component: PartCreateComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 
