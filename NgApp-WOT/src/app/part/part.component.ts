@@ -54,7 +54,7 @@ export class PartComponent implements OnInit {
   }
 
   editPart(part) {
-    console.log(part);
+    this.router.navigate(['/part-edit/'+ part.partId]);
   }
 
   removePart(part) {
@@ -62,7 +62,6 @@ export class PartComponent implements OnInit {
   }
 
   createPart() {
-    // redirect to part-create
     setTimeout(() => {
       this.router.navigate(['/part-create']);
     }, 500);

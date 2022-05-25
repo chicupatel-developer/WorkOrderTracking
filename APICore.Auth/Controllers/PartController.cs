@@ -60,5 +60,33 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
+        [HttpGet]
+        [Route("getPart/{selectedPartId}")]
+        public IActionResult GetPart(int selectedPartId)
+        {
+            var part = _partRepo.GetPart(selectedPartId);
+            return Ok(part);
+        }
+        [HttpPost]
+        [Route("editPart")]
+        public IActionResult EditPart(Part part)
+        {
+            _response = new APIResponse();
+            try
+            {
+                throw new Exception();
+                _partRepo.EditPart(part);
+                _response.ResponseCode = 0;
+                _response.ResponseMessage = "Part Edited Successfully!";
+
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
     }
 }

@@ -1,0 +1,14 @@
+.componentHeader {
+    background-color: lightyellow;
+}
+.qtyField {
+    width: 150px;
+}
+
+.nameField {
+    width: 400px;
+}
+
+.cancelBtn {
+    float: right;
+}

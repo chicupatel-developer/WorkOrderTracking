@@ -11,6 +11,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { CreateOperatorLogComponent } from './create-operator-log/create-operator-log.component';
 import { ViewOperatorLogComponent } from './view-operator-log/view-operator-log.component';
 import { PartCreateComponent } from './part-create/part-create.component';
+import { PartEditComponent } from './part-edit/part-edit.component';
+import { PartRemoveComponent } from './part-remove/part-remove.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,6 +26,7 @@ const routes: Routes = [
   { path: 'create-op-log', component: CreateOperatorLogComponent },
   { path: 'view-op-log', component: ViewOperatorLogComponent },
   { path: 'part-create', component: PartCreateComponent },
+  { path: 'part-edit/:id', component: PartEditComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 

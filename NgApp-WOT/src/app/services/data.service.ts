@@ -20,4 +20,10 @@ export class DataService {
   createPart(partModel): Observable<any> {
     return this.http.post(this.PART_API + '/createPart', partModel)
   }
+  getPart(selectedPartId: number): Observable<any> {
+    return this.http.get<any>(this.PART_API + '/getPart/' + selectedPartId);
+  }
+  editPart(data): Observable<any> {
+    return this.http.post(this.PART_API + '/editPart' , data);
+  }
 }
