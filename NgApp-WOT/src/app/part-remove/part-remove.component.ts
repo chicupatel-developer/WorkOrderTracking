@@ -62,4 +62,44 @@ export class PartRemoveComponent implements OnInit {
     }
   }
 
+  removePart(part) {
+    this.dataService.removePart(part)
+        .subscribe(
+          response => {
+
+            if (response.responseCode == 0) {
+              
+              // success
+              this.apiResponse = response.responseMessage;
+              this.responseColor = 'green';           
+              
+              setTimeout(() => {
+                this.apiResponse = ''; 
+                this.router.navigate(['/part']);
+              }, 2000);  
+            }
+            else {
+              // -1
+              // server error
+              this.apiResponse = response.responseCode + ' : ' + response.responseMessage;
+              this.responseColor = 'red';
+            }
+          },
+          error => {
+            console.log(error);
+
+            if (error.status == 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else
+              this.apiResponse = 'Error !';
+            
+            this.responseColor = 'red';
+          }
+        );
+  }
+
+  cancelRemovePart() {
+     this.router.navigate(['/part']);
+  }
+
 }

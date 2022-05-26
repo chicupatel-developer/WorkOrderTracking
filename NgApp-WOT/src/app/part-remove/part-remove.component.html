@@ -14,9 +14,9 @@
                 </h5>
             </div>
             
-
-            <div *ngIf="!apiResponse" class="card-body">
-                <div *ngIf="part" class="container">
+            <!-- *ngIf="!apiResponse" -->
+            <div *ngIf="part" class="card-body">
+                <div  class="container">
                     <div class="row">
                         <div class="col-sm-6">
                             <span class="labelColor">Name :</span> {{part.name}}
@@ -40,7 +40,26 @@
                                 </span>
                             </ng-template>
                         </div>
-                    </div>                  
+                    </div>     
+                    
+                    <p></p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button type="button" 
+                                (click)="removePart(part)" 
+                                class="btn btn-danger">
+                                Remove Part
+                            </button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" 
+                                (click)="cancelRemovePart()" 
+                                class="btn btn-primary cancelBtn">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

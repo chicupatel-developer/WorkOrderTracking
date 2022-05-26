@@ -79,7 +79,7 @@ export class PartEditComponent implements OnInit {
     return this.partForm.controls;
   }
 
-   onSubmit(): void {
+  onSubmit(): void {
     this.submitted = true;
     if (this.partForm.valid) {
       
@@ -126,7 +126,7 @@ export class PartEditComponent implements OnInit {
           }
         );
     }
-   }
+  }
   
   resetPart(){
     this.partForm.reset();

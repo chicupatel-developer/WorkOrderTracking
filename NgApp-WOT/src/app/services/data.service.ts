@@ -26,4 +26,7 @@ export class DataService {
   editPart(data): Observable<any> {
     return this.http.post(this.PART_API + '/editPart' , data);
   }
+  removePart(data): Observable<any> {
+    return this.http.post(this.PART_API + '/removePart' , data);
+  }
 }

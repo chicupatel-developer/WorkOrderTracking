@@ -91,5 +91,27 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
+
+        [HttpPost]
+        [Route("removePart")]
+        public IActionResult RemovePart(Part part)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+                _partRepo.DeletePart(part.PartId);
+                _response.ResponseCode = 0;
+                _response.ResponseMessage = "Part Removed Successfully!";
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
+
     }
 }
