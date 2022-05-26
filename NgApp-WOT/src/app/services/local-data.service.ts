@@ -55,4 +55,22 @@ export class LocalDataService {
     }
     return errors;
   }
+
+  // check for 403
+  // if any component's init() is requesting api without (token or valid token),
+  // then auth-guard intercepts 403
+  // if any component's init() (part-create,,,) is NOT requesting api,
+  // so auth-guard has never get a chance to intercept 403 and component's html page gets display
+  // so even to prevent to display component's html page and redirects to
+  // home page,,, do,,,
+  authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Admin(reqPath) {    
+    if (reqPath == '/part-create')
+      return false;
+    
+    else
+      return true;
+  }
+  authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Operator(reqPath) {
+    return true;
+  }
 }

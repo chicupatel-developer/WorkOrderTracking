@@ -29,8 +29,13 @@ import { PartEditComponent } from './part-edit/part-edit.component';
 import { PartRemoveComponent } from './part-remove/part-remove.component';
 
 // services
+import { DataService } from './services/data.service';
+import { UserService } from './services/user.service';
+import { LocalDataService } from './services/local-data.service';
 
 // auth
+import { AuthGuard } from './auth/auth.guard';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -59,7 +64,12 @@ import { PartRemoveComponent } from './part-remove/part-remove.component';
     AppRoutingModule,
     NgxNavbarModule,
   ],
-  providers: [],
+  providers: [HttpClientModule, LocalDataService, DataService, UserService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  },  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

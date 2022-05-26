@@ -78,7 +78,7 @@ namespace APICore.Auth.Controllers
             _response = new APIResponse();
             try
             {
-                throw new Exception();
+                // throw new Exception();
                 _partRepo.EditPart(part);
                 _response.ResponseCode = 0;
                 _response.ResponseMessage = "Part Edited Successfully!";
