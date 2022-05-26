@@ -1,5 +1,6 @@
 ﻿using APICore.Auth.DTO;
 using EF.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace APICore.Auth.Controllers
 {
+
+    [Authorize("Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class PartController : ControllerBase

@@ -45,11 +45,15 @@ export class PartComponent implements OnInit {
           console.log(this.parts);
         },
         error => {
-          console.log(error.error);
+          console.log(error);
+          if (error.status == 401)            
+            this.apiResponse = 'Un-Authorized !';
+          else
+            this.apiResponse = 'Error !';
+          
           this.responseColor = 'red';
-          this.apiResponse = error.error;
           this.responseClass = 'errorResponse';
-          this.parts = [];
+          this.parts = [];      
       });
   }
 
