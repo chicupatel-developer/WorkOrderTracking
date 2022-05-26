@@ -28,6 +28,7 @@ const routes: Routes = [
   { path: 'view-op-log', component: ViewOperatorLogComponent, canActivate: [AuthGuard] },
   { path: 'part-create', component: PartCreateComponent, canActivate: [AuthGuard] },
   { path: 'part-edit/:id', component: PartEditComponent, canActivate: [AuthGuard] },
+  { path: 'part-remove/:id', component: PartRemoveComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 

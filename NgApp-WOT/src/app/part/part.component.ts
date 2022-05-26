@@ -62,7 +62,7 @@ export class PartComponent implements OnInit {
   }
 
   removePart(part) {
-    console.log(part);
+    this.router.navigate(['/part-remove/'+ part.partId]);
   }
 
   createPart() {
