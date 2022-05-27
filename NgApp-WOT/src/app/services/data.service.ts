@@ -29,4 +29,10 @@ export class DataService {
   removePart(data): Observable<any> {
     return this.http.post(this.PART_API + '/removePart' , data);
   }
+  partImageUpload(formData) {
+    return this.http.post<any>(this.PART_API + '/partImageUpload', formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
 }

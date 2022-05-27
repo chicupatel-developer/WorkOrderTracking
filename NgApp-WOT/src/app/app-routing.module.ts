@@ -14,6 +14,7 @@ import { PartCreateComponent } from './part-create/part-create.component';
 import { PartEditComponent } from './part-edit/part-edit.component';
 import { PartRemoveComponent } from './part-remove/part-remove.component';
 import { AuthGuard } from './auth/auth.guard';
+import { PartUploadComponent } from './part-upload/part-upload.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'part-create', component: PartCreateComponent, canActivate: [AuthGuard] },
   { path: 'part-edit/:id', component: PartEditComponent, canActivate: [AuthGuard] },
   { path: 'part-remove/:id', component: PartRemoveComponent, canActivate: [AuthGuard] },
+  { path: 'part-upload/:id', component: PartUploadComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 

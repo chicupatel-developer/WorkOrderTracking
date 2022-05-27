@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace APICore.Auth.Controllers
@@ -18,11 +21,15 @@ namespace APICore.Auth.Controllers
     [ApiController]
     public class PartController : ControllerBase
     {
+        // file upload location settings from appsettings.json
+        private readonly IConfiguration _configuration;
+
         private readonly IPartRepository _partRepo;
         private APIResponse _response;
 
-        public PartController(IPartRepository partRepo)
+        public PartController(IConfiguration configuration, IPartRepository partRepo)
         {
+            _configuration = configuration;
             _partRepo = partRepo;
         }
 
@@ -111,6 +118,39 @@ namespace APICore.Auth.Controllers
                 _response.ResponseMessage = "Server Error!";
             }
             return Ok(_response);
+        }
+
+        
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("partImageUpload")]
+        public async Task<ActionResult> PartImageUpload([FromForm] PartFileUploadData imgUpModel)
+        {
+            try
+            {
+                throw new Exception();
+
+                var formFile = imgUpModel.PartImage;
+                int partId = Convert.ToInt32(imgUpModel.PartId);
+
+                string partImageStoragePath = _configuration.GetSection("PartImageLocation").GetSection("Path").Value;
+
+                var fileName = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + ContentDispositionHeaderValue.Parse(formFile.ContentDisposition)
+                      .FileName.Trim('"');
+
+                var finalPath = Path.Combine(partImageStoragePath, fileName);
+
+                using var stream = new FileStream(finalPath, FileMode.Create);
+
+                await formFile.CopyToAsync(stream);
+
+                _partRepo.UpdatePartFile(partId, fileName);
+
+                return Ok(new { status = "success", message = "Part - File Upload Success !", fileName = formFile.FileName, fileSize = formFile.Length });
+            }
+            catch (Exception ex)
+            {                
+                return BadRequest(new { status = "fail", message = "Server Error ! File Can Not Upload At This Time !" });
+            }
         }
 
     }

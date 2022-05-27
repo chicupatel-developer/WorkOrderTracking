@@ -71,4 +71,7 @@ export class PartComponent implements OnInit {
     }, 500);
   }
 
+  uploadPart(part) {
+    this.router.navigate(['/part-upload/'+ part.partId]);
+  }
 }

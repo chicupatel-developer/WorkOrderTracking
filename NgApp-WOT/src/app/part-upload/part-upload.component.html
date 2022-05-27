@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <div>
+                Part # {{partId}}
+            </div>
+            <p></p>
+            <hr />
+
+            <!-- image upload control -->
+            <app-part-image-upload 
+                [partId]="partId"
+                (onUploadFinished)="uploadFinished($event)">
+            </app-part-image-upload>
+        </div>
+        <div class="col-md-2 mx-auto">
+            <button type="button" ata-toggle="tooltip" title="Cancel Image Upload Action!" 
+                (click)="cancel()"
+                class="btn btn-outline-secondary">
+                Cancel Upload <i class="bi-x-circle"></i>
+            </button>
+        </div>
+        <div class="col-md-5 mx-auto"></div>       
+
+    </div>
+</div>
+

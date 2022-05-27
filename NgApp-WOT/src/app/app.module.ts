@@ -13,6 +13,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+// services
+import { DataService } from './services/data.service';
+import { UserService } from './services/user.service';
+import { LocalDataService } from './services/local-data.service';
+
+// auth
+import { AuthGuard } from './auth/auth.guard';
+import { AuthInterceptor } from './auth/auth.interceptor';
+
 // components
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
@@ -27,15 +36,8 @@ import { ViewOperatorLogComponent } from './view-operator-log/view-operator-log.
 import { PartCreateComponent } from './part-create/part-create.component';
 import { PartEditComponent } from './part-edit/part-edit.component';
 import { PartRemoveComponent } from './part-remove/part-remove.component';
-
-// services
-import { DataService } from './services/data.service';
-import { UserService } from './services/user.service';
-import { LocalDataService } from './services/local-data.service';
-
-// auth
-import { AuthGuard } from './auth/auth.guard';
-import { AuthInterceptor } from './auth/auth.interceptor';
+import { PartImageUploadComponent } from './part-image-upload/part-image-upload.component';
+import { PartUploadComponent } from './part-upload/part-upload.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     ViewOperatorLogComponent,
     PartCreateComponent,
     PartEditComponent,
-    PartRemoveComponent
+    PartRemoveComponent,
+    PartImageUploadComponent,
+    PartUploadComponent
   ],
   imports: [   
     BrowserModule,    
