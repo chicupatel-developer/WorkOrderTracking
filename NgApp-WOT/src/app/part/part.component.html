@@ -57,7 +57,9 @@
                                     
                                     <td>   
                                         <span *ngIf="p.partFile!=null; else noImage">
-                                            <img width="35" height="35" [src]="p.partFilePath" />
+                                            <img width="35" height="35"                                                 
+                                                [src]="p.partFilePath" 
+                                                alt="N/A" />
                                         </span>
                                         <ng-template #noImage>
                                             N/A

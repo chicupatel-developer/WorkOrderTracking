@@ -32,7 +32,9 @@ namespace Service.Repository
 
             var parts_ = appDbContext.Parts;
             if (parts_ != null && parts_.Count() > 0)
+            {
                 datas = parts_.ToList();
+            }                
 
             return datas;
         }

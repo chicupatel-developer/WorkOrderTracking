@@ -74,4 +74,8 @@ export class PartComponent implements OnInit {
   uploadPart(part) {
     this.router.navigate(['/part-upload/'+ part.partId]);
   }
+
+  noImage() {
+    console.log('No Image !!!');
+  }
 }

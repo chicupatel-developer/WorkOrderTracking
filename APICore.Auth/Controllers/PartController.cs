@@ -127,7 +127,7 @@ namespace APICore.Auth.Controllers
         {
             try
             {
-                throw new Exception();
+                // throw new Exception();
 
                 var formFile = imgUpModel.PartImage;
                 int partId = Convert.ToInt32(imgUpModel.PartId);
