@@ -15,6 +15,8 @@ export class PartImageUploadComponent implements OnInit {
   @Input() partId: string;
   @Output() public onUploadFinished = new EventEmitter();
 
+  apiResponse = 0;
+
   constructor(private http: HttpClient, public dataService: DataService) { }
   ngOnInit() {
   }
@@ -34,10 +36,16 @@ export class PartImageUploadComponent implements OnInit {
       if (event.type === HttpEventType.UploadProgress)
         this.progress = Math.round(100 * event.loaded / event.total);
       else if (event.type === HttpEventType.Response) {
-        this.message = 'Upload success.';
+        this.message = event.body.message
         this.onUploadFinished.emit(event.body);
-        console.log(this.message);
+        this.apiResponse = 0;        
       }
+    },
+      err => {
+        console.log(err.error.message);
+        this.message = err.error.message;   
+        this.apiResponse = -1;
+        this.progress = 0;
     });
   }
 

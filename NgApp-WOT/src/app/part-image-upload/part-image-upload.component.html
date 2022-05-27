@@ -1,18 +1,21 @@
-<div class="row" style="margin-bottom:15px;">
-    <div class="col-md-8">
-
+<div class="row" 
+    style="margin-bottom:15px;">
+    <div class="col-md-12">
         <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;"
             multiple>
         <button type="button" class="btn btn-success" (click)="file.click()">
             Upload Part Image
         </button>
-    </div>
-    <div class="col-md-9">
-        <span class="upload" *ngIf="progress > 0">
+        <p></p>
+        <span class="apiResponseSuccess" *ngIf="progress > 0">
             {{progress}}%
         </span>
-        <span class="upload" *ngIf="message">
+        <br />
+        <span class="apiResponseSuccess" *ngIf="message && apiResponse==0">
             {{message}}
         </span>
-    </div>
+        <span class="apiResponseError" *ngIf="message && apiResponse==-1">
+            {{message}}
+        </span>
+    </div>   
 </div>
