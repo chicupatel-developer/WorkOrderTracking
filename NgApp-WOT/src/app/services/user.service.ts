@@ -35,35 +35,28 @@ export class UserService {
   ) {
   }
 
-  // ok
-  // Sign-in
   signin(signinModel): Observable<any> {
     return this.http.post(this.AUTHENTICATE_API + '/login', signinModel)
   } 
 
-  // ok
   getToken() {
     return localStorage.getItem('token');
   }
 
-  // ok
   getMyRole() {
     return localStorage.getItem('myRole');
   }
 
-  // ok
   get isLoggedIn(): boolean {   
     let authToken = localStorage.getItem('token');
     return (authToken !== null) ? true : false;
   }
 
-  // ok
   get isAdmin(): boolean {
     let myRole = localStorage.getItem('myRole');
     return (myRole == 'Admin') ? true : false;
   }
 
-  // ok
   doLogout() {
     let removeToken = localStorage.removeItem('token');
     let removeUserName = localStorage.removeItem('userName');
@@ -79,8 +72,6 @@ export class UserService {
     }
   }
 
-  // ok
-  // register
   register(registerModel): Observable<any> {
     return this.http.post(this.AUTHENTICATE_API + '/register', registerModel)
   }

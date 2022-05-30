@@ -1,0 +1,9 @@
+.displayError {
+    font-size: medium;
+    color: red;
+}
+
+.success {
+    font-size: medium;
+    color: green;
+}
