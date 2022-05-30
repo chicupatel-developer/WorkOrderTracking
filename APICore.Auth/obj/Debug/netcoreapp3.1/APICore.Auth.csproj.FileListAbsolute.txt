@@ -49,7 +49,6 @@ C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\APICore.Auth.c
 C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\APICore.Auth.AssemblyInfoInputs.cache
 C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\APICore.Auth.AssemblyInfo.cs
 C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\APICore.Auth.csproj.CoreCompileInputs.cache
-C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\APICore.Auth.MvcApplicationPartsAssemblyInfo.cs
 C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\APICore.Auth.MvcApplicationPartsAssemblyInfo.cache
 C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\staticwebassets\APICore.Auth.StaticWebAssets.Manifest.cache
 C:\WorkOrder-Tracking-jQuery\APICore.Auth\obj\Debug\netcoreapp3.1\staticwebassets\APICore.Auth.StaticWebAssets.xml

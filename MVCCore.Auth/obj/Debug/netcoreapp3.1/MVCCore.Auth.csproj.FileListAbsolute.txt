@@ -320,7 +320,6 @@ C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.c
 C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.AssemblyInfoInputs.cache
 C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.AssemblyInfo.cs
 C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.csproj.CoreCompileInputs.cache
-C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.MvcApplicationPartsAssemblyInfo.cs
 C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.MvcApplicationPartsAssemblyInfo.cache
 C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.RazorAssemblyInfo.cache
 C:\WorkOrder-Tracking-jQuery\MVCCore.Auth\obj\Debug\netcoreapp3.1\MVCCore.Auth.RazorAssemblyInfo.cs

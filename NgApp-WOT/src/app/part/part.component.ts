@@ -33,7 +33,8 @@ export class PartComponent implements OnInit {
           console.log(data);
 
           data.map((part, i) => {
-            part.partFilePath = this.partFilePath+''+part.partFile;
+            if(part.partFile!="N/A")
+              part.partFilePath = this.partFilePath+''+part.partFile;
           });
 
 

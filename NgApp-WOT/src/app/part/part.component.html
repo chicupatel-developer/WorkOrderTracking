@@ -56,7 +56,7 @@
                                     </td>                                  
                                     
                                     <td>   
-                                        <span *ngIf="p.partFile!=null; else noImage">
+                                        <span *ngIf="p.partFile!='N/A'; else noImage">
                                             <img width="35" height="35"                                                 
                                                 [src]="p.partFilePath" 
                                                 alt="N/A" />

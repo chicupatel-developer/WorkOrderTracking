@@ -8,6 +8,7 @@ using System.Linq;
 using EF.Core.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Service.Utils;
 
 namespace Service.Repository
 {
@@ -29,13 +30,19 @@ namespace Service.Repository
         public List<Part> GetAllParts()
         {
             List<Part> datas = new List<Part>();
+            List<string> partFilesFromHD = PartFilesFromHDUtil.GetPartFilesFromHD();
 
             var parts_ = appDbContext.Parts;
             if (parts_ != null && parts_.Count() > 0)
             {
-                datas = parts_.ToList();
-            }                
-
+                foreach(var part_ in parts_)
+                {
+                    if(!partFilesFromHD.Any(x => x == part_.PartFile))
+                        part_.PartFile = "N/A";
+                    
+                    datas.Add(part_);
+                }
+            }               
             return datas;
         }
 
