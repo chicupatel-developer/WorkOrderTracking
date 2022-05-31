@@ -1,3 +1,7 @@
 .mainContainer {
     padding: 50px;
 }
+.displayError {
+    font-size: medium;
+    color: red;
+}
