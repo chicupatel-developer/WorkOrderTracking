@@ -6,7 +6,10 @@ import { BrowserRouter } from "react-router-dom";
 
 import { createRoot } from "react-dom/client";
 
+// bootstrap, bootstrap-icons
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 // react - new version
 const container = document.getElementById('root');

@@ -22,6 +22,7 @@ function App() {
           <Header />
 
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/part" element={<Part />} />
             <Route path="/login" element={<Login />} />
@@ -29,7 +30,10 @@ function App() {
             <Route path="/customer-order" element={<Customer_Order />} />
             <Route path="/work-order" element={<Work_Order />} />
             <Route path="/operation" element={<Operation />} />
-            <Route path="/create-operator-log" element={<Create_Operator_Log />} />
+            <Route
+              path="/create-operator-log"
+              element={<Create_Operator_Log />}
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
