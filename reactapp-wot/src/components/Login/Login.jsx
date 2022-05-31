@@ -4,9 +4,11 @@ import "./style.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import ReactDOM from "react-dom";
+import AuthService from "../../services/auth.service";
 
 const Login = () => {
+    // form
+    // this will contain email and password
     const [form, setForm] = useState({});
     const [errors, setErrors] = useState({});
 
@@ -49,7 +51,34 @@ const Login = () => {
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
         } else {
-            alert("Thank you for your feedback!");
+          console.log(form);
+
+          var loginModel = {
+            email: form.email,
+            password: form.password,
+          };
+
+          // reset local-storage
+          localStorage.setItem("currentUser", null);   
+            
+          // api call
+          AuthService.login(loginModel)
+            .then((response) => {
+                console.log(response.data);  
+                let apiResponse = {
+                    userName: response.data.userName,
+                    role: response.data.myRole,
+                    token: response.data.token,
+                    fullName: response.data.firstName+', '+response.data.lastName
+                };
+                localStorage.setItem(
+                  "currentUser",
+                  JSON.stringify(apiResponse)
+                );    
+            })
+            .catch((error) => {
+                console.log(error);          
+            });
         }
     };
 
@@ -70,7 +99,7 @@ const Login = () => {
               </div>
               <div className="card-body">
                 <Form ref={formRef}>
-                  <Form.Group>
+                  <Form.Group controlId="email">
                     <Form.Label>User Name</Form.Label>
                     <Form.Control
                       type="text"
@@ -82,7 +111,7 @@ const Login = () => {
                     </Form.Control.Feedback>
                   </Form.Group>
                   <p></p>
-                  <Form.Group>
+                  <Form.Group controlId="password">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                       type="password"

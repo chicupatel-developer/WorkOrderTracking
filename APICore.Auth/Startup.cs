@@ -87,7 +87,12 @@ namespace APICore.Auth
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = Configuration["JWT:ValidAudience"],
+                    // ValidAudience = Configuration["JWT:ValidAudience"],
+                    ValidAudiences = new List<string>
+                    {
+                        "http://localhost:4200",
+                        "http://localhost:3000"
+                    },
                     ValidIssuer = Configuration["JWT:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
