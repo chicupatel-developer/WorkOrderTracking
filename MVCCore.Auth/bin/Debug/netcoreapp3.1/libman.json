@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "twitter-bootstrap@5.1.3",
+      "destination": "wwwroot/lib/twitter-bootstrap/"
+    },
+    {
+      "library": "datatables@1.10.21",
+      "destination": "wwwroot/lib/datatables/"
+    },
+    {
+      "library": "moment.js@2.29.1",
+      "destination": "wwwroot/lib/moment.js/"
+    },
+    {
+      "library": "font-awesome@6.1.1",
+      "destination": "wwwroot/lib/font-awesome/"
+    }
+  ]
+}
