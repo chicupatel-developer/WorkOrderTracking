@@ -1,12 +1,12 @@
 import React from 'react'
 import "./style.css";
 
-const Login = () => {
+const Create_Operator_Log = () => {
   return (
     <div className='mainContainer'>
-        Login
+        Create Operator Log
     </div>
   )
 }
 
-export default Login
+export default Create_Operator_Log;

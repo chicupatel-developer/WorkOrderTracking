@@ -9,19 +9,28 @@ import Login from "./components/Login/Login";
 import Register from "./components/Registration/Register";
 import Part from "./components/Part/Part";
 import NotFound from "./components/NotFound/NotFound";
+import Customer_Order from "./components/Customer_Order/Customer_Order";
+import Work_Order from "./components/Work_Order/Work_Order";
+import Operation from "./components/Operation/Operation";
+import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
 
 function App() {
   return (
     <div className="App">
       <div className="main-wrapper">
-        <Header />
         <Router>
+          <Header />
+
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/part" element={<Part />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route element={<NotFound />} />
+            <Route path="/customer-order" element={<Customer_Order />} />
+            <Route path="/work-order" element={<Work_Order />} />
+            <Route path="/operation" element={<Operation />} />
+            <Route path="/create-operator-log" element={<Create_Operator_Log />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
       </div>

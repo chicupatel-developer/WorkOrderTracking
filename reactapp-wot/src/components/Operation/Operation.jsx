@@ -1,12 +1,12 @@
 import React from 'react'
 import "./style.css";
 
-const Login = () => {
+const Operation = () => {
   return (
     <div className='mainContainer'>
-        Login
+        Operations
     </div>
   )
 }
 
-export default Login
+export default Operation

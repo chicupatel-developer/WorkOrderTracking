@@ -1,12 +1,12 @@
 import React from 'react'
 import "./style.css";
 
-const Login = () => {
+const Work_Order = () => {
   return (
     <div className='mainContainer'>
-        Login
+      Work-Orders [Operations]
     </div>
   )
 }
 
-export default Login
+export default Work_Order

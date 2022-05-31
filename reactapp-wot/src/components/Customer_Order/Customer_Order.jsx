@@ -1,12 +1,12 @@
 import React from 'react'
 import "./style.css";
 
-const Register = () => {
+const Customer_Order = () => {
   return (
     <div className="mainContainer">
-        Register
+        Customer-Orders
     </div>
   )
 }
 
-export default Register
+export default Customer_Order

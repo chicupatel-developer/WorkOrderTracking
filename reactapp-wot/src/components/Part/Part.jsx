@@ -1,8 +1,9 @@
 import React from 'react'
+import "./style.css";
 
 const Part = () => {
   return (
-    <div>
+    <div className='mainContainer'>
         Part
     </div>
   )
