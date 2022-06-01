@@ -39,6 +39,14 @@ const Header = () => {
     }
   });
 
+  const logout = () => {
+    AuthService.logout();
+    setCurrentUserName("");
+    setCurrentUserFullName("");
+    setCurrentUserRole("");
+    setCurrentUserToken("");
+  };
+
   return (
     <>
       <Navbar variant="light" expand="lg" sticky="top" className="navBar">
@@ -47,7 +55,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             {currentUserName && currentUserRole === "Admin" ? (
-              <Nav className="mr-auto">
+              <Nav className="me-auto">
                 <Link to={"/home"} className="nav-link">
                   <i className="bi bi-house-fill"></i>
                   Home
@@ -67,30 +75,40 @@ const Header = () => {
                 </Link>
               </Nav>
             ) : (
-              <span>
-                {currentUserName && currentUserRole === "Operator" ? (
-                  <Nav className="mr-auto">
-                    <Link to={"/home"} className="nav-link">
-                      <i className="bi bi-house-fill"></i>
-                      Home
-                    </Link>
-                    <Link to={"/create-operator-log"} className="nav-link">
-                      Create Log
-                    </Link>
-                  </Nav>
-                ) : (
-                  <Nav className="navbar-nav ms-auto">
-                    <Link to={"/login"} className="nav-link">
-                      <i className="bi bi-person-plus"></i>
-                      Login
-                    </Link>
-                    <Link to={"/register"} className="nav-link">
-                      <i className="bi bi-person-square"></i>
-                      Register
-                    </Link>
-                  </Nav>
-                )}
-              </span>
+              <span></span>
+            )}
+
+            {currentUserName && currentUserRole === "Operator" ? (
+              <Nav className="me-auto">
+                <Link to={"/home"} className="nav-link">
+                  <i className="bi bi-house-fill"></i>
+                  Home
+                </Link>
+                <Link to={"/create-operator-log"} className="nav-link">
+                  Create Log
+                </Link>
+              </Nav>
+            ) : (
+              <span></span>
+            )}
+
+            {currentUserName ? (
+              <Nav>
+                <a href="/login" onClick={() => logout()} className="nav-link">
+                  <h6>
+                    <b>[ {currentUserName} ]LogOut </b>
+                  </h6>
+                </a>
+              </Nav>
+            ) : (
+              <Nav>
+                <Link to={"/login"} className="nav-link">
+                  Login
+                </Link>
+                <Link to={"/register"} className="nav-link">
+                  Register
+                </Link>
+              </Nav>
             )}
           </Navbar.Collapse>
         </Container>
