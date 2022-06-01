@@ -6,87 +6,92 @@ import Button from "react-bootstrap/Button";
 
 import AuthService from "../../services/auth.service";
 
+import { useNavigate } from "react-router";
+
 const Login = () => {
-    // form
-    // this will contain email and password
-    const [form, setForm] = useState({});
-    const [errors, setErrors] = useState({});
+  let navigate = useNavigate();
 
-    // reset form 
-    // form reference
-    const formRef = useRef(null);
-    
-    const setField = (field, value) => {
-      setForm({
-        ...form,
-        [field]: value,
+  // form
+  // this will contain email and password
+  const [form, setForm] = useState({});
+  const [errors, setErrors] = useState({});
+
+  // reset form
+  // form reference
+  const formRef = useRef(null);
+
+  const setField = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value,
+    });
+
+    // Check and see if errors exist, and remove them from the error object:
+    if (!!errors[field])
+      setErrors({
+        ...errors,
+        [field]: null,
       });
-        
-      // Check and see if errors exist, and remove them from the error object:
-      if (!!errors[field])
-        setErrors({
-          ...errors,
-          [field]: null,
-        });
-    };
+  };
 
-    const findFormErrors = () => {
-        const { email, password } = form;
-        const newErrors = {};
+  const findFormErrors = () => {
+    const { email, password } = form;
+    const newErrors = {};
 
-        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-        if (!email || email === "") newErrors.email = "User Name is Required!";
-        else if (!pattern.test(email)) newErrors.email = "Invalid Email Address!";
-            
-        if (!password || password === "") newErrors.password = "Password is Required!";
-     
-        return newErrors;
-    };
+    var pattern = new RegExp(
+      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+    );
+    if (!email || email === "") newErrors.email = "User Name is Required!";
+    else if (!pattern.test(email)) newErrors.email = "Invalid Email Address!";
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        const newErrors = findFormErrors();
-        
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-        } else {
-          console.log(form);
+    if (!password || password === "")
+      newErrors.password = "Password is Required!";
 
-          var loginModel = {
-            email: form.email,
-            password: form.password,
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = findFormErrors();
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      console.log(form);
+
+      var loginModel = {
+        email: form.email,
+        password: form.password,
+      };
+
+      // reset local-storage
+      localStorage.setItem("currentUser", null);
+
+      // api call
+      AuthService.login(loginModel)
+        .then((response) => {
+          console.log(response.data);
+          let apiResponse = {
+            userName: response.data.userName,
+            role: response.data.myRole,
+            token: response.data.token,
+            fullName: response.data.firstName + ", " + response.data.lastName,
           };
+          localStorage.setItem("currentUser", JSON.stringify(apiResponse));
 
-          // reset local-storage
-          localStorage.setItem("currentUser", null);   
-            
-          // api call
-          AuthService.login(loginModel)
-            .then((response) => {
-                console.log(response.data);  
-                let apiResponse = {
-                    userName: response.data.userName,
-                    role: response.data.myRole,
-                    token: response.data.token,
-                    fullName: response.data.firstName+', '+response.data.lastName
-                };
-                localStorage.setItem(
-                  "currentUser",
-                  JSON.stringify(apiResponse)
-                );    
-            })
-            .catch((error) => {
-                console.log(error);          
-            });
-        }
-    };
+          navigate("/home");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
-     
-    const resetForm = (e) => {
-        formRef.current.reset();
-        setErrors({});
-    };
+  const resetForm = (e) => {
+    formRef.current.reset();
+    setErrors({});
+  };
 
   return (
     <div className="mainContainer">

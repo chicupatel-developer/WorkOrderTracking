@@ -1,8 +1,5 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  useParams,
-} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { Routes, Route, Link } from "react-router-dom";
 import { Navbar, Container, NavDropdown, Nav, Dropdown } from "react-bootstrap";
 
@@ -14,58 +11,92 @@ import Part from "../Part/Part";
 
 import "./style.css";
 
-class Header extends React.Component {
-  render() {
-      return (
-        <>
-          <Navbar            
-            variant="light"
-            expand="lg"
-            sticky="top"
-            className="navBar"
-          >
-            <Container>
-              <Navbar.Brand href="#home">WorkOrder-Tracking</Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                  <Link to={"/home"} className="nav-link">
-                    <i className="bi bi-house-fill"></i>
-                    Home
-                  </Link>
-                  <Link to={"/part"} className="nav-link">
-                    <i className="bi bi-display"></i>
-                    Part
-                  </Link>
-                  <Link to={"/customer-order"} className="nav-link">
-                    <i className="bi-gear-fill"></i>
-                    Customer-Order
-                  </Link>
-                  <Link to={"/work-order"} className="nav-link">
-                    <i className="bi-file-word-fill"></i>
-                    Work-Orders [Operations]
-                    <i className="bi-hourglass-top"></i>
-                  </Link>
-                  <Link to={"/create-operator-log"} className="nav-link">
-                    Create Log
-                  </Link>
-                </Nav>
+// after login(success), it refreshes the whole page and redirects to home page
+// when it refreshes the whole page, Header.jsx also reloads
+// and updates current-user's info
+import AuthService from "../../services/auth.service";
 
-                <Nav className="navbar-nav ms-auto">
-                  <Link to={"/login"} className="nav-link">
-                    <i className="bi bi-person-plus"></i>
-                    Login
-                  </Link>
-                  <Link to={"/register"} className="nav-link">
-                    <i className="bi bi-person-square"></i>
-                    Register
-                  </Link>
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
-        </>
-      );
-  }
-}
+import { useNavigate } from "react-router-dom";
+
+const Header = () => {
+  const navigate = useNavigate();
+
+  const [currentUserName, setCurrentUserName] = useState("");
+  const [currentUserFullName, setCurrentUserFullName] = useState("");
+  const [currentUserRole, setCurrentUserRole] = useState("");
+  const [currentUserToken, setCurrentUserToken] = useState("");
+
+  useEffect(() => {
+    var currUser = AuthService.getCurrentUser();
+
+    if (currUser != null) {
+      setCurrentUserName(currUser.userName);
+      setCurrentUserFullName(currUser.fullName);
+      setCurrentUserRole(currUser.role);
+      setCurrentUserToken(currUser.token);
+    } else {
+      console.log("not logged in yet!");
+    }
+  });
+
+  return (
+    <>
+      <Navbar variant="light" expand="lg" sticky="top" className="navBar">
+        <Container>
+          <Navbar.Brand href="/home">WorkOrder-Tracking</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            {currentUserName && currentUserRole === "Admin" ? (
+              <Nav className="mr-auto">
+                <Link to={"/home"} className="nav-link">
+                  <i className="bi bi-house-fill"></i>
+                  Home
+                </Link>
+                <Link to={"/part"} className="nav-link">
+                  <i className="bi bi-display"></i>
+                  Part
+                </Link>
+                <Link to={"/customer-order"} className="nav-link">
+                  <i className="bi-gear-fill"></i>
+                  Customer-Orders
+                </Link>
+                <Link to={"/work-order"} className="nav-link">
+                  <i className="bi-file-word-fill"></i>
+                  Work-Orders [Operations]
+                  <i className="bi-hourglass-top"></i>
+                </Link>
+              </Nav>
+            ) : (
+              <span>
+                {currentUserName && currentUserRole === "Operator" ? (
+                  <Nav className="mr-auto">
+                    <Link to={"/home"} className="nav-link">
+                      <i className="bi bi-house-fill"></i>
+                      Home
+                    </Link>
+                    <Link to={"/create-operator-log"} className="nav-link">
+                      Create Log
+                    </Link>
+                  </Nav>
+                ) : (
+                  <Nav className="navbar-nav ms-auto">
+                    <Link to={"/login"} className="nav-link">
+                      <i className="bi bi-person-plus"></i>
+                      Login
+                    </Link>
+                    <Link to={"/register"} className="nav-link">
+                      <i className="bi bi-person-square"></i>
+                      Register
+                    </Link>
+                  </Nav>
+                )}
+              </span>
+            )}
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </>
+  );
+};
+
 export default Header;
