@@ -1,0 +1,7 @@
+.mainContainer {
+    padding: 50px;
+}
+.unAuth {
+    color: red;
+    font-size: x-large;
+}

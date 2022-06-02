@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import "./style.css";
+import AuthService from "../../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 const Customer_Order = () => {
-  return (
-    <div className="mainContainer">
-        Customer-Orders
-    </div>
-  )
-}
+  let navigate = useNavigate();
 
-export default Customer_Order
+  useEffect(() => {
+    var currUser = AuthService.getCurrentUser();
+    var currRole = AuthService.getCurrentUserRole();
+    if (currUser !== null && currRole !== "Admin") navigate("/un-auth");
+  });
+  
+  return <div className="mainContainer">Customer-Orders</div>;
+};
+
+export default Customer_Order;

@@ -11,10 +11,17 @@ import { useNavigate } from "react-router";
 const Login = () => {
   let navigate = useNavigate();
 
+  const [loginResponse, setLoginResponse] = useState({});
+
   // form
   // this will contain email and password
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    var currUser = AuthService.getCurrentUser();
+    if (currUser !== null) navigate("/home");
+  });
 
   // reset form
   // form reference
@@ -65,22 +72,33 @@ const Login = () => {
         password: form.password,
       };
 
-      // reset local-storage
-      localStorage.setItem("currentUser", null);
-
       // api call
       AuthService.login(loginModel)
         .then((response) => {
           console.log(response.data);
-          let apiResponse = {
-            userName: response.data.userName,
-            role: response.data.myRole,
-            token: response.data.token,
-            fullName: response.data.firstName + ", " + response.data.lastName,
-          };
-          localStorage.setItem("currentUser", JSON.stringify(apiResponse));
 
-          navigate("/home");
+          var loginResponse = {
+            responseCode: response.data.response.responseCode,
+            responseMessage: response.data.response.responseMessage,
+          };
+          setLoginResponse(loginResponse);
+
+          if (response.data.response.responseCode === 0) {
+            // reset local-storage
+            localStorage.setItem("currentUser", null);
+
+            let apiResponse = {
+              userName: response.data.userName,
+              role: response.data.myRole,
+              token: response.data.token,
+              fullName: response.data.firstName + ", " + response.data.lastName,
+            };
+            localStorage.setItem("currentUser", JSON.stringify(apiResponse));
+
+            setTimeout(() => {
+              navigate("/home");
+            }, 3000);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -101,6 +119,16 @@ const Login = () => {
             <div className="card">
               <div className="card-header">
                 <h3>Login</h3>
+                <p></p>
+                {loginResponse && loginResponse.responseCode === -1 ? (
+                  <span className="loginError">
+                    {loginResponse.responseMessage}
+                  </span>
+                ) : (
+                  <span className="loginSuccess">
+                    {loginResponse.responseMessage}
+                  </span>
+                )}
               </div>
               <div className="card-body">
                 <Form ref={formRef}>

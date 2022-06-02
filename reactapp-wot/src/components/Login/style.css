@@ -1,7 +1,11 @@
 .mainContainer {
     padding: 50px;
 }
-.displayError {
-    font-size: medium;
-    color: red;
+.loginSuccess { 
+    color: green;
+    font-size: large;
+}
+.loginError { 
+    color : red;
+    font-size: large;
 }

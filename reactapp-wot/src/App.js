@@ -13,7 +13,7 @@ import Customer_Order from "./components/Customer_Order/Customer_Order";
 import Work_Order from "./components/Work_Order/Work_Order";
 import Operation from "./components/Operation/Operation";
 import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
-
+import UnAuthorized from "./components/UnAuthorized/UnAuthorized";
 
 function App() {
   return (
@@ -35,6 +35,7 @@ function App() {
               path="/create-operator-log"
               element={<Create_Operator_Log />}
             />
+            <Route path="/un-auth" element={<UnAuthorized />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
