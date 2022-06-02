@@ -74,6 +74,27 @@ const Register = () => {
     return newErrors;
   };
 
+  const handleModelState = (error) => {
+    var errors = [];
+    if (error.response.status === 400) {
+      for (let prop in error.response.data.errors) {
+        if (error.response.data.errors[prop].length > 1) {
+          for (let error_ in error.response.data.errors[prop]) {
+            // console.log(error.response.data.errors[prop][error_]);
+            errors.push(error.response.data.errors[prop][error_]);
+          }
+          // console.log(error.response.data.errors[prop][0]);
+          // console.log(error.response.data.errors[prop][1]);
+        } else {
+          errors.push(error.response.data.errors[prop]);
+        }
+      }
+    } else {
+      console.log(error);
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -104,6 +125,15 @@ const Register = () => {
           setRegisterResponse(registerResponse);
         })
         .catch((error) => {
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            console.log(modelErrors[0][0]); // Role is required
+          }
+
+          // 500
           if (error.response.data.responseCode === -1) {
             var registerResponse = {
               responseCode: error.response.data.responseCode,
