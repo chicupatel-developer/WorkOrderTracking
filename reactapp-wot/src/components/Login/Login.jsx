@@ -11,6 +11,8 @@ import { useNavigate } from "react-router";
 const Login = () => {
   let navigate = useNavigate();
 
+  const [modelErrors, setModelErrors] = useState([]);
+
   const [loginResponse, setLoginResponse] = useState({});
 
   // form
@@ -57,6 +59,24 @@ const Login = () => {
     return newErrors;
   };
 
+  const handleModelState = (error) => {
+    var errors = [];
+    if (error.response.status === 400) {
+      for (let prop in error.response.data.errors) {
+        if (error.response.data.errors[prop].length > 1) {
+          for (let error_ in error.response.data.errors[prop]) {
+            errors.push(error.response.data.errors[prop][error_]);
+          }
+        } else {
+          errors.push(error.response.data.errors[prop]);
+        }
+      }
+    } else {
+      console.log(error);
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -95,13 +115,30 @@ const Login = () => {
             };
             localStorage.setItem("currentUser", JSON.stringify(apiResponse));
 
+            resetForm();
+
             setTimeout(() => {
               navigate("/home");
             }, 3000);
+          } else if (response.data.response.responseCode === -1) {
+            var loginResponse = {
+              responseCode: response.data.response.responseCode,
+              responseMessage: response.data.response.responseMessage,
+            };
+            setLoginResponse(loginResponse);
+            setModelErrors([]);
           }
         })
         .catch((error) => {
-          console.log(error);
+          setModelErrors([]);
+          setLoginResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+          }
         });
     }
   };
@@ -111,8 +148,18 @@ const Login = () => {
     setErrors({});
     setForm({});
     setLoginResponse({});
+    setModelErrors([]);
   };
 
+  let modelErrorList =
+    modelErrors.length > 0 &&
+    modelErrors.map((item, i) => {
+      return (
+        <ul key={i} value={item}>
+          <li style={{ marginTop: -20 }}>{item}</li>
+        </ul>
+      );
+    }, this);
   return (
     <div className="mainContainer">
       <div className="container">
@@ -130,6 +177,11 @@ const Login = () => {
                   <span className="loginSuccess">
                     {loginResponse.responseMessage}
                   </span>
+                )}
+                {modelErrors.length > 0 ? (
+                  <div className="modelError">{modelErrorList}</div>
+                ) : (
+                  <span></span>
                 )}
               </div>
               <div className="card-body">

@@ -42,56 +42,62 @@ namespace APICore.Auth.Controllers
             try
             {
                 // throw new Exception();
-
-                var user = await userManager.FindByNameAsync(model.Email);
-                if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+                if (ModelState.IsValid)
                 {
-                    var userRoles = await userManager.GetRolesAsync(user);
-
-                    var authClaims = new List<Claim>
+                    var user = await userManager.FindByNameAsync(model.Email);
+                    if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
                     {
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    };
+                        var userRoles = await userManager.GetRolesAsync(user);
 
-                    foreach (var userRole in userRoles)
-                    {
-                        authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                        var authClaims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.UserName),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        };
+
+                        foreach (var userRole in userRoles)
+                        {
+                            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                        }
+
+                        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+                        var token = new JwtSecurityToken(
+                            issuer: _configuration["JWT:ValidIssuer"],
+                            audience: _configuration["JWT:ValidAudience"],
+                            expires: DateTime.Now.AddHours(3),
+                            // expires: DateTime.UtcNow.AddSeconds(8),
+                            claims: authClaims,
+                            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                            );
+
+                        _response.ResponseCode = 0;
+                        _response.ResponseMessage = "Login Success!";
+
+                        return Ok(new
+                        {
+                            response = _response,
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo,
+                            userName = model.Email,
+                            myRole = authClaims[2].Value,
+                            firstName = user.FirstName,
+                            lastName = user.LastName
+                        });
                     }
-
-                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-                    var token = new JwtSecurityToken(
-                        issuer: _configuration["JWT:ValidIssuer"],
-                        audience: _configuration["JWT:ValidAudience"],
-                        expires: DateTime.Now.AddHours(3),
-                        // expires: DateTime.UtcNow.AddSeconds(8),
-                        claims: authClaims,
-                        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                        );
-
-                    _response.ResponseCode = 0;
-                    _response.ResponseMessage = "Login Success!";
-
-                    return Ok(new
+                    else
                     {
-                        response = _response,
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo,
-                        userName = model.Email,
-                        myRole = authClaims[2].Value,
-                        firstName = user.FirstName,
-                        lastName = user.LastName
-                    });
+                        _response.ResponseCode = -1;
+                        _response.ResponseMessage = "Username / Password Incorrect!";
+                        return Ok(new
+                        {
+                            response = _response,
+                        });
+                    }
                 }
                 else
                 {
-                    _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Username / Password Incorrect!";
-                    return Ok(new
-                    {
-                        response = _response,
-                    });
+                    return BadRequest(ModelState);
                 }
             }
             catch (Exception ex)
@@ -103,7 +109,6 @@ namespace APICore.Auth.Controllers
                     response = _response,
                 });
             }
-
         }
 
 

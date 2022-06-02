@@ -14,6 +14,7 @@ const Register = () => {
   let navigate = useNavigate();
 
   const [roles, setRoles] = useState([]);
+  const [modelErrors, setModelErrors] = useState([]);
 
   const [registerResponse, setRegisterResponse] = useState({});
 
@@ -50,6 +51,7 @@ const Register = () => {
     const { appRole, firstName, lastName, email, password, confirmPassword } =
       form;
     const newErrors = {};
+
     if (!firstName || firstName === "")
       newErrors.firstName = "First Name is Required!";
 
@@ -80,11 +82,8 @@ const Register = () => {
       for (let prop in error.response.data.errors) {
         if (error.response.data.errors[prop].length > 1) {
           for (let error_ in error.response.data.errors[prop]) {
-            // console.log(error.response.data.errors[prop][error_]);
             errors.push(error.response.data.errors[prop][error_]);
           }
-          // console.log(error.response.data.errors[prop][0]);
-          // console.log(error.response.data.errors[prop][1]);
         } else {
           errors.push(error.response.data.errors[prop]);
         }
@@ -122,15 +121,18 @@ const Register = () => {
             responseCode: response.data.responseCode,
             responseMessage: response.data.responseMessage,
           };
+          resetForm();
           setRegisterResponse(registerResponse);
         })
         .catch((error) => {
+          setModelErrors([]);
+          setRegisterResponse({});
           // 400
           // ModelState
           if (error.response.status === 400) {
             console.log("400 !");
             var modelErrors = handleModelState(error);
-            console.log(modelErrors[0][0]); // Role is required
+            setModelErrors(modelErrors);
           }
 
           // 500
@@ -151,6 +153,7 @@ const Register = () => {
     setErrors({});
     setForm({});
     setRegisterResponse({});
+    setModelErrors([]);
   };
 
   const renderOptionsForRole = () => {
@@ -162,6 +165,16 @@ const Register = () => {
       );
     });
   };
+
+  let modelErrorList =
+    modelErrors.length > 0 &&
+    modelErrors.map((item, i) => {
+      return (
+        <ul key={i} value={item}>
+          <li style={{ marginTop: -20 }}>{item}</li>
+        </ul>
+      );
+    }, this);
 
   return (
     <div className="mainContainer">
@@ -180,6 +193,11 @@ const Register = () => {
                   <span className="registerSuccess">
                     {registerResponse.responseMessage}
                   </span>
+                )}
+                {modelErrors.length > 0 ? (
+                  <div className="modelError">{modelErrorList}</div>
+                ) : (
+                  <span></span>
                 )}
               </div>
               <div className="card-body">
