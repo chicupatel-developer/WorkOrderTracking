@@ -1,3 +1,11 @@
 .mainContainer {
     padding: 50px;
 }
+.registerSuccess {
+    color: green;
+    font-size: large;
+}
+.registerError {
+    color: red;
+    font-size: large;
+}

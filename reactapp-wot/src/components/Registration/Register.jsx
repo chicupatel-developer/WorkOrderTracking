@@ -92,7 +92,27 @@ const Register = () => {
       };
 
       console.log(registerModel);
+
       // api call
+      AuthService.register(registerModel)
+        .then((response) => {
+          console.log(response.data);
+          var registerResponse = {
+            responseCode: response.data.responseCode,
+            responseMessage: response.data.responseMessage,
+          };
+          setRegisterResponse(registerResponse);
+        })
+        .catch((error) => {
+          if (error.response.data.responseCode === -1) {
+            var registerResponse = {
+              responseCode: error.response.data.responseCode,
+              responseMessage: error.response.data.responseMessage,
+            };
+            setRegisterResponse(registerResponse);
+            console.log(registerResponse);
+          }
+        });
     }
   };
 
@@ -121,6 +141,16 @@ const Register = () => {
             <div className="card">
               <div className="card-header">
                 <h3>Register</h3>
+                <p></p>
+                {registerResponse && registerResponse.responseCode === -1 ? (
+                  <span className="registerError">
+                    {registerResponse.responseMessage}
+                  </span>
+                ) : (
+                  <span className="registerSuccess">
+                    {registerResponse.responseMessage}
+                  </span>
+                )}
               </div>
               <div className="card-body">
                 <Form ref={formRef}>

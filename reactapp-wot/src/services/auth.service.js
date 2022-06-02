@@ -33,5 +33,9 @@ class AuthService {
   logout = () => {
     localStorage.removeItem("currentUser");
   };
+
+  register = async (data) => {
+    return await http.post(`/register`, data);
+  };
 }
 export default new AuthService();

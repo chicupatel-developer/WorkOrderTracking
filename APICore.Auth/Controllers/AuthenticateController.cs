@@ -115,32 +115,41 @@ namespace APICore.Auth.Controllers
             _response = new APIResponse();
             try
             {
-                var userExists = await userManager.FindByNameAsync(model.Email);
-                if (userExists != null)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = -1, ResponseMessage = "User already exists!" });
+                // throw new Exception();
 
-                ApplicationUser user = new ApplicationUser()
+                if (ModelState.IsValid)
                 {
-                    Email = model.Email,
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = model.Email,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName
-                };
+                    var userExists = await userManager.FindByNameAsync(model.Email);
+                    if (userExists != null)
+                        return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = -1, ResponseMessage = "User already exists!" });
 
-                var result = await userManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = -1, ResponseMessage = "User creation fails!" });
+                    ApplicationUser user = new ApplicationUser()
+                    {
+                        Email = model.Email,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        UserName = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+                    };
 
-                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-                if (!await roleManager.RoleExistsAsync(UserRoles.Operator))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Operator));
+                    var result = await userManager.CreateAsync(user, model.Password);
+                    if (!result.Succeeded)
+                        return StatusCode(StatusCodes.Status500InternalServerError, new APIResponse { ResponseCode = -1, ResponseMessage = "User creation fails!" });
 
-                await userManager.AddToRoleAsync(user, model.AppRole);
-                
-                _response.ResponseCode = 0;
-                _response.ResponseMessage = "User created successfully!";                
+                    if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                        await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                    if (!await roleManager.RoleExistsAsync(UserRoles.Operator))
+                        await roleManager.CreateAsync(new IdentityRole(UserRoles.Operator));
+
+                    await userManager.AddToRoleAsync(user, model.AppRole);
+
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "User created successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             catch (Exception ex)
             {
@@ -149,5 +158,6 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
     }
 }
