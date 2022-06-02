@@ -7,27 +7,27 @@ class AuthService {
 
   getCurrentUser = () => {
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    return currentUser;
+    return currentUser !== null ? currentUser : null;
   };
 
   getCurrentUserFullName = () => {
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    return currentUser.fullName;
+    return currentUser !== null ? currentUser.fullName : null;
   };
 
   getToken = () => {
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    return currentUser.token;
+    return currentUser !== null ? currentUser.token : null;
   };
 
   getCurrentUserRole = () => {
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    return currentUser.role;
+    return currentUser !== null ? currentUser.role : null;
   };
 
   getCurrentUserName = () => {
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    return currentUser.userName;
+    return currentUser !== null ? currentUser.userName : null;
   };
 
   logout = () => {

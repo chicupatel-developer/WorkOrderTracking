@@ -7,9 +7,10 @@ const Create_Operator_Log = () => {
    let navigate = useNavigate();
 
    useEffect(() => {
-     var currUser = AuthService.getCurrentUser();
      var currRole = AuthService.getCurrentUserRole();
-     if (currUser !== null && currRole !== "Operator") navigate("/un-auth");
+
+     if (currRole === null || (currRole !== null && currRole !== "Operator"))
+       navigate("/un-auth");
    });
   return <div className="mainContainer">Create Operator Log</div>;
 };
