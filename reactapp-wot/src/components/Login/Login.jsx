@@ -109,6 +109,8 @@ const Login = () => {
   const resetForm = (e) => {
     formRef.current.reset();
     setErrors({});
+    setForm({});
+    setLoginResponse({});
   };
 
   return (

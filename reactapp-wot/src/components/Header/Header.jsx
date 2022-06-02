@@ -50,68 +50,78 @@ const Header = () => {
   return (
     <>
       <Navbar variant="light" expand="lg" sticky="top" className="navBar">
+        {/*
         <Container>
-          <Navbar.Brand href="/home">WorkOrder-Tracking</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            {currentUserName && currentUserRole === "Admin" ? (
-              <Nav className="me-auto">
-                <Link to={"/home"} className="nav-link">
-                  <i className="bi bi-house-fill"></i>
-                  Home
-                </Link>
-                <Link to={"/part"} className="nav-link">
-                  <i className="bi bi-display"></i>
-                  Part
-                </Link>
-                <Link to={"/customer-order"} className="nav-link">
-                  <i className="bi-gear-fill"></i>
-                  Customer-Orders
-                </Link>
-                <Link to={"/work-order"} className="nav-link">
-                  <i className="bi-file-word-fill"></i>
-                  Work-Orders [Operations]
-                  <i className="bi-hourglass-top"></i>
-                </Link>
-              </Nav>
-            ) : (
-              <span></span>
-            )}
+        */}
 
-            {currentUserName && currentUserRole === "Operator" ? (
-              <Nav className="me-auto">
-                <Link to={"/home"} className="nav-link">
-                  <i className="bi bi-house-fill"></i>
-                  Home
-                </Link>
-                <Link to={"/create-operator-log"} className="nav-link">
-                  Create Log
-                </Link>
-              </Nav>
-            ) : (
-              <span></span>
-            )}
+        <Navbar.Brand href="/home">
+          <span>WorkOrder-Tracking</span>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          {currentUserName && currentUserRole === "Admin" ? (
+            <Nav className="me-auto">
+              <Link to={"/home"} className="nav-link">
+                <i className="bi bi-house-fill"></i>
+                Home
+              </Link>
+              <Link to={"/part"} className="nav-link">
+                <i className="bi bi-display"></i>
+                Part
+              </Link>
+              <Link to={"/customer-order"} className="nav-link">
+                <i className="bi-gear-fill"></i>
+                Customer-Orders
+              </Link>
+              <Link to={"/work-order"} className="nav-link">
+                <i className="bi-file-word-fill"></i>
+                Work-Orders [Operations]
+                <i className="bi-hourglass-top"></i>
+              </Link>
+            </Nav>
+          ) : (
+            <span></span>
+          )}
 
-            {currentUserName ? (
-              <Nav>
-                <a href="/login" onClick={() => logout()} className="nav-link">
-                  <h6>
-                    <b>[ {currentUserName} ]LogOut </b>
-                  </h6>
-                </a>
-              </Nav>
-            ) : (
-              <Nav>
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-                <Link to={"/register"} className="nav-link">
-                  Register
-                </Link>
-              </Nav>
-            )}
-          </Navbar.Collapse>
+          {currentUserName && currentUserRole === "Operator" ? (
+            <Nav className="me-auto">
+              <Link to={"/home"} className="nav-link">
+                <i className="bi bi-house-fill"></i>
+                Home
+              </Link>
+              <Link to={"/create-operator-log"} className="nav-link">
+                Create Log
+              </Link>
+            </Nav>
+          ) : (
+            <span></span>
+          )}
+
+          {currentUserName ? (
+            <Nav>
+              <a href="/login" onClick={() => logout()} className="nav-link">
+                <h6>
+                  <b>
+                    [<span className="userRole">({currentUserRole})</span>{" "}
+                    {currentUserName} ]LogOut{" "}
+                  </b>
+                </h6>
+              </a>
+            </Nav>
+          ) : (
+            <Nav>
+              <Link to={"/login"} className="nav-link">
+                Login
+              </Link>
+              <Link to={"/register"} className="nav-link">
+                Register
+              </Link>
+            </Nav>
+          )}
+        </Navbar.Collapse>
+        {/*
         </Container>
+        */}
       </Navbar>
     </>
   );
