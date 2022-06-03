@@ -14,6 +14,8 @@ import Button from "react-bootstrap/Button";
 const Part = () => {
   let navigate = useNavigate();
 
+  const partFilePath = "https://localhost:44359/PartFiles/";
+
   const [parts, setParts] = useState([]);
 
   const getAllParts = () => {
@@ -21,6 +23,8 @@ const Part = () => {
       .then((response) => {
         setParts(response.data);
         // setParts([]);
+
+        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -36,17 +40,26 @@ const Part = () => {
     else getAllParts();
   }, []);
 
+  const displayImage = (cell) => {
+    var imagePath = partFilePath + cell;
+    if (cell === "N/A") return <div className="noImage">N/A</div>;
+    else return <img src={imagePath} width="70" height="80" />;
+  };
+  const displayQty = (cell) => {
+    return <div className="qtyColumn">{cell}</div>;
+  };
   const columns = [
     {
       dataField: "partId",
       text: "#",
       sort: true,
+      style: { width: "80" },
     },
     {
       dataField: "name",
       text: "Name",
       sort: true,
-      filter: textFilter(),
+      // filter: textFilter(),
     },
     {
       dataField: "desc",
@@ -55,6 +68,12 @@ const Part = () => {
     {
       dataField: "qty",
       text: "Qty",
+      formatter: (cell) => displayQty(cell),
+    },
+    {
+      dataField: "partFile",
+      text: "File",
+      formatter: (cell) => displayImage(cell),
     },
   ];
 

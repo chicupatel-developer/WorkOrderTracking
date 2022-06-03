@@ -11,3 +11,13 @@
     font-size: xx-large;
     font-weight: bold;
 }
+
+.noImage{
+    color : red;
+}
+
+.qtyColumn{
+    width: 100px;
+    color: green;
+    font-weight: bold;
+}
