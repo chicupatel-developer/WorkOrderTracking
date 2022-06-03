@@ -10,10 +10,12 @@ import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+// react-bootstrap-table-2
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 // react - new version
-const container = document.getElementById('root');
-const root = createRoot(container); 
+const container = document.getElementById("root");
+const root = createRoot(container);
 root.render(<App />);
 
 // react - old version

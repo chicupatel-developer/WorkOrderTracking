@@ -123,6 +123,10 @@ const Register = () => {
           };
           resetForm();
           setRegisterResponse(registerResponse);
+
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
         })
         .catch((error) => {
           setModelErrors([]);
