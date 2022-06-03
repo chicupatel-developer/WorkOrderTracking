@@ -48,6 +48,22 @@ const Part = () => {
   const displayQty = (cell) => {
     return <div className="qtyColumn">{cell}</div>;
   };
+  const displayEditBtn = (cell, row) => {
+    console.log(row);
+    return (
+      <div>
+        {" "}
+        <Button
+          className="btn btn-info"
+          type="button"
+          onClick={(e) => editPart(e, row.partId)}
+        >
+          Edit Part
+        </Button>
+      </div>
+    );
+  };
+
   const columns = [
     {
       dataField: "partId",
@@ -75,10 +91,19 @@ const Part = () => {
       text: "File",
       formatter: (cell) => displayImage(cell),
     },
+    {
+      dataField: "editAction",
+      text: "Edit",
+      formatter: (cell, row) => displayEditBtn(cell, row),
+    },
   ];
 
   const createNewPart = () => {
     navigate("/home");
+  };
+
+  const editPart = (e, partId) => {
+    console.log("edit part : ", partId);
   };
 
   return (
