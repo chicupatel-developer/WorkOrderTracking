@@ -1,0 +1,8 @@
+WebStore
+    - Register.jsx
+        - change 
+            loginModel -> registerModel
+
+NgApp-WOT
+	- apply ModelState to
+		- Login and Register

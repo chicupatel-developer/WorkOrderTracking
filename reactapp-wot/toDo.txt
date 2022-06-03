@@ -1,4 +1,0 @@
-WebStore
-    - Register.jsx
-        - change 
-            loginModel -> registerModel
