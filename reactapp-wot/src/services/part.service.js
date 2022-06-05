@@ -13,5 +13,11 @@ class PartService {
       headers: authHeader(),
     });
   };
+
+  getPart = async (partId) => {
+    return await http.get(`/getPart/${partId}`, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new PartService();

@@ -24,7 +24,7 @@ const Part = () => {
         setParts(response.data);
         // setParts([]);
 
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -52,7 +52,7 @@ const Part = () => {
     return <div className="qtyColumn">{cell}</div>;
   };
   const displayActionBtn = (cell, row) => {
-    console.log(row);
+    // console.log(row);
     return (
       <div>
         {" "}
@@ -114,6 +114,7 @@ const Part = () => {
 
   const editPart = (e, partId) => {
     console.log("edit part : ", partId);
+    navigate("/part-edit/" + partId);
   };
   const removePart = (e, partId) => {
     console.log("remove part : ", partId);

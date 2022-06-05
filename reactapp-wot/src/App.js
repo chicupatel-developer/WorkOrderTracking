@@ -9,6 +9,7 @@ import Login from "./components/Login/Login";
 import Register from "./components/Registration/Register";
 import Part from "./components/Part/Part";
 import Part_Create from "./components/Part_Create/Part_Create";
+import Part_Edit from "./components/Part_Edit/Part_Edit";
 import NotFound from "./components/NotFound/NotFound";
 import Customer_Order from "./components/Customer_Order/Customer_Order";
 import Work_Order from "./components/Work_Order/Work_Order";
@@ -28,6 +29,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/part" element={<Part />} />
             <Route path="/part-create" element={<Part_Create />} />
+            <Route path="/part-edit/:id" element={<Part_Edit />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/customer-order" element={<Customer_Order />} />

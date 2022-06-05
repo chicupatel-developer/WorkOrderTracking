@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import "./style.css";
 
 import Form from "react-bootstrap/Form";
@@ -12,9 +13,12 @@ import { useNavigate } from "react-router";
 const Part_Edit = () => {
   let navigate = useNavigate();
 
+  let { id } = useParams();
+  const [part, setPart] = useState({});
+
   const [modelErrors, setModelErrors] = useState([]);
 
-  const [partCreateResponse, setPartCreateResponse] = useState({});
+  const [partEditResponse, setPartEditResponse] = useState({});
 
   // form
   const [form, setForm] = useState({});
@@ -25,13 +29,30 @@ const Part_Edit = () => {
 
     if (currRole === null || (currRole !== null && currRole !== "Admin"))
       navigate("/un-auth");
+    else getPart(id);
   }, []);
+
+  const getPart = (id) => {
+    console.log("Editing Part : ", id);
+    if (checkForNumbersOnly(id)) {
+      PartService.getPart(id)
+        .then((response) => {
+          console.log(response.data);
+          setPart(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else navigate("/part");
+  };
 
   // reset form
   // form reference
   const formRef = useRef(null);
 
   const setField = (field, value) => {
+    console.log("editing..." + field);
+
     setForm({
       ...form,
       [field]: value,
@@ -101,40 +122,6 @@ const Part_Edit = () => {
       };
 
       console.log(partModel);
-
-      // api call
-      PartService.createPart(partModel)
-        .then((response) => {
-          setModelErrors([]);
-          setPartCreateResponse({});
-          console.log(response.data);
-          var partCreateResponse = {
-            responseCode: response.data.responseCode,
-            responseMessage: response.data.responseMessage,
-          };
-          if (response.data.responseCode === 0) {
-            resetForm();
-            setPartCreateResponse(partCreateResponse);
-
-            setTimeout(() => {
-              navigate("/part");
-            }, 3000);
-          } else if (response.data.responseCode === -1) {
-            setPartCreateResponse(partCreateResponse);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setModelErrors([]);
-          setPartCreateResponse({});
-          // 400
-          // ModelState
-          if (error.response.status === 400) {
-            console.log("400 !");
-            var modelErrors = handleModelState(error);
-            setModelErrors(modelErrors);
-          }
-        });
     }
   };
 
@@ -142,7 +129,7 @@ const Part_Edit = () => {
     formRef.current.reset();
     setErrors({});
     setForm({});
-    setPartCreateResponse({});
+    setPartEditResponse({});
     setModelErrors([]);
   };
 
@@ -165,14 +152,13 @@ const Part_Edit = () => {
               <div className="card-header">
                 <h3>Edit Part</h3>
                 <p></p>{" "}
-                {partCreateResponse &&
-                partCreateResponse.responseCode === -1 ? (
-                  <span className="partCreateError">
-                    {partCreateResponse.responseMessage}
+                {partEditResponse && partEditResponse.responseCode === -1 ? (
+                  <span className="partEditError">
+                    {partEditResponse.responseMessage}
                   </span>
                 ) : (
-                  <span className="partCreateSuccess">
-                    {partCreateResponse.responseMessage}
+                  <span className="partEditSuccess">
+                    {partEditResponse.responseMessage}
                   </span>
                 )}
                 {modelErrors.length > 0 ? (
@@ -228,7 +214,7 @@ const Part_Edit = () => {
                       type="button"
                       onClick={(e) => handleSubmit(e)}
                     >
-                      Create Part
+                      Edit Part
                     </Button>
                     <Button
                       className="btn btn-primary"
