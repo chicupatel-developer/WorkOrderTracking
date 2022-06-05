@@ -28,7 +28,10 @@ const Part = () => {
       })
       .catch((e) => {
         console.log(e);
-        if (e.response.status === 401) console.log("Token Not Found!");
+        if (e.response.status === 401) {
+          console.log("Token Not Found!");
+          navigate("/login");
+        }
       });
   };
 
@@ -48,7 +51,7 @@ const Part = () => {
   const displayQty = (cell) => {
     return <div className="qtyColumn">{cell}</div>;
   };
-  const displayEditBtn = (cell, row) => {
+  const displayActionBtn = (cell, row) => {
     console.log(row);
     return (
       <div>
@@ -58,7 +61,14 @@ const Part = () => {
           type="button"
           onClick={(e) => editPart(e, row.partId)}
         >
-          Edit Part
+          <i className="bi bi-pencil-square"></i>
+        </Button>{" "}
+        <Button
+          className="btn btn-danger"
+          type="button"
+          onClick={(e) => removePart(e, row.partId)}
+        >
+          <i className="bi bi-trash"></i>
         </Button>
       </div>
     );
@@ -92,18 +102,21 @@ const Part = () => {
       formatter: (cell) => displayImage(cell),
     },
     {
-      dataField: "editAction",
-      text: "Edit",
-      formatter: (cell, row) => displayEditBtn(cell, row),
+      dataField: "actions",
+      text: "Actions",
+      formatter: (cell, row) => displayActionBtn(cell, row),
     },
   ];
 
   const createNewPart = () => {
-    navigate("/home");
+    navigate("/part-create");
   };
 
   const editPart = (e, partId) => {
     console.log("edit part : ", partId);
+  };
+  const removePart = (e, partId) => {
+    console.log("remove part : ", partId);
   };
 
   return (

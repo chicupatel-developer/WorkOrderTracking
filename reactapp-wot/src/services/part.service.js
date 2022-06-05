@@ -7,5 +7,11 @@ class PartService {
       headers: authHeader(),
     });
   };
+
+  createPart = async (data) => {
+    return await http.post(`/createPart`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new PartService();
