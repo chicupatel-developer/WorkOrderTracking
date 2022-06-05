@@ -16,7 +16,6 @@ const Login = () => {
   const [loginResponse, setLoginResponse] = useState({});
 
   // form
-  // this will contain email and password
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 

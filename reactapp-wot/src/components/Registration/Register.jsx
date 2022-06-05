@@ -19,7 +19,6 @@ const Register = () => {
   const [registerResponse, setRegisterResponse] = useState({});
 
   // form
-  // this will contain email and password
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 
