@@ -39,6 +39,13 @@ namespace APICore.Auth
         {
             services.AddControllers();
 
+            // disable automatic ModelState validation
+            // action: removePart            
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             #region Repositories
             services.AddTransient<IWorkOrderRepository, WorkOrderRepository>();
             services.AddTransient<ICustomerOrderRepository, CustomerOrderRepository>();

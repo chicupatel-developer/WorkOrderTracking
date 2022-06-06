@@ -52,31 +52,28 @@ const Part_Remove = () => {
     e.preventDefault();
 
     console.log("removing part: ", part);
+    console.log("removing partid: ", id);
 
-    if (part.partId > 0) {
-      // api call
-      PartService.removePart(part)
-        .then((response) => {
-          console.log(response.data);
-          setPartRemoveResponse({});
-          var partRemoveResponse = {
-            responseCode: response.data.responseCode,
-            responseMessage: response.data.responseMessage,
-          };
+    // api call
+    PartService.removePart(part)
+      .then((response) => {
+        console.log(response.data);
+        setPartRemoveResponse({});
+        var partRemoveResponse = {
+          responseCode: response.data.responseCode,
+          responseMessage: response.data.responseMessage,
+        };
 
-          setPartRemoveResponse(partRemoveResponse);
-          if (response.data.responseCode === 0) {
-            setTimeout(() => {
-              navigate("/part");
-            }, 3000);
-          }
-        })
-        .catch((error) => {
-          setPartRemoveResponse({});
-        });
-    } else {
-      console.log("Can Not Call API!");
-    }
+        setPartRemoveResponse(partRemoveResponse);
+        if (response.data.responseCode === 0) {
+          setTimeout(() => {
+            navigate("/part");
+          }, 3000);
+        }
+      })
+      .catch((error) => {
+        setPartRemoveResponse({});
+      });
   };
 
   const goBack = (e) => {
@@ -111,11 +108,7 @@ const Part_Remove = () => {
               <div className="card-body">
                 <div className="container">
                   <span className="headerText">Part </span>
-                  {part.partId ? (
-                    <span>&nbsp;# {part.partId}</span>
-                  ) : (
-                    <span>&nbsp; # N/A</span>
-                  )}
+                  {id ? <span>&nbsp;# {id}</span> : <span>&nbsp; # N/A</span>}
                   <p></p>
                   <span className="headerText">Name</span>
                   {part.name ? (
