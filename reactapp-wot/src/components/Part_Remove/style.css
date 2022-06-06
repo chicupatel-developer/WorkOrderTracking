@@ -1,0 +1,11 @@
+.mainContainer {
+    padding: 50px;
+}
+.partRemoveSuccess {
+    color: green;
+    font-size: large;
+}
+.partRemoveError {
+    color: red;
+    font-size: large;
+}

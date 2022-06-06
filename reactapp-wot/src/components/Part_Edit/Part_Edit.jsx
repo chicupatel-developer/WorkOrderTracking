@@ -14,14 +14,15 @@ const Part_Edit = () => {
   let navigate = useNavigate();
 
   let { id } = useParams();
-  const [part, setPart] = useState({});
 
   const [modelErrors, setModelErrors] = useState([]);
 
   const [partEditResponse, setPartEditResponse] = useState({});
 
   // form
-  const [form, setForm] = useState({});
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  const [qty, setQty] = useState(0);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -38,7 +39,10 @@ const Part_Edit = () => {
       PartService.getPart(id)
         .then((response) => {
           console.log(response.data);
-          setPart(response.data);
+
+          setName(response.data.name);
+          setDesc(response.data.desc);
+          setQty(parseInt(response.data.qty));
         })
         .catch((e) => {
           console.log(e);
@@ -50,19 +54,28 @@ const Part_Edit = () => {
   // form reference
   const formRef = useRef(null);
 
-  const setField = (field, value) => {
-    console.log("editing..." + field);
-
-    setForm({
-      ...form,
-      [field]: value,
-    });
-
-    // Check and see if errors exist, and remove them from the error object:
-    if (!!errors[field])
+  const handleName = (event) => {
+    setName(event.target.value);
+    if (!errors[name])
       setErrors({
         ...errors,
-        [field]: null,
+        name: "",
+      });
+  };
+  const handleDesc = (event) => {
+    setDesc(event.target.value);
+    if (!errors[desc])
+      setErrors({
+        ...errors,
+        desc: "",
+      });
+  };
+  const handleQty = (event) => {
+    setQty(event.target.value);
+    if (!errors[qty])
+      setErrors({
+        ...errors,
+        qty: "",
       });
   };
 
@@ -73,7 +86,6 @@ const Part_Edit = () => {
   };
 
   const findFormErrors = () => {
-    const { name, desc, qty } = form;
     const newErrors = {};
 
     if (!name || name === "") newErrors.name = "Part Name is Required!";
@@ -85,7 +97,6 @@ const Part_Edit = () => {
       if (!checkForNumbersOnly(qty))
         newErrors.qty = "Only Numbers are Allowed!";
     }
-
     return newErrors;
   };
 
@@ -116,19 +127,53 @@ const Part_Edit = () => {
       setErrors(newErrors);
     } else {
       var partModel = {
-        name: form.name,
-        desc: form.desc,
-        qty: parseInt(form.qty),
+        partId: parseInt(id),
+        name: name,
+        desc: desc,
+        qty: parseInt(qty),
       };
 
       console.log(partModel);
+
+      // api call
+      PartService.editPart(partModel)
+        .then((response) => {
+          console.log(response.data);
+          setModelErrors([]);
+          setPartEditResponse({});
+          var partEditResponse = {
+            responseCode: response.data.responseCode,
+            responseMessage: response.data.responseMessage,
+          };
+
+          setPartEditResponse(partEditResponse);
+          if (response.data.responseCode === 0) {
+            setTimeout(() => {
+              resetForm();
+              navigate("/part");
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          setModelErrors([]);
+          setPartEditResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+          }
+        });
     }
   };
 
   const resetForm = (e) => {
     formRef.current.reset();
     setErrors({});
-    setForm({});
+    setName("");
+    setDesc("");
+    setQty(0);
     setPartEditResponse({});
     setModelErrors([]);
   };
@@ -172,9 +217,10 @@ const Part_Edit = () => {
                   <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
                     <Form.Control
+                      value={name}
                       type="text"
                       isInvalid={!!errors.name}
-                      onChange={(e) => setField("name", e.target.value)}
+                      onChange={(e) => handleName(e)}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
@@ -184,10 +230,11 @@ const Part_Edit = () => {
                   <Form.Group controlId="desc">
                     <Form.Label>Desc</Form.Label>
                     <Form.Control
+                      value={desc}
                       as="textarea"
                       rows="3"
                       isInvalid={!!errors.desc}
-                      onChange={(e) => setField("desc", e.target.value)}
+                      onChange={(e) => handleDesc(e)}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.desc}
@@ -196,10 +243,11 @@ const Part_Edit = () => {
                   <Form.Group controlId="qty">
                     <Form.Label>Qty</Form.Label>
                     <Form.Control
+                      value={qty}
                       className="qtyDisplay"
                       type="text"
                       isInvalid={!!errors.qty}
-                      onChange={(e) => setField("qty", e.target.value)}
+                      onChange={(e) => handleQty(e)}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.qty}
