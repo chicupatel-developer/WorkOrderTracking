@@ -118,6 +118,7 @@ const Part = () => {
   };
   const removePart = (e, partId) => {
     console.log("remove part : ", partId);
+    navigate("/part-remove/" + partId);
   };
 
   return (
