@@ -25,5 +25,11 @@ class PartService {
       headers: authHeader(),
     });
   };
+
+  removePart = async (data) => {
+    return await http.post(`/removePart`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new PartService();

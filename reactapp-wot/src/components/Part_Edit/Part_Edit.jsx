@@ -38,11 +38,21 @@ const Part_Edit = () => {
     if (checkForNumbersOnly(id)) {
       PartService.getPart(id)
         .then((response) => {
-          console.log(response.data);
+          if (response.data === "") {
+            // data not found on server!
+            var partEditResponse = {
+              responseCode: -1,
+              responseMessage: "Part Not Found!",
+            };
 
-          setName(response.data.name);
-          setDesc(response.data.desc);
-          setQty(parseInt(response.data.qty));
+            setPartEditResponse(partEditResponse);
+          } else {
+            console.log(response.data);
+
+            setName(response.data.name);
+            setDesc(response.data.desc);
+            setQty(parseInt(response.data.qty));
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -216,12 +226,17 @@ const Part_Edit = () => {
                 <Form ref={formRef}>
                   <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      value={name}
-                      type="text"
-                      isInvalid={!!errors.name}
-                      onChange={(e) => handleName(e)}
-                    />
+                    {name ? (
+                      <Form.Control
+                        value={name}
+                        type="text"
+                        isInvalid={!!errors.name}
+                        onChange={(e) => handleName(e)}
+                      />
+                    ) : (
+                      <span>&nbsp; # N/A</span>
+                    )}
+
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
                     </Form.Control.Feedback>
@@ -229,26 +244,37 @@ const Part_Edit = () => {
                   <p></p>
                   <Form.Group controlId="desc">
                     <Form.Label>Desc</Form.Label>
-                    <Form.Control
-                      value={desc}
-                      as="textarea"
-                      rows="3"
-                      isInvalid={!!errors.desc}
-                      onChange={(e) => handleDesc(e)}
-                    />
+                    {desc ? (
+                      <Form.Control
+                        value={desc}
+                        as="textarea"
+                        rows="3"
+                        isInvalid={!!errors.desc}
+                        onChange={(e) => handleDesc(e)}
+                      />
+                    ) : (
+                      <span>&nbsp; # N/A</span>
+                    )}
+
                     <Form.Control.Feedback type="invalid">
                       {errors.desc}
                     </Form.Control.Feedback>
                   </Form.Group>
+                  <p></p>
                   <Form.Group controlId="qty">
                     <Form.Label>Qty</Form.Label>
-                    <Form.Control
-                      value={qty}
-                      className="qtyDisplay"
-                      type="text"
-                      isInvalid={!!errors.qty}
-                      onChange={(e) => handleQty(e)}
-                    />
+                    {qty ? (
+                      <Form.Control
+                        value={qty}
+                        className="qtyDisplay"
+                        type="text"
+                        isInvalid={!!errors.qty}
+                        onChange={(e) => handleQty(e)}
+                      />
+                    ) : (
+                      <span>&nbsp; # N/A</span>
+                    )}
+
                     <Form.Control.Feedback type="invalid">
                       {errors.qty}
                     </Form.Control.Feedback>
