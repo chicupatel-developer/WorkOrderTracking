@@ -69,6 +69,13 @@ const Part = () => {
           onClick={(e) => removePart(e, row.partId)}
         >
           <i className="bi bi-trash"></i>
+        </Button>{" "}
+        <Button
+          className="btn btn-success"
+          type="button"
+          onClick={(e) => fileUpload(e, row.partId)}
+        >
+          <i className="bi bi-upload"></i>
         </Button>
       </div>
     );
@@ -119,6 +126,10 @@ const Part = () => {
   const removePart = (e, partId) => {
     console.log("remove part : ", partId);
     navigate("/part-remove/" + partId);
+  };
+  const fileUpload = (e, partId) => {
+    console.log("file upload : ", partId);
+    navigate("/part-file-upload/" + partId);
   };
 
   return (

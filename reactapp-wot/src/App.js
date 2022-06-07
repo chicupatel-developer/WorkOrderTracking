@@ -11,6 +11,7 @@ import Part from "./components/Part/Part";
 import Part_Create from "./components/Part_Create/Part_Create";
 import Part_Edit from "./components/Part_Edit/Part_Edit";
 import Part_Remove from "./components/Part_Remove/Part_Remove";
+import Part_File_Upload from "./components/Part_File_Upload/Part_File_Upload";
 import NotFound from "./components/NotFound/NotFound";
 import Customer_Order from "./components/Customer_Order/Customer_Order";
 import Work_Order from "./components/Work_Order/Work_Order";
@@ -32,6 +33,10 @@ function App() {
             <Route path="/part-create" element={<Part_Create />} />
             <Route path="/part-edit/:id" element={<Part_Edit />} />
             <Route path="/part-remove/:id" element={<Part_Remove />} />
+            <Route
+              path="/part-file-upload/:id"
+              element={<Part_File_Upload />}
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/customer-order" element={<Customer_Order />} />
