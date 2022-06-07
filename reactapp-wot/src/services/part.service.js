@@ -32,10 +32,10 @@ class PartService {
     });
   };
 
-  upload = (file, onUploadProgress) => {
+  upload = (file, partId, onUploadProgress) => {
     let formData = new FormData();
     formData.append("partImage", file, file.name);
-    formData.append("partId", 2);
+    formData.append("partId", partId);
     return http.post("/partImageUpload", formData, {
       headers: authHeader(),
       onUploadProgress,

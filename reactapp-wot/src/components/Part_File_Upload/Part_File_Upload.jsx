@@ -8,11 +8,24 @@ import PartService from "../../services/part.service";
 import { useNavigate } from "react-router";
 
 const Part_File_Upload = () => {
+  let navigate = useNavigate();
+
+  let { id } = useParams();
+
   const [selectedFiles, setSelectedFiles] = useState(undefined);
   const [currentFile, setCurrentFile] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
   const [className, setClassName] = useState("");
+
+  useEffect(() => {
+    var currRole = AuthService.getCurrentUserRole();
+
+    if (currRole === null || (currRole !== null && currRole !== "Admin"))
+      navigate("/un-auth");
+    
+  }, []);
+
 
   const selectFile = (event) => {
     setSelectedFiles(event.target.files);
@@ -22,7 +35,7 @@ const Part_File_Upload = () => {
     let currentFile = selectedFiles[0];
     setProgress(0);
     setCurrentFile(currentFile);
-    PartService.upload(currentFile, (event) => {
+    PartService.upload(currentFile, id, (event) => {
       setProgress(Math.round((100 * event.loaded) / event.total));
     })
       .then((response) => {
