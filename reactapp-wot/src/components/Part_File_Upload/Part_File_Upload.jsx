@@ -18,18 +18,48 @@ const Part_File_Upload = () => {
   const [message, setMessage] = useState("");
   const [className, setClassName] = useState("");
 
+  const [modelErrors, setModelErrors] = useState([]);
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
 
     if (currRole === null || (currRole !== null && currRole !== "Admin"))
       navigate("/un-auth");
-    
   }, []);
-
 
   const selectFile = (event) => {
     setSelectedFiles(event.target.files);
   };
+
+  const handleModelState = (error) => {
+    var errors = [];
+    if (error.response.status === 400) {
+      // console.log(error.response.data);
+
+      // for (let prop in error.response.data.errors) {
+      for (let prop in error.response.data) {
+        if (error.response.data[prop].length > 1) {
+          for (let error_ in error.response.data[prop]) {
+            errors.push(error.response.data[prop][error_]);
+          }
+        } else {
+          errors.push(error.response.data[prop]);
+        }
+      }
+    } else {
+      console.log(error);
+    }
+    return errors;
+  };
+
+  let modelErrorList =
+    modelErrors.length > 0 &&
+    modelErrors.map((item, i) => {
+      return (
+        <ul key={i} value={item}>
+          <li style={{ marginTop: 5 }}>{item}</li>
+        </ul>
+      );
+    }, this);
 
   const upload = () => {
     let currentFile = selectedFiles[0];
@@ -43,11 +73,23 @@ const Part_File_Upload = () => {
         setClassName("uploadSuccess");
       })
       .catch((error) => {
-        setProgress(0);
-        setMessage(error.response.data.message);
-        setClassName("uploadError");
-        setCurrentFile(undefined);
-        console.log(error.response.data.message);
+        console.log(error.response.data);
+        // 400
+        if (error.response.status === 400) {
+          console.log("400 !");
+          var modelErrors = handleModelState(error);
+          setMessage("");
+          setModelErrors(modelErrors);
+          setClassName("uploadError");
+        }
+        // 500
+        else {
+          setProgress(0);
+          setModelErrors([]);
+          setMessage(error.response.data.message);
+          setClassName("uploadError");
+          setCurrentFile(undefined);
+        }
       });
     setSelectedFiles(undefined);
   };
@@ -98,7 +140,15 @@ const Part_File_Upload = () => {
                     </div>
                   ) : (
                     <div className="alert alert-light uploadError" role="alert">
-                      {message}
+                      {modelErrors && modelErrors.length > 0 ? (
+                        <div>
+                          Model Error(s)
+                          <br />
+                          <div>{modelErrorList}</div>
+                        </div>
+                      ) : (
+                        <span>{message}</span>
+                      )}
                     </div>
                   )}
                 </div>

@@ -45,10 +45,10 @@ namespace APICore.Auth.Controllers
                 var allParts = _partRepo.GetAllParts();
                 return Ok(allParts);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest("Server Error!");                
-            }         
+                return BadRequest("Server Error!");
+            }
         }
 
         [HttpPost]
@@ -69,7 +69,7 @@ namespace APICore.Auth.Controllers
                 else
                 {
                     return BadRequest(ModelState);
-                }              
+                }
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace APICore.Auth.Controllers
                 else
                 {
                     return BadRequest(ModelState);
-                }            
+                }
             }
             catch (Exception ex)
             {
@@ -134,7 +134,7 @@ namespace APICore.Auth.Controllers
             return Ok(_response);
         }
 
-        
+
         [HttpPost, DisableRequestSizeLimit]
         [Route("partImageUpload")]
         public async Task<ActionResult> PartImageUpload([FromForm] PartFileUploadData imgUpModel)
@@ -144,30 +144,38 @@ namespace APICore.Auth.Controllers
             {
                 // throw new Exception();
 
-                var formFile = imgUpModel.PartImage;
-                int partId = Convert.ToInt32(imgUpModel.PartId);
+                if (ModelState.IsValid)
+                {
+                    var formFile = imgUpModel.PartImage;
+                    int partId = Convert.ToInt32(imgUpModel.PartId);
 
-                string partImageStoragePath = _configuration.GetSection("PartImageLocation").GetSection("Path").Value;
+                    string partImageStoragePath = _configuration.GetSection("PartImageLocation").GetSection("Path").Value;
 
-                var fileName = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + ContentDispositionHeaderValue.Parse(formFile.ContentDisposition)
-                      .FileName.Trim('"');
+                    var fileName = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + ContentDispositionHeaderValue.Parse(formFile.ContentDisposition)
+                          .FileName.Trim('"');
 
-                var finalPath = Path.Combine(partImageStoragePath, fileName);
+                    var finalPath = Path.Combine(partImageStoragePath, fileName);
 
-                using var stream = new FileStream(finalPath, FileMode.Create);
+                    using var stream = new FileStream(finalPath, FileMode.Create);
 
-                await formFile.CopyToAsync(stream);
-                // formFile.CopyTo(stream);
+                    await formFile.CopyToAsync(stream);
+                    // formFile.CopyTo(stream);
 
-                _partRepo.UpdatePartFile(partId, fileName);
+                    _partRepo.UpdatePartFile(partId, fileName);
 
-                return Ok(new { status = "success", message = "Part - File Upload Success !", fileName = formFile.FileName, fileSize = formFile.Length });
+                    return Ok(new { status = "success", message = "Part - File Upload Success !", fileName = formFile.FileName, fileSize = formFile.Length });
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             catch (Exception ex)
-            {                
-                return BadRequest(new { status = "fail", message = "Server Error ! File Can Not Upload At This Time !" });
+            {
+                // return BadRequest(new { status = "fail", message = "Server Error ! File Can Not Upload At This Time !" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { status = "fail", message = "Server Error ! File Can Not Upload At This Time !" });
             }
         }
-
     }
 }
+

@@ -5,4 +5,4 @@ WebStore
 
 NgApp-WOT
 	- apply ModelState to
-		- Login and Register
+		- Login and Register and Part*
