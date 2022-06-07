@@ -97,7 +97,7 @@ const Part_Edit = () => {
 
   const findFormErrors = () => {
     const newErrors = {};
-    /*
+
     if (!name || name === "") newErrors.name = "Part Name is Required!";
 
     if (!desc || desc === "") newErrors.desc = "Part Desc is Required!";
@@ -107,7 +107,7 @@ const Part_Edit = () => {
       if (!checkForNumbersOnly(qty))
         newErrors.qty = "Only Numbers are Allowed!";
     }
-    */
+
     return newErrors;
   };
 

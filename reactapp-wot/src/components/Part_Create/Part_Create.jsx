@@ -71,13 +71,13 @@ const Part_Create = () => {
   const handleModelState = (error) => {
     var errors = [];
     if (error.response.status === 400) {
-      for (let prop in error.response.data.errors) {
-        if (error.response.data.errors[prop].length > 1) {
-          for (let error_ in error.response.data.errors[prop]) {
-            errors.push(error.response.data.errors[prop][error_]);
+      for (let prop in error.response.data) {
+        if (error.response.data[prop].length > 1) {
+          for (let error_ in error.response.data[prop]) {
+            errors.push(error.response.data[prop][error_]);
           }
         } else {
-          errors.push(error.response.data.errors[prop]);
+          errors.push(error.response.data[prop]);
         }
       }
     } else {
