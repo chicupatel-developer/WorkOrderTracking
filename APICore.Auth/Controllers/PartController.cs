@@ -59,9 +59,17 @@ namespace APICore.Auth.Controllers
             try
             {
                 // throw new Exception();
-                _partRepo.AddPart(part);
-                _response.ResponseCode = 0;
-                _response.ResponseMessage = "Part Added Successfully!";
+
+                if (ModelState.IsValid)
+                {
+                    _partRepo.AddPart(part);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Part Added Successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }              
             }
             catch (Exception ex)
             {
@@ -86,10 +94,16 @@ namespace APICore.Auth.Controllers
             try
             {
                 // throw new Exception();
-                _partRepo.EditPart(part);
-                _response.ResponseCode = 0;
-                _response.ResponseMessage = "Part Edited Successfully!";
-
+                if (ModelState.IsValid)
+                {
+                    _partRepo.EditPart(part);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Part Edited Successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }            
             }
             catch (Exception ex)
             {

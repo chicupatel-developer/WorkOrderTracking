@@ -97,7 +97,7 @@ const Part_Edit = () => {
 
   const findFormErrors = () => {
     const newErrors = {};
-
+    /*
     if (!name || name === "") newErrors.name = "Part Name is Required!";
 
     if (!desc || desc === "") newErrors.desc = "Part Desc is Required!";
@@ -107,19 +107,23 @@ const Part_Edit = () => {
       if (!checkForNumbersOnly(qty))
         newErrors.qty = "Only Numbers are Allowed!";
     }
+    */
     return newErrors;
   };
 
   const handleModelState = (error) => {
     var errors = [];
     if (error.response.status === 400) {
-      for (let prop in error.response.data.errors) {
-        if (error.response.data.errors[prop].length > 1) {
-          for (let error_ in error.response.data.errors[prop]) {
-            errors.push(error.response.data.errors[prop][error_]);
+      // console.log(error.response.data);
+
+      // for (let prop in error.response.data.errors) {
+      for (let prop in error.response.data) {
+        if (error.response.data[prop].length > 1) {
+          for (let error_ in error.response.data[prop]) {
+            errors.push(error.response.data[prop][error_]);
           }
         } else {
-          errors.push(error.response.data.errors[prop]);
+          errors.push(error.response.data[prop]);
         }
       }
     } else {
@@ -226,16 +230,12 @@ const Part_Edit = () => {
                 <Form ref={formRef}>
                   <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
-                    {name ? (
-                      <Form.Control
-                        value={name}
-                        type="text"
-                        isInvalid={!!errors.name}
-                        onChange={(e) => handleName(e)}
-                      />
-                    ) : (
-                      <span>&nbsp; # N/A</span>
-                    )}
+                    <Form.Control
+                      value={name}
+                      type="text"
+                      isInvalid={!!errors.name}
+                      onChange={(e) => handleName(e)}
+                    />
 
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
@@ -244,17 +244,13 @@ const Part_Edit = () => {
                   <p></p>
                   <Form.Group controlId="desc">
                     <Form.Label>Desc</Form.Label>
-                    {desc ? (
-                      <Form.Control
-                        value={desc}
-                        as="textarea"
-                        rows="3"
-                        isInvalid={!!errors.desc}
-                        onChange={(e) => handleDesc(e)}
-                      />
-                    ) : (
-                      <span>&nbsp; # N/A</span>
-                    )}
+                    <Form.Control
+                      value={desc}
+                      as="textarea"
+                      rows="3"
+                      isInvalid={!!errors.desc}
+                      onChange={(e) => handleDesc(e)}
+                    />
 
                     <Form.Control.Feedback type="invalid">
                       {errors.desc}
@@ -263,17 +259,13 @@ const Part_Edit = () => {
                   <p></p>
                   <Form.Group controlId="qty">
                     <Form.Label>Qty</Form.Label>
-                    {qty ? (
-                      <Form.Control
-                        value={qty}
-                        className="qtyDisplay"
-                        type="text"
-                        isInvalid={!!errors.qty}
-                        onChange={(e) => handleQty(e)}
-                      />
-                    ) : (
-                      <span>&nbsp; # N/A</span>
-                    )}
+                    <Form.Control
+                      value={qty}
+                      className="qtyDisplay"
+                      type="text"
+                      isInvalid={!!errors.qty}
+                      onChange={(e) => handleQty(e)}
+                    />
 
                     <Form.Control.Feedback type="invalid">
                       {errors.qty}
