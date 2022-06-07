@@ -138,6 +138,7 @@ namespace APICore.Auth.Controllers
         [HttpPost, DisableRequestSizeLimit]
         [Route("partImageUpload")]
         public async Task<ActionResult> PartImageUpload([FromForm] PartFileUploadData imgUpModel)
+        // public ActionResult PartImageUpload([FromForm] PartFileUploadData imgUpModel)
         {
             try
             {
@@ -156,6 +157,7 @@ namespace APICore.Auth.Controllers
                 using var stream = new FileStream(finalPath, FileMode.Create);
 
                 await formFile.CopyToAsync(stream);
+                // formFile.CopyTo(stream);
 
                 _partRepo.UpdatePartFile(partId, fileName);
 

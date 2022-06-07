@@ -2,64 +2,42 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./style.css";
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-
 import AuthService from "../../services/auth.service";
 import PartService from "../../services/part.service";
 
 import { useNavigate } from "react-router";
 
-import axios from "axios";
-import http from "../../axios/part-http-common";
-import authHeader from "../../services/auth.header";
-
 const Part_File_Upload = () => {
-  const [selectedFile, setSelectedFile] = useState("");
-  const [status, setStatus] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState(undefined);
+  const [currentFile, setCurrentFile] = useState(undefined);
   const [progress, setProgress] = useState(0);
-  const [statusFlag, setStatusFlag] = useState(0);
+  const [message, setMessage] = useState("");
+  const [className, setClassName] = useState("");
 
-  const onFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const selectFile = (event) => {
+    setSelectedFiles(event.target.files);
   };
 
-  const uploadHandler = (event) => {
-    if (selectedFile === null || selectedFile === "") {
-      console.log("No File To Upload!");
-      return;
-    } else {
-      const formData = new FormData();
-
-      formData.append("partImage", selectedFile, selectedFile.name);
-      formData.append("partId", 2);
-
-      console.log(formData);
-      console.log(selectedFile);
-      console.log(selectedFile.name);
-
-      // api call
-      axios
-        .post(
-          "https://localhost:44359/api/Part/partImageUpload",
-          formData,
-          { headers: authHeader() },
-          {
-            onUploadProgress: (progressEvent) => {
-              setProgress((progressEvent.loaded / progressEvent.total) * 100);
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+  const upload = () => {
+    let currentFile = selectedFiles[0];
+    setProgress(0);
+    setCurrentFile(currentFile);
+    PartService.upload(currentFile, (event) => {
+      setProgress(Math.round((100 * event.loaded) / event.total));
+    })
+      .then((response) => {
+        setMessage(response.data.message);
+        setClassName("uploadSuccess");
+      })
+      .catch((error) => {
+        setProgress(0);
+        setMessage(error.response.data.message);
+        setClassName("uploadError");
+        setCurrentFile(undefined);
+        console.log(error.response.data.message);
+      });
+    setSelectedFiles(undefined);
   };
-
-  const fileData = () => {};
 
   return (
     <div className="mainContainer">
@@ -71,17 +49,46 @@ const Part_File_Upload = () => {
                 <h5>Part File Upload!</h5>
                 <p></p>
                 <div>
-                  <input type="file" onChange={(e) => onFileChange(e)} />
-
-                  <Button
+                  <label className="btn btn-info">
+                    <input type="file" onChange={selectFile} />
+                  </label>
+                  <p></p>
+                  {currentFile && (
+                    <div className="progress">
+                      <div
+                        className="progress-bar progress-bar-info progress-bar-striped"
+                        role="progressbar"
+                        aria-valuenow={progress}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        style={{ width: progress + "%" }}
+                      >
+                        {progress}%
+                      </div>
+                    </div>
+                  )}
+                  <p></p>
+                  <button
                     className="btn btn-success"
-                    type="button"
-                    onClick={(e) => uploadHandler(e)}
+                    disabled={!selectedFiles}
+                    onClick={upload}
                   >
-                    Upload Part File !
-                  </Button>
+                    Upload Part File
+                  </button>
+
+                  {className === "uploadSuccess" ? (
+                    <div
+                      className="alert alert-light uploadSuccess"
+                      role="alert"
+                    >
+                      {message}
+                    </div>
+                  ) : (
+                    <div className="alert alert-light uploadError" role="alert">
+                      {message}
+                    </div>
+                  )}
                 </div>
-                {fileData()}
               </div>
             </div>
           </div>
