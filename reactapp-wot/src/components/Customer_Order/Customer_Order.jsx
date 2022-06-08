@@ -46,6 +46,28 @@ const Customer_Order = () => {
     }
   };
 
+  const displayActionBtn = (cell, row) => {
+    // console.log(row);
+    return (
+      <div>
+        {" "}
+        <Button
+          className="btn btn-info"
+          type="button"
+          onClick={(e) => editCo(e, row.customerOrderId)}
+        >
+          <i className="bi bi-pencil-square"></i>
+        </Button>{" "}
+        <Button
+          className="btn btn-danger"
+          type="button"
+          onClick={(e) => removeCo(e, row.customerOrderId)}
+        >
+          <i className="bi bi-trash"></i>
+        </Button>
+      </div>
+    );
+  };
   const columns = [
     {
       dataField: "customerOrderId",
@@ -82,10 +104,15 @@ const Customer_Order = () => {
       sort: true,
       formatter: (cell) => displayDate(cell),
     },
+    {
+      dataField: "actions",
+      text: "Actions",
+      formatter: (cell, row) => displayActionBtn(cell, row),
+    },
   ];
 
   const createNewCo = () => {
-    console.log("create new co");
+    navigate("/customer-order-create");
   };
   const editCo = (e, coId) => {
     console.log("edit co : ", coId);

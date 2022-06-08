@@ -14,6 +14,7 @@ import Part_Remove from "./components/Part_Remove/Part_Remove";
 import Part_File_Upload from "./components/Part_File_Upload/Part_File_Upload";
 import NotFound from "./components/NotFound/NotFound";
 import Customer_Order from "./components/Customer_Order/Customer_Order";
+import CustomerOrder_Create from "./components/CustomerOrder_Create/CustomerOrder_Create";
 import Work_Order from "./components/Work_Order/Work_Order";
 import Operation from "./components/Operation/Operation";
 import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
@@ -37,6 +38,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/customer-order" element={<Customer_Order />} />
+            <Route
+              path="/customer-order-create"
+              element={<CustomerOrder_Create />}
+            />
             <Route path="/work-order" element={<Work_Order />} />
             <Route path="/operation" element={<Operation />} />
             <Route
