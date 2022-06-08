@@ -33,10 +33,7 @@ function App() {
             <Route path="/part-create" element={<Part_Create />} />
             <Route path="/part-edit/:id" element={<Part_Edit />} />
             <Route path="/part-remove/:id" element={<Part_Remove />} />
-            <Route
-              path="/part-file-upload/:id"
-              element={<Part_File_Upload />}
-            />
+            <Route path="/part-file-upload" element={<Part_File_Upload />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/customer-order" element={<Customer_Order />} />

@@ -10,3 +10,12 @@
     color: red;
     font-size: large;
 }
+
+.noImage{
+    color: red;
+    font-size: xx-large;
+}
+.withImage{
+    color: green;
+    font-size: xx-large;
+}

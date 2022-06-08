@@ -6,11 +6,13 @@ import AuthService from "../../services/auth.service";
 import PartService from "../../services/part.service";
 
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 
 const Part_File_Upload = () => {
-  let navigate = useNavigate();
+  const partFilePath = "https://localhost:44359/PartFiles/";
 
-  let { id } = useParams();
+  let navigate = useNavigate();
+  let location = useLocation();
 
   const [selectedFiles, setSelectedFiles] = useState(undefined);
   const [currentFile, setCurrentFile] = useState(undefined);
@@ -19,7 +21,16 @@ const Part_File_Upload = () => {
   const [className, setClassName] = useState("");
 
   const [modelErrors, setModelErrors] = useState([]);
+
+  const partId = location.state.partId;
+  const partFile = location.state.partFile;
+  const partFileLocation = partFilePath + "" + partFile;
+  const partName = location.state.partName;
+
   useEffect(() => {
+    console.log("partId : ", partId);
+    console.log("partFileLocation : ", partFile);
+
     var currRole = AuthService.getCurrentUserRole();
 
     if (currRole === null || (currRole !== null && currRole !== "Admin"))
@@ -65,7 +76,7 @@ const Part_File_Upload = () => {
     let currentFile = selectedFiles[0];
     setProgress(0);
     setCurrentFile(currentFile);
-    PartService.upload(currentFile, id, (event) => {
+    PartService.upload(currentFile, partId, (event) => {
       setProgress(Math.round((100 * event.loaded) / event.total));
     })
       .then((response) => {
@@ -98,7 +109,8 @@ const Part_File_Upload = () => {
     <div className="mainContainer">
       <div className="container">
         <div className="row">
-          <div className="col-md-7 mx-auto">
+          <div className="col-md-1 mx-auto"></div>
+          <div className="col-md-6 mx-auto">
             <div className="card">
               <div className="card-body">
                 <h5>Part File Upload!</h5>
@@ -154,6 +166,25 @@ const Part_File_Upload = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="col-md-4 mx-auto">
+            {partFile !== "N/A" ? (
+              <div className="withImage">
+                Part # {partId}
+                <p></p>
+                Name : {partName}
+                <p></p>
+                <img src={partFileLocation} width="200" height="200" />
+              </div>
+            ) : (
+              <div className="noImage">
+                Part # {partId}
+                <p></p>
+                Name : {partName}
+                <p></p>
+                <span>No Image</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

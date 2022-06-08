@@ -43,6 +43,12 @@ const Part = () => {
     else getAllParts();
   }, []);
 
+  const getPart = (partId) => {
+    return parts.find((part) => {
+      return part.partId === partId;
+    });
+  };
+
   const displayImage = (cell) => {
     var imagePath = partFilePath + cell;
     if (cell === "N/A") return <div className="noImage">N/A</div>;
@@ -139,7 +145,14 @@ const Part = () => {
   };
   const fileUpload = (e, partId) => {
     console.log("file upload : ", partId);
-    navigate("/part-file-upload/" + partId);
+    var part = getPart(partId);
+    navigate("/part-file-upload", {
+      state: {
+        partId: partId,
+        partFile: part.partFile,
+        partName: part.name
+      },
+    });
   };
 
   return (
