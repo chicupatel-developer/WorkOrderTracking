@@ -78,6 +78,12 @@ const CustomerOrder_Create = () => {
         newErrors.orderQty = "Only Numbers are Allowed!";
     }
 
+    if (!orderDate || orderDate === "")
+      newErrors.orderDate = "Order Date is Required!";
+
+    if (!orderDueDate || orderDueDate === "")
+      newErrors.orderDueDate = "Order Due Date is Required!";
+
     return newErrors;
   };
 
@@ -112,6 +118,8 @@ const CustomerOrder_Create = () => {
         productName: form.productName,
         productDesc: form.productDesc,
         orderQty: parseInt(form.orderQty),
+        orderDate: form.orderDate,
+        orderDueDate: form.orderDueDate,
       };
 
       console.log(coModel);
@@ -185,6 +193,7 @@ const CustomerOrder_Create = () => {
                       {errors.productName}
                     </Form.Control.Feedback>
                   </Form.Group>
+                  <p></p>
                   <Form.Group controlId="productDesc">
                     <Form.Label>Product Desc</Form.Label>
                     <Form.Control
@@ -197,6 +206,7 @@ const CustomerOrder_Create = () => {
                       {errors.productDesc}
                     </Form.Control.Feedback>
                   </Form.Group>
+                  <p></p>
                   <Form.Group controlId="orderQty">
                     <Form.Label>Order Qty</Form.Label>
                     <Form.Control
@@ -210,7 +220,34 @@ const CustomerOrder_Create = () => {
                     </Form.Control.Feedback>
                   </Form.Group>
                   <p></p>
-
+                  <Form.Group controlId="orderDate">
+                    <Form.Label>Order Date</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="orderDate"
+                      placeholder="Order Date"
+                      isInvalid={!!errors.orderDate}
+                      onChange={(e) => setField("orderDate", e.target.value)}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.orderDate}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <p></p>
+                  <Form.Group controlId="orderDueDate">
+                    <Form.Label>Order Due Date</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="orderDueDate"
+                      placeholder="Order Due Date"
+                      isInvalid={!!errors.orderDueDate}
+                      onChange={(e) => setField("orderDueDate", e.target.value)}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.orderDueDate}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <p></p>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
