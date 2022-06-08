@@ -80,6 +80,15 @@ const Part = () => {
       </div>
     );
   };
+  const displayDesc = (cell) => {
+    // cell = null;
+    // cell = "";
+    if (cell === null || cell === "") return "N/A";
+    else {
+      if (cell.length > 30) return cell.substring(0, 30) + " ...MORE";
+      else return cell;
+    }
+  };
 
   const columns = [
     {
@@ -97,6 +106,7 @@ const Part = () => {
     {
       dataField: "desc",
       text: "Desc",
+      formatter: (cell) => displayDesc(cell),
     },
     {
       dataField: "qty",
