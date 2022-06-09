@@ -25,5 +25,11 @@ class CustomerOrderService {
       headers: authHeader(),
     });
   };
+
+  removeCustomerOrder = async (data) => {
+    return await http.post(`/removeCustomerOrder`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new CustomerOrderService();

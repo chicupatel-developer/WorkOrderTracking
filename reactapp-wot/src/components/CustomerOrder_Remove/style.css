@@ -1,0 +1,14 @@
+.mainContainer {
+    padding: 50px;
+}
+.coRemoveSuccess {
+    color: green;
+    font-size: large;
+}
+.coRemoveError {
+    color: red;
+    font-size: large;
+}
+.headerText{
+    color: red;
+}

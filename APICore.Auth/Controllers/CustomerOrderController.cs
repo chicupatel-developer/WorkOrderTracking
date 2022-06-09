@@ -127,6 +127,29 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
+
+        [HttpPost]
+        [Route("removeCustomerOrder")]
+        public IActionResult RemoveCustomerOrder(CustomerOrder co)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+                _custOrderRepo.DeleteCustomerOrder(co.CustomerOrderId);
+                _response.ResponseCode = 0;
+                _response.ResponseMessage = "Customer-Order Removed Successfully!";
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
+
+
     }
 }
 
