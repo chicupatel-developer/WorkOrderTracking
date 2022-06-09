@@ -15,6 +15,7 @@ import Part_File_Upload from "./components/Part_File_Upload/Part_File_Upload";
 import NotFound from "./components/NotFound/NotFound";
 import Customer_Order from "./components/Customer_Order/Customer_Order";
 import CustomerOrder_Create from "./components/CustomerOrder_Create/CustomerOrder_Create";
+import CustomerOrder_Edit from "./components/CustomerOrder_Edit/CustomerOrder_Edit";
 import Work_Order from "./components/Work_Order/Work_Order";
 import Operation from "./components/Operation/Operation";
 import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
@@ -41,6 +42,10 @@ function App() {
             <Route
               path="/customer-order-create"
               element={<CustomerOrder_Create />}
+            />
+            <Route
+              path="/customer-order-edit/:id"
+              element={<CustomerOrder_Edit />}
             />
             <Route path="/work-order" element={<Work_Order />} />
             <Route path="/operation" element={<Operation />} />

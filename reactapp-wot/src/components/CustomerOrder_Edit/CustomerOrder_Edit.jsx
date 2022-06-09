@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import "./style.css";
 
 import Form from "react-bootstrap/Form";
@@ -11,15 +12,22 @@ import { useNavigate } from "react-router";
 
 import Moment from "moment";
 
-const CustomerOrder_Create = () => {
+const CustomerOrder_Edit = () => {
   let navigate = useNavigate();
+
+  let { id } = useParams();
 
   const [modelErrors, setModelErrors] = useState([]);
 
-  const [coCreateResponse, setCoCreateResponse] = useState({});
+  const [coEditResponse, setCoEditResponse] = useState({});
 
   // form
-  const [form, setForm] = useState({});
+  const [customerName, setCustomerName] = useState("");
+  const [productName, setProductName] = useState("");
+  const [productDesc, setProductDesc] = useState("");
+  const [orderQty, setOrderQty] = useState(0);
+  const [orderDate, setOrderDate] = useState("");
+  const [orderDueDate, setOrderDueDate] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -27,23 +35,89 @@ const CustomerOrder_Create = () => {
 
     if (currRole === null || (currRole !== null && currRole !== "Admin"))
       navigate("/un-auth");
+    else getCustomerOrder(id);
   }, []);
+
+  const getCustomerOrder = (id) => {
+    console.log("Editing Customer-Order : ", id);
+    if (checkForNumbersOnly(id)) {
+      CustomerOrderService.getCustomerOrder(id)
+        .then((response) => {
+          if (response.data === "") {
+            // data not found on server!
+            var coEditResponse = {
+              responseCode: -1,
+              responseMessage: "Customer-Order Not Found!",
+            };
+
+            setCoEditResponse(coEditResponse);
+          } else {
+            console.log(response.data);
+
+            setCustomerName(response.data.customerName);
+            setProductName(response.data.productName);
+            setProductDesc(response.data.productDesc);
+            setOrderQty(response.data.orderQuantity);
+            setOrderDate(response.data.orderDate);
+            setOrderDueDate(response.data.orderDueDate);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else navigate("/customer-order");
+  };
 
   // reset form
   // form reference
   const formRef = useRef(null);
 
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    });
-
-    // Check and see if errors exist, and remove them from the error object:
-    if (!!errors[field])
+  const handleCustomerName = (event) => {
+    setCustomerName(event.target.value);
+    if (!errors[customerName])
       setErrors({
         ...errors,
-        [field]: null,
+        customerName: "",
+      });
+  };
+  const handleProductName = (event) => {
+    setProductName(event.target.value);
+    if (!errors[productName])
+      setErrors({
+        ...errors,
+        productName: "",
+      });
+  };
+  const handleProductDesc = (event) => {
+    setProductDesc(event.target.value);
+    if (!errors[productDesc])
+      setErrors({
+        ...errors,
+        productDesc: "",
+      });
+  };
+  const handleOrderQty = (event) => {
+    setOrderQty(event.target.value);
+    if (!errors[orderQty])
+      setErrors({
+        ...errors,
+        orderQty: "",
+      });
+  };
+  const handleOrderDate = (event) => {
+    setOrderDate(event.target.value);
+    if (!errors[orderDate])
+      setErrors({
+        ...errors,
+        orderDate: "",
+      });
+  };
+  const handleOrderDueDate = (event) => {
+    setOrderDueDate(event.target.value);
+    if (!errors[orderDueDate])
+      setErrors({
+        ...errors,
+        orderDueDate: "",
       });
   };
 
@@ -54,14 +128,6 @@ const CustomerOrder_Create = () => {
   };
 
   const findFormErrors = () => {
-    const {
-      customerName,
-      productName,
-      productDesc,
-      orderQty,
-      orderDate,
-      orderDueDate,
-    } = form;
     const newErrors = {};
 
     if (!customerName || customerName === "")
@@ -91,13 +157,16 @@ const CustomerOrder_Create = () => {
 
     if (orderDueDate < orderDate)
       newErrors.orderDueDate = "Order-Due-Date Must be >= Order-Date!";
-  
+
     return newErrors;
   };
 
   const handleModelState = (error) => {
     var errors = [];
     if (error.response.status === 400) {
+      // console.log(error.response.data);
+
+      // for (let prop in error.response.data.errors) {
       for (let prop in error.response.data) {
         if (error.response.data[prop].length > 1) {
           for (let error_ in error.response.data[prop]) {
@@ -121,63 +190,29 @@ const CustomerOrder_Create = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      var oDate = Moment(form.orderDate);
+      var oDate = Moment(orderDate);
       var oCheck = oDate.isValid();
-      var odDate = Moment(form.orderDueDate);
+      var odDate = Moment(orderDueDate);
       var odCheck = odDate.isValid();
       if (oCheck && odCheck) {
         var coModel = {
-          customerName: form.customerName,
-          productName: form.productName,
-          productDesc: form.productDesc,
-          orderQuantity: parseInt(form.orderQty),
-          orderDate: form.orderDate,
-          orderDueDate: form.orderDueDate,
+          customerName: customerName,
+          productName: productName,
+          productDesc: productDesc,
+          orderQuantity: parseInt(orderQty),
+          orderDate: orderDate,
+          orderDueDate: orderDueDate,
+          customerOrderId: parseInt(id),
         };
 
         console.log(coModel);
-
-        // api call
-        CustomerOrderService.createCustomerOrder(coModel)
-          .then((response) => {
-            setModelErrors([]);
-            setCoCreateResponse({});
-            console.log(response.data);
-
-            var coCreateResponse = {
-              responseCode: response.data.responseCode,
-              responseMessage: response.data.responseMessage,
-            };
-            if (response.data.responseCode === 0) {
-              resetForm();
-              setCoCreateResponse(coCreateResponse);
-
-              setTimeout(() => {
-                navigate("/customer-order");
-              }, 3000);
-            } else if (response.data.responseCode === -1) {
-              setCoCreateResponse(coCreateResponse);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-            setModelErrors([]);
-            setCoCreateResponse({});
-            // 400
-            // ModelState
-            if (error.response.status === 400) {
-              console.log("400 !");
-              var modelErrors = handleModelState(error);
-              setModelErrors(modelErrors);
-            }
-          });
       } else {
         console.log("Invalid Date(s) !");
-        var coCreateResponse = {
+        var coEditResponse = {
           responseCode: -1,
           responseMessage: "Invalid Date(s) !",
         };
-        setCoCreateResponse(coCreateResponse);
+        setCoEditResponse(coEditResponse);
         setModelErrors([]);
       }
     }
@@ -186,8 +221,13 @@ const CustomerOrder_Create = () => {
   const resetForm = (e) => {
     formRef.current.reset();
     setErrors({});
-    setForm({});
-    setCoCreateResponse({});
+    setCustomerName("");
+    setProductName("");
+    setProductDesc("");
+    setOrderQty(0);
+    setOrderDate(undefined);
+    setOrderDueDate(undefined);
+    setCoEditResponse({});
     setModelErrors([]);
   };
 
@@ -205,18 +245,18 @@ const CustomerOrder_Create = () => {
     <div className="mainContainer">
       <div className="container">
         <div className="row">
-          <div className="col-md-9 mx-auto">
+          <div className="col-md-10 mx-auto">
             <div className="card">
               <div className="card-header">
-                <h3>Create New Customer-Order</h3>
+                <h3>Edit Part</h3>
                 <p></p>{" "}
-                {coCreateResponse && coCreateResponse.responseCode === -1 ? (
-                  <span className="coCreateError">
-                    {coCreateResponse.responseMessage}
+                {coEditResponse && coEditResponse.responseCode === -1 ? (
+                  <span className="coEditError">
+                    {coEditResponse.responseMessage}
                   </span>
                 ) : (
-                  <span className="coCreateSuccess">
-                    {coCreateResponse.responseMessage}
+                  <span className="coEditSuccess">
+                    {coEditResponse.responseMessage}
                   </span>
                 )}
                 {modelErrors.length > 0 ? (
@@ -232,11 +272,10 @@ const CustomerOrder_Create = () => {
                       <Form.Group controlId="customerName">
                         <Form.Label>Customer Name</Form.Label>
                         <Form.Control
+                          value={customerName}
                           type="text"
                           isInvalid={!!errors.customerName}
-                          onChange={(e) =>
-                            setField("customerName", e.target.value)
-                          }
+                          onChange={(e) => handleCustomerName(e)}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.customerName}
@@ -246,11 +285,10 @@ const CustomerOrder_Create = () => {
                       <Form.Group controlId="productName">
                         <Form.Label>Product Name</Form.Label>
                         <Form.Control
+                          value={productName}
                           type="text"
                           isInvalid={!!errors.productName}
-                          onChange={(e) =>
-                            setField("productName", e.target.value)
-                          }
+                          onChange={(e) => handleProductName(e)}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.productName}
@@ -260,12 +298,11 @@ const CustomerOrder_Create = () => {
                       <Form.Group controlId="productDesc">
                         <Form.Label>Product Desc</Form.Label>
                         <Form.Control
+                          value={productDesc}
                           as="textarea"
                           rows="3"
                           isInvalid={!!errors.productDesc}
-                          onChange={(e) =>
-                            setField("productDesc", e.target.value)
-                          }
+                          onChange={(e) => handleProductDesc(e)}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.productDesc}
@@ -277,10 +314,11 @@ const CustomerOrder_Create = () => {
                       <Form.Group controlId="orderQty">
                         <Form.Label>Order Qty</Form.Label>
                         <Form.Control
+                          value={orderQty}
                           className="qtyDisplay"
                           type="text"
                           isInvalid={!!errors.orderQty}
-                          onChange={(e) => setField("orderQty", e.target.value)}
+                          onChange={(e) => handleOrderQty(e)}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.orderQty}
@@ -292,11 +330,9 @@ const CustomerOrder_Create = () => {
                         <Form.Control
                           type="date"
                           name="orderDate"
-                          placeholder="Order Date"
+                          value={orderDate}
                           isInvalid={!!errors.orderDate}
-                          onChange={(e) =>
-                            setField("orderDate", e.target.value)
-                          }
+                          onChange={(e) => handleOrderDate(e)}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.orderDate}
@@ -308,11 +344,9 @@ const CustomerOrder_Create = () => {
                         <Form.Control
                           type="date"
                           name="orderDueDate"
-                          placeholder="Order Due Date"
+                          value={orderDueDate}
                           isInvalid={!!errors.orderDueDate}
-                          onChange={(e) =>
-                            setField("orderDueDate", e.target.value)
-                          }
+                          onChange={(e) => handleOrderDueDate(e)}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.orderDueDate}
@@ -330,7 +364,7 @@ const CustomerOrder_Create = () => {
                       type="button"
                       onClick={(e) => handleSubmit(e)}
                     >
-                      Create Customer-Order
+                      Edit Customer-Order
                     </Button>
                     <Button
                       className="btn btn-primary"
@@ -349,4 +383,4 @@ const CustomerOrder_Create = () => {
     </div>
   );
 };
-export default CustomerOrder_Create;
+export default CustomerOrder_Edit;

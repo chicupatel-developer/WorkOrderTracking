@@ -86,6 +86,15 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
+
+        [HttpGet]
+        [Route("getCustomerOrder/{selectedCoId}")]
+        public IActionResult GetCustomerOrder(int selectedCoId)
+        {
+            var co = _custOrderRepo.GetCustomerOrder(selectedCoId);
+            return Ok(co);
+        }
     }
 }
 

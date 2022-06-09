@@ -13,5 +13,11 @@ class CustomerOrderService {
       headers: authHeader(),
     });
   };
+
+  getCustomerOrder = async (coId) => {
+    return await http.get(`/getCustomerOrder/${coId}`, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new CustomerOrderService();
