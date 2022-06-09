@@ -9,6 +9,8 @@ import CustomerOrderService from "../../services/customerOrder.service";
 
 import { useNavigate } from "react-router";
 
+import Moment from "moment";
+
 const CustomerOrder_Create = () => {
   let navigate = useNavigate();
 
@@ -62,6 +64,7 @@ const CustomerOrder_Create = () => {
     } = form;
     const newErrors = {};
 
+    /*
     if (!customerName || customerName === "")
       newErrors.customerName = "Customer Name is Required!";
 
@@ -84,6 +87,12 @@ const CustomerOrder_Create = () => {
     if (!orderDueDate || orderDueDate === "")
       newErrors.orderDueDate = "Order Due Date is Required!";
 
+    if (orderDate > orderDueDate)
+      newErrors.orderDate = "Order-Date Must be < Order-Due-Date!";
+
+    if (orderDueDate < orderDate)
+      newErrors.orderDueDate = "Order-Due-Date Must be >= Order-Date!";
+    */
     return newErrors;
   };
 
@@ -113,38 +122,65 @@ const CustomerOrder_Create = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      var coModel = {
-        customerName: form.customerName,
-        productName: form.productName,
-        productDesc: form.productDesc,
-        orderQuantity: parseInt(form.orderQty),
-        orderDate: form.orderDate,
-        orderDueDate: form.orderDueDate,
-      };
+      var oDate = Moment(form.orderDate);
+      var oCheck = oDate.isValid();
+      var odDate = Moment(form.orderDueDate);
+      var odCheck = odDate.isValid();
+      if (oCheck && odCheck) {
+        var coModel = {
+          customerName: form.customerName,
+          productName: form.productName,
+          productDesc: form.productDesc,
+          orderQuantity: parseInt(form.orderQty),
+          orderDate: form.orderDate,
+          orderDueDate: form.orderDueDate,
+        };
 
-      console.log(coModel);
+        console.log(coModel);
 
-      // api call
-      CustomerOrderService.createCustomerOrder(coModel)
-        .then((response) => {
-          setModelErrors([]);
-          setCoCreateResponse({});
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-          setModelErrors([]);
-          setCoCreateResponse({});
-          // 400
-          // ModelState
-          if (error.response.status === 400) {
-            console.log("400 !");
-            var modelErrors = handleModelState(error);
-            setModelErrors(modelErrors);
+        // api call
+        CustomerOrderService.createCustomerOrder(coModel)
+          .then((response) => {
+            setModelErrors([]);
+            setCoCreateResponse({});
+            console.log(response.data);
 
-            console.log(modelErrors);
-          }
-        });
+            var coCreateResponse = {
+              responseCode: response.data.responseCode,
+              responseMessage: response.data.responseMessage,
+            };
+            if (response.data.responseCode === 0) {
+              resetForm();
+              setCoCreateResponse(coCreateResponse);
+
+              setTimeout(() => {
+                navigate("/customer-order");
+              }, 3000);
+            } else if (response.data.responseCode === -1) {
+              setCoCreateResponse(coCreateResponse);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setModelErrors([]);
+            setCoCreateResponse({});
+            // 400
+            // ModelState
+            if (error.response.status === 400) {
+              console.log("400 !");
+              var modelErrors = handleModelState(error);
+              setModelErrors(modelErrors);
+            }
+          });
+      } else {
+        console.log("Invalid Date(s) !");
+        var coCreateResponse = {
+          responseCode: -1,
+          responseMessage: "Invalid Date(s) !",
+        };
+        setCoCreateResponse(coCreateResponse);
+        setModelErrors([]);
+      }
     }
   };
 

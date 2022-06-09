@@ -52,9 +52,7 @@ namespace APICore.Auth.Controllers
                 return BadRequest("Server Error!");
             }
         }
-
-
-       
+               
         [HttpPost]
         [Route("createCustomerOrder")]
         public IActionResult CreateCustomerOrder(CustomerOrder co)
