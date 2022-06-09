@@ -95,6 +95,38 @@ namespace APICore.Auth.Controllers
             var co = _custOrderRepo.GetCustomerOrder(selectedCoId);
             return Ok(co);
         }
+        [HttpPost]
+        [Route("editCustomerOrder")]
+        public IActionResult EditCustomerOrder(CustomerOrder co)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+                if (ModelState.IsValid)
+                {
+                    if (co.OrderDueDate < co.OrderDate)
+                    {
+                        ModelState.AddModelError("OrderDueDate", "Order-Due-Date Must be >= Order-Date !");
+                        return BadRequest(ModelState);
+                    }
+
+                    _custOrderRepo.EditCustomerOrder(co);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Customer-Order Edited Successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
     }
 }
 

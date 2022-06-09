@@ -58,8 +58,14 @@ const CustomerOrder_Edit = () => {
             setProductName(response.data.productName);
             setProductDesc(response.data.productDesc);
             setOrderQty(response.data.orderQuantity);
-            setOrderDate(response.data.orderDate);
-            setOrderDueDate(response.data.orderDueDate);
+
+            // convert c# date into react-bootstrap-date picker date format
+            setOrderDate(
+              new Date(response.data.orderDate).toISOString().slice(0, 10)
+            );
+            setOrderDueDate(
+              new Date(response.data.orderDueDate).toISOString().slice(0, 10)
+            );
           }
         })
         .catch((e) => {
@@ -130,6 +136,7 @@ const CustomerOrder_Edit = () => {
   const findFormErrors = () => {
     const newErrors = {};
 
+    /*
     if (!customerName || customerName === "")
       newErrors.customerName = "Customer Name is Required!";
 
@@ -157,6 +164,7 @@ const CustomerOrder_Edit = () => {
 
     if (orderDueDate < orderDate)
       newErrors.orderDueDate = "Order-Due-Date Must be >= Order-Date!";
+    */
 
     return newErrors;
   };
@@ -206,6 +214,37 @@ const CustomerOrder_Edit = () => {
         };
 
         console.log(coModel);
+
+        // api call
+        CustomerOrderService.editCustomerOrder(coModel)
+          .then((response) => {
+            console.log(response.data);
+            setModelErrors([]);
+            setCoEditResponse({});
+            var coEditResponse = {
+              responseCode: response.data.responseCode,
+              responseMessage: response.data.responseMessage,
+            };
+
+            resetForm();
+            setCoEditResponse(coEditResponse);
+            if (response.data.responseCode === 0) {
+              setTimeout(() => {
+                navigate("/customer-order");
+              }, 3000);
+            }
+          })
+          .catch((error) => {
+            setModelErrors([]);
+            setCoEditResponse({});
+            // 400
+            // ModelState
+            if (error.response.status === 400) {
+              console.log("400 !");
+              var modelErrors = handleModelState(error);
+              setModelErrors(modelErrors);
+            }
+          });
       } else {
         console.log("Invalid Date(s) !");
         var coEditResponse = {
@@ -225,8 +264,8 @@ const CustomerOrder_Edit = () => {
     setProductName("");
     setProductDesc("");
     setOrderQty(0);
-    setOrderDate(undefined);
-    setOrderDueDate(undefined);
+    setOrderDate("");
+    setOrderDueDate("");
     setCoEditResponse({});
     setModelErrors([]);
   };
@@ -248,7 +287,7 @@ const CustomerOrder_Edit = () => {
           <div className="col-md-10 mx-auto">
             <div className="card">
               <div className="card-header">
-                <h3>Edit Part</h3>
+                <h3>Edit Customer-Order # {id}</h3>
                 <p></p>{" "}
                 {coEditResponse && coEditResponse.responseCode === -1 ? (
                   <span className="coEditError">
