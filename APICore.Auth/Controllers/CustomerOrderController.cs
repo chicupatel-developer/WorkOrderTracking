@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace APICore.Auth.Controllers
 {
@@ -20,6 +21,7 @@ namespace APICore.Auth.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerOrderController : ControllerBase
+    // public class CustomerOrderController : Controller
     {
         // file upload location settings from appsettings.json
         private readonly IConfiguration _configuration;
@@ -49,6 +51,42 @@ namespace APICore.Auth.Controllers
             {
                 return BadRequest("Server Error!");
             }
+        }
+
+
+       
+        [HttpPost]
+        [Route("createCustomerOrder")]
+        public IActionResult CreateCustomerOrder(CustomerOrder co)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                if (ModelState.IsValid)
+                {                    
+                    if (co.OrderDueDate < co.OrderDate)
+                    {
+                        ModelState.AddModelError("OrderDueDate", "Order-Due-Date Must be >= Order-Date !");
+                        return BadRequest(ModelState);
+                    }                
+                 
+                    _custOrderRepo.AddCustomerOrder(co);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Customer-Order Added Successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
         }
     }
 }

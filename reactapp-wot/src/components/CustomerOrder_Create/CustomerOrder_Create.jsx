@@ -117,12 +117,34 @@ const CustomerOrder_Create = () => {
         customerName: form.customerName,
         productName: form.productName,
         productDesc: form.productDesc,
-        orderQty: parseInt(form.orderQty),
+        orderQuantity: parseInt(form.orderQty),
         orderDate: form.orderDate,
         orderDueDate: form.orderDueDate,
       };
 
       console.log(coModel);
+
+      // api call
+      CustomerOrderService.createCustomerOrder(coModel)
+        .then((response) => {
+          setModelErrors([]);
+          setCoCreateResponse({});
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          setModelErrors([]);
+          setCoCreateResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+
+            console.log(modelErrors);
+          }
+        });
     }
   };
 
@@ -148,7 +170,7 @@ const CustomerOrder_Create = () => {
     <div className="mainContainer">
       <div className="container">
         <div className="row">
-          <div className="col-md-5 mx-auto">
+          <div className="col-md-9 mx-auto">
             <div className="card">
               <div className="card-header">
                 <h3>Create New Customer-Order</h3>
@@ -170,83 +192,100 @@ const CustomerOrder_Create = () => {
               </div>
               <div className="card-body">
                 <Form ref={formRef}>
-                  <Form.Group controlId="customerName">
-                    <Form.Label>Customer Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      isInvalid={!!errors.customerName}
-                      onChange={(e) => setField("customerName", e.target.value)}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.customerName}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <p></p>
-                  <Form.Group controlId="productName">
-                    <Form.Label>Product Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      isInvalid={!!errors.productName}
-                      onChange={(e) => setField("productName", e.target.value)}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.productName}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <p></p>
-                  <Form.Group controlId="productDesc">
-                    <Form.Label>Product Desc</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows="3"
-                      isInvalid={!!errors.productDesc}
-                      onChange={(e) => setField("productDesc", e.target.value)}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.productDesc}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <p></p>
-                  <Form.Group controlId="orderQty">
-                    <Form.Label>Order Qty</Form.Label>
-                    <Form.Control
-                      className="qtyDisplay"
-                      type="text"
-                      isInvalid={!!errors.orderQty}
-                      onChange={(e) => setField("orderQty", e.target.value)}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.orderQty}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <p></p>
-                  <Form.Group controlId="orderDate">
-                    <Form.Label>Order Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="orderDate"
-                      placeholder="Order Date"
-                      isInvalid={!!errors.orderDate}
-                      onChange={(e) => setField("orderDate", e.target.value)}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.orderDate}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <p></p>
-                  <Form.Group controlId="orderDueDate">
-                    <Form.Label>Order Due Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="orderDueDate"
-                      placeholder="Order Due Date"
-                      isInvalid={!!errors.orderDueDate}
-                      onChange={(e) => setField("orderDueDate", e.target.value)}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.orderDueDate}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                  <div className="row">
+                    <div className="col-md-6 mx-auto">
+                      <Form.Group controlId="customerName">
+                        <Form.Label>Customer Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          isInvalid={!!errors.customerName}
+                          onChange={(e) =>
+                            setField("customerName", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.customerName}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="productName">
+                        <Form.Label>Product Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          isInvalid={!!errors.productName}
+                          onChange={(e) =>
+                            setField("productName", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.productName}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="productDesc">
+                        <Form.Label>Product Desc</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows="3"
+                          isInvalid={!!errors.productDesc}
+                          onChange={(e) =>
+                            setField("productDesc", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.productDesc}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </div>
+                    <div className="col-md-1 mx-auto"></div>
+                    <div className="col-md-5 mx-auto">
+                      <Form.Group controlId="orderQty">
+                        <Form.Label>Order Qty</Form.Label>
+                        <Form.Control
+                          className="qtyDisplay"
+                          type="text"
+                          isInvalid={!!errors.orderQty}
+                          onChange={(e) => setField("orderQty", e.target.value)}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.orderQty}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="orderDate">
+                        <Form.Label>Order Date</Form.Label>
+                        <Form.Control
+                          type="date"
+                          name="orderDate"
+                          placeholder="Order Date"
+                          isInvalid={!!errors.orderDate}
+                          onChange={(e) =>
+                            setField("orderDate", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.orderDate}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="orderDueDate">
+                        <Form.Label>Order Due Date</Form.Label>
+                        <Form.Control
+                          type="date"
+                          name="orderDueDate"
+                          placeholder="Order Due Date"
+                          isInvalid={!!errors.orderDueDate}
+                          onChange={(e) =>
+                            setField("orderDueDate", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.orderDueDate}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </div>
+                  </div>
+
                   <p></p>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}

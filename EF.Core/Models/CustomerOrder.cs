@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace EF.Core.Models
 {
     public class CustomerOrder
@@ -33,7 +32,7 @@ namespace EF.Core.Models
         [Required(ErrorMessage = "Order Date is Required!")]
         [Display(Name = "Order Date")]
         [DataType(DataType.Date)]
-        // [Remote(action: "VerifyOrderDate", controller: "CustomerOrder")]
+        [Remote(action: "VerifyOrderDate", controller: "CustomerOrder")]
         public DateTime? OrderDate
         {
             get; set;
@@ -43,7 +42,7 @@ namespace EF.Core.Models
         [Required(ErrorMessage = "Order Due Date is Required!")]
         [Display(Name = "Order Due Date")]
         [DataType(DataType.Date)]
-        [Remote(action: "VerifyOrderDueDate", controller: "CustomerOrder", AdditionalFields = nameof(OrderDate))]
+        [Remote(action: "VerifyOrderDueDate", controller: "CustomerOrder", AdditionalFields = nameof(OrderDate))]        
         public DateTime? OrderDueDate { get; set; }
 
         public WorkOrder WorkOrder { get; set; }

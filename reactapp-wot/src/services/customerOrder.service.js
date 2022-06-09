@@ -7,5 +7,11 @@ class CustomerOrderService {
       headers: authHeader(),
     });
   };
+
+  createCustomerOrder = async (data) => {
+    return await http.post(`/createCustomerOrder`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new CustomerOrderService();
