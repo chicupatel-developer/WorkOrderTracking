@@ -26,6 +26,7 @@ const Customer_Order = () => {
         console.log(e);
         if (e.response.status === 401) {
           console.log("Token Not Found!");
+          AuthService.logout();
           navigate("/login");
         }
       });
@@ -64,6 +65,13 @@ const Customer_Order = () => {
           onClick={(e) => removeCo(e, row.customerOrderId)}
         >
           <i className="bi bi-trash"></i>
+        </Button>{" "}
+        <Button
+          className="btn btn-warning"
+          type="button"
+          onClick={(e) => coProgressReport(e, row.customerOrderId)}
+        >
+          <i className="bi-arrow-repeat"></i>
         </Button>
       </div>
     );
@@ -121,6 +129,9 @@ const Customer_Order = () => {
   const removeCo = (e, coId) => {
     console.log("remove co : ", coId);
     navigate("/customer-order-remove/" + coId);
+  };
+  const coProgressReport = (e, coId) => {
+    navigate("/customer-order-progress-text-report/" + coId);
   };
 
   return (

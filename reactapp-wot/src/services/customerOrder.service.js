@@ -31,5 +31,11 @@ class CustomerOrderService {
       headers: authHeader(),
     });
   };
+
+  getCustomerOrderProgressTextReport = async (coId) => {
+    return await http.get(`/getCustomerOrderProgressTextReport/${coId}`, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new CustomerOrderService();

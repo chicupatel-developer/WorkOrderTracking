@@ -30,6 +30,7 @@ const Part = () => {
         console.log(e);
         if (e.response.status === 401) {
           console.log("Token Not Found!");
+          AuthService.logout();
           navigate("/login");
         }
       });
@@ -150,7 +151,7 @@ const Part = () => {
       state: {
         partId: partId,
         partFile: part.partFile,
-        partName: part.name
+        partName: part.name,
       },
     });
   };

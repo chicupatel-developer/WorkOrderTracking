@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 namespace APICore.Auth.Controllers
 {
 
-    [Authorize("Admin")]
+    // [Authorize("Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerOrderController : ControllerBase
@@ -149,7 +149,20 @@ namespace APICore.Auth.Controllers
             return Ok(_response);
         }
 
-
+        [HttpGet]
+        [Route("getCustomerOrderProgressTextReport/{selectedCoId}")]
+        public IActionResult GetCustomerOrderProgressTextReport(int selectedCoId)
+        {
+            try
+            {
+                var coprd = _custOrderRepo.GetCustomerOrderProgressReport(selectedCoId);
+                return Ok(coprd);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
 
