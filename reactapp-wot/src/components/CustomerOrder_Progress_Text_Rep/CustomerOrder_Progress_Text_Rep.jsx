@@ -146,7 +146,40 @@ const CustomerOrder_Progress_Text_Rep = () => {
                   <div className="card-header">
                     <h4>Operations</h4>
                   </div>
-                  <div className="card-body opBody"></div>
+                  <div className="card-body opBody">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>OP Number</th>
+                          <th>Details</th>
+                          <th>Op Status</th>
+                          <th>Op Start Date</th>
+                          <th>QTY Done</th>
+                          <th>QTY Required</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {reportData.operationDatas.map((data, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{data.operation.operationId}</td>
+                              <td>{data.operation.operationNumber}</td>
+                              <td>{data.operation.details}</td>
+                              <td>{data.operation.operationStatus}</td>
+                              <td>
+                                {Moment(
+                                  data.operation.operationStartDate
+                                ).format("DD-MMM-YYYY")}
+                              </td>
+                              <td>{data.operation.opQTYDone}</td>
+                              <td>{data.operation.opQTYRequired}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               ) : (
                 <div>Operations Not Found!</div>
