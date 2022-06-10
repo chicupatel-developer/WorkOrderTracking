@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./style.css";
 import AuthService from "../../services/auth.service";
+import { getWorkOrderStatus, getDaysLeft } from "../../services/local.service";
 import CustomerOrderService from "../../services/customerOrder.service";
 import { useNavigate } from "react-router-dom";
 
@@ -46,62 +47,112 @@ const CustomerOrder_Progress_Text_Rep = () => {
       <hr />
 
       {reportData.customerOrder ? (
-        <div className="row">
-          <div className="col-md-1 mx-auto"></div>
-          <div className="col-md-5 mx-auto">
-            <div className="card">
-              <div className="card-header">
-                <h4>Customer-Order</h4>
-              </div>
-              <div className="card-body coBody">
-                Customer-Order # {reportData.customerOrder.customerOrderId}
-                <br />
-                Name : {reportData.customerOrder.customerName}
-                <br />
-                Order Qty : {reportData.customerOrder.orderQuantity}
-                <br />
-                Order Date :{" "}
-                {Moment(reportData.customerOrder.orderDate).format(
-                  "DD-MMM-YYYY"
-                )}
-                <br />
-                Order Due Date :{" "}
-                {Moment(reportData.customerOrder.orderDueDate).format(
-                  "DD-MMM-YYYY"
-                )}
-                <br />
-                Days Left #
-              </div>
-            </div>
-          </div>
-          <div className="col-md-5 mx-auto">
-            {reportData.workOrder ? (
+        <div>
+          <div className="row">
+            <div className="col-md-1 mx-auto"></div>
+            <div className="col-md-5 mx-auto">
               <div className="card">
                 <div className="card-header">
-                  <h4>Work-Order</h4>
+                  <h4>Customer-Order</h4>
                 </div>
                 <div className="card-body coBody">
-                  Work-Order # {reportData.workOrder.workOrderId}
+                  Customer-Order #{" "}
+                  <b>{reportData.customerOrder.customerOrderId}</b>
                   <br />
-                  Work-Order Status : {reportData.workOrder.workOrderStatus}
+                  Name : {reportData.customerOrder.customerName}
                   <br />
-                  Work-Order Start Date :{" "}
-                  {reportData.workOrder.workOrderStartDate ? (
-                    <span>
-                      {Moment(reportData.workOrder.workOrderStartDate).format(
+                  Order Qty : {reportData.customerOrder.orderQuantity}
+                  <br />
+                  Order Date :{" "}
+                  <span className="date">
+                    {Moment(reportData.customerOrder.orderDate).format(
+                      "DD-MMM-YYYY"
+                    )}
+                  </span>
+                  <br />
+                  Order Due Date :{" "}
+                  <span className="date">
+                    {Moment(reportData.customerOrder.orderDueDate).format(
+                      "DD-MMM-YYYY"
+                    )}
+                  </span>
+                  <br />
+                  Days Left #{" "}
+                  <span className="daysLeft">
+                    {getDaysLeft(
+                      Moment(reportData.customerOrder.orderDueDate).format(
                         "DD-MMM-YYYY"
-                      )}
-                    </span>
-                  ) : (
-                    <span>N/A</span>
-                  )}
+                      ),
+                      Moment(reportData.customerOrder.orderDate).format(
+                        "DD-MMM-YYYY"
+                      )
+                    )}
+                  </span>
                 </div>
               </div>
-            ) : (
-              <span>Work-Order Not Found !</span>
-            )}
+            </div>
+            <div className="col-md-5 mx-auto">
+              {reportData.workOrder ? (
+                <div className="card">
+                  <div className="card-header">
+                    <h4>Work-Order</h4>
+                  </div>
+                  <div className="card-body coBody">
+                    Work-Order # <b>{reportData.workOrder.workOrderId}</b>
+                    <br />
+                    Work-Order Status :{" "}
+                    {getWorkOrderStatus(
+                      reportData.workOrder.workOrderStatus
+                    ) === "Completed" ? (
+                      <span className="completedWos">
+                        {getWorkOrderStatus(
+                          reportData.workOrder.workOrderStatus
+                        )}
+                      </span>
+                    ) : (
+                      <span className="otherWos">
+                        {getWorkOrderStatus(
+                          reportData.workOrder.workOrderStatus
+                        )}
+                      </span>
+                    )}
+                    <p></p>
+                    Work-Order Start Date :{" "}
+                    {reportData.workOrder.workOrderStartDate ? (
+                      <span className="date">
+                        {Moment(reportData.workOrder.workOrderStartDate).format(
+                          "DD-MMM-YYYY"
+                        )}
+                      </span>
+                    ) : (
+                      <span>N/A</span>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <span>Work-Order Not Found !</span>
+              )}
+            </div>
+            <div className="col-md-1 mx-auto"></div>
           </div>
-          <div className="col-md-1 mx-auto"></div>
+
+          <p></p>
+          <div className="row">
+            <div className="col-md-1 mx-auto"></div>
+            <div className="col-md-11 mx-auto">
+              {reportData.operationDatas &&
+              reportData.operationDatas.length > 0 ? (
+                <div className="card">
+                  <div className="card-header">
+                    <h4>Operations</h4>
+                  </div>
+                  <div className="card-body opBody"></div>
+                </div>
+              ) : (
+                <div>Operations Not Found!</div>
+              )}
+            </div>
+          </div>
         </div>
       ) : (
         <span>Customer-Order Not Found !</span>
