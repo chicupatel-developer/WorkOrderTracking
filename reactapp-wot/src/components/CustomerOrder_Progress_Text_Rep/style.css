@@ -3,7 +3,11 @@
     color: darkolivegreen;
     font-size: xx-large;
     font-weight: bold;
-
+}
+.coBody{
+    background-color: lightskyblue;
+    color: white;
+    font-size: large;
 }
 
 
