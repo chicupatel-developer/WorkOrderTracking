@@ -81,7 +81,6 @@ const Customer_Order = () => {
       dataField: "customerOrderId",
       text: "#",
       sort: true,
-      style: { width: "80" },
     },
     {
       dataField: "customerName",

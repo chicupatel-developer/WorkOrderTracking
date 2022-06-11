@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./style.css";
 import AuthService from "../../services/auth.service";
-import { getWorkOrderStatus, getDaysLeft } from "../../services/local.service";
+import {
+  getWorkOrderStatus,
+  getDaysLeft,
+  getOperationStatus,
+  getOperationNumber,
+} from "../../services/local.service";
 import CustomerOrderService from "../../services/customerOrder.service";
 import { useNavigate } from "react-router-dom";
 
-import Button from "react-bootstrap/Button";
+import { Table, Button } from "react-bootstrap";
 
 import Moment from "moment";
 
@@ -130,7 +135,7 @@ const CustomerOrder_Progress_Text_Rep = () => {
                   </div>
                 </div>
               ) : (
-                <span>Work-Order Not Found !</span>
+                <span className="noContent">Work-Order Not Found !</span>
               )}
             </div>
             <div className="col-md-1 mx-auto"></div>
@@ -147,9 +152,10 @@ const CustomerOrder_Progress_Text_Rep = () => {
                     <h4>Operations</h4>
                   </div>
                   <div className="card-body opBody">
-                    <table>
+                    <Table striped hover variant="light" className="opTable">
                       <thead>
                         <tr>
+                          <th></th>
                           <th>#</th>
                           <th>OP Number</th>
                           <th>Details</th>
@@ -163,10 +169,36 @@ const CustomerOrder_Progress_Text_Rep = () => {
                         {reportData.operationDatas.map((data, index) => {
                           return (
                             <tr key={index}>
+                              <td>
+                                {data.operation.opQTYDone >=
+                                data.operation.opQTYRequired ? (
+                                  <span>
+                                    <i className="bi bi-check opCompleted"></i>
+                                  </span>
+                                ) : (
+                                  <span>
+                                    <i className="bi-clock-history opNotCompleted"></i>
+                                  </span>
+                                )}
+                              </td>
                               <td>{data.operation.operationId}</td>
-                              <td>{data.operation.operationNumber}</td>
-                              <td>{data.operation.details}</td>
-                              <td>{data.operation.operationStatus}</td>
+                              <td>
+                                {getOperationNumber(
+                                  data.operation.operationNumber
+                                )}
+                              </td>
+                              <td>
+                                {data.operation.details ? (
+                                  <span>{data.operation.details}</span>
+                                ) : (
+                                  <span>N/A</span>
+                                )}
+                              </td>
+                              <td>
+                                {getOperationStatus(
+                                  data.operation.operationStatus
+                                )}
+                              </td>
                               <td>
                                 {Moment(
                                   data.operation.operationStartDate
@@ -178,17 +210,17 @@ const CustomerOrder_Progress_Text_Rep = () => {
                           );
                         })}
                       </tbody>
-                    </table>
+                    </Table>
                   </div>
                 </div>
               ) : (
-                <div>Operations Not Found!</div>
+                <div className="noContent">Operations Not Found!</div>
               )}
             </div>
           </div>
         </div>
       ) : (
-        <span>Customer-Order Not Found !</span>
+        <span className="noContent">Customer-Order Not Found !</span>
       )}
 
       <p></p>
