@@ -46,6 +46,23 @@ const CustomerOrder_Progress_Text_Rep = () => {
     else getCustomerOrder_Progress_Text_Report(id);
   }, []);
 
+  const getOprLog = (opId) => {
+    console.log("operator log", opId);
+
+    var oprActivities = [];
+
+    reportData.operationDatas.forEach(function (arrayItem) {
+      arrayItem.operationHistory.forEach(function (item) {
+        // console.log(item);
+        if (item.operationId === opId) {
+          oprActivities.push(item);
+        }
+      });
+    });
+
+    console.log(oprActivities);
+  };
+
   return (
     <div className="container">
       <div className="mainHeader">Customer-Order-Progress [Text-Report]</div>
@@ -155,7 +172,7 @@ const CustomerOrder_Progress_Text_Rep = () => {
                     <Table striped hover variant="light" className="opTable">
                       <thead>
                         <tr>
-                          <th></th>
+                          <th>Opr Log</th>
                           <th>#</th>
                           <th>OP Number</th>
                           <th>Details</th>
@@ -172,11 +189,19 @@ const CustomerOrder_Progress_Text_Rep = () => {
                               <td>
                                 {data.operation.opQTYDone >=
                                 data.operation.opQTYRequired ? (
-                                  <span>
+                                  <span
+                                    onClick={(e) =>
+                                      getOprLog(data.operation.operationId)
+                                    }
+                                  >
                                     <i className="bi bi-check opCompleted"></i>
                                   </span>
                                 ) : (
-                                  <span>
+                                  <span
+                                    onClick={(e) =>
+                                      getOprLog(e, data.operation.operationId)
+                                    }
+                                  >
                                     <i className="bi-clock-history opNotCompleted"></i>
                                   </span>
                                 )}
