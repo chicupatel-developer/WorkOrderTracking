@@ -30,3 +30,10 @@
     text-shadow: 1px 1px 1px #ccc;
 }
 
+.oprHeader {
+    font-size: large;
+    font-weight: bold;
+    color: lightgoldenrodyellow;
+    background-color: blue;
+    font-style: italic;
+}

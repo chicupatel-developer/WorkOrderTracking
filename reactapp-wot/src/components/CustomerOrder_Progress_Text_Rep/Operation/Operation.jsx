@@ -34,10 +34,10 @@ const Operation = ({ operationDatas, index }) => {
             </span>
           )}
         </div>
-        <div className="col-md-4 mx-auto">
+        <div className="col-md-3 mx-auto">
           {operationDatas.operation.operationId} /{" "}
-          {getOperationNumber(operationDatas.operation.operationNumber)} [
-          {getOperationStatus(operationDatas.operation.operationStatus)}]
+          {getOperationNumber(operationDatas.operation.operationNumber)}
+          <br />[{getOperationStatus(operationDatas.operation.operationStatus)}]
         </div>
         <div className="col-md-2 mx-auto">
           {operationDatas.operation.details ? (
@@ -51,24 +51,37 @@ const Operation = ({ operationDatas, index }) => {
             "DD-MMM-YYYY"
           )}
         </div>
-        <div className="col-md-1 mx-auto">
+        <div className="col-md-2 mx-auto">
           {operationDatas.operation.opQTYDone}
         </div>
-        <div className="col-md-1 mx-auto">
+        <div className="col-md-2 mx-auto">
           {operationDatas.operation.opQTYRequired}
         </div>
       </div>
 
-      {operationDatas.operationHistory &&
-      operationDatas.operationHistory.length > 0 ? (
-        <div>
-          {operationDatas.operationHistory.map((data, i) => {
-            return <OperatorLog operatorLogData={data} key={i} />;
-          })}
+      <div className="row oprHeader">
+        <div className="col-md-1 mx-auto"></div>
+        <div className="col-md-2 mx-auto">Opr</div>
+        <div className="col-md-3 mx-auto">Operation</div>
+        <div className="col-md-2 mx-auto">QTY Done</div>
+        <div className="col-md-1 mx-auto">Start</div>
+        <div className="col-md-1 mx-auto">Pause</div>
+        <div className="col-md-1 mx-auto">Cycle</div>
+      </div>
+      <div className="row">
+        <div className="col-md-12 mx-auto">
+          {operationDatas.operationHistory &&
+          operationDatas.operationHistory.length > 0 ? (
+            <div>
+              {operationDatas.operationHistory.map((data, i) => {
+                return <OperatorLog operatorLogData={data} key={i} />;
+              })}
+            </div>
+          ) : (
+            <div className="noContent">Operator's Log Not Found!</div>
+          )}
         </div>
-      ) : (
-        <div className="noContent">Operator's Log Not Found!</div>
-      )}
+      </div>
 
       <hr />
     </div>

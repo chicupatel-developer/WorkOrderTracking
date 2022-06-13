@@ -61,3 +61,20 @@
     font-weight: bold;
     color: blue;
 }
+
+.opHeader{
+    font-size: large;
+    font-weight: bold;
+    color: blue;
+    font-style: italic;
+}
+.opContent{
+    padding-top: 50px;
+}
+.opMainHeader{
+    font-style: italic;
+    font-size: xx-large;
+    color: darkslategray;
+    font-weight: bold;
+    background-color: lightgoldenrodyellow;
+}
