@@ -7,6 +7,7 @@ import {
   getDaysLeft,
   getOperationStatus,
   getOperationNumber,
+  getOperationStatusForOperator,
 } from "../../services/local.service";
 import CustomerOrderService from "../../services/customerOrder.service";
 import { useNavigate } from "react-router-dom";
@@ -15,18 +16,31 @@ import { Table, Button } from "react-bootstrap";
 
 import Moment from "moment";
 
+import CustomerOrder from "./CustomerOrder/CustomerOrder";
+import WorkOrder from "./WorkOrder/WorkOrder";
+import Operation from "./Operation/Operation";
+
 const CustomerOrder_Progress_Text_Rep = () => {
   let navigate = useNavigate();
 
   let { id } = useParams();
 
   const [reportData, setReportData] = useState({});
+  const [oprActivities, setOprActivities] = useState([]);
+
+  const [customerOrderData, setCustomerOrderData] = useState({});
+  const [workOrderData, setWorkOrderData] = useState({});
+  const [operationData, setOperationData] = useState({});
+  const [operationHistoryData, setOperationHistoryData] = useState([]);
 
   const getCustomerOrder_Progress_Text_Report = (id) => {
     CustomerOrderService.getCustomerOrderProgressTextReport(id)
       .then((response) => {
         console.log(response.data);
         setReportData(response.data);
+
+        setCustomerOrderData(response.data.customerOrder);
+        setWorkOrderData(response.data.workOrder);
       })
       .catch((e) => {
         console.log(e);
@@ -48,7 +62,7 @@ const CustomerOrder_Progress_Text_Rep = () => {
 
   const getOprLog = (opId) => {
     console.log("operator log", opId);
-
+    setOprActivities([]);
     var oprActivities = [];
 
     reportData.operationDatas.forEach(function (arrayItem) {
@@ -61,12 +75,57 @@ const CustomerOrder_Progress_Text_Rep = () => {
     });
 
     console.log(oprActivities);
+    setOprActivities(oprActivities);
   };
 
   return (
     <div className="container">
       <div className="mainHeader">Customer-Order-Progress [Text-Report]</div>
       <hr />
+
+      <div className="row">
+        <div className="col-md-1 mx-auto"></div>
+        <div className="col-md-5 mx-auto">
+          <CustomerOrder customerOrderData={customerOrderData} />
+        </div>
+        <div className="col-md-5 mx-auto">
+          <WorkOrder workOrderData={workOrderData} />
+        </div>
+        <div className="col-md-1 mx-auto"></div>
+      </div>
+      <p></p>
+      <div className="row">
+        <div className="col-md-1 mx-auto"></div>
+        <div className="col-md-11 mx-auto">
+          {reportData.operationDatas && reportData.operationDatas.length > 0 ? (
+            <Table striped hover variant="light" className="opTable">
+              <thead>
+                <tr>
+                  <th>Opr Log</th>
+                  <th>#</th>
+                  <th>OP Number</th>
+                  <th>Details</th>
+                  <th>Op Status</th>
+                  <th>Op Start Date</th>
+                  <th>QTY Done</th>
+                  <th>QTY Required</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reportData.operationDatas.map((data, index) => {
+                  return <Operation operationDatas={data} key={index} />;
+                })}
+              </tbody>
+            </Table>
+          ) : (
+            <div className="noContent">Operations Not Found!</div>
+          )}
+        </div>
+      </div>
+
+      <p></p>
+      <hr />
+      <p></p>
 
       {reportData.customerOrder ? (
         <div>
@@ -169,6 +228,58 @@ const CustomerOrder_Progress_Text_Rep = () => {
                     <h4>Operations</h4>
                   </div>
                   <div className="card-body opBody">
+                    {oprActivities && oprActivities.length > 0 ? (
+                      <Table className="oprTable">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Opr #</th>
+                            <th>Op</th>
+                            <th>QTY Done</th>
+                            <th>Start</th>
+                            <th>Pause</th>
+                            <th>Cycle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {oprActivities.map((data, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{data.operatorActivityId}</td>
+                                <td>
+                                  {data.operator.firstName} ,{" "}
+                                  {data.operator.lastName}
+                                </td>
+                                <td>
+                                  {data.operationId} /{" "}
+                                  {getOperationNumber(data.operationNumber)} [
+                                  {getOperationStatusForOperator(
+                                    data.operationStatus
+                                  )}
+                                  ]
+                                </td>
+
+                                <td>{data.opQtyDone}</td>
+                                <td>
+                                  {Moment(data.opStartRunTime).format(
+                                    "MMM, DD - hh:mm A"
+                                  )}
+                                </td>
+                                <td>
+                                  {Moment(data.opPauseRunTime).format(
+                                    "MMM, DD - hh:mm A"
+                                  )}
+                                </td>
+                                <td>{data.cycleTime}</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </Table>
+                    ) : (
+                      <span></span>
+                    )}
+
                     <Table striped hover variant="light" className="opTable">
                       <thead>
                         <tr>

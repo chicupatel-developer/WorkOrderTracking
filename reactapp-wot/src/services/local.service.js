@@ -36,3 +36,8 @@ export function getOperationNumber(opn) {
   if (opn === 80) return opn + "- Rework_Spindle";
   if (opn === 90) return opn + "- Rework_Hub";
 }
+
+export function getOperationStatusForOperator(ops) {
+  if (ops === 0) return "Start_Running";
+  if (ops === 1) return "Pause_Running";
+}
