@@ -98,25 +98,11 @@ const CustomerOrder_Progress_Text_Rep = () => {
         <div className="col-md-1 mx-auto"></div>
         <div className="col-md-11 mx-auto">
           {reportData.operationDatas && reportData.operationDatas.length > 0 ? (
-            <Table striped hover variant="light" className="opTable">
-              <thead>
-                <tr>
-                  <th>Opr Log</th>
-                  <th>#</th>
-                  <th>OP Number</th>
-                  <th>Details</th>
-                  <th>Op Status</th>
-                  <th>Op Start Date</th>
-                  <th>QTY Done</th>
-                  <th>QTY Required</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reportData.operationDatas.map((data, index) => {
-                  return <Operation operationDatas={data} key={index} />;
-                })}
-              </tbody>
-            </Table>
+            <div>
+              {reportData.operationDatas.map((data, index) => {
+                return <Operation operationDatas={data} key={index} />;
+              })}
+            </div>
           ) : (
             <div className="noContent">Operations Not Found!</div>
           )}
