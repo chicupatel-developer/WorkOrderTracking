@@ -11,7 +11,7 @@
     font-size: small;
     font-weight: bold;
     vertical-align: middle;
-    border-top: 9px solid white;
+    border-top: 15px solid white;
     padding-top: 5px;
 }
 .noContent{
@@ -28,15 +28,5 @@
 .opNotCompleted {
     color: red;
     text-shadow: 1px 1px 1px #ccc;
-}
-
-.oprBody {
-    background-color: lightgoldenrodyellow;
-    color: black;
-    font-size: small;
-    font-weight: bold;
-    vertical-align: middle;
-    border-top: 9px solid black;
-    padding-top: 5px;
 }
 

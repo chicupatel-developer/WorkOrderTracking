@@ -20,7 +20,23 @@ const OperatorLog = ({ operatorLogData, i }) => {
   return (
     <div>
       <div key={i} className="row oprBody">
-        <div className="col-md-1 mx-auto"></div>
+        <div className="col-md-2 mx-auto">
+          {operatorLogData.operator.firstName},{" "}
+          {operatorLogData.operator.lastName}
+        </div>
+        <div className="col-md-4 mx-auto">
+          {operatorLogData.operationId} /{" "}
+          {getOperationNumber(operatorLogData.operationNumber)}[{" "}
+          {getOperationStatusForOperator(operatorLogData.operationStatus)}]
+        </div>
+        <div className="col-md-1 mx-auto">{operatorLogData.opQtyDone}</div>
+        <div className="col-md-2 mx-auto">
+          {Moment(operatorLogData.opStartRunTime).format("MMM, DD - hh:mm A")}
+        </div>
+        <div className="col-md-2 mx-auto">
+          {Moment(operatorLogData.opPauseRunTime).format("MMM, DD - hh:mm A")}
+        </div>
+        <div className="col-md-1 mx-auto">{operatorLogData.cycleTime}</div>
       </div>
     </div>
   );

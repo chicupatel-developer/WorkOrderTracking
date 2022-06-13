@@ -19,8 +19,6 @@ import Moment from "moment";
 import OperatorLog from "./OperatorLog/OperatorLog";
 
 const Operation = ({ operationDatas, index }) => {
- 
-
   return (
     <div>
       <div key={index} className="row opBody">
@@ -65,12 +63,14 @@ const Operation = ({ operationDatas, index }) => {
       operationDatas.operationHistory.length > 0 ? (
         <div>
           {operationDatas.operationHistory.map((data, i) => {
-            return <OperatorLog operatorLogDatas={data} key={i} />;
+            return <OperatorLog operatorLogData={data} key={i} />;
           })}
         </div>
       ) : (
         <div className="noContent">Operator's Log Not Found!</div>
       )}
+
+      <hr />
     </div>
   );
 };
