@@ -6,11 +6,13 @@
 }
 
 .opBody {
-    background-color: lightgoldenrodyellow;
+    background-color: lightsteelblue;
     color: black;
     font-size: small;
     font-weight: bold;
-    padding-bottom: 20px;
+    vertical-align: middle;
+    border-top: 9px solid white;
+    padding-top: 5px;
 }
 .noContent{
     color: red;
@@ -20,9 +22,21 @@
 .opCompleted {
     color: green;
     text-shadow: 1px 1px 1px #ccc;
+    vertical-align: middle;
+ 
 }
 .opNotCompleted {
     color: red;
     text-shadow: 1px 1px 1px #ccc;
+}
+
+.oprBody {
+    background-color: lightgoldenrodyellow;
+    color: black;
+    font-size: small;
+    font-weight: bold;
+    vertical-align: middle;
+    border-top: 9px solid black;
+    padding-top: 5px;
 }
 
