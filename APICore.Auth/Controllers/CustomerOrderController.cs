@@ -163,6 +163,22 @@ namespace APICore.Auth.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        [Route("getCustomerOrderProgressChartReport/{selectedCoId}")]
+        public IActionResult GetCustomerOrderProgressChart(int selectedCoId)
+        {
+            try
+            {
+                var coprd = _custOrderRepo.GetCustomerOrderProgressChart(selectedCoId);
+                return Ok(coprd);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }
 

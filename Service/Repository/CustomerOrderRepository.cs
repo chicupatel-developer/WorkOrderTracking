@@ -139,7 +139,7 @@ namespace Service.Repository
 
                         data.Add(new CustomerOrderProgressChartData()
                         {
-                             OperationNumber = op.OperationNumber+ "[ " +opName + " ]",
+                             OperationNumber = op.OperationNumber+ " [" +opName + "]",
                               QtyDone = (op.OpQTYDone!=null ? (int)op.OpQTYDone : 0),
                                QtyRequired = (op.OpQTYRequired != null ? (int)op.OpQTYRequired : 0)
                         });

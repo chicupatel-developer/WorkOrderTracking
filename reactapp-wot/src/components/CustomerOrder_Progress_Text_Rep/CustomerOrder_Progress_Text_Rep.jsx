@@ -20,27 +20,28 @@ import CustomerOrder from "./CustomerOrder/CustomerOrder";
 import WorkOrder from "./WorkOrder/WorkOrder";
 import Operation from "./Operation/Operation";
 
+// google chart api
+import Chart from "react-google-charts";
+
 const CustomerOrder_Progress_Text_Rep = () => {
   let navigate = useNavigate();
 
   let { id } = useParams();
 
-  const [reportData, setReportData] = useState({});
-  const [oprActivities, setOprActivities] = useState([]);
-
   const [customerOrderData, setCustomerOrderData] = useState({});
   const [workOrderData, setWorkOrderData] = useState({});
   const [operationData, setOperationData] = useState({});
-  const [operationHistoryData, setOperationHistoryData] = useState([]);
+
+  const [chartData, setChartData] = useState([[]]);
 
   const getCustomerOrder_Progress_Text_Report = (id) => {
     CustomerOrderService.getCustomerOrderProgressTextReport(id)
       .then((response) => {
         console.log(response.data);
-        setReportData(response.data);
 
         setCustomerOrderData(response.data.customerOrder);
         setWorkOrderData(response.data.workOrder);
+        setOperationData(response.data.operationDatas);
       })
       .catch((e) => {
         console.log(e);
@@ -60,24 +61,33 @@ const CustomerOrder_Progress_Text_Rep = () => {
     else getCustomerOrder_Progress_Text_Report(id);
   }, []);
 
-  const getOprLog = (opId) => {
-    console.log("operator log", opId);
-    setOprActivities([]);
-    var oprActivities = [];
+  // operation progress v/s QTY - [Done] [Required]
+  // display google chart
+  const displayOperationProgress = (e) => {
+    CustomerOrderService.getCustomerOrderProgressChartReport(id)
+      .then((response) => {
+        console.log(response.data);
 
-    reportData.operationDatas.forEach(function (arrayItem) {
-      arrayItem.operationHistory.forEach(function (item) {
-        // console.log(item);
-        if (item.operationId === opId) {
-          oprActivities.push(item);
+        if (response.data.length < 1) {
+          setChartData([]);
+        } else {
+          var chartDatas_ = [];
+          var firstItem = ["Operation Number", "QTY Done", "QTY Required"];
+          chartDatas_.push(firstItem);
+          setChartData(chartDatas_);
+
+          response.data.map((item, i) => {
+            setChartData((oldValues) => [
+              ...oldValues,
+              [item.operationNumber + "", item.qtyDone, item.qtyRequired],
+            ]);
+          });
         }
+      })
+      .catch((e) => {
+        console.log(e);
       });
-    });
-
-    console.log(oprActivities);
-    setOprActivities(oprActivities);
   };
-
   return (
     <div className="container">
       <div className="mainHeader">Customer-Order-Progress [Text-Report]</div>
@@ -95,14 +105,66 @@ const CustomerOrder_Progress_Text_Rep = () => {
       </div>
       <p></p>
 
+      <div className="container">
+        {chartData && chartData.length > 1 ? (
+          <Chart
+            // width={"700px"}
+            // height={"320px"}
+            chartType="BarChart"
+            loader={<div>Loading Chart</div>}
+            data={chartData}
+            options={{
+              title: "Operation Progress v/s QTY - [Done] [Required]",
+              chartArea: { width: "70%" },
+              hAxis: {
+                title: "QTY - [Done] [Required]",
+                minValue: 0,
+                textStyle: {
+                  fontSize: 12,
+                  color: "black",
+                  bold: true,
+                  italic: true,
+                },
+              },
+              vAxis: {
+                title: "Operation",
+                textStyle: {
+                  fontSize: 14,
+                  color: "black",
+                  bold: true,
+                  italic: true,
+                },
+              },
+              colors: ["green", "red"],
+            }}
+            rootProps={{ "data-testid": "1" }}
+          />
+        ) : (
+          <div>
+            {chartData && chartData.length === 0 ? (
+              <div className="noContent">Chart-Data Not Found !</div>
+            ) : (
+              <Button
+                className="btn btn-success"
+                type="button"
+                onClick={(e) => displayOperationProgress(e)}
+              >
+                Operation Progress [google Chart api]
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+
+      <hr />
+      <p></p>
       <div className="opContent">
         <p></p>
         <span className="opMainHeader">Operations</span>
         <p></p>
         <div className="row">
           <div className="col-md-12 mx-auto">
-            {reportData.operationDatas &&
-            reportData.operationDatas.length > 0 ? (
+            {operationData && operationData.length > 0 ? (
               <div className="row opHeader">
                 <div className="col-md-1 mx-auto">Status</div>
                 <div className="col-md-3 mx-auto">Operation</div>
@@ -117,10 +179,9 @@ const CustomerOrder_Progress_Text_Rep = () => {
 
             <div className="row">
               <div className="col-md-12 mx-auto">
-                {reportData.operationDatas &&
-                reportData.operationDatas.length > 0 ? (
+                {operationData && operationData.length > 0 ? (
                   <div>
-                    {reportData.operationDatas.map((data, index) => {
+                    {operationData.map((data, index) => {
                       return <Operation operationDatas={data} key={index} />;
                     })}
                   </div>
