@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 namespace APICore.Auth.Controllers
 {
 
-    // [Authorize("Admin")]
+    [Authorize("Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerOrderController : ControllerBase

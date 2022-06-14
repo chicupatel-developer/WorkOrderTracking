@@ -51,21 +51,20 @@ const Customer_Order = () => {
     // console.log(row);
     return (
       <div>
-        {" "}
         <Button
           className="btn btn-info"
           type="button"
           onClick={(e) => editCo(e, row.customerOrderId)}
         >
           <i className="bi bi-pencil-square"></i>
-        </Button>{" "}
+        </Button>
         <Button
           className="btn btn-danger"
           type="button"
           onClick={(e) => removeCo(e, row.customerOrderId)}
         >
           <i className="bi bi-trash"></i>
-        </Button>{" "}
+        </Button>
         <Button
           className="btn btn-warning"
           type="button"
