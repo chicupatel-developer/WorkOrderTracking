@@ -1,3 +1,37 @@
-.mainContainer {
-    padding: 50px;
+.mainHeader {
+    text-align: center;
+    color: darkolivegreen;
+    font-size: xx-large;
+    font-weight: bold;
+
+}
+
+.noWos {
+    text-align: center;
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.noCo {
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.coHeader{
+    color: white;
+    background-color: black;
+    font-size: x-large;
+}
+.coLabel { 
+    color : blue;
+}
+.coQty{
+    color : green;
+    font-size: large;
+}
+.coDueDate{
+    color: red;
 }

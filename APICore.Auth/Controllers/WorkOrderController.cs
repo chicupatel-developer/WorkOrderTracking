@@ -23,13 +23,41 @@ namespace APICore.Auth.Controllers
     public class WorkOrderController : ControllerBase
     {
         private readonly IWorkOrderRepository _woRepo;
+        private readonly ICustomerOrderRepository _custOrderRepo;
         private APIResponse _response;
 
-        public WorkOrderController(IWorkOrderRepository woRepo)
+        public WorkOrderController(ICustomerOrderRepository custOrderRepo,IWorkOrderRepository woRepo)
         {
+            _custOrderRepo = custOrderRepo;
             _woRepo = woRepo;
         }
 
+        [HttpGet]
+        [Route("allWorkOrders")]
+        public IActionResult GetAllWorkOrders()
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                var wos = _woRepo.GetAllWorkOrders();
+                return Ok(wos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server Error!");
+            }
+        }
+
+        [HttpGet]
+        [Route("getCustomerOrderDetails/{selectedCoId}")]
+        public IActionResult GetCustomerOrderDetails(int selectedCoId)
+        {
+            // var co = _custOrderRepo.GetCustomerOrder(selectedCoId);
+            var co = _custOrderRepo.GetCustomerOrder(0);
+            return Ok(co);
+        }
 
     }
 }
