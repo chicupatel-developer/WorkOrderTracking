@@ -77,7 +77,9 @@ const WorkOrder_Create = () => {
     const newErrors = {};
 
     if (!customerOrderId || customerOrderId === "")
-      newErrors.customerOrderId = "Customer is Required!";
+      newErrors.customerOrderId = "Customer-Order is Required!";
+    if (!workOrderStatus || workOrderStatus === "")
+      newErrors.workOrderStatus = "Work-Order Status is Required!";
 
     return newErrors;
   };
@@ -119,6 +121,40 @@ const WorkOrder_Create = () => {
         };
 
         console.log(woModel);
+        // api call
+        WorkOrderService.createWorkOrder(woModel)
+          .then((response) => {
+            setModelErrors([]);
+            setWoCreateResponse({});
+            console.log(response.data);
+
+            var woCreateResponse = {
+              responseCode: response.data.responseCode,
+              responseMessage: response.data.responseMessage,
+            };
+            if (response.data.responseCode === 0) {
+              resetForm();
+              setWoCreateResponse(woCreateResponse);
+
+              setTimeout(() => {
+                navigate("/work-order");
+              }, 3000);
+            } else if (response.data.responseCode === -1) {
+              setWoCreateResponse(woCreateResponse);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setModelErrors([]);
+            setWoCreateResponse({});
+            // 400
+            // ModelState
+            if (error.response.status === 400) {
+              console.log("400 !");
+              var modelErrors = handleModelState(error);
+              setModelErrors(modelErrors);
+            }
+          });
       } else {
         console.log("Invalid Date(s) !");
         var woCreateResponse = {
@@ -197,7 +233,7 @@ const WorkOrder_Create = () => {
                   <div className="row">
                     <div className="col-md-6 mx-auto">
                       <Form.Group controlId="customerOrderId">
-                        <Form.Label>Customer</Form.Label>
+                        <Form.Label>Customer-Order</Form.Label>
                         <Form.Control
                           as="select"
                           isInvalid={!!errors.customerOrderId}
@@ -205,6 +241,7 @@ const WorkOrder_Create = () => {
                             setField("customerOrderId", e.target.value);
                           }}
                         >
+                          <option value="">Select Customer-Order</option>
                           {renderOptionsForCustomerOrders()}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
@@ -237,23 +274,14 @@ const WorkOrder_Create = () => {
                             setField("workOrderStatus", e.target.value);
                           }}
                         >
+                          <option value="">Select Work-Order Status</option>
                           {renderOptionsForWorkOrderStatus()}
                         </Form.Control>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.workOrderStatus}
+                        </Form.Control.Feedback>
                       </Form.Group>
                       <p></p>
-                      <Form.Group controlId="workOrderStartDate">
-                        <Form.Label>Work-Order Start Date</Form.Label>
-                        <Form.Control
-                          type="date"
-                          name="workOrderStartDate"
-                          placeholder="Work-Order Start Date"
-                          isInvalid={!!errors.workOrderStartDate}
-                          onChange={(e) =>
-                            setField("workOrderStartDate", e.target.value)
-                          }
-                        />
-                      </Form.Group>
-
                       <Form.Group controlId="statusNote">
                         <Form.Label>Note</Form.Label>
                         <Form.Control

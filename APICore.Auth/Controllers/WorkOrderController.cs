@@ -55,8 +55,8 @@ namespace APICore.Auth.Controllers
         [Route("getCustomerOrderDetails/{selectedCoId}")]
         public IActionResult GetCustomerOrderDetails(int selectedCoId)
         {
-            // var co = _custOrderRepo.GetCustomerOrder(selectedCoId);
-            var co = _custOrderRepo.GetCustomerOrder(0);
+            var co = _custOrderRepo.GetCustomerOrder(selectedCoId);
+            // var co = _custOrderRepo.GetCustomerOrder(0);
             return Ok(co);
         }
 
