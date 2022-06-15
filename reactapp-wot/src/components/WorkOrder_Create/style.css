@@ -1,0 +1,20 @@
+.mainContainer {
+    padding: 50px;
+}
+.coCreateSuccess {
+    color: green;
+    font-size: large;
+}
+.coCreateError {
+    color: red;
+    font-size: large;
+}
+.modelError{
+    color: red;
+    font-size: medium;
+    font-weight: bold;
+    margin-top: 30px;
+}
+.qtyDisplay{
+    width:150px;
+}

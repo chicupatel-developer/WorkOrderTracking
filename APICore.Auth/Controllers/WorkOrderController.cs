@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using EF.Core.DTO;
 
 namespace APICore.Auth.Controllers
 {
@@ -58,6 +59,48 @@ namespace APICore.Auth.Controllers
             var co = _custOrderRepo.GetCustomerOrder(0);
             return Ok(co);
         }
+
+        [HttpGet]
+        [Route("getCustomerOrders")]
+        public IActionResult GetCustomerOrders()
+        {
+            var cos = _woRepo.GetCustomerOrderList();
+            return Ok(cos);
+        }
+
+        [HttpPost]
+        [Route("createWorkOrder")]
+        public IActionResult CreateWorkOrder(WorkOrder wo)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                if (ModelState.IsValid)
+                {    
+                    _woRepo.AddWorkOrder(wo);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Work-Order Added Successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (WO_OP_Unique_Exception wouEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = wouEx.Message;
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
+
 
     }
 }

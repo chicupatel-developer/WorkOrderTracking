@@ -2,6 +2,15 @@ export function getRoles() {
   return [{ name: "Admin" }, { name: "Operator" }];
 }
 
+export function getWorkOrderStatusToDisplay() {
+  return [
+    { value: 0, woStatus: "Not_Started" },
+    { value: 1, woStatus: "Start_Running" },
+    { value: 2, woStatus: "Completed" },
+    { value: 3, woStatus: "Can_Not_Complete" },
+  ];
+}
+
 export function getWorkOrderStatus(wos) {
   if (wos === 0) return "Not_Started";
   if (wos === 1) return "Start_Running";

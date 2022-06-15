@@ -19,6 +19,7 @@ import CustomerOrder_Edit from "./components/CustomerOrder_Edit/CustomerOrder_Ed
 import CustomerOrder_Remove from "./components/CustomerOrder_Remove/CustomerOrder_Remove";
 import CustomerOrder_Progress_Text_Rep from "./components/CustomerOrder_Progress_Text_Rep/CustomerOrder_Progress_Text_Rep";
 import Work_Order from "./components/Work_Order/Work_Order";
+import WorkOrder_Create from "./components/WorkOrder_Create/WorkOrder_Create";
 import Operation from "./components/Operation/Operation";
 import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
 import UnAuthorized from "./components/UnAuthorized/UnAuthorized";
@@ -58,6 +59,7 @@ function App() {
               element={<CustomerOrder_Progress_Text_Rep />}
             />
             <Route path="/work-order" element={<Work_Order />} />
+            <Route path="/work-order-create" element={<WorkOrder_Create />} />
             <Route path="/operation" element={<Operation />} />
             <Route
               path="/create-operator-log"
