@@ -24,5 +24,11 @@ class WorkOrderService {
       headers: authHeader(),
     });
   };
+
+  getWorkOrder = async (woId) => {
+    return await http.get(`/getWorkOrder/${woId}`, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new WorkOrderService();

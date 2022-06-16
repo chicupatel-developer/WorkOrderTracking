@@ -101,7 +101,13 @@ namespace APICore.Auth.Controllers
             return Ok(_response);
         }
 
-
+        [HttpGet]
+        [Route("getWorkOrder/{selectedWorkOrderId}")]
+        public IActionResult GetWorkOrder(int selectedWorkOrderId)
+        {
+            var wo = _woRepo.GetWorkOrder(selectedWorkOrderId);
+            return Ok(wo);
+        }
     }
 }
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import "./style.css";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import AuthService from "../../services/auth.service";
-import CustomerOrderService from "../../services/customerOrder.service";
 import WorkOrderService from "../../services/workOrder.service";
 
 import { useNavigate } from "react-router";
@@ -14,20 +14,24 @@ import Moment from "moment";
 
 import { getWorkOrderStatusToDisplay } from "../../services/local.service";
 
-const WorkOrder_Create = () => {
+const WorkOrder_Edit = () => {
   let navigate = useNavigate();
 
-  const [customerOrders, setCustomerOrders] = useState([]);
+  let { id } = useParams();
+
   const [workOrderStatusCollection, setWorkOrderStatusCollection] = useState(
     []
   );
+  const [wo, setWo] = useState({});
 
   const [modelErrors, setModelErrors] = useState([]);
 
-  const [woCreateResponse, setWoCreateResponse] = useState({});
+  const [woEditResponse, setWoEditResponse] = useState({});
 
   // form
-  const [form, setForm] = useState({});
+  const [workOrderStatus, setWorkOrderStatus] = useState("");
+  const [workOrderStartDate, setWorkOrderStartDate] = useState("");
+  const [statusNote, setStatusNote] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -37,16 +41,39 @@ const WorkOrder_Create = () => {
       navigate("/un-auth");
     else {
       setWorkOrderStatusCollection(getWorkOrderStatusToDisplay());
-      getCustomerOrders();
+      getWorkOrder(id);
     }
   }, []);
 
-  const getCustomerOrders = () => {
-    WorkOrderService.getCustomerOrders()
+  const getWorkOrder = (id) => {
+    console.log("Editing Work-Order : ", id);
+    WorkOrderService.getWorkOrder(id)
       .then((response) => {
-        console.log(response.data);
+        if (response.data === "") {
+          // data not found on server!
 
-        setCustomerOrders(response.data);
+          setWo({});
+          var woEditResponse = {
+            responseCode: -1,
+            responseMessage: "Work-Order Not Found!",
+          };
+
+          setWoEditResponse(woEditResponse);
+        } else {
+          console.log(response.data);
+
+          setWo(response.data);
+
+          setWorkOrderStatus(response.data.workOrderStatus);
+          setStatusNote(response.data.statusNote);
+
+          // convert c# date into react-bootstrap-date picker date format
+          setWorkOrderStartDate(
+            new Date(response.data.workOrderStartDate)
+              .toISOString()
+              .slice(0, 10)
+          );
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -57,27 +84,34 @@ const WorkOrder_Create = () => {
   // form reference
   const formRef = useRef(null);
 
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    });
-
-    // Check and see if errors exist, and remove them from the error object:
-    if (!!errors[field])
+  const handleWorkOrderStartDate = (event) => {
+    setWorkOrderStartDate(event.target.value);
+    if (!errors[workOrderStartDate])
       setErrors({
         ...errors,
-        [field]: null,
+        workOrderStartDate: "",
+      });
+  };
+  const handleWorkOrderStatus = (event) => {
+    setWorkOrderStatus(event.target.value);
+    if (!errors[workOrderStatus])
+      setErrors({
+        ...errors,
+        workOrderStatus: "",
+      });
+  };
+  const handleStatusNote = (event) => {
+    setStatusNote(event.target.value);
+    if (!errors[statusNote])
+      setErrors({
+        ...errors,
+        statusNote: "",
       });
   };
 
   const findFormErrors = () => {
-    const { customerOrderId, workOrderStartDate, workOrderStatus, statusNote } =
-      form;
     const newErrors = {};
 
-    if (!customerOrderId || customerOrderId === "")
-      newErrors.customerOrderId = "Customer-Order is Required!";
     if (!workOrderStatus || workOrderStatus === "")
       newErrors.workOrderStatus = "Work-Order Status is Required!";
 
@@ -87,6 +121,9 @@ const WorkOrder_Create = () => {
   const handleModelState = (error) => {
     var errors = [];
     if (error.response.status === 400) {
+      // console.log(error.response.data);
+
+      // for (let prop in error.response.data.errors) {
       for (let prop in error.response.data) {
         if (error.response.data[prop].length > 1) {
           for (let error_ in error.response.data[prop]) {
@@ -110,58 +147,25 @@ const WorkOrder_Create = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      var oDate = Moment(form.workOrderStartDate);
+      var oDate = Moment(workOrderStartDate);
       var oCheck = oDate.isValid();
       if (oCheck) {
         var woModel = {
-          customerOrderId: form.customerOrderId,
-          workOrderStartDate: form.workOrderStartDate,
-          workOrderStatus: form.workOrderStatus,
-          statusNote: form.statusNote,
+          workOrderId: wo.workOrderId,
+          customerOrderId: wo.customerOrderId,
+          workOrderStartDate: workOrderStartDate,
+          workOrderStatus: workOrderStatus,
+          statusNote: statusNote,
         };
 
         console.log(woModel);
-        // api call
-        WorkOrderService.createWorkOrder(woModel)
-          .then((response) => {
-            setModelErrors([]);
-            setWoCreateResponse({});
-            console.log(response.data);
-
-            var woCreateResponse = {
-              responseCode: response.data.responseCode,
-              responseMessage: response.data.responseMessage,
-            };
-            if (response.data.responseCode === 0) {
-              resetForm();
-              setWoCreateResponse(woCreateResponse);
-
-              setTimeout(() => {
-                navigate("/work-order");
-              }, 3000);
-            } else if (response.data.responseCode === -1) {
-              setWoCreateResponse(woCreateResponse);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-            setModelErrors([]);
-            setWoCreateResponse({});
-            // 400
-            // ModelState
-            if (error.response.status === 400) {
-              console.log("400 !");
-              var modelErrors = handleModelState(error);
-              setModelErrors(modelErrors);
-            }
-          });
       } else {
         console.log("Invalid Date(s) !");
-        var woCreateResponse = {
+        var woEditResponse = {
           responseCode: -1,
-          responseMessage: "Invalid Date !",
+          responseMessage: "Invalid Date(s) !",
         };
-        setWoCreateResponse(woCreateResponse);
+        setWoEditResponse(woEditResponse);
         setModelErrors([]);
       }
     }
@@ -170,28 +174,11 @@ const WorkOrder_Create = () => {
   const resetForm = (e) => {
     formRef.current.reset();
     setErrors({});
-    setForm({});
-    setWoCreateResponse({});
+    setWorkOrderStartDate("");
+    setWorkOrderStatus("");
+    setStatusNote("");
+    setWoEditResponse({});
     setModelErrors([]);
-  };
-
-  const renderOptionsForCustomerOrders = () => {
-    return customerOrders.map((dt, i) => {
-      return (
-        <option value={dt.value} key={i} name={dt.text}>
-          {dt.text}
-        </option>
-      );
-    });
-  };
-  const renderOptionsForWorkOrderStatus = () => {
-    return workOrderStatusCollection.map((dt, i) => {
-      return (
-        <option value={dt.value} key={i} name={dt.woStatus}>
-          {dt.woStatus}
-        </option>
-      );
-    });
   };
 
   let modelErrorList =
@@ -203,6 +190,15 @@ const WorkOrder_Create = () => {
         </ul>
       );
     }, this);
+  const renderOptionsForWorkOrderStatus = () => {
+    return workOrderStatusCollection.map((dt, i) => {
+      return (
+        <option value={dt.value} key={i} name={dt.woStatus}>
+          {dt.woStatus}
+        </option>
+      );
+    });
+  };
 
   return (
     <div className="mainContainer">
@@ -211,15 +207,15 @@ const WorkOrder_Create = () => {
           <div className="col-md-10 mx-auto">
             <div className="card">
               <div className="card-header">
-                <h3>Create New Work-Order</h3>
+                <h3>Edit Work-Order # {id}</h3>
                 <p></p>{" "}
-                {woCreateResponse && woCreateResponse.responseCode === -1 ? (
-                  <span className="woCreateError">
-                    {woCreateResponse.responseMessage}
+                {woEditResponse && woEditResponse.responseCode === -1 ? (
+                  <span className="woEditError">
+                    {woEditResponse.responseMessage}
                   </span>
                 ) : (
-                  <span className="woCreateSuccess">
-                    {woCreateResponse.responseMessage}
+                  <span className="woEditSuccess">
+                    {woEditResponse.responseMessage}
                   </span>
                 )}
                 {modelErrors.length > 0 ? (
@@ -232,33 +228,15 @@ const WorkOrder_Create = () => {
                 <Form ref={formRef}>
                   <div className="row">
                     <div className="col-md-6 mx-auto">
-                      <Form.Group controlId="customerOrderId">
-                        <Form.Label>Customer-Order</Form.Label>
-                        <Form.Control
-                          as="select"
-                          isInvalid={!!errors.customerOrderId}
-                          onChange={(e) => {
-                            setField("customerOrderId", e.target.value);
-                          }}
-                        >
-                          <option value="">Select Customer-Order</option>
-                          {renderOptionsForCustomerOrders()}
-                        </Form.Control>
-                        <Form.Control.Feedback type="invalid">
-                          {errors.customerOrderId}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                      <p></p>
                       <Form.Group controlId="workOrderStartDate">
                         <Form.Label>Work-Order Start Date</Form.Label>
                         <Form.Control
                           type="date"
+                          value={workOrderStartDate}
                           name="workOrderStartDate"
                           placeholder="Work-Order Start Date"
                           isInvalid={!!errors.workOrderStartDate}
-                          onChange={(e) =>
-                            setField("workOrderStartDate", e.target.value)
-                          }
+                          onChange={(e) => handleWorkOrderStartDate(e)}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.workOrderStartDate}
@@ -269,10 +247,9 @@ const WorkOrder_Create = () => {
                         <Form.Label>Work-Order Status</Form.Label>
                         <Form.Control
                           as="select"
+                          value={workOrderStatus}
                           isInvalid={!!errors.workOrderStatus}
-                          onChange={(e) => {
-                            setField("workOrderStatus", e.target.value);
-                          }}
+                          onChange={(e) => handleWorkOrderStatus(e)}
                         >
                           <option value="">Select Work-Order Status</option>
                           {renderOptionsForWorkOrderStatus()}
@@ -281,21 +258,20 @@ const WorkOrder_Create = () => {
                           {errors.workOrderStatus}
                         </Form.Control.Feedback>
                       </Form.Group>
-                    </div>
-                    <div className="col-md-6 mx-auto">
+                      <p></p>
                       <Form.Group controlId="statusNote">
                         <Form.Label>Note</Form.Label>
                         <Form.Control
                           as="textarea"
+                          value={statusNote}
                           rows="3"
                           isInvalid={!!errors.statusNote}
-                          onChange={(e) =>
-                            setField("statusNote", e.target.value)
-                          }
+                          onChange={(e) => handleStatusNote(e)}
                         />
                       </Form.Group>
                     </div>
                   </div>
+
                   <p></p>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
@@ -305,7 +281,7 @@ const WorkOrder_Create = () => {
                       type="button"
                       onClick={(e) => handleSubmit(e)}
                     >
-                      Create Work-Order
+                      Edit Work-Order
                     </Button>
                     <Button
                       className="btn btn-primary"
@@ -324,4 +300,4 @@ const WorkOrder_Create = () => {
     </div>
   );
 };
-export default WorkOrder_Create;
+export default WorkOrder_Edit;
