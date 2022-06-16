@@ -236,8 +236,8 @@ namespace MVCCore.Auth.Controllers
             {
                 // throw new Exception();
 
-                var co = _wOrderRepo.GetWorkOrder(id);
-                return PartialView("_Delete", co);
+                var wo = _wOrderRepo.GetWorkOrder(id);
+                return PartialView("_Delete", wo);
             }
             catch(Exception ex)
             {

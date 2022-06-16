@@ -5,43 +5,43 @@ import "./style.css";
 import Button from "react-bootstrap/Button";
 
 import AuthService from "../../services/auth.service";
-import CustomerOrderService from "../../services/customerOrder.service";
+import WorkOrderService from "../../services/workOrder.service";
 
 import { useNavigate } from "react-router";
 
 import Moment from "moment";
 
-const CustomerOrder_Remove = () => {
+const WorkOrder_Remove = () => {
   let navigate = useNavigate();
 
   let { id } = useParams();
-  const [co, setCo] = useState({});
-  const [coRemoveResponse, setCoRemoveResponse] = useState({});
+  const [wo, setWo] = useState({});
+  const [woRemoveResponse, setWoRemoveResponse] = useState({});
 
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
 
     if (currRole === null || (currRole !== null && currRole !== "Admin"))
       navigate("/un-auth");
-    else getCustomerOrder(id);
+    else getWorkOrder(id);
   }, []);
 
-  const getCustomerOrder = (id) => {
-    console.log("Removing Customer-Order : ", id);
+  const getWorkOrder = (id) => {
+    console.log("Removing Work-Order : ", id);
     if (checkForNumbersOnly(id)) {
-      CustomerOrderService.getCustomerOrder(id)
+      WorkOrderService.getWorkOrder(id)
         .then((response) => {
           if (response.data !== "") {
             console.log(response.data);
-            setCo(response.data);
+            setWo(response.data);
           } else {
-            setCo({ customerOrderId: 0 });
+            setWo({ workOrderId: 0 });
           }
         })
         .catch((e) => {
           console.log(e);
         });
-    } else navigate("/customer-order");
+    } else navigate("/work-order");
   };
 
   const checkForNumbersOnly = (newVal) => {
@@ -53,33 +53,30 @@ const CustomerOrder_Remove = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("removing customer-order: ", co);
-    console.log("removing customer-order-id: ", id);
-
     // api call
-    CustomerOrderService.removeCustomerOrder(co)
+    WorkOrderService.removeWorkOrder(wo)
       .then((response) => {
         console.log(response.data);
-        setCoRemoveResponse({});
-        var coRemoveResponse = {
+        setWoRemoveResponse({});
+        var woRemoveResponse = {
           responseCode: response.data.responseCode,
           responseMessage: response.data.responseMessage,
         };
 
-        setCoRemoveResponse(coRemoveResponse);
+        setWoRemoveResponse(woRemoveResponse);
         if (response.data.responseCode === 0) {
           setTimeout(() => {
-            navigate("/customer-order");
+            navigate("/work-order");
           }, 3000);
         }
       })
       .catch((error) => {
-        setCoRemoveResponse({});
+        setWoRemoveResponse({});
       });
   };
 
   const goBack = (e) => {
-    navigate("/customer-order");
+    navigate("/work-order");
   };
 
   return (
@@ -89,85 +86,66 @@ const CustomerOrder_Remove = () => {
           <div className="col-md-10 mx-auto">
             <div className="card">
               <div className="card-header">
-                <h3>Remove Customer-Order</h3>
+                <h3>Remove Work-Order</h3>
                 <h5>
                   <span className="headerText">
-                    Are you sure wants to remove customer-order?
+                    Are you sure wants to remove work-order?
                   </span>
                 </h5>
                 <p></p>{" "}
-                {coRemoveResponse && coRemoveResponse.responseCode === -1 ? (
-                  <span className="coRemoveError">
-                    {coRemoveResponse.responseMessage}
+                {woRemoveResponse && woRemoveResponse.responseCode === -1 ? (
+                  <span className="woRemoveError">
+                    {woRemoveResponse.responseMessage}
                   </span>
                 ) : (
-                  <span className="coRemoveSuccess">
-                    {coRemoveResponse.responseMessage}
+                  <span className="woRemoveSuccess">
+                    {woRemoveResponse.responseMessage}
                   </span>
                 )}
               </div>
               <div className="card-body">
                 <div className="container">
-                  <span className="headerText">Customer-Order </span>
+                  <span className="headerText">Work-Order </span>
                   {id ? <span>&nbsp;# {id}</span> : <span>&nbsp; # N/A</span>}
                   <p></p>
 
                   <div className="row">
                     <div className="col-md-6 mx-auto">
                       <span className="headerText">Customer Name</span>
-                      {co.customerName ? (
+                      {wo.customerOrderId ? (
                         <span>
                           <br />
-                          {co.customerName}
+                          [# {wo.customerOrderId}] {wo.customer.customerName}
                         </span>
                       ) : (
                         <span>&nbsp; # N/A</span>
                       )}
                       <p></p>
-                      <span className="headerText">Product Name</span>
-                      {co.productName ? (
+                      <span className="headerText">Work-Order Start Date</span>
+                      {wo.workOrderStartDate ? (
                         <span>
                           <br />
-                          {co.productName}
+                          {wo.workOrderStartDate}
                         </span>
                       ) : (
                         <span>&nbsp; # N/A</span>
                       )}
                       <p></p>
-                      <span className="headerText">Product Desc</span>
-                      {co.productDesc ? (
+                      <span className="headerText">Work-Order Status</span>
+                      {wo.workOrderSatus ? (
                         <span>
                           <br />
-                          {co.productDesc}
-                        </span>
-                      ) : (
-                        <span>&nbsp; # N/A</span>
-                      )}
-                    </div>
-                    <div className="col-md-1 mx-auto"></div>
-                    <div className="col-md-5 mx-auto">
-                      <span className="headerText">Order Qty</span>
-                      {co.orderQuantity ? (
-                        <span>&nbsp; # {co.orderQuantity}</span>
-                      ) : (
-                        <span>&nbsp; # N/A</span>
-                      )}
-                      <p></p>
-                      <span className="headerText">Order Date</span>
-                      {co.orderDate ? (
-                        <span>
-                          <br />
-                          {Moment(co.orderDate).format("DD-MMM-YYYY")}
+                          {wo.workOrderSatus}
                         </span>
                       ) : (
                         <span>&nbsp; # N/A</span>
                       )}
                       <p></p>
-                      <span className="headerText">Order Due Date</span>
-                      {co.orderDueDate ? (
+                      <span className="headerText">Status</span>
+                      {wo.statusNote ? (
                         <span>
                           <br />
-                          {Moment(co.orderDueDate).format("DD-MMM-YYYY")}
+                          {wo.statusNote}
                         </span>
                       ) : (
                         <span>&nbsp; # N/A</span>
@@ -185,7 +163,7 @@ const CustomerOrder_Remove = () => {
                     type="button"
                     onClick={(e) => handleSubmit(e)}
                   >
-                    Remove Customer-Order
+                    Remove Work-Order
                   </Button>
                   <Button
                     className="btn btn-primary"
@@ -204,4 +182,4 @@ const CustomerOrder_Remove = () => {
   );
 };
 
-export default CustomerOrder_Remove;
+export default WorkOrder_Remove;

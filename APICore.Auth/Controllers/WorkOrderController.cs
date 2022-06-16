@@ -164,6 +164,26 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
+        [HttpPost]
+        [Route("removeWorkOrder")]
+        public IActionResult RemoveWorkOrder(WorkOrder wo)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+                _woRepo.DeleteWorkOrder(wo.WorkOrderId);
+                _response.ResponseCode = 0;
+                _response.ResponseMessage = "Work-Order Removed Successfully!";
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
     }
 }
 

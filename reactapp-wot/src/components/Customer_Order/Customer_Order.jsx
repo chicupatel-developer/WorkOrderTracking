@@ -58,6 +58,7 @@ const Customer_Order = () => {
         >
           <i className="bi bi-pencil-square"></i>
         </Button>
+        &nbsp;
         <Button
           className="btn btn-danger"
           type="button"
@@ -65,6 +66,7 @@ const Customer_Order = () => {
         >
           <i className="bi bi-trash"></i>
         </Button>
+        &nbsp;
         <Button
           className="btn btn-warning"
           type="button"

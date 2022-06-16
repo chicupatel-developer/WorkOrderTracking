@@ -87,7 +87,7 @@ const Work_Order = () => {
           onClick={(e) => editWo(e, row.workOrderId)}
         >
           <i className="bi bi-pencil-square"></i>
-        </Button>
+        </Button>&nbsp;
         <Button
           className="btn btn-danger"
           type="button"
