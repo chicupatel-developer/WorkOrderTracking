@@ -158,57 +158,47 @@ const WorkOrder_Edit = () => {
     } else {
       var oDate = Moment(workOrderStartDate);
       var oCheck = oDate.isValid();
-      if (oCheck) {
-        var woModel = {
-          customerOrderId: wo.customerOrderId,
-          workOrderId: wo.workOrderId,
-          workOrderStartDate: workOrderStartDate,
-          workOrderStatus: workOrderStatus,
-          statusNote: statusNote,
-        };
+      if (!oCheck) setWorkOrderStartDate("");
 
-        console.log(woModel);
+      var woModel = {
+        customerOrderId: wo.customerOrderId,
+        workOrderId: wo.workOrderId,
+        workOrderStartDate: workOrderStartDate,
+        workOrderStatus: workOrderStatus,
+        statusNote: statusNote,
+      };
+      console.log(woModel);
+      // api call
+      WorkOrderService.editWorkOrder(woModel)
+        .then((response) => {
+          console.log(response.data);
+          setModelErrors([]);
+          setWoEditResponse({});
+          var woEditResponse = {
+            responseCode: response.data.responseCode,
+            responseMessage: response.data.responseMessage,
+          };
 
-        // api call
-        WorkOrderService.editWorkOrder(woModel)
-          .then((response) => {
-            console.log(response.data);
-            setModelErrors([]);
-            setWoEditResponse({});
-            var woEditResponse = {
-              responseCode: response.data.responseCode,
-              responseMessage: response.data.responseMessage,
-            };
+          if (response.data.responseCode === 0) resetForm();
 
-            if (response.data.responseCode === 0) resetForm();
-
-            setWoEditResponse(woEditResponse);
-            if (response.data.responseCode === 0) {
-              setTimeout(() => {
-                navigate("/work-order");
-              }, 3000);
-            }
-          })
-          .catch((error) => {
-            setModelErrors([]);
-            setWoEditResponse({});
-            // 400
-            // ModelState
-            if (error.response.status === 400) {
-              console.log("400 !");
-              var modelErrors = handleModelState(error);
-              setModelErrors(modelErrors);
-            }
-          });
-      } else {
-        console.log("Invalid Date(s) !");
-        var woEditResponse = {
-          responseCode: -1,
-          responseMessage: "Invalid Date(s) !",
-        };
-        setWoEditResponse(woEditResponse);
-        setModelErrors([]);
-      }
+          setWoEditResponse(woEditResponse);
+          if (response.data.responseCode === 0) {
+            setTimeout(() => {
+              navigate("/work-order");
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          setModelErrors([]);
+          setWoEditResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+          }
+        });
     }
   };
 

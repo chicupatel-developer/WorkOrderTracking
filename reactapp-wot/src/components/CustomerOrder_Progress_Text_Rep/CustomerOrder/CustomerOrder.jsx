@@ -46,7 +46,7 @@ const CustomerOrder = ({ customerOrderData }) => {
               <span className="daysLeft">
                 {getDaysLeft(
                   Moment(customerOrderData.orderDueDate).format("DD-MMM-YYYY"),
-                  Moment(customerOrderData.orderDate).format("DD-MMM-YYYY")
+                  new Date().toISOString().slice(0, 10)
                 )}
               </span>
             </div>
