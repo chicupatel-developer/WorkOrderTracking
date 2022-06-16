@@ -30,5 +30,11 @@ class WorkOrderService {
       headers: authHeader(),
     });
   };
+
+  editWorkOrder = async (data) => {
+    return await http.post(`/editWorkOrder`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new WorkOrderService();

@@ -108,6 +108,62 @@ namespace APICore.Auth.Controllers
             var wo = _woRepo.GetWorkOrder(selectedWorkOrderId);
             return Ok(wo);
         }
+        [HttpPost]
+        [Route("editWorkOrder")]
+        public IActionResult EditWorkOrder(WorkOrder wo)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+                if (ModelState.IsValid)
+                {  
+                    _woRepo.EditWorkOrder(wo);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Work-Order Edited Successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Invalid_WO_StartDate_Exception iwosdEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iwosdEx.Message;
+            }
+            catch (Invalid_WO_Status_Exception iwosEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iwosEx.Message;
+            }
+            catch (Invalid_OP_StartDate_Exception iopsdEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iopsdEx.Message;
+            }
+            catch (WO_CanNot_Not_Started_Exception wocnnsEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = wocnnsEx.Message;
+            }
+            catch (WoStatus_WoStartDate_Exception opEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = opEx.Message;
+            }
+            catch (Record_Not_Found_Exception rnfEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = rnfEx.Message;
+            }           
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
     }
 }
 

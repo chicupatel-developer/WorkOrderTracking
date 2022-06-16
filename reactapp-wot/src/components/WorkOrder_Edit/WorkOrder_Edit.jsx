@@ -65,14 +65,23 @@ const WorkOrder_Edit = () => {
           setWo(response.data);
 
           setWorkOrderStatus(response.data.workOrderStatus);
-          setStatusNote(response.data.statusNote);
 
-          // convert c# date into react-bootstrap-date picker date format
-          setWorkOrderStartDate(
-            new Date(response.data.workOrderStartDate)
-              .toISOString()
-              .slice(0, 10)
-          );
+          if (response.data.statusNote === null) {
+            setStatusNote("");
+          } else {
+            setStatusNote(response.data.statusNote);
+          }
+
+          if (response.data.workOrderStartDate === null) {
+            setWorkOrderStartDate("");
+          } else {
+            // convert c# date into react-bootstrap-date picker date format
+            setWorkOrderStartDate(
+              new Date(response.data.workOrderStartDate)
+                .toISOString()
+                .slice(0, 10)
+            );
+          }
         }
       })
       .catch((e) => {
@@ -151,14 +160,46 @@ const WorkOrder_Edit = () => {
       var oCheck = oDate.isValid();
       if (oCheck) {
         var woModel = {
-          workOrderId: wo.workOrderId,
           customerOrderId: wo.customerOrderId,
+          workOrderId: wo.workOrderId,
           workOrderStartDate: workOrderStartDate,
           workOrderStatus: workOrderStatus,
           statusNote: statusNote,
         };
 
         console.log(woModel);
+
+        // api call
+        WorkOrderService.editWorkOrder(woModel)
+          .then((response) => {
+            console.log(response.data);
+            setModelErrors([]);
+            setWoEditResponse({});
+            var woEditResponse = {
+              responseCode: response.data.responseCode,
+              responseMessage: response.data.responseMessage,
+            };
+
+            if (response.data.responseCode === 0) resetForm();
+
+            setWoEditResponse(woEditResponse);
+            if (response.data.responseCode === 0) {
+              setTimeout(() => {
+                navigate("/work-order");
+              }, 3000);
+            }
+          })
+          .catch((error) => {
+            setModelErrors([]);
+            setWoEditResponse({});
+            // 400
+            // ModelState
+            if (error.response.status === 400) {
+              console.log("400 !");
+              var modelErrors = handleModelState(error);
+              setModelErrors(modelErrors);
+            }
+          });
       } else {
         console.log("Invalid Date(s) !");
         var woEditResponse = {
