@@ -87,13 +87,22 @@ const Work_Order = () => {
           onClick={(e) => editWo(e, row.workOrderId)}
         >
           <i className="bi bi-pencil-square"></i>
-        </Button>&nbsp;
+        </Button>
+        &nbsp;
         <Button
           className="btn btn-danger"
           type="button"
           onClick={(e) => removeWo(e, row.workOrderId)}
         >
           <i className="bi bi-trash"></i>
+        </Button>
+        &nbsp;
+        <Button
+          className="btn btn-success"
+          type="button"
+          onClick={(e) => connectWithOperations(e, row.workOrderId)}
+        >
+          <i class="bi-list-task"></i>
         </Button>
       </div>
     );
@@ -177,10 +186,13 @@ const Work_Order = () => {
     console.log("remove wo : ", woId);
     navigate("/work-order-remove/" + woId);
   };
+  const connectWithOperations = (e, woId) => {
+    console.log("getting operations for wo : ", woId);
+  };
 
   return (
     <div className="container">
-      <div className="mainHeader">Work-Orders</div>
+      <div className="mainHeader">Work-Orders [Operations]</div>
       <hr />
       <Button
         className="btn btn-success"
