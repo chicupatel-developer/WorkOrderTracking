@@ -84,7 +84,7 @@ namespace Service.Repository
 
         public WorkOrder GetWorkOrder(int workOrderId)
         {
-            var wo = appDbContext.WorkOrders
+            var wo = appDbContext.WorkOrders.Include(x=>x.CustomerOrder)
                      .Where(x => x.WorkOrderId == workOrderId).FirstOrDefault();
             return wo;
         }

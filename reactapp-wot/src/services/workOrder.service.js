@@ -36,5 +36,11 @@ class WorkOrderService {
       headers: authHeader(),
     });
   };
+
+  removeWorkOrder = async (data) => {
+    return await http.post(`/removeWorkOrder`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new WorkOrderService();

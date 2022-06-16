@@ -11,6 +11,14 @@ import { useNavigate } from "react-router";
 
 import Moment from "moment";
 
+import {
+  getWorkOrderStatus,
+  getDaysLeft,
+  getOperationStatus,
+  getOperationNumber,
+  getOperationStatusForOperator,
+} from "../../services/local.service";
+
 const WorkOrder_Remove = () => {
   let navigate = useNavigate();
 
@@ -105,17 +113,21 @@ const WorkOrder_Remove = () => {
               </div>
               <div className="card-body">
                 <div className="container">
-                  <span className="headerText">Work-Order </span>
-                  {id ? <span>&nbsp;# {id}</span> : <span>&nbsp; # N/A</span>}
-                  <p></p>
-
                   <div className="row">
                     <div className="col-md-6 mx-auto">
+                      <span className="headerText">Work-Order </span>
+                      {id ? (
+                        <span>&nbsp;# {id}</span>
+                      ) : (
+                        <span>&nbsp; # N/A</span>
+                      )}
+                      <p></p>
+
                       <span className="headerText">Customer Name</span>
                       {wo.customerOrderId ? (
                         <span>
-                          <br />
-                          [# {wo.customerOrderId}] {wo.customer.customerName}
+                          &nbsp;&nbsp;[# {wo.customerOrderId}]{" "}
+                          {wo.customerOrder.customerName}
                         </span>
                       ) : (
                         <span>&nbsp; # N/A</span>
@@ -124,24 +136,22 @@ const WorkOrder_Remove = () => {
                       <span className="headerText">Work-Order Start Date</span>
                       {wo.workOrderStartDate ? (
                         <span>
-                          <br />
-                          {wo.workOrderStartDate}
+                          {" "}
+                          #{" "}
+                          {Moment(wo.workOrderStartDate).format("DD-MMM-YYYY")}
                         </span>
                       ) : (
                         <span>&nbsp; # N/A</span>
                       )}
                       <p></p>
                       <span className="headerText">Work-Order Status</span>
-                      {wo.workOrderSatus ? (
-                        <span>
-                          <br />
-                          {wo.workOrderSatus}
-                        </span>
+                      {wo.workOrderStatus || wo.workOrderStatus === 0 ? (
+                        <span> # {getWorkOrderStatus(wo.workOrderStatus)}</span>
                       ) : (
                         <span>&nbsp; # N/A</span>
                       )}
                       <p></p>
-                      <span className="headerText">Status</span>
+                      <span className="headerText">Note</span>
                       {wo.statusNote ? (
                         <span>
                           <br />
