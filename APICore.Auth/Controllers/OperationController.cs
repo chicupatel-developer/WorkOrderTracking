@@ -41,5 +41,58 @@ namespace APICore.Auth.Controllers
             return Ok(ops);
         }
 
+
+        [HttpGet]
+        [Route("getWorkOrderList")]
+        public IActionResult GetWorkOrderList()
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                var wos = _opRepo.GetWorkOrderList();
+                return Ok(wos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server Error!");
+            }
+        }
+
+
+        [HttpPost]
+        [Route("createOperation")]
+        public IActionResult CreateOperation(Operation op)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                if (ModelState.IsValid)
+                {
+                    _opRepo.AddOperation(op);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Operation is Connected with Work-Order # " + op.WorkOrderId + " !";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (WO_OP_Unique_Exception woopUEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = woopUEx.Message;
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
+
     }
 }

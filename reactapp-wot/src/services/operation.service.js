@@ -8,5 +8,17 @@ class OperationService {
       headers: authHeader(),
     });
   };
+
+  getWorkOrderList = async () => {
+    return await http.get(`/getWorkOrderList`, {
+      headers: authHeader(),
+    });
+  };
+
+  createOperation = async (data) => {
+    return await http.post(`/createOperation`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new OperationService();

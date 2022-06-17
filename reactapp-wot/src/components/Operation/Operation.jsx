@@ -108,6 +108,7 @@ const Operation = () => {
 
   const createNewOp = () => {
     console.log("create new operation fir wo# ", id);
+    navigate("/operation-create");
   };
 
   return (

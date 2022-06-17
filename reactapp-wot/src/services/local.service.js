@@ -11,6 +11,30 @@ export function getWorkOrderStatusToDisplay() {
   ];
 }
 
+export function getOperationStatusToDisplay() {
+  return [
+    { value: 0, opStatus: "Not_Started" },
+    { value: 1, opStatus: "Start_Running" },
+    { value: 2, opStatus: "Pause_Running" },
+    { value: 3, opStatus: "Completed" },
+    { value: 3, opStatus: "Can_Not_Complete" },
+  ];
+}
+
+export function getOperationNumberToDisplay() {
+  return [
+    { value: 10, opNumber: "Spindle" },
+    { value: 20, opNumber: "Hub_Single_Head" },
+    { value: 30, opNumber: "Hub_Double_Head" },
+    { value: 40, opNumber: "Push_Cups" },
+    { value: 50, opNumber: "Assembly_Spindle_Hub" },
+    { value: 60, opNumber: "Paint" },
+    { value: 70, opNumber: "Packaging" },
+    { value: 80, opNumber: "Rework_Spindle" },
+    { value: 90, opNumber: "Rework_Hub" },
+  ];
+}
+
 export function getWorkOrderStatus(wos) {
   if (wos === 0) return "Not_Started";
   if (wos === 1) return "Start_Running";
