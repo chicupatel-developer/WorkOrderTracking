@@ -102,7 +102,7 @@ const Work_Order = () => {
           type="button"
           onClick={(e) => connectWithOperations(e, row.workOrderId)}
         >
-          <i class="bi-list-task"></i>
+          <i className="bi-list-task"></i>
         </Button>
       </div>
     );
@@ -188,6 +188,7 @@ const Work_Order = () => {
   };
   const connectWithOperations = (e, woId) => {
     console.log("getting operations for wo : ", woId);
+    navigate("/operation/" + woId);
   };
 
   return (
@@ -201,6 +202,9 @@ const Work_Order = () => {
       >
         Create New Work-Order
       </Button>
+      <p></p>
+
+      <div className="subHeader">Work-Orders</div>
       <p></p>
       {wos && wos.length > 0 ? (
         <BootstrapTable

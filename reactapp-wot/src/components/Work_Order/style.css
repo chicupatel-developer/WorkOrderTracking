@@ -3,7 +3,13 @@
     color: darkolivegreen;
     font-size: xx-large;
     font-weight: bold;
+}
 
+.subHeader {
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
 }
 
 .noWos {

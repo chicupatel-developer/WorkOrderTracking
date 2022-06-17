@@ -67,7 +67,10 @@ function App() {
               path="/work-order-remove/:id"
               element={<WorkOrder_Remove />}
             />
-            <Route path="/operation" element={<Operation />} />
+            <Route
+              path="/operation/:id"
+              element={<Operation />}
+            />
             <Route
               path="/create-operator-log"
               element={<Create_Operator_Log />}

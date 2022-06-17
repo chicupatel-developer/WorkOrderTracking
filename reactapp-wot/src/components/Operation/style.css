@@ -1,3 +1,20 @@
-.mainContainer {
-    padding: 50px;
+.mainHeader {
+    text-align: center;
+    color: darkolivegreen;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.subHeader {
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.noOps {
+    text-align: center;
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
 }
