@@ -20,5 +20,17 @@ class OperationService {
       headers: authHeader(),
     });
   };
+
+  getOperation = async (opId) => {
+    return await http.get(`/getOperation/${opId}`, {
+      headers: authHeader(),
+    });
+  };
+
+  editOperation = async (data) => {
+    return await http.post(`/editOperation`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new OperationService();
