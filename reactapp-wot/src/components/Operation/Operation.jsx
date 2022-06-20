@@ -107,25 +107,40 @@ const Operation = () => {
   ];
 
   const createNewOp = () => {
-    console.log("create new operation fir wo# ", id);
-    navigate("/operation-create");
+    console.log("create new operation for wo# ", id);
+    // navigate("/operation-create");
+
+    navigate("/operation-create", {
+      state: {
+        workOrderId: id,
+      },
+    });
   };
 
   return (
     <div className="container">
       <div className="mainHeader">Work-Orders [Operations]</div>
       <hr />
-      <Button
-        className="btn btn-success"
-        type="button"
-        onClick={(e) => createNewOp(e)}
-      >
-        Create New Operation
-      </Button>
+
+      <div className="row">
+        <div className="col-md-3 mx-auto">
+          <Button
+            className="btn btn-success"
+            type="button"
+            onClick={(e) => createNewOp(e)}
+          >
+            Create New Operation
+          </Button>
+        </div>
+        <div className="col-md-6 mx-auto">
+          <div className="subHeader">Work-Order # {id}</div>
+          {ops && ops.length > 0 && <div className="subHeader">Operations</div>}
+        </div>
+        <div className="col-md-3 mx-auto"></div>
+      </div>
+
       <p></p>
 
-      <div className="subHeader">Operations</div>
-      <p></p>
       {ops && ops.length > 0 ? (
         <BootstrapTable
           bootstrap4

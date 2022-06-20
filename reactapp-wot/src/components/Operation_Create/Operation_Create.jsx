@@ -12,12 +12,15 @@ import {
 } from "../../services/local.service";
 
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 
 import Moment from "moment";
 
 const Operation_Create = () => {
   let navigate = useNavigate();
+  let location = useLocation();
 
+  const workOrderIdParam = location.state.workOrderId;
   const [workOrders, setWorkOrders] = useState([]);
   const [operationStatusCollection, setOperationStatusCollection] = useState(
     []
@@ -83,6 +86,13 @@ const Operation_Create = () => {
     } = form;
     const newErrors = {};
 
+    if (!operationNumber || operationNumber === "")
+      newErrors.operationNumber = "Operation-Number is Required!";
+    if (!workOrderId || workOrderId === "")
+      newErrors.workOrderId = "Work-Order is Required!";
+    if (!operationStatus || operationStatus === "")
+      newErrors.operationStatus = "Operation-Status is Required!";
+
     return newErrors;
   };
 
@@ -125,6 +135,41 @@ const Operation_Create = () => {
         };
 
         console.log(opModel);
+
+        // api call
+        OperationService.createOperation(opModel)
+          .then((response) => {
+            setModelErrors([]);
+            setOpCreateResponse({});
+            console.log(response.data);
+
+            var opCreateResponse = {
+              responseCode: response.data.responseCode,
+              responseMessage: response.data.responseMessage,
+            };
+            if (response.data.responseCode === 0) {
+              resetForm();
+              setOpCreateResponse(opCreateResponse);
+
+              setTimeout(() => {
+                navigate("/operation/" + workOrderIdParam);
+              }, 3000);
+            } else if (response.data.responseCode === -1) {
+              setOpCreateResponse(opCreateResponse);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setModelErrors([]);
+            setOpCreateResponse({});
+            // 400
+            // ModelState
+            if (error.response.status === 400) {
+              console.log("400 !");
+              var modelErrors = handleModelState(error);
+              setModelErrors(modelErrors);
+            }
+          });
       } else {
         console.log("Invalid Date(s) !");
         var opCreateResponse = {
@@ -180,6 +225,10 @@ const Operation_Create = () => {
     });
   };
 
+  const goBack = (e) => {
+    navigate("/operation/" + workOrderIdParam);
+  };
+
   let modelErrorList =
     modelErrors.length > 0 &&
     modelErrors.map((item, i) => {
@@ -197,22 +246,36 @@ const Operation_Create = () => {
           <div className="col-md-10 mx-auto">
             <div className="card">
               <div className="card-header">
-                <h3>Create New Operation</h3>
-                <p></p>{" "}
-                {opCreateResponse && opCreateResponse.responseCode === -1 ? (
-                  <span className="opCreateError">
-                    {opCreateResponse.responseMessage}
-                  </span>
-                ) : (
-                  <span className="opCreateSuccess">
-                    {opCreateResponse.responseMessage}
-                  </span>
-                )}
-                {modelErrors.length > 0 ? (
-                  <div className="modelError">{modelErrorList}</div>
-                ) : (
-                  <span></span>
-                )}
+                <div className="row">
+                  <div className="col-md-10 mx-auto">
+                    <h3>Create New Operation</h3>
+                    <p></p>{" "}
+                    {opCreateResponse &&
+                    opCreateResponse.responseCode === -1 ? (
+                      <span className="opCreateError">
+                        {opCreateResponse.responseMessage}
+                      </span>
+                    ) : (
+                      <span className="opCreateSuccess">
+                        {opCreateResponse.responseMessage}
+                      </span>
+                    )}
+                    {modelErrors.length > 0 ? (
+                      <div className="modelError">{modelErrorList}</div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </div>
+                  <div className="col-md-2 mx-auto">
+                    <Button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={(e) => goBack(e)}
+                    >
+                      <i className="bi bi-arrow-return-left"></i> Back
+                    </Button>
+                  </div>
+                </div>
               </div>
               <div className="card-body">
                 <Form ref={formRef}>
