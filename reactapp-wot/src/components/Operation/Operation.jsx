@@ -75,6 +75,21 @@ const Operation = () => {
     }
   };
 
+  const displayActionBtn = (cell, row) => {
+    // console.log(row);
+    return (
+      <div>
+        {" "}
+        <Button
+          className="btn btn-info"
+          type="button"
+          onClick={(e) => editOp(e, row.operationId)}
+        >
+          <i className="bi bi-pencil-square"></i>
+        </Button>{" "}
+      </div>
+    );
+  };
   const columns = [
     {
       dataField: "operationId",
@@ -104,7 +119,22 @@ const Operation = () => {
       dataField: "opQTYRequired",
       text: "QTY-Required",
     },
+    {
+      dataField: "actions",
+      text: "Actions",
+      formatter: (cell, row) => displayActionBtn(cell, row),
+    },
   ];
+
+  const editOp = (e, opId) => {
+    console.log("edit op : ", opId);
+    navigate("/operation-edit", {
+      state: {
+        workOrderId: id,
+        operationId: opId,
+      },
+    });
+  };
 
   const createNewOp = () => {
     console.log("create new operation for wo# ", id);

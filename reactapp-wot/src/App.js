@@ -24,6 +24,7 @@ import WorkOrder_Edit from "./components/WorkOrder_Edit/WorkOrder_Edit";
 import WorkOrder_Remove from "./components/WorkOrder_Remove/WorkOrder_Remove";
 import Operation from "./components/Operation/Operation";
 import Operation_Create from "./components/Operation_Create/Operation_Create";
+import Operation_Edit from "./components/Operation_Edit/Operation_Edit";
 import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
 import UnAuthorized from "./components/UnAuthorized/UnAuthorized";
 
@@ -70,6 +71,7 @@ function App() {
             />
             <Route path="/operation/:id" element={<Operation />} />
             <Route path="/operation-create" element={<Operation_Create />} />
+            <Route path="/operation-edit" element={<Operation_Edit />} />
             <Route
               path="/create-operator-log"
               element={<Create_Operator_Log />}
