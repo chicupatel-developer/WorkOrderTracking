@@ -94,5 +94,74 @@ namespace APICore.Auth.Controllers
             return Ok(_response);
         }
 
+
+        [HttpGet]
+        [Route("getOperation/{selectedOpId}")]
+        public IActionResult GetOperation(int selectedOpId)
+        {
+            var op = _opRepo.GetOperation(selectedOpId);
+            return Ok(op);
+        }
+        [HttpPost]
+        [Route("editOperation")]
+        public IActionResult EditOperation(Operation op)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+                if (ModelState.IsValid)
+                {   
+                    _opRepo.EditOperation(op);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Operation Edited Successfully!";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (OP_CanNot_Completed_Exception ocncEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = ocncEx.Message;
+            }
+            catch (Invalid_OP_Status_Exception iopsEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iopsEx.Message;
+            }
+            catch (Invalid_OP_StartDate_Exception iopsdEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iopsdEx.Message;
+            }
+            catch (OP_CanNot_Not_Started_Exception opcnnsEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = opcnnsEx.Message;
+            }
+            catch (OP_CanNot_Start_Running_Exception opcnsrEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = opcnsrEx.Message;
+            }
+            catch (OpStatus_OpStartDate_Exception opEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = opEx.Message;
+            }
+            catch (Record_Not_Found_Exception rnfEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = rnfEx.Message;
+            }         
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
     }
 }
