@@ -17,7 +17,7 @@ export function getOperationStatusToDisplay() {
     { value: 1, opStatus: "Start_Running" },
     { value: 2, opStatus: "Pause_Running" },
     { value: 3, opStatus: "Completed" },
-    { value: 3, opStatus: "Can_Not_Complete" },
+    { value: 4, opStatus: "Can_Not_Complete" },
   ];
 }
 

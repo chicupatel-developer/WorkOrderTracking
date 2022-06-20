@@ -10,6 +10,7 @@ import OperationService from "../../services/operation.service";
 import {
   getOperationStatusToDisplay,
   getOperationNumber,
+  getOperationStatus,
 } from "../../services/local.service";
 
 import { useNavigate } from "react-router";
@@ -27,16 +28,14 @@ const Operation_Edit = () => {
   const [operationStatusCollection, setOperationStatusCollection] = useState(
     []
   );
-  const [operationNumberCollection, setOperationNumberCollection] = useState(
-    []
-  );
+
   const [modelErrors, setModelErrors] = useState([]);
 
   const [opEditResponse, setOpEditResponse] = useState({});
 
   // form
   const [details, setDetails] = useState("");
-  const [operationStatus, setOperationStatus] = useState("");
+  const [operationStatus, setOperationStatus] = useState(0);
   const [operationStartDate, setOperationStartDate] = useState("");
   const [opQTYRequired, setOpQTYRequired] = useState(0);
   const [operationNumber, setOperationNumber] = useState(0);
@@ -69,16 +68,28 @@ const Operation_Edit = () => {
           } else {
             console.log(response.data);
 
-            setDetails(response.data.details);
+            if (response.data.details === null) {
+              setDetails("");
+            } else {
+              setDetails(response.data.details);
+            }
+
+            if (response.data.operationStartDate === null) {
+              setOperationStartDate("");
+            } else {
+              // convert c# date into react-bootstrap-date picker date format
+              setOperationStartDate(
+                new Date(response.data.operationStartDate)
+                  .toISOString()
+                  .slice(0, 10)
+              );
+            }
+
             setOperationStatus(response.data.operationStatus);
             setOpQTYRequired(response.data.opQTYRequired);
             setOperationNumber(response.data.operationNumber);
-            // convert c# date into react-bootstrap-date picker date format
-            setOperationStartDate(
-              new Date(response.data.operationStartDate)
-                .toISOString()
-                .slice(0, 10)
-            );
+
+            console.log(getOperationStatusToDisplay());
           }
         })
         .catch((e) => {
@@ -177,58 +188,50 @@ const Operation_Edit = () => {
       var oDate = Moment(operationStartDate);
       var oCheck = oDate.isValid();
 
-      if (oCheck) {
-        var opModel = {
-          operationId: operationIdParam,
-          workOrderId: workOrderIdParam,
-          operationNumber: operationNumber,
-          details: details,
-          operationStatus: operationStatus,
-          operationStartDate: operationStartDate,
-          opQTYRequired: parseInt(opQTYRequired),
-        };
+      if (oCheck) setOperationStartDate("");
 
-        console.log(opModel);
+      var opModel = {
+        operationId: operationIdParam,
+        workOrderId: workOrderIdParam,
+        operationNumber: parseInt(operationNumber),
+        details: details,
+        operationStatus: operationStatus,
+        operationStartDate: operationStartDate,
+        opQTYRequired: parseInt(opQTYRequired),
+      };
 
-        // api call
-        OperationService.editOperation(opModel)
-          .then((response) => {
-            console.log(response.data);
-            setModelErrors([]);
-            setOpEditResponse({});
-            var opEditResponse = {
-              responseCode: response.data.responseCode,
-              responseMessage: response.data.responseMessage,
-            };
+      console.log(opModel);
 
-            resetForm();
-            setOpEditResponse(opEditResponse);
-            if (response.data.responseCode === 0) {
-              setTimeout(() => {
-                navigate("/operation/" + workOrderIdParam);
-              }, 3000);
-            }
-          })
-          .catch((error) => {
-            setModelErrors([]);
-            setOpEditResponse({});
-            // 400
-            // ModelState
-            if (error.response.status === 400) {
-              console.log("400 !");
-              var modelErrors = handleModelState(error);
-              setModelErrors(modelErrors);
-            }
-          });
-      } else {
-        console.log("Invalid Date(s) !");
-        var opEditResponse = {
-          responseCode: -1,
-          responseMessage: "Invalid Date(s) !",
-        };
-        setOpEditResponse(opEditResponse);
-        setModelErrors([]);
-      }
+      // api call
+      OperationService.editOperation(opModel)
+        .then((response) => {
+          console.log(response.data);
+          setModelErrors([]);
+          setOpEditResponse({});
+          var opEditResponse = {
+            responseCode: response.data.responseCode,
+            responseMessage: response.data.responseMessage,
+          };
+
+          resetForm();
+          setOpEditResponse(opEditResponse);
+          if (response.data.responseCode === 0) {
+            setTimeout(() => {
+              navigate("/operation/" + workOrderIdParam);
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          setModelErrors([]);
+          setOpEditResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+          }
+        });
     }
   };
 
