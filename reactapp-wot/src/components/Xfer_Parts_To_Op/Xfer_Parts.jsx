@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 
 import AuthService from "../../services/auth.service";
 import OperationService from "../../services/operation.service";
+import { getOperationNumber } from "../../services/local.service";
 
 import { useNavigate } from "react-router";
 
@@ -18,6 +19,7 @@ const Xfer_Parts = () => {
   let { id } = useParams();
 
   const [parts, setParts] = useState([]);
+  const [xferInfo, setXferInfo] = useState({});
 
   const [modelErrors, setModelErrors] = useState([]);
 
@@ -34,6 +36,7 @@ const Xfer_Parts = () => {
       navigate("/un-auth");
     else {
       getParts();
+      getOperationDetails(id);
     }
   }, []);
 
@@ -41,6 +44,15 @@ const Xfer_Parts = () => {
     OperationService.getPartList()
       .then((response) => {
         setParts(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getOperationDetails = (id) => {
+    OperationService.getOperationDetails(id)
+      .then((response) => {
+        setXferInfo(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -100,6 +112,7 @@ const Xfer_Parts = () => {
     formRef.current.reset();
     setErrors({});
     setPartId("");
+    setXferInfo({});
     setXferEditResponse({});
     setModelErrors([]);
   };
@@ -132,6 +145,10 @@ const Xfer_Parts = () => {
     });
   };
 
+  const goBack = (e) => {
+    navigate("/operation/" + xferInfo.workOrderId);
+  };
+
   return (
     <div className="mainContainer">
       <div className="container">
@@ -139,22 +156,47 @@ const Xfer_Parts = () => {
           <div className="col-md-10 mx-auto">
             <div className="card">
               <div className="card-header">
-                <h3>XFER - Parts - TO - Operation</h3>
-                <p></p>{" "}
-                {xferEditResponse && xferEditResponse.responseCode === -1 ? (
-                  <span className="xferEditError">
-                    {xferEditResponse.responseMessage}
-                  </span>
-                ) : (
-                  <span className="xferEditSuccess">
-                    {xferEditResponse.responseMessage}
-                  </span>
-                )}
-                {modelErrors.length > 0 ? (
-                  <div className="modelError">{modelErrorList}</div>
-                ) : (
-                  <span></span>
-                )}
+                <div className="row">
+                  <div className="col-md-10 mx-auto">
+                    <h3>XFER - Parts - TO - Operation</h3>
+                    <div>
+                      <h5>Customer : {xferInfo.customerName}</h5>
+                      <h5>Customer-Order # {xferInfo.customerOrderId}</h5>
+                      <h5>Customer-Order QTY # {xferInfo.customerOrderQTY}</h5>
+                      <h5>Work-Order # {xferInfo.workOrderId}</h5>
+                      <h5>Operation # {id}</h5>
+                      <h5>
+                        Operation Number #{" "}
+                        {getOperationNumber(xferInfo.operationNumber)}
+                      </h5>
+                    </div>
+                    <p></p>{" "}
+                    {xferEditResponse &&
+                    xferEditResponse.responseCode === -1 ? (
+                      <span className="xferEditError">
+                        {xferEditResponse.responseMessage}
+                      </span>
+                    ) : (
+                      <span className="xferEditSuccess">
+                        {xferEditResponse.responseMessage}
+                      </span>
+                    )}
+                    {modelErrors.length > 0 ? (
+                      <div className="modelError">{modelErrorList}</div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </div>
+                  <div className="col-md-2 mx-auto">
+                    <Button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={(e) => goBack(e)}
+                    >
+                      <i className="bi bi-arrow-return-left"></i> Back
+                    </Button>
+                  </div>
+                </div>
               </div>
               <div className="card-body">
                 <Form ref={formRef}>
