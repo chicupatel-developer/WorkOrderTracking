@@ -87,6 +87,13 @@ const Operation = () => {
         >
           <i className="bi bi-pencil-square"></i>
         </Button>{" "}
+        <Button
+          className="btn btn-success"
+          type="button"
+          onClick={(e) => xferParts(e, row.operationId)}
+        >
+          <i className="bi-list-task"></i>
+        </Button>
       </div>
     );
   };
@@ -125,6 +132,11 @@ const Operation = () => {
       formatter: (cell, row) => displayActionBtn(cell, row),
     },
   ];
+
+  const xferParts = (e, opId) => {
+    console.log("xfer parts to op : ", opId);
+    navigate("/xfer-parts/" + opId);
+  };
 
   const editOp = (e, opId) => {
     console.log("edit op : ", opId);

@@ -25,12 +25,14 @@ namespace APICore.Auth.Controllers
     {
         private readonly IOperationRepository _opRepo;
         private readonly IWorkOrderRepository _woRepo;
+        private readonly IPartRepository _partRepo;
         private APIResponse _response;
 
-        public OperationController(IOperationRepository opRepo, IWorkOrderRepository woRepo)
+        public OperationController(IPartRepository partRepo, IOperationRepository opRepo, IWorkOrderRepository woRepo)
         {
             _opRepo = opRepo;
             _woRepo = woRepo;
+            _partRepo = partRepo;
         }
 
         [HttpGet]
@@ -163,5 +165,42 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
+        // xfer parts
+        [HttpGet]
+        [Route("getPartList")]
+        public IActionResult GetPartList()
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                var parts = _partRepo.GetPartList();
+                return Ok(parts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server Error!");
+            }
+        }
+        [HttpGet]
+        [Route("getOperationDetails/{selectedOpId}")]
+        public IActionResult GetOperationDetails(int selectedOpId)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                var xferInfo = _opRepo.GetOperationDetails(selectedOpId);
+                return Ok(xferInfo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server Error!");
+            }         
+        }
+
     }
 }

@@ -32,5 +32,22 @@ class OperationService {
       headers: authHeader(),
     });
   };
+
+  // xfer parts
+  getPartList = async () => {
+    return await http.get(`/getPartList`, {
+      headers: authHeader(),
+    });
+  };
+  getOperationDetails = async (opId) => {
+    return await http.get(`/getOperationDetails/${opId}`, {
+      headers: authHeader(),
+    });
+  };
+  xferPartsForOperation = async (data) => {
+    return await http.post(`/xferPartsForOperation`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new OperationService();

@@ -1,0 +1,17 @@
+.mainContainer {
+    padding: 50px;
+}
+.xferEditSuccess {
+    color: green;
+    font-size: large;
+}
+.xferEditError {
+    color: red;
+    font-size: large;
+}
+.modelError{
+    color: red;
+    font-size: medium;
+    font-weight: bold;
+    margin-top: 30px;
+}
