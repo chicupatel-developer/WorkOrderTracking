@@ -265,6 +265,10 @@ const Operation_Edit = () => {
     });
   };
 
+  const goBack = (e) => {
+    navigate("/operation/" + workOrderIdParam);
+  };
+
   return (
     <div className="mainContainer">
       <div className="container">
@@ -272,28 +276,41 @@ const Operation_Edit = () => {
           <div className="col-md-10 mx-auto">
             <div className="card">
               <div className="card-header">
-                <h3>
-                  Edit Operation # {operationIdParam}
-                  <br />
-                  Work-Order # {workOrderIdParam}
-                  <br />
-                  Operation # {getOperationNumber(operationNumber)}
-                </h3>
-                <p></p>{" "}
-                {opEditResponse && opEditResponse.responseCode === -1 ? (
-                  <span className="opEditError">
-                    {opEditResponse.responseMessage}
-                  </span>
-                ) : (
-                  <span className="opEditSuccess">
-                    {opEditResponse.responseMessage}
-                  </span>
-                )}
-                {modelErrors.length > 0 ? (
-                  <div className="modelError">{modelErrorList}</div>
-                ) : (
-                  <span></span>
-                )}
+                <div className="row">
+                  <div className="col-md-10 mx-auto">
+                    <h3>
+                      Edit Operation # {operationIdParam}
+                      <br />
+                      Work-Order # {workOrderIdParam}
+                      <br />
+                      Operation # {getOperationNumber(operationNumber)}
+                    </h3>
+                    <p></p>{" "}
+                    {opEditResponse && opEditResponse.responseCode === -1 ? (
+                      <span className="opEditError">
+                        {opEditResponse.responseMessage}
+                      </span>
+                    ) : (
+                      <span className="opEditSuccess">
+                        {opEditResponse.responseMessage}
+                      </span>
+                    )}
+                    {modelErrors.length > 0 ? (
+                      <div className="modelError">{modelErrorList}</div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </div>
+                  <div className="col-md-2 mx-auto">
+                    <Button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={(e) => goBack(e)}
+                    >
+                      <i className="bi bi-arrow-return-left"></i> Back
+                    </Button>
+                  </div>
+                </div>
               </div>
               <div className="card-body">
                 <Form ref={formRef}>
