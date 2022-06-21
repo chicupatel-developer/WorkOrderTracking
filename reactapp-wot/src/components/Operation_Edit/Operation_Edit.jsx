@@ -35,7 +35,7 @@ const Operation_Edit = () => {
 
   // form
   const [details, setDetails] = useState("");
-  const [operationStatus, setOperationStatus] = useState(0);
+  const [operationStatus, setOperationStatus] = useState("");
   const [operationStartDate, setOperationStartDate] = useState("");
   const [opQTYRequired, setOpQTYRequired] = useState(0);
   const [operationNumber, setOperationNumber] = useState(0);
@@ -88,8 +88,6 @@ const Operation_Edit = () => {
             setOperationStatus(response.data.operationStatus);
             setOpQTYRequired(response.data.opQTYRequired);
             setOperationNumber(response.data.operationNumber);
-
-            console.log(getOperationStatusToDisplay());
           }
         })
         .catch((e) => {
@@ -188,7 +186,7 @@ const Operation_Edit = () => {
       var oDate = Moment(operationStartDate);
       var oCheck = oDate.isValid();
 
-      if (oCheck) setOperationStartDate("");
+      if (!oCheck) setOperationStartDate("");
 
       var opModel = {
         operationId: operationIdParam,
@@ -206,14 +204,15 @@ const Operation_Edit = () => {
       OperationService.editOperation(opModel)
         .then((response) => {
           console.log(response.data);
+
           setModelErrors([]);
           setOpEditResponse({});
           var opEditResponse = {
             responseCode: response.data.responseCode,
             responseMessage: response.data.responseMessage,
           };
+          if (response.data.responseCode === 0) resetForm();
 
-          resetForm();
           setOpEditResponse(opEditResponse);
           if (response.data.responseCode === 0) {
             setTimeout(() => {
@@ -242,7 +241,6 @@ const Operation_Edit = () => {
     setOperationStatus("");
     setOperationStartDate("");
     setOpQTYRequired(0);
-    setOperationNumber("");
     setOpEditResponse({});
     setModelErrors([]);
   };
@@ -339,6 +337,7 @@ const Operation_Edit = () => {
                           type="date"
                           name="operationStartDate"
                           value={operationStartDate}
+                          placeholder="Operation Start Date"
                           isInvalid={!!errors.operationStartDate}
                           onChange={(e) => handleOperationStartDate(e)}
                         />
@@ -351,6 +350,7 @@ const Operation_Edit = () => {
                         <Form.Label>Op-Status</Form.Label>
                         <Form.Control
                           as="select"
+                          value={operationStatus}
                           isInvalid={!!errors.operationStatus}
                           onChange={(e) => handleOperationStatus(e)}
                         >
