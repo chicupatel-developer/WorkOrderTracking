@@ -278,28 +278,29 @@ const Operation_Edit = () => {
               <div className="card-header">
                 <div className="row">
                   <div className="col-md-10 mx-auto">
-                    <h3>
-                      Edit Operation # {operationIdParam}
-                      <br />
-                      Work-Order # {workOrderIdParam}
-                      <br />
-                      Operation # {getOperationNumber(operationNumber)}
-                    </h3>
-                    <p></p>{" "}
-                    {opEditResponse && opEditResponse.responseCode === -1 ? (
-                      <span className="opEditError">
-                        {opEditResponse.responseMessage}
-                      </span>
-                    ) : (
-                      <span className="opEditSuccess">
-                        {opEditResponse.responseMessage}
-                      </span>
-                    )}
-                    {modelErrors.length > 0 ? (
-                      <div className="modelError">{modelErrorList}</div>
-                    ) : (
-                      <span></span>
-                    )}
+                    <h3>Edit Operation # {operationIdParam}</h3>
+                    <div className="header">
+                      <h5>
+                        Work-Order # {workOrderIdParam}
+                        <br />
+                        Operation # {getOperationNumber(operationNumber)}
+                      </h5>
+                      <p></p>{" "}
+                      {opEditResponse && opEditResponse.responseCode === -1 ? (
+                        <span className="opEditError">
+                          {opEditResponse.responseMessage}
+                        </span>
+                      ) : (
+                        <span className="opEditSuccess">
+                          {opEditResponse.responseMessage}
+                        </span>
+                      )}
+                      {modelErrors.length > 0 ? (
+                        <div className="modelError">{modelErrorList}</div>
+                      ) : (
+                        <span></span>
+                      )}
+                    </div>
                   </div>
                   <div className="col-md-2 mx-auto">
                     <Button

@@ -23,10 +23,11 @@ const Xfer_Parts = () => {
 
   const [modelErrors, setModelErrors] = useState([]);
 
-  const [xferEditResponse, setXferEditResponse] = useState({});
+  const [xferResponse, setXferResponse] = useState({});
 
   // form
   const [partId, setPartId] = useState("");
+  const [xferQTY, setXferQTY] = useState(0);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -67,8 +68,19 @@ const Xfer_Parts = () => {
     const newErrors = {};
 
     if (!partId || partId === "") newErrors.partId = "Part is Required!";
+    if (!xferQTY || xferQTY === "") newErrors.xferQTY = "XFER-QTY is Required!";
+    else {
+      if (!checkForNumbersOnly(xferQTY))
+        newErrors.xferQTY = "Only Numbers are Allowed!";
+    }
 
     return newErrors;
+  };
+
+  const checkForNumbersOnly = (newVal) => {
+    const re = /^\d*\.?\d*$/;
+    if (re.test(newVal)) return true;
+    else return false;
   };
 
   const handleModelState = (error) => {
@@ -103,8 +115,44 @@ const Xfer_Parts = () => {
       var xferModel = {
         partId: partId,
         operationId: id,
+        xFERQTY: parseInt(xferQTY),
       };
       console.log(xferModel);
+
+      // api call
+      OperationService.xferPartsForOperation(xferModel)
+        .then((response) => {
+          setModelErrors([]);
+          setXferResponse({});
+          console.log(response.data);
+
+          var _xferResponse = {
+            responseCode: response.data.responseCode,
+            responseMessage: response.data.responseMessage,
+          };
+          if (response.data.responseCode === 0) {
+            resetForm();
+            setXferResponse(_xferResponse);
+
+            setTimeout(() => {
+              navigate("/operation/" + xferInfo.workOrderId);
+            }, 3000);
+          } else if (response.data.responseCode === -1) {
+            setXferResponse(_xferResponse);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setModelErrors([]);
+          setXferResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+          }
+        });
     }
   };
 
@@ -112,8 +160,7 @@ const Xfer_Parts = () => {
     formRef.current.reset();
     setErrors({});
     setPartId("");
-    setXferInfo({});
-    setXferEditResponse({});
+    setXferResponse({});
     setModelErrors([]);
   };
 
@@ -123,6 +170,14 @@ const Xfer_Parts = () => {
       setErrors({
         ...errors,
         partId: "",
+      });
+  };
+  const handleXferQTY = (event) => {
+    setXferQTY(event.target.value);
+    if (!errors[xferQTY])
+      setErrors({
+        ...errors,
+        xferQTY: "",
       });
   };
 
@@ -159,7 +214,7 @@ const Xfer_Parts = () => {
                 <div className="row">
                   <div className="col-md-10 mx-auto">
                     <h3>XFER - Parts - TO - Operation</h3>
-                    <div>
+                    <div className="header">
                       <h5>Customer : {xferInfo.customerName}</h5>
                       <h5>Customer-Order # {xferInfo.customerOrderId}</h5>
                       <h5>Customer-Order QTY # {xferInfo.customerOrderQTY}</h5>
@@ -171,14 +226,13 @@ const Xfer_Parts = () => {
                       </h5>
                     </div>
                     <p></p>{" "}
-                    {xferEditResponse &&
-                    xferEditResponse.responseCode === -1 ? (
-                      <span className="xferEditError">
-                        {xferEditResponse.responseMessage}
+                    {xferResponse && xferResponse.responseCode === -1 ? (
+                      <span className="xferError">
+                        {xferResponse.responseMessage}
                       </span>
                     ) : (
-                      <span className="xferEditSuccess">
-                        {xferEditResponse.responseMessage}
+                      <span className="xferSuccess">
+                        {xferResponse.responseMessage}
                       </span>
                     )}
                     {modelErrors.length > 0 ? (
@@ -215,6 +269,19 @@ const Xfer_Parts = () => {
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
                           {errors.partId}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="xferQTY">
+                        <Form.Label>XFER QTY</Form.Label>
+                        <Form.Control
+                          className="qtyDisplay"
+                          type="text"
+                          isInvalid={!!errors.xferQTY}
+                          onChange={(e) => handleXferQTY(e)}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.xferQTY}
                         </Form.Control.Feedback>
                       </Form.Group>
                     </div>

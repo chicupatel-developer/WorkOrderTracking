@@ -201,6 +201,47 @@ namespace APICore.Auth.Controllers
                 return BadRequest("Server Error!");
             }         
         }
+        [HttpPost]
+        [Route("xferPartsForOperation")]
+        public IActionResult XferPartsForOperation(OperationToPart opToPart)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
 
+                if (ModelState.IsValid)
+                {
+                    _opRepo.XferPartsForOperation(opToPart);
+                    _response.ResponseCode = 0;
+                    _response.ResponseMessage = "Parts Xfer Completed !";
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Not_Enough_QTY_Exception neqEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = neqEx.Message;
+            }
+            catch (Record_Not_Found_Exception rnfEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = rnfEx.Message;
+            }
+            catch (OP_Part_Unique_Exception dupPrtEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = dupPrtEx.Message;
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error!";
+            }
+            return Ok(_response);
+        }
     }
 }

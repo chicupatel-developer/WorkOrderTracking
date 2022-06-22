@@ -237,7 +237,7 @@ const WorkOrder_Edit = () => {
         <div className="row">
           <div className="col-md-10 mx-auto">
             <div className="card">
-              <div className="card-header">
+              <div className="card-header header">
                 <h3>Edit Work-Order # {id}</h3>
                 <p></p>{" "}
                 {woEditResponse && woEditResponse.responseCode === -1 ? (

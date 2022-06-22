@@ -1,11 +1,11 @@
 .mainContainer {
     padding: 50px;
 }
-.xferEditSuccess {
+.xferSuccess {
     color: green;
     font-size: large;
 }
-.xferEditError {
+.xferError {
     color: red;
     font-size: large;
 }
@@ -14,4 +14,16 @@
     font-size: medium;
     font-weight: bold;
     margin-top: 30px;
+}
+
+.header{
+    background-color: lightcyan;
+    color: rgb(224, 9, 9);
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+.qtyDisplay {
+    width: 150px;
 }
