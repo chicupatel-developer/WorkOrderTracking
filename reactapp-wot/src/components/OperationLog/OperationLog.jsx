@@ -14,6 +14,11 @@ import { useNavigate } from "react-router-dom";
 
 import { Table, Button } from "react-bootstrap";
 
+// react-bootstrap-table-2
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
+
 import Moment from "moment";
 
 const OperationLog = () => {
@@ -35,6 +40,14 @@ const OperationLog = () => {
     OperationService.getOperationLogData(id)
       .then((response) => {
         console.log(response.data);
+
+        // add index column to response.data.operationHistory
+        var index = 1;
+        response.data.operationHistory.forEach(function (element) {
+          element.id = index++;
+        });
+        console.log(response.data.operationHistory);
+
         setOpLog(response.data);
       })
       .catch((e) => {
@@ -47,7 +60,85 @@ const OperationLog = () => {
       });
   };
 
-  return <div></div>;
+  const displayDate = (cell) => {
+    if (cell === null || cell === "") return "N/A";
+    else {
+      return Moment(cell).format("DD-MMM, h:mm a");
+    }
+  };
+
+  const displayOperator = (cell, row) => {
+    return row.operatorName + " [" + cell + "]";
+  };
+
+  const columns = [
+    {
+      dataField: "id",
+      text: "#",
+      sort: true,
+    },
+    {
+      dataField: "cycleTime",
+      text: "Cycle Time",
+      sort: true,
+    },
+    {
+      dataField: "opStartRunTime",
+      text: "Start Time",
+      formatter: (cell) => displayDate(cell),
+    },
+    {
+      dataField: "opPauseRunTime",
+      text: "Pause Time",
+      formatter: (cell) => displayDate(cell),
+    },
+    {
+      dataField: "operatorId",
+      text: "Operator",
+      formatter: (cell, row) => displayOperator(cell, row),
+    },
+    {
+      dataField: "qtyDone",
+      text: "QTY-Done",
+    },
+  ];
+
+  return (
+    <div className="container">
+      <div className="mainHeader">Operation-Log</div>
+      <hr />
+
+      <div className="row">
+        <div className="col-md-10 mx-auto">
+          <div className="subHeader">
+            Operation # {id}
+            <br />
+            Operation Number # {getOperationNumber(opLog.operationNumber)}
+            <br />
+            Work-Order # {opLog.workOrderId}
+          </div>
+          {opLog.operationHistory && opLog.operationHistory.length > 0 && (
+            <div className="operationHeader">Operation-Log-Data</div>
+          )}
+        </div>
+      </div>
+
+      <p></p>
+
+      {opLog.operationHistory && opLog.operationHistory.length > 0 ? (
+        <BootstrapTable
+          bootstrap4
+          keyField="id"
+          data={opLog.operationHistory}
+          columns={columns}
+          pagination={paginationFactory({ sizePerPage: 20 })}
+          filter={filterFactory()}
+        />
+      ) : (
+        <div className="noOps">No Operation-History!</div>
+      )}
+    </div>
+  );
 };
 
 export default OperationLog;

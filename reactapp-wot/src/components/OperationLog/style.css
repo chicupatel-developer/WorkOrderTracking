@@ -1,10 +1,28 @@
-.opBody {
-    background-color: lightgoldenrodyellow;
-    color: black;
-    font-size: small;
+.mainHeader {
+    text-align: center;
+    color: darkolivegreen;
+    font-size: xx-large;
     font-weight: bold;
-    border-top: 2px solid black;
-    padding-top: 10px;
-    padding-bottom: 15px;
+}
+
+.subHeader {
+    text-align: left;
+    color: blue;
+    font-size: large;
+    font-weight: bold;
+}
+
+.operationHeader {
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.noOps {
+    text-align: center;
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
 }
 
