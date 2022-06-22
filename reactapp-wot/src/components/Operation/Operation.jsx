@@ -145,10 +145,10 @@ const Operation = () => {
     navigate("/xfer-parts/" + opId);
   };
 
-   const getOpLog = (e, opId) => {
-     console.log("operation-log data for op : ", opId);
-     navigate("/operation-log/" + opId);
-   };
+  const getOpLog = (e, opId) => {
+    console.log("operation-log data for op : ", opId);
+    navigate("/operation-log/" + opId);
+  };
 
   const editOp = (e, opId) => {
     console.log("edit op : ", opId);
@@ -187,8 +187,10 @@ const Operation = () => {
           </Button>
         </div>
         <div className="col-md-6 mx-auto">
-          <div className="subHeader">Work-Order # {id}</div>
-          {ops && ops.length > 0 && <div className="subHeader">Operations</div>}
+          <div className="subHeaderOp">Work-Order # {id}</div>
+          {ops && ops.length > 0 && (
+            <div className="subHeaderOp">Operations</div>
+          )}
         </div>
         <div className="col-md-3 mx-auto"></div>
       </div>

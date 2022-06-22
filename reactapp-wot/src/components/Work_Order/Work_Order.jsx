@@ -204,7 +204,7 @@ const Work_Order = () => {
       </Button>
       <p></p>
 
-      <div className="subHeader">Work-Orders</div>
+      <div className="subHeaderWo">Work-Orders</div>
       <p></p>
       {wos && wos.length > 0 ? (
         <BootstrapTable
