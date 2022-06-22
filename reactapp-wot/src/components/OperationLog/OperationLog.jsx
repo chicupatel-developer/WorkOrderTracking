@@ -27,6 +27,7 @@ const OperationLog = () => {
   let { id } = useParams();
 
   const [opLog, setOpLog] = useState([]);
+  const [apiError, setApiError] = useState("");
 
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
@@ -56,6 +57,8 @@ const OperationLog = () => {
           console.log("Token Not Found!");
           AuthService.logout();
           navigate("/login");
+        } else if (e.response.status === 400) {
+          setApiError(e.response.data);
         }
       });
   };
@@ -117,6 +120,8 @@ const OperationLog = () => {
             <br />
             Work-Order # {opLog.workOrderId}
           </div>
+          {apiError && <div className="apiError">{apiError}</div>}
+
           {opLog.operationHistory && opLog.operationHistory.length > 0 && (
             <div className="operationHeader">Operation-Log-Data</div>
           )}

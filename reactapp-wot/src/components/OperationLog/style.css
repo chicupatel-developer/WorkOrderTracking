@@ -15,14 +15,24 @@
 .operationHeader {
     text-align: center;
     color: red;
-    font-size: x-large;
+    font-size: large;
     font-weight: bold;
 }
 
 .noOps {
     text-align: center;
     color: red;
-    font-size: xx-large;
+    font-size: large;
     font-weight: bold;
+}
+
+.apiError{
+    margin-top: 25px;
+    padding: 5px;
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+    background-color: black;
 }
 
