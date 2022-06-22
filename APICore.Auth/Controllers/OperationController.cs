@@ -243,5 +243,26 @@ namespace APICore.Auth.Controllers
             }
             return Ok(_response);
         }
+
+
+        [HttpGet]
+        [Route("getOperationLogData/{selectedOpId}")]
+        public IActionResult GetOperationLogData(int selectedOpId)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                var operationLog = _opRepo.GetOperationLogData(selectedOpId);
+                return Ok(operationLog);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server Error!");
+            }
+        }
+
+
     }
 }

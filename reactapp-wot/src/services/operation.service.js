@@ -49,5 +49,11 @@ class OperationService {
       headers: authHeader(),
     });
   };
+
+  getOperationLogData = async (opId) => {
+    return await http.get(`/getOperationLogData/${opId}`, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new OperationService();
