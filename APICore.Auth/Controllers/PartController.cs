@@ -176,6 +176,7 @@ namespace APICore.Auth.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { status = "fail", message = "Server Error ! File Can Not Upload At This Time !" });
             }
         }
+
     }
 }
 

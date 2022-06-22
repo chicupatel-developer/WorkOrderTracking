@@ -55,5 +55,11 @@ class OperationService {
       headers: authHeader(),
     });
   };
+
+  getPartHistory = async (opId) => {
+    return await http.get(`/getPartHistory/${opId}`, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new OperationService();

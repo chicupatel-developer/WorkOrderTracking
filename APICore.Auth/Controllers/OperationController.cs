@@ -263,6 +263,25 @@ namespace APICore.Auth.Controllers
             }
         }
 
+        // get
+        // all part(s) history from operationid
+        [HttpGet]
+        [Route("getPartHistory/{selectedOperationId}")]
+        public IActionResult GetPartHistory(int selectedOperationId)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                var partHistory = _partRepo.GetPartHistory(selectedOperationId);
+                return Ok(partHistory);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server Error!");
+            }
+        }
 
     }
 }
