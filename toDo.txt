@@ -6,3 +6,6 @@ WebStore
 NgApp-WOT
 	- apply ModelState to
 		- Login and Register and Part*
+
+reactapp-wot
+	- process:get part history@part 
