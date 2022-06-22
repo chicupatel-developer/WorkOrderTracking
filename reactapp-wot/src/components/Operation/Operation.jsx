@@ -75,6 +75,21 @@ const Operation = () => {
     }
   };
 
+  const displayPKColumn = (cell, row) => {
+    return (
+      <span>
+        <Button
+          className="btn btn-primary"
+          type="button"
+          onClick={(e) => getOpLog(e, row.operationId)}
+        >
+          <i className="bi-binoculars"></i>
+        </Button>
+        &nbsp;{cell}
+      </span>
+    );
+  };
+
   const displayActionBtn = (cell, row) => {
     // console.log(row);
     return (
@@ -88,18 +103,18 @@ const Operation = () => {
           <i className="bi bi-pencil-square"></i>
         </Button>{" "}
         <Button
-          className="btn btn-success"
+          className="btn btn-warning"
           type="button"
           onClick={(e) => xferParts(e, row.operationId)}
         >
           <i className="bi-arrows-move"></i>
         </Button>{" "}
         <Button
-          className="btn btn-primary"
+          className="btn btn-success"
           type="button"
-          onClick={(e) => getOpLog(e, row.operationId)}
+          onClick={(e) => getPartHistory(e, row.operationId)}
         >
-          <i className="bi-binoculars"></i>
+          <i className="bi-clock-history"></i>
         </Button>
       </div>
     );
@@ -108,7 +123,7 @@ const Operation = () => {
     {
       dataField: "operationId",
       text: "OP #",
-      sort: true,
+      formatter: (cell, row) => displayPKColumn(cell, row),
     },
     {
       dataField: "details",
@@ -139,6 +154,10 @@ const Operation = () => {
       formatter: (cell, row) => displayActionBtn(cell, row),
     },
   ];
+
+  const getPartHistory = (e, opId) => {
+    console.log("parts xfer history for op : ", opId);
+  };
 
   const xferParts = (e, opId) => {
     console.log("xfer parts to op : ", opId);
