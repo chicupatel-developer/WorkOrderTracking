@@ -26,6 +26,7 @@ import Operation from "./components/Operation/Operation";
 import Operation_Create from "./components/Operation_Create/Operation_Create";
 import Operation_Edit from "./components/Operation_Edit/Operation_Edit";
 import Xfer_Parts from "./components/Xfer_Parts_To_Op/Xfer_Parts";
+import OperationLog from "./components/OperationLog/OperationLog";
 import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
 import UnAuthorized from "./components/UnAuthorized/UnAuthorized";
 
@@ -74,6 +75,7 @@ function App() {
             <Route path="/operation-create" element={<Operation_Create />} />
             <Route path="/operation-edit" element={<Operation_Edit />} />
             <Route path="/xfer-parts/:id" element={<Xfer_Parts />} />
+            <Route path="/operation-log/:id" element={<OperationLog />} />
             <Route
               path="/create-operator-log"
               element={<Create_Operator_Log />}

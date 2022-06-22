@@ -92,7 +92,14 @@ const Operation = () => {
           type="button"
           onClick={(e) => xferParts(e, row.operationId)}
         >
-          <i className="bi-list-task"></i>
+          <i className="bi-arrows-move"></i>
+        </Button>{" "}
+        <Button
+          className="btn btn-primary"
+          type="button"
+          onClick={(e) => getOpLog(e, row.operationId)}
+        >
+          <i className="bi-binoculars"></i>
         </Button>
       </div>
     );
@@ -137,6 +144,11 @@ const Operation = () => {
     console.log("xfer parts to op : ", opId);
     navigate("/xfer-parts/" + opId);
   };
+
+   const getOpLog = (e, opId) => {
+     console.log("operation-log data for op : ", opId);
+     navigate("/operation-log/" + opId);
+   };
 
   const editOp = (e, opId) => {
     console.log("edit op : ", opId);
