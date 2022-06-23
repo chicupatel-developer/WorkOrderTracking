@@ -30,6 +30,11 @@ const Operation = () => {
 
   const [ops, setOps] = useState([]);
 
+  const [partHistory, setPartHistory] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
 
@@ -157,6 +162,23 @@ const Operation = () => {
 
   const getPartHistory = (e, opId) => {
     console.log("parts xfer history for op : ", opId);
+
+    OperationService.getPartHistory(opId)
+      .then((response) => {
+        console.log(response.data);
+        setPartHistory(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+        if (e.response.status === 401) {
+          console.log("Token Not Found!");
+          AuthService.logout();
+          navigate("/login");
+        } else if (e.response.status === 400)
+          setPartHistory({ apiError: e.response.data });
+      });
+
+    openModal();
   };
 
   const xferParts = (e, opId) => {
@@ -228,6 +250,38 @@ const Operation = () => {
       ) : (
         <div className="noOps">No Operations!</div>
       )}
+
+      <p></p>
+      <div className="container">
+        <Modal show={isOpen} onHide={closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Parts XFER History</Modal.Title>
+          </Modal.Header>
+          {partHistory.apiError ? (
+            <div className="apiErrorHistoryData">{partHistory.apiError}</div>
+          ) : (
+            <Modal.Body>
+              <div className="card historyData">
+                <div className="card-header">
+                  Operation # {partHistory.operationId}
+                </div>
+                <div className="card-body">
+                  Operation Number #{" "}
+                  {getOperationNumber(partHistory.operationNumber)}
+                  <br />
+                  Work-Order # {partHistory.workOrderId}
+                </div>
+              </div>
+            </Modal.Body>
+          )}
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 };
