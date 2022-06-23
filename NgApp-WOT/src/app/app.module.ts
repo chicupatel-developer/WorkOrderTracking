@@ -13,6 +13,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
+
 // services
 import { DataService } from './services/data.service';
 import { UserService } from './services/user.service';
@@ -67,6 +70,7 @@ import { PartUploadComponent } from './part-upload/part-upload.component';
     HttpClientModule,
     AppRoutingModule,
     NgxNavbarModule,
+    NgxPaginationModule
   ],
   providers: [HttpClientModule, LocalDataService, DataService, UserService, {
     provide: HTTP_INTERCEPTORS,
