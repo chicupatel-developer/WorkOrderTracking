@@ -9,7 +9,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 
-import { Modal, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 import Moment from "moment";
 
@@ -23,6 +23,9 @@ import {
 
 import { useParams } from "react-router-dom";
 
+// child component
+import Xfer_History from "./Xfer_History/Xfer_History";
+
 const Operation = () => {
   let navigate = useNavigate();
 
@@ -30,10 +33,7 @@ const Operation = () => {
 
   const [ops, setOps] = useState([]);
 
-  const [partHistory, setPartHistory] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const [opId, setOpId] = useState(0);
 
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
@@ -162,23 +162,7 @@ const Operation = () => {
 
   const getPartHistory = (e, opId) => {
     console.log("parts xfer history for op : ", opId);
-
-    OperationService.getPartHistory(opId)
-      .then((response) => {
-        console.log(response.data);
-        setPartHistory(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-        if (e.response.status === 401) {
-          console.log("Token Not Found!");
-          AuthService.logout();
-          navigate("/login");
-        } else if (e.response.status === 400)
-          setPartHistory({ apiError: e.response.data });
-      });
-
-    openModal();
+    setOpId(opId);
   };
 
   const xferParts = (e, opId) => {
@@ -252,36 +236,11 @@ const Operation = () => {
       )}
 
       <p></p>
-      <div className="container">
-        <Modal show={isOpen} onHide={closeModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Parts XFER History</Modal.Title>
-          </Modal.Header>
-          {partHistory.apiError ? (
-            <div className="apiErrorHistoryData">{partHistory.apiError}</div>
-          ) : (
-            <Modal.Body>
-              <div className="card historyData">
-                <div className="card-header">
-                  Operation # {partHistory.operationId}
-                </div>
-                <div className="card-body">
-                  Operation Number #{" "}
-                  {getOperationNumber(partHistory.operationNumber)}
-                  <br />
-                  Work-Order # {partHistory.workOrderId}
-                </div>
-              </div>
-            </Modal.Body>
-          )}
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+      {opId > 0 && (
+        <div className="container">
+          <Xfer_History opId={opId} />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,0 +1,21 @@
+.noHistory {
+    text-align: center;
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.apiErrorHistoryData{
+    text-align: center;
+    color : red;
+    font-size: x-large;
+    font-weight: bold;    
+    background-color: black;
+    margin: 50px;
+    padding: 10px;
+}
+.historyData{
+    color:blue;
+    background-color: lightgoldenrodyellow;
+}
+
