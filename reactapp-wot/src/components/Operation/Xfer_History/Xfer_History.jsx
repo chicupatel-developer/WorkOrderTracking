@@ -24,7 +24,7 @@ import {
 import { useParams } from "react-router-dom";
 const Xfer_History = ({ opId }) => {
   let navigate = useNavigate();
-    
+
   const [partHistory, setPartHistory] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -37,11 +37,11 @@ const Xfer_History = ({ opId }) => {
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
 
-      if (currRole === null || (currRole !== null && currRole !== "Admin"))
-          navigate("/un-auth");
-      else {
-          getPartHistory(opId);
-      };
+    if (currRole === null || (currRole !== null && currRole !== "Admin"))
+      navigate("/un-auth");
+    else {
+      getPartHistory(opId);
+    }
   }, [opId]);
 
   const getPartHistory = (opId) => {
@@ -65,6 +65,21 @@ const Xfer_History = ({ opId }) => {
     openModal();
   };
 
+  const columns = [
+    {
+      dataField: "partId",
+      text: "Part #",
+    },
+    {
+      dataField: "partName",
+      text: "Name",
+    },
+    {
+      dataField: "xferqty",
+      text: "XFER-QTY",
+    },
+  ];
+
   return (
     <div className="container">
       <Modal show={isOpen} onHide={closeModal}>
@@ -84,6 +99,21 @@ const Xfer_History = ({ opId }) => {
                 {getOperationNumber(partHistory.operationNumber)}
                 <br />
                 Work-Order # {partHistory.workOrderId}
+                <p></p>
+                <div>
+                  {partHistory.partList && partHistory.partList.length > 0 ? (
+                    <BootstrapTable
+                      bootstrap4
+                      keyField="partId"
+                      data={partHistory.partList}
+                      columns={columns}
+                      pagination={paginationFactory({ sizePerPage: 20 })}
+                      filter={filterFactory()}
+                    />
+                  ) : (
+                    <div className="noHistory">No Parts XFER History!</div>
+                  )}
+                </div>
               </div>
             </div>
           </Modal.Body>
