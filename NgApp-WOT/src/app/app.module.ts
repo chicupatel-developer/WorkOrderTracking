@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 // services
@@ -70,7 +71,8 @@ import { PartUploadComponent } from './part-upload/part-upload.component';
     HttpClientModule,
     AppRoutingModule,
     NgxNavbarModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    Ng2SearchPipeModule,
   ],
   providers: [HttpClientModule, LocalDataService, DataService, UserService, {
     provide: HTTP_INTERCEPTORS,

@@ -26,6 +26,12 @@
                     <div
                         *ngIf="parts?.length>0; else noParts"
                         class="container">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="term">
+                        </div>
+                        <p></p>
+
                         <table class="table">
                             <thead>
                                 <tr>
@@ -38,7 +44,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let p of parts | paginate
+                                <tr *ngFor="let p of parts  | filter:term | paginate
                                         : {
                                             itemsPerPage: tableSize,
                                             currentPage: page,

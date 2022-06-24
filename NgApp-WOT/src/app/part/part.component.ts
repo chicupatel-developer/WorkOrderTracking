@@ -14,6 +14,8 @@ export class PartComponent implements OnInit {
 
   partFilePath = "https://localhost:44359/PartFiles/";
   
+  term: string;
+  
   parts: Array<any>;
 
   apiResponse = '';  
