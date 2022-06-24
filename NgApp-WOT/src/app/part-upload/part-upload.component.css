@@ -1,0 +1,8 @@
+.partImageFound{
+    color: green;
+    font-size: x-large;
+}
+.partImageNotFound {
+    color: red;
+    font-size: x-large;
+}

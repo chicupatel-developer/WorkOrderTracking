@@ -11,6 +11,12 @@ export class LocalDataService {
   private UserName;
   private FullName;
 
+  private CurrentPart_ImageUpload: {
+    partId: 0,
+    partName: '',
+    partImage:''
+  };
+
   constructor() { }
 
   // role
@@ -72,5 +78,13 @@ export class LocalDataService {
   }
   authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Operator(reqPath) {
     return true;
+  }
+
+  // display current part-image when part-upload is active
+  setCurrentPart_ImageUpload(val) {
+    this.CurrentPart_ImageUpload = val;
+  }
+  getCurrentPart_ImageUpload() {
+    return this.CurrentPart_ImageUpload;
   }
 }

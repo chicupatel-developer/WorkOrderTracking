@@ -87,7 +87,24 @@ export class PartComponent implements OnInit {
     }, 500);
   }
 
-  uploadPart(part) {
+  uploadPart(part) {    
+    var CurrentPart_ImageUpload = {
+    };
+    if (part.partFile === 'N/A') {
+      CurrentPart_ImageUpload = {
+        partId: part.partId,
+        partName: part.name,
+        partImage: 'N/A'
+      };      
+    }
+    else {
+        CurrentPart_ImageUpload = {
+        partId: part.partId,
+        partName: part.name,
+        partImage: part.partFilePath
+      };
+    }
+    this.localDataService.setCurrentPart_ImageUpload(CurrentPart_ImageUpload);
     this.router.navigate(['/part-upload/'+ part.partId]);
   }
 

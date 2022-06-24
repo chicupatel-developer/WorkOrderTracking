@@ -20,8 +20,26 @@
                 Cancel Upload <i class="bi-x-circle"></i>
             </button>
         </div>
-        <div class="col-md-5 mx-auto"></div>       
-
+        <div class="col-md-5 mx-auto">
+            <div class="container">
+                <div
+                    class="partImageFound"  
+                    *ngIf="currentPart_ImageUpload">
+                    Part # {{currentPart_ImageUpload.partId}}
+                    <br />
+                    Name : {{currentPart_ImageUpload.partName}}
+                    <p></p>
+                    <div *ngIf="currentPart_ImageUpload.partImage!=='N/A'; else noImage">
+                        <img width="200" height="180" [src]="currentPart_ImageUpload.partImage" />
+                    </div>                  
+                </div>
+                <ng-template #noImage>
+                    <div class="partImageNotFound">
+                        No Image 
+                    </div>
+                </ng-template>
+            </div>        
+        </div>      
     </div>
 </div>
 
