@@ -24,6 +24,7 @@ export class CustomerOrderCreateComponent implements OnInit {
 
   apiResponse = '';  
   responseColor = '';
+  modelErrors = [];
 
   constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router) { }
 
@@ -74,6 +75,9 @@ export class CustomerOrderCreateComponent implements OnInit {
       this.dataService.createCustomerOrder(this.coModel)
         .subscribe(
           response => {
+            this.modelErrors = [];
+            this.apiResponse = '';
+
             console.log(response);
 
             if(response.responseCode==0){
@@ -98,10 +102,17 @@ export class CustomerOrderCreateComponent implements OnInit {
             }
           },
           error => {
-            console.log(error);
+            // console.log(error);
+            this.modelErrors = [];
+            this.apiResponse = '';
+            this.responseColor = 'red';
 
-            if (error.status == 401)            
+            if (error.status === 401)            
               this.apiResponse = 'Un-Authorized !';
+            else if (error.status === 400) {
+              this.apiResponse = '';
+              this.modelErrors = this.localDataService.display400andEx(error, 'Customer-Order-Create');
+            }
             else
               this.apiResponse = 'Error !';
             
