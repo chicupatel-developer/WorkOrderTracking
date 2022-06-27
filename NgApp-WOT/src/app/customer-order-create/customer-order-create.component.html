@@ -96,7 +96,11 @@
                                     <div class="alert alert-danger mt-2"
                                         *ngIf="(coFormControl.OrderDate.touched || submitted) && coFormControl.OrderDate.errors?.required">
                                         Order Date is required
-                                    </div>                                   
+                                    </div>    
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(coFormControl.OrderDate.touched || submitted) && coFormControl.OrderDate.errors?.pattern">
+                                        Invalid Order-Date
+                                    </div>
                                 </div>
                                 <p></p>
                                 <div class="form-group">

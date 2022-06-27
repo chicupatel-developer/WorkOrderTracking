@@ -34,7 +34,7 @@ export class CustomerOrderCreateComponent implements OnInit {
       ProductName: ['', Validators.required],
       ProductDesc: [''],
       OrderQuantity: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      OrderDate: ['', Validators.required],
+      OrderDate: ['',[Validators.required, Validators.pattern("^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")]],
       OrderDueDate: ['', Validators.required],
     });
   }
