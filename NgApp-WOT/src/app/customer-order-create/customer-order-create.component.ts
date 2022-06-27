@@ -68,6 +68,8 @@ export class CustomerOrderCreateComponent implements OnInit {
       this.coModel.orderDate = this.coForm.value["OrderDate"];
       this.coModel.orderDueDate = this.coForm.value["OrderDueDate"];
 
+      console.log(this.coModel);
+      /*
       this.dataService.createCustomerOrder(this.coModel)
         .subscribe(
           response => {
@@ -105,6 +107,10 @@ export class CustomerOrderCreateComponent implements OnInit {
             this.responseColor = 'red';
           }
         );
+      */
+    }
+    else {
+      console.log('form in-valid!');
     }
   } 
 }

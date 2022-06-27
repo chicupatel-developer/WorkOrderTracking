@@ -5,6 +5,9 @@
 .qtyField {
     width: 150px;
 }
+.dateField {
+    width: 300px;
+}
 
 .cancelBtn {
     float: right;

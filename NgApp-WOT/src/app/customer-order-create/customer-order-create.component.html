@@ -54,7 +54,9 @@
                             <div class="col-md-5 mx-auto">
                                 <div class="form-group">
                                     <label>Order Qty</label>
-                                    <input type="text" (ngModelChange)="checkForNumbersOnly($event)" class="form-control qtyField"
+                                    <input type="text" 
+                                        (ngModelChange)="checkForNumbersOnly($event)" 
+                                        class="form-control qtyField"
                                         formControlName="OrderQuantity" />
                                     <div class="alert alert-danger mt-2"
                                         *ngIf="(coFormControl.OrderQuantity.touched || submitted) && coFormControl.OrderQuantity.errors?.required">
@@ -66,6 +68,46 @@
                                     </div>                                
                                 </div>
                                 <p></p>
+                                <div class="form-group">
+                                    <div class="input-group dateField">
+                                        <input 
+                                            class="form-control" 
+                                            placeholder="Order-Date yyyy-mm-dd" 
+                                            name="orderDate" 
+                                            formControlName="OrderDate"
+                                            ngbDatepicker
+                                            #d="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button 
+                                                class="btn btn-outline-secondary calendar" 
+                                                (click)="d.toggle()" 
+                                                type="button">
+                                                <i class="bi-calendar-date"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(coFormControl.OrderDate.touched || submitted) && coFormControl.OrderDate.errors?.required">
+                                        Order Date is required
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <div class="input-group dateField">
+                                        <input class="form-control" 
+                                            placeholder="Order-Due-Date yyyy-mm-dd" name="orderDueDate" formControlName="OrderDueDate"
+                                            ngbDatepicker #dd="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
+                                                <i class="bi-calendar-date"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(coFormControl.OrderDueDate.touched || submitted) && coFormControl.OrderDueDate.errors?.required">
+                                        Order Due Date is required
+                                    </div>
+                                </div>
 
                             </div>                            
                         </div>
