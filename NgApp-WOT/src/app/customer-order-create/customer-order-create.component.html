@@ -1,0 +1,98 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="card">
+                <div class="card-header componentHeader">
+                    <h4>
+                        <div>
+                            Create New Customer-Order
+                        </div>
+                    </h4>
+                    <h5 *ngIf="apiResponse">
+                        <p></p>
+                        <span [style.color]="responseColor">
+                            {{apiResponse}}
+                        </span>
+                    </h5>
+                </div>
+
+                <div class="card-body">
+                    <form class="form-co" 
+                        [formGroup]="coForm" 
+                        (ngSubmit)="onSubmit()">
+
+                        <div class="row">
+                            <div class="col-md-1 mx-auto"></div>
+                            <div class="col-md-5 mx-auto">
+                                <div class="form-group">
+                                    <label>Customer Name</label>
+                                    <input type="text" class="form-control " formControlName="CustomerName" />
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(coFormControl.CustomerName.touched || submitted) && coFormControl.CustomerName.errors?.required">
+                                        Customer Name is required
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <label>Product Name</label>
+                                    <input type="text" class="form-control " formControlName="ProductName" />
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(coFormControl.ProductName.touched || submitted) && coFormControl.ProductName.errors?.required">
+                                        Product Name is required
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <label>Product Desc</label>
+                                    <textarea type="text" 
+                                        class="form-control" 
+                                        formControlName="ProductDesc">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-1 mx-auto"></div>
+                            <div class="col-md-5 mx-auto">
+                                <div class="form-group">
+                                    <label>Order Qty</label>
+                                    <input type="text" (ngModelChange)="checkForNumbersOnly($event)" class="form-control qtyField"
+                                        formControlName="OrderQuantity" />
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(coFormControl.OrderQuantity.touched || submitted) && coFormControl.OrderQuantity.errors?.required">
+                                        Order Qty is required
+                                    </div>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(coFormControl.OrderQuantity.touched || submitted) && coFormControl.OrderQuantity.errors?.pattern">
+                                        Only Numbers are allowed
+                                    </div>                                
+                                </div>
+                                <p></p>
+
+                            </div>                            
+                        </div>
+
+                 
+                        <hr />
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <button type="submit" 
+                                        class="btn btn-success">
+                                        New Customer-Order
+                                    </button>
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-4 ">
+                                    <button type="button" 
+                                        (click)="resetCo()" 
+                                        class="btn btn-primary cancelBtn">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

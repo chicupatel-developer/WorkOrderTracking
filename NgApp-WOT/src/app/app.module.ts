@@ -42,6 +42,7 @@ import { PartEditComponent } from './part-edit/part-edit.component';
 import { PartRemoveComponent } from './part-remove/part-remove.component';
 import { PartImageUploadComponent } from './part-image-upload/part-image-upload.component';
 import { PartUploadComponent } from './part-upload/part-upload.component';
+import { CustomerOrderCreateComponent } from './customer-order-create/customer-order-create.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { PartUploadComponent } from './part-upload/part-upload.component';
     PartEditComponent,
     PartRemoveComponent,
     PartImageUploadComponent,
-    PartUploadComponent
+    PartUploadComponent,
+    CustomerOrderCreateComponent
   ],
   imports: [   
     BrowserModule,    

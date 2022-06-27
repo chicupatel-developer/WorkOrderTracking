@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PartComponent } from './part/part.component';
 import { CustomerOrderComponent } from './customer-order/customer-order.component';
+import { CustomerOrderCreateComponent } from './customer-order-create/customer-order-create.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
 import { OperationComponent } from './operation/operation.component';
 import { SigninComponent } from './signin/signin.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'part', component: PartComponent, canActivate: [AuthGuard] },
   { path: 'customer-order', component: CustomerOrderComponent, canActivate: [AuthGuard] },
+  { path: 'customer-order-create', component: CustomerOrderCreateComponent, canActivate: [AuthGuard] },
   { path: 'work-order', component: WorkOrderComponent, canActivate: [AuthGuard] },
   { path: 'operation', component: OperationComponent, canActivate: [AuthGuard] },
   { path: 'signin', component: SigninComponent },

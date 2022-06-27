@@ -76,6 +76,7 @@ export class CustomerOrderComponent implements OnInit {
   }
 
   createCo() {
+    console.log('new customer-order!');
     setTimeout(() => {
       this.router.navigate(['/customer-order-create']);
     }, 500);

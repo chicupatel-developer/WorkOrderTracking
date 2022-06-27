@@ -42,5 +42,8 @@ export class DataService {
   allCustomerOrders(): Observable<Array<any>> {
     return this.http.get<Array<any>>(this.CO_API + '/allCustomerOrders');
   }
+  createCustomerOrder(coModel): Observable<any> {
+    return this.http.post(this.CO_API + '/createCustomerOrder', coModel)
+  }
 
 }

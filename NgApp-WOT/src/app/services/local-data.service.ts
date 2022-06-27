@@ -72,6 +72,8 @@ export class LocalDataService {
   authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Admin(reqPath) {    
     if (reqPath == '/part-create')
       return false;
+    else if (reqPath == '/customer-order-create')
+      return false;
     
     else
       return true;
