@@ -1,0 +1,20 @@
+.componentHeader {
+    background-color: lightyellow;
+}
+
+.noCos {
+    color: red;
+    font-size: x-large;
+}
+
+.errorResponse {
+    color: red;
+}
+
+.successResponse {
+    color: green;
+}
+
+.searchControl {
+    width: 300px;
+}

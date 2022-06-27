@@ -10,6 +10,7 @@ export class DataService {
 
   public API = 'https://localhost:44359';
   public PART_API = `${this.API}/api/part`;
+  public CO_API = `${this.API}/api/customerorder`;
 
   constructor(private http: HttpClient, public localDataService: LocalDataService) { }
  
@@ -36,7 +37,10 @@ export class DataService {
     });
   }
 
-  getAllPosts(): Observable<any> {
-    return this.http.get('https://jsonplaceholder.typicode.com/posts');
+ 
+  // customer-order
+  allCustomerOrders(): Observable<Array<any>> {
+    return this.http.get<Array<any>>(this.CO_API + '/allCustomerOrders');
   }
+
 }
