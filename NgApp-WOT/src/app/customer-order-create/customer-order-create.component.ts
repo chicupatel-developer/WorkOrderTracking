@@ -18,8 +18,8 @@ export class CustomerOrderCreateComponent implements OnInit {
     productName: '',
     productDesc: '',
     orderQuantity: 0,
-    orderDate: '',
-    orderDueDate: '',
+    orderDate: new Date(),
+    orderDueDate: new Date(),
   };
 
   apiResponse = '';  
@@ -58,6 +58,7 @@ export class CustomerOrderCreateComponent implements OnInit {
   }
 
   onSubmit(): void {
+
     this.submitted = true;
 
     if (this.coForm.valid) {
@@ -65,11 +66,11 @@ export class CustomerOrderCreateComponent implements OnInit {
       this.coModel.productName = this.coForm.value["ProductName"];
       this.coModel.productDesc = this.coForm.value["ProductDesc"];
       this.coModel.orderQuantity = Number(this.coForm.value["OrderQuantity"]);
-      this.coModel.orderDate = this.coForm.value["OrderDate"];
-      this.coModel.orderDueDate = this.coForm.value["OrderDueDate"];
-
+      this.coModel.orderDate = new Date(this.coForm.value["OrderDate"].year + '/' + this.coForm.value["OrderDate"].month + '/' + this.coForm.value["OrderDate"].day);
+      this.coModel.orderDueDate = new Date(this.coForm.value["OrderDueDate"].year + '/' + this.coForm.value["OrderDueDate"].month + '/' + this.coForm.value["OrderDueDate"].day);
+     
       console.log(this.coModel);
-      /*
+            
       this.dataService.createCustomerOrder(this.coModel)
         .subscribe(
           response => {
@@ -107,7 +108,6 @@ export class CustomerOrderCreateComponent implements OnInit {
             this.responseColor = 'red';
           }
         );
-      */
     }
     else {
       console.log('form in-valid!');

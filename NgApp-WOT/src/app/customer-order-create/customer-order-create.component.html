@@ -70,7 +70,7 @@
                                 <p></p>
                                 <div class="form-group">
                                     <div class="input-group dateField">
-                                        <input 
+                                        <input                                         
                                             class="form-control" 
                                             placeholder="Order-Date yyyy-mm-dd" 
                                             name="orderDate" 
@@ -89,13 +89,16 @@
                                     <div class="alert alert-danger mt-2"
                                         *ngIf="(coFormControl.OrderDate.touched || submitted) && coFormControl.OrderDate.errors?.required">
                                         Order Date is required
-                                    </div>
+                                    </div>                                   
                                 </div>
                                 <p></p>
                                 <div class="form-group">
                                     <div class="input-group dateField">
                                         <input class="form-control" 
-                                            placeholder="Order-Due-Date yyyy-mm-dd" name="orderDueDate" formControlName="OrderDueDate"
+                                            
+                                            placeholder="Order-Due-Date yyyy-mm-dd" 
+                                            name="orderDueDate" 
+                                            formControlName="OrderDueDate"
                                             ngbDatepicker #dd="ngbDatepicker">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
