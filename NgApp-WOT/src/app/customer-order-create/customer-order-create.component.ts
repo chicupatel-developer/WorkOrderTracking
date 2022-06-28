@@ -114,9 +114,7 @@ export class CustomerOrderCreateComponent implements OnInit {
               this.modelErrors = this.localDataService.display400andEx(error, 'Customer-Order-Create');
             }
             else
-              this.apiResponse = 'Error !';
-            
-            this.responseColor = 'red';
+              this.apiResponse = 'Error !';            
           }
         );
     }
