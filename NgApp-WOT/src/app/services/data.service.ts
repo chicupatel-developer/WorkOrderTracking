@@ -51,5 +51,8 @@ export class DataService {
   editCustomerOrder(data): Observable<any> {
     return this.http.post(this.CO_API + '/editCustomerOrder' , data);
   }
+  removeCustomerOrder(data): Observable<any> {
+    return this.http.post(this.CO_API + '/removeCustomerOrder' , data);
+  }
 
 }
