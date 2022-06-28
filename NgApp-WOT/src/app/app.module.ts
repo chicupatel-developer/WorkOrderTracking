@@ -16,6 +16,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 // services
 import { DataService } from './services/data.service';
@@ -77,6 +79,7 @@ import { CustomerOrderEditComponent } from './customer-order-edit/customer-order
     NgxNavbarModule,
     NgxPaginationModule,
     Ng2SearchPipeModule,
+    BsDatepickerModule.forRoot(),
   ],
   providers: [HttpClientModule, LocalDataService, DataService, UserService, {
     provide: HTTP_INTERCEPTORS,

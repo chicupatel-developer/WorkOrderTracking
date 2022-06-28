@@ -52,7 +52,7 @@ export class CustomerOrderEditComponent implements OnInit {
       this.dataService.getCustomerOrder(Number(this.coId))
         .subscribe(
           data => {
-            if(data==null){
+            if(data===null){
               console.log('customer-order not found!');
            
               this.apiResponse = 'Customer-Order Not Found!';
@@ -60,16 +60,18 @@ export class CustomerOrderEditComponent implements OnInit {
             }
             else{
               this.apiResponse = '';
-              this.responseColor = 'green';
-       
+              this.responseColor = 'green';       
+          
               this.coForm.setValue({
                 CustomerName: data.customerName,
                 ProductName: data.productName,
                 ProductDesc: data.productDesc,
-                OrderQuantity: data.orderQuantity,
-                OrderDate: data.orderDate,
-                OrderDueDate: data.orderDueDate,
+                OrderQuantity: data.orderQuantity,                
+                OrderDate: new Date(Date.parse(data.orderDate)),
+                OrderDueDate: new Date(Date.parse(data.orderDueDate)),
               });
+
+              console.log(data);
             }
           },
           error => {
@@ -97,8 +99,10 @@ export class CustomerOrderEditComponent implements OnInit {
       this.coModel.productName = this.coForm.value["ProductName"];
       this.coModel.productDesc = this.coForm.value["ProductDesc"];      
       this.coModel.orderQuantity = Number(this.coForm.value["OrderQuantity"]);
-      this.coModel.orderDate = new Date(this.coForm.value["OrderDate"].year + '/' + this.coForm.value["OrderDate"].month + '/' + this.coForm.value["OrderDate"].day);
-      this.coModel.orderDueDate = new Date(this.coForm.value["OrderDueDate"].year + '/' + this.coForm.value["OrderDueDate"].month + '/' + this.coForm.value["OrderDueDate"].day);
+      // this.coModel.orderDate = new Date(this.coForm.value["OrderDate"].year + '/' + this.coForm.value["OrderDate"].month + '/' + this.coForm.value["OrderDate"].day);
+      // this.coModel.orderDueDate = new Date(this.coForm.value["OrderDueDate"].year + '/' + this.coForm.value["OrderDueDate"].month + '/' + this.coForm.value["OrderDueDate"].day);
+      this.coModel.orderDate = this.coForm.value["OrderDate"];
+      this.coModel.orderDueDate = this.coForm.value["OrderDueDate"];
       this.coModel.customerOrderId = Number(this.coId);
 
       console.log(this.coModel);
@@ -109,7 +113,7 @@ export class CustomerOrderEditComponent implements OnInit {
             this.modelErrors = [];
             this.apiResponse = '';
 
-            if (response.responseCode == 0) {              
+            if (response.responseCode === 0) {              
               // success
               this.apiResponse = response.responseMessage;
               this.responseColor = 'green';
