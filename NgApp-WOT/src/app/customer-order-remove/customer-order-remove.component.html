@@ -7,6 +7,12 @@
                         #{{coId}}) Customer-Order - Remove
                     </div>
                 </h4>
+                <h5>
+                    <span class="labelColor">
+                        Are you sure wants to remove customer-order?
+                    </span>
+                </h5>
+                <p></p>
                 <h5 *ngIf="apiResponse">
                     <span [style.color]="responseColor">
                         {{apiResponse}}
@@ -29,9 +35,9 @@
                             <p></p>
                             <span class="labelColor">Order-Qty :</span> {{co.orderQuantity}}
                             <p></p>
-                            <span class="labelColor">Order-Date :</span> {{co.orderDate}}
+                            <span class="labelColor">Order-Date :</span> {{co.orderDate | date: "dd-MMM,yyyy"}}
                             <p></p>
-                            <span class="labelColor">Order-Due-Date :</span> {{co.orderDueDate}}
+                            <span class="labelColor">Order-Due-Date :</span> {{co.orderDueDate | date: "dd-MMM,yyyy"}}
                         </div>                    
                     </div>
 
