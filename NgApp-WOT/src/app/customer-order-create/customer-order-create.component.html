@@ -77,45 +77,29 @@
                                 <p></p>
                                 <div class="form-group">
                                     <div class="input-group dateField">
-                                        <input                                         
+                                        <input  
+                                            type="date"                                       
                                             class="form-control" 
                                             placeholder="Order-Date yyyy-mm-dd" 
                                             name="orderDate" 
                                             formControlName="OrderDate"
                                             ngbDatepicker
-                                            #d="ngbDatepicker">
-                                        <div class="input-group-append">
-                                            <button 
-                                                class="btn btn-outline-secondary calendar" 
-                                                (click)="d.toggle()" 
-                                                type="button">
-                                                <i class="bi-calendar-date"></i>
-                                            </button>
-                                        </div>
+                                            #d="ngbDatepicker">                                      
                                     </div>
                                     <div class="alert alert-danger mt-2"
                                         *ngIf="(coFormControl.OrderDate.touched || submitted) && coFormControl.OrderDate.errors?.required">
                                         Order Date is required
-                                    </div>    
-                                    <div class="alert alert-danger mt-2"
-                                        *ngIf="(coFormControl.OrderDate.touched || submitted) && coFormControl.OrderDate.errors?.pattern">
-                                        Invalid Order-Date
-                                    </div>
+                                    </div>  
                                 </div>
                                 <p></p>
                                 <div class="form-group">
                                     <div class="input-group dateField">
                                         <input class="form-control" 
-                                            
+                                            type="date"                                       
                                             placeholder="Order-Due-Date yyyy-mm-dd" 
                                             name="orderDueDate" 
                                             formControlName="OrderDueDate"
-                                            ngbDatepicker #dd="ngbDatepicker">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
-                                                <i class="bi-calendar-date"></i>
-                                            </button>
-                                        </div>
+                                            ngbDatepicker #dd="ngbDatepicker">                                     
                                     </div>
                                     <div class="alert alert-danger mt-2"
                                         *ngIf="(coFormControl.OrderDueDate.touched || submitted) && coFormControl.OrderDueDate.errors?.required">
