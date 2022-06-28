@@ -47,7 +47,7 @@ namespace Service.Repository
             {
                 if (_co.WorkOrder != null)
                 {
-                    if (customerOrder.OrderDate > _co.WorkOrder.WorkOrderStartDate)
+                    if (customerOrder.OrderDate.Value.Date > _co.WorkOrder.WorkOrderStartDate.Value.Date)
                     {
                         throw new Invalid_WO_StartDate_Exception("WorkOrder-StartDate Must Be >= CustomerOrder-Date !");
                     }

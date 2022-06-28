@@ -12,6 +12,13 @@
                         {{apiResponse}}
                     </span>
                 </h5>
+                <h5 *ngIf="modelErrors.length > 0">
+                    <ul [style.color]="responseColor">
+                        <li *ngFor="let error of modelErrors">
+                            {{ error }}
+                        </li>
+                    </ul>
+                </h5>
             </div>
             <div class="card-body">
                 <form class="form-co" 
@@ -48,7 +55,7 @@
                             </div>
                         </div>
                         <div class="col-md-1 mx-auto"></div>
-                        <div class="col-md-5 mx-auto">
+                        <div class="col-md-4 mx-auto">
                             <div class="form-group">
                                 <label>Order Qty</label>
                                 <input type="text" 
@@ -65,8 +72,10 @@
                             </div>
                             <p></p>
                             <div class="form-group">
-                                <div class="input-group dateField">
+                                <label>Order Date</label>
+                                <div class="input-group dateField">                                    
                                     <input 
+                                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
                                         formControlName="OrderDate" 
                                         type="text" 
                                         placeholder="Order-Date" 
@@ -80,8 +89,10 @@
                             </div>
                             <p></p>
                             <div class="form-group">
-                                <div class="input-group dateField">
+                                <label>Order Due Date</label>
+                                <div class="input-group dateField">                                    
                                     <input 
+                                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
                                         formControlName="OrderDueDate" 
                                         type="text" 
                                         placeholder="Order-Due-Date" 
@@ -94,6 +105,7 @@
                                 </div>
                             </div>                        
                         </div>
+                        <div class="col-md-1 mx-auto"></div>
                     </div>
 
                   

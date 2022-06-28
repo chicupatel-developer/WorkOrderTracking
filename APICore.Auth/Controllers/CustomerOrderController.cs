@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using EF.Core.DTO;
 
 namespace APICore.Auth.Controllers
 {
@@ -119,6 +120,11 @@ namespace APICore.Auth.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+            }
+            catch (Invalid_WO_StartDate_Exception iwosdex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iwosdex.Message;
             }
             catch (Exception ex)
             {

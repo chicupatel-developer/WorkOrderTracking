@@ -95,12 +95,20 @@ export class CustomerOrderEditComponent implements OnInit {
     this.submitted = true;
     if (this.coForm.valid) {
       
+      /*
+      var d = new Date(this.coForm.value["OrderDate"]);
+      var orderDate_ = d.setHours(0, 0, 0, 0);
+      console.log(orderDate_);
+      console.log(new Date(orderDate_));
+      */
+
       this.coModel.customerName = this.coForm.value["CustomerName"];
       this.coModel.productName = this.coForm.value["ProductName"];
       this.coModel.productDesc = this.coForm.value["ProductDesc"];      
       this.coModel.orderQuantity = Number(this.coForm.value["OrderQuantity"]);
-      // this.coModel.orderDate = new Date(this.coForm.value["OrderDate"].year + '/' + this.coForm.value["OrderDate"].month + '/' + this.coForm.value["OrderDate"].day);
+      // this.coModel.orderDate = new Date(orderDate_);
       // this.coModel.orderDueDate = new Date(this.coForm.value["OrderDueDate"].year + '/' + this.coForm.value["OrderDueDate"].month + '/' + this.coForm.value["OrderDueDate"].day);
+      // this.coModel.orderDate = this.coForm.value["OrderDate"];
       this.coModel.orderDate = this.coForm.value["OrderDate"];
       this.coModel.orderDueDate = this.coForm.value["OrderDueDate"];
       this.coModel.customerOrderId = Number(this.coId);
@@ -110,6 +118,7 @@ export class CustomerOrderEditComponent implements OnInit {
       this.dataService.editCustomerOrder(this.coModel)
         .subscribe(
           response => {
+            console.log(response);
             this.modelErrors = [];
             this.apiResponse = '';
 
