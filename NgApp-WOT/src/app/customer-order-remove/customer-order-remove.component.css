@@ -1,0 +1,11 @@
+.componentHeader {
+    background-color: lightyellow;
+}
+
+.cancelBtn {
+    float: right;
+}
+
+.labelColor {
+    color: red;
+}
