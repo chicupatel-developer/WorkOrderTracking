@@ -45,5 +45,11 @@ export class DataService {
   createCustomerOrder(coModel): Observable<any> {
     return this.http.post(this.CO_API + '/createCustomerOrder', coModel)
   }
+  getCustomerOrder(selectedCoId: number): Observable<any> {
+    return this.http.get<any>(this.CO_API + '/getCustomerOrder/' + selectedCoId);
+  }
+  editCustomerOrder(data): Observable<any> {
+    return this.http.post(this.CO_API + '/editCustomerOrder' , data);
+  }
 
 }

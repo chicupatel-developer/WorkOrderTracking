@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { PartComponent } from './part/part.component';
 import { CustomerOrderComponent } from './customer-order/customer-order.component';
 import { CustomerOrderCreateComponent } from './customer-order-create/customer-order-create.component';
+import { CustomerOrderEditComponent } from './customer-order-edit/customer-order-edit.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
 import { OperationComponent } from './operation/operation.component';
 import { SigninComponent } from './signin/signin.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'part', component: PartComponent, canActivate: [AuthGuard] },
   { path: 'customer-order', component: CustomerOrderComponent, canActivate: [AuthGuard] },
   { path: 'customer-order-create', component: CustomerOrderCreateComponent, canActivate: [AuthGuard] },
+  { path: 'customer-order-edit/:id', component: CustomerOrderEditComponent, canActivate: [AuthGuard] },
   { path: 'work-order', component: WorkOrderComponent, canActivate: [AuthGuard] },
   { path: 'operation', component: OperationComponent, canActivate: [AuthGuard] },
   { path: 'signin', component: SigninComponent },
