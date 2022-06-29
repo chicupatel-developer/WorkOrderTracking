@@ -47,6 +47,7 @@ import { PartUploadComponent } from './part-upload/part-upload.component';
 import { CustomerOrderCreateComponent } from './customer-order-create/customer-order-create.component';
 import { CustomerOrderEditComponent } from './customer-order-edit/customer-order-edit.component';
 import { CustomerOrderRemoveComponent } from './customer-order-remove/customer-order-remove.component';
+import { CustomerOrderProgressTextReportComponent } from './customer-order-progress-text-report/customer-order-progress-text-report.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { CustomerOrderRemoveComponent } from './customer-order-remove/customer-o
     PartUploadComponent,
     CustomerOrderCreateComponent,
     CustomerOrderEditComponent,
-    CustomerOrderRemoveComponent
+    CustomerOrderRemoveComponent,
+    CustomerOrderProgressTextReportComponent
   ],
   imports: [   
     BrowserModule,    
