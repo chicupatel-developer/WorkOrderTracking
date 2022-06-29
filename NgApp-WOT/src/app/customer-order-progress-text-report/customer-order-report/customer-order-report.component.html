@@ -1,1 +1,31 @@
-<p>customer-order-report works!</p>
+<div *ngIf="customerOrderData">
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h4>Customer-Order</h4>
+            </div>
+            <div class="card-body coBody">
+                Customer-Order # <b>{{customerOrderData.customerOrderId}}</b>
+                <br />
+                Name : {{customerOrderData.customerName}}
+                <br />
+                Order Qty : {{customerOrderData.orderQuantity}}
+                <br />
+                Order Date :
+                <span class="date">
+                    {{customerOrderData.orderDate | date: "dd-MMM,yyyy"}}
+                </span>
+                <br />
+                Order Due Date :
+                <span class="date">
+                    {{customerOrderData.orderDueDate | date: "dd-MMM,yyyy"}}
+                </span>
+                <br />
+                Days Left #   
+                <span class="daysLeft">
+                    {{localDataService.getDaysLeft(customerOrderData.orderDueDate)}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

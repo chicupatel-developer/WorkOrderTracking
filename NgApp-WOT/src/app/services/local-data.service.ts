@@ -87,4 +87,79 @@ export class LocalDataService {
   getCurrentPart_ImageUpload() {
     return this.CurrentPart_ImageUpload;
   }
+
+
+
+  getRoles() {
+    return [{ name: "Admin" }, { name: "Operator" }];
+  }
+  getWorkOrderStatusToDisplay() {
+    return [
+      { value: 0, woStatus: "Not_Started" },
+      { value: 1, woStatus: "Start_Running" },
+      { value: 2, woStatus: "Completed" },
+      { value: 3, woStatus: "Can_Not_Complete" },
+    ];
+  }
+  getOperationStatusToDisplay() {
+    return [
+      { value: 0, opStatus: "Not_Started" },
+      { value: 1, opStatus: "Start_Running" },
+      { value: 2, opStatus: "Pause_Running" },
+      { value: 3, opStatus: "Completed" },
+      { value: 4, opStatus: "Can_Not_Complete" },
+    ];
+  }
+  getOperationNumberToDisplay() {
+    return [
+      { value: 10, opNumber: "Spindle" },
+      { value: 20, opNumber: "Hub_Single_Head" },
+      { value: 30, opNumber: "Hub_Double_Head" },
+      { value: 40, opNumber: "Push_Cups" },
+      { value: 50, opNumber: "Assembly_Spindle_Hub" },
+      { value: 60, opNumber: "Paint" },
+      { value: 70, opNumber: "Packaging" },
+      { value: 80, opNumber: "Rework_Spindle" },
+      { value: 90, opNumber: "Rework_Hub" },
+    ];
+  }
+  getWorkOrderStatus(wos) {
+    if (wos === 0) return "Not_Started";
+    if (wos === 1) return "Start_Running";
+    if (wos === 2) return "Completed";
+    if (wos === 3) return "Can_Not_Complete";
+    else return "";
+  }
+  getDaysLeft(startDate) {
+    let date_1 = new Date(startDate);
+    let date_2 = new Date();
+    let difference = date_1.getTime() - date_2.getTime();
+    let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
+    return totalDays+1;
+  }
+  getOperationStatus(ops) {
+    if (ops === 0) return "Not_Started";
+    if (ops === 1) return "Start_Running";
+    if (ops === 2) return "Pause_Running";
+    if (ops === 3) return "Completed";
+    if (ops === 4) return "Can_Not_Complete";
+    else return "";
+  }
+  getOperationNumber(opn) {
+    if (opn === 10) return opn + "- Spindle";
+    if (opn === 20) return opn + "- Hub_Single_Head";
+    if (opn === 30) return opn + "- Hub_Double_Head";
+    if (opn === 40) return opn + "- Push_Cups";
+    if (opn === 50) return opn + "- Assembly_Spindle_Hub";
+    if (opn === 60) return opn + "- Paint";
+    if (opn === 70) return opn + "- Packaging";
+    if (opn === 80) return opn + "- Rework_Spindle";
+    if (opn === 90) return opn + "- Rework_Hub";
+    else return "";
+  }
+  getOperationStatusForOperator(ops) {
+    if (ops === 0) return "Start_Running";
+    if (ops === 1) return "Pause_Running";
+    else return "";
+  }
 }

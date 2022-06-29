@@ -16,7 +16,13 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
   responseColor = '';
 
   coId: string;
-  customerOrder: {};
+  customerOrder = {
+    customerOrderId: 0,
+    customerName: '',
+    orderQuantity: 0,
+    orderDate: null,
+    orderDueDate: null,
+  };
   workOrder: {};
   operationDatas: [];
 

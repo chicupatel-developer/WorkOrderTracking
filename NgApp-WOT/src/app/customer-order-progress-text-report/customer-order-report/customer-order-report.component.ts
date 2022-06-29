@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { LocalDataService } from '../../services/local-data.service';
 
 @Component({
   selector: 'app-customer-order-report',
@@ -7,9 +8,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CustomerOrderReportComponent implements OnInit {
 
-  @Input() customerOrderData: {};
+  @Input() customerOrderData = {
+    customerOrderId: 0,
+    customerName: '',
+    orderQuantity: 0,
+    orderDate: null,
+    orderDueDate: null,
+  };
 
-  constructor() { }
+  constructor(public localDataService: LocalDataService)
+  { }
 
   ngOnInit(): void {
     console.log(this.customerOrderData);
