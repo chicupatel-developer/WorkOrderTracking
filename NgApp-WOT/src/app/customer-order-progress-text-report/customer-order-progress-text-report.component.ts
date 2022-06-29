@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalDataService } from '../services/local-data.service';
 import { CustomerOrderReportComponent } from './customer-order-report/customer-order-report.component';
+import { WorkOrderReportComponent } from './work-order-report/work-order-report.component';
 @Component({
   selector: 'app-customer-order-progress-text-report',
   templateUrl: './customer-order-progress-text-report.component.html',
@@ -23,7 +24,11 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
     orderDate: null,
     orderDueDate: null,
   };
-  workOrder: {};
+  workOrder = {
+    workOrderId: 0,
+    workOrderStatus: 0,
+    workOrderStartDate: null,
+  };
   operationDatas: [];
 
   constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router, private route: ActivatedRoute)

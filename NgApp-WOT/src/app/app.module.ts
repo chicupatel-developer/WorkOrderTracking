@@ -49,6 +49,7 @@ import { CustomerOrderEditComponent } from './customer-order-edit/customer-order
 import { CustomerOrderRemoveComponent } from './customer-order-remove/customer-order-remove.component';
 import { CustomerOrderProgressTextReportComponent } from './customer-order-progress-text-report/customer-order-progress-text-report.component';
 import { CustomerOrderReportComponent } from './customer-order-progress-text-report/customer-order-report/customer-order-report.component';
+import { WorkOrderReportComponent } from './customer-order-progress-text-report/work-order-report/work-order-report.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { CustomerOrderReportComponent } from './customer-order-progress-text-rep
     CustomerOrderEditComponent,
     CustomerOrderRemoveComponent,
     CustomerOrderProgressTextReportComponent,
-    CustomerOrderReportComponent
+    CustomerOrderReportComponent,
+    WorkOrderReportComponent
   ],
   imports: [   
     BrowserModule,    

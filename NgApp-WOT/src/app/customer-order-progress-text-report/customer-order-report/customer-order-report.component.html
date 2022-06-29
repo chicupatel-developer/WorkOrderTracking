@@ -1,4 +1,4 @@
-<div *ngIf="customerOrderData">
+<div *ngIf="customerOrderData; else noData">
     <div>
         <div class="card">
             <div class="card-header">
@@ -29,3 +29,6 @@
         </div>
     </div>
 </div>
+<ng-template #noData>
+    <span class="noContent">Customer-Order Not Found !</span>
+</ng-template>

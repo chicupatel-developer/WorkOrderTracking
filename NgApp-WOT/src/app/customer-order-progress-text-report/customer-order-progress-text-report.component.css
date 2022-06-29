@@ -1,7 +1,92 @@
-.componentHeader {
+.mainHeader {
     text-align: center;
     color: darkolivegreen;
     font-size: xx-large;
     font-weight: bold;
     margin-top: -30px;
+}
+
+.coBody {
+    background-color: lightyellow;
+    color: black;
+    font-size: large;
+}
+
+.completedWos {
+    color: green;
+    font-size: x-large;
+    border: 4px solid green;
+    padding: 3px;
+}
+
+.otherWos {
+    color: red;
+    font-size: x-large;
+    border: 4px solid red;
+    padding: 3px;
+}
+
+.date {
+    color: blue;
+    font-size: large;
+    font-weight: bold;
+}
+
+.daysLeft {
+    color: red;
+    font-size: large;
+    font-weight: bold;
+}
+
+.opBody {
+    background-color: lightgoldenrodyellow;
+    color: black;
+    font-size: large;
+}
+
+.noContent {
+    color: red;
+    font-size: x-large;
+}
+
+.opTable {
+    font-size: small;
+    font-weight: bold;
+}
+
+.opCompleted {
+    color: green;
+    text-shadow: 1px 1px 1px #ccc;
+    font-size: 2.5em;
+}
+
+.opNotCompleted {
+    color: red;
+    text-shadow: 1px 1px 1px #ccc;
+    font-size: 2.5em;
+}
+
+.oprTable {
+    font-size: small;
+    font-weight: bold;
+    color: blue;
+}
+
+.opHeader {
+    font-size: large;
+    font-weight: bold;
+    color: blue;
+    font-style: italic;
+}
+
+.opContent {
+    padding-top: 50px;
+}
+
+.opMainHeader {
+    font-style: italic;
+    font-size: xx-large;
+    color: darkslategray;
+    font-weight: bold;
+    background-color: lightgoldenrodyellow;
 }
