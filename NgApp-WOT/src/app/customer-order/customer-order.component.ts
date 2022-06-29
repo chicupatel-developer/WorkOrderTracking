@@ -75,6 +75,10 @@ export class CustomerOrderComponent implements OnInit {
     this.router.navigate(['/customer-order-remove/'+ co.customerOrderId]);
   }
 
+  coProgressReport(co) {
+    this.router.navigate(['/customer-order-progress-text-report/'+ co.customerOrderId]);
+  }
+  
   createCo() {
     console.log('new customer-order!');
     setTimeout(() => {

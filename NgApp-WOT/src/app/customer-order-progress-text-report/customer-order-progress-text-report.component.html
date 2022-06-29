@@ -1,1 +1,18 @@
-<p>customer-order-progress-text-report works!</p>
+<div class="container">
+    <div class="col-md-12 mx-auto">
+        <div class="componentHeader">
+            <div>
+                #{{coId}}) Customer-Order-Progress [Text-Report]
+            </div>
+            <hr />            
+            <h5 *ngIf="apiResponse">
+                <span [style.color]="responseColor">
+                    {{apiResponse}}
+                </span>
+            </h5>
+        </div>
+        <div *ngIf="!apiResponse" class="card-body">
+            customer-order progress text report !!!
+        </div>
+    </div>
+</div>

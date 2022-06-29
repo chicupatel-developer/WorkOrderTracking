@@ -12,8 +12,14 @@ import { LocalDataService } from '../services/local-data.service';
 })
 export class CustomerOrderProgressTextReportComponent implements OnInit {
 
+  apiResponse = '';
+  responseColor = '';
+
   coId: string;
-  
+  customerOrder: {};
+  workOrder: {};
+  operationDatas: [];
+
   constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router, private route: ActivatedRoute)
   { }
 
@@ -24,14 +30,26 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
       this.router.navigate(['/customer-order']);
     }
     else {
-      this.dataService.getCustomerOrderProgressTextReport(Number(this.coId))
-       .then((response) => {
-        console.log(response);
-
-      })
-      .catch((e) => {
-        console.log(e);    
-      });
+       this.dataService.getCustomerOrderProgressTextReport(Number(this.coId))
+        .subscribe(
+          data => {
+            this.apiResponse = '';
+            this.responseColor = 'green';    
+            
+            console.log(data);
+            this.customerOrder = data.customerOrder;
+            this.workOrder = data.workOrder;
+            this.operationDatas = data.operationDatas;
+          },
+          error => {
+            console.log(error);
+            if (error.status == 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else
+              this.apiResponse = 'Error !';
+            
+            this.responseColor = 'red';
+          });
     }
   }
 

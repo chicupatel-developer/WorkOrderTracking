@@ -54,8 +54,8 @@ export class DataService {
   removeCustomerOrder(data): Observable<any> {
     return this.http.post(this.CO_API + '/removeCustomerOrder' , data);
   }
-  getCustomerOrderProgressTextReport = async (coId) => {
-    return await this.http.get(this.CO_API + `/getCustomerOrderProgressTextReport/${coId}`);
-  };
+  getCustomerOrderProgressTextReport(selectedCoId: number): Observable<any> {
+    return this.http.get<any>(this.CO_API + '/getCustomerOrderProgressTextReport/' + selectedCoId);
+  }
 
 }
