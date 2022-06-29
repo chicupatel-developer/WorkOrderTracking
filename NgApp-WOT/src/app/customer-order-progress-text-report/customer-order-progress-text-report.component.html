@@ -12,7 +12,10 @@
             </h5>
         </div>
         <div *ngIf="!apiResponse" class="card-body">
-            customer-order progress text report !!!
+            <div *ngIf="customerOrder">
+                <app-customer-order-report [customerOrderData]="customerOrder">
+                </app-customer-order-report>
+            </div>         
         </div>
     </div>
 </div>

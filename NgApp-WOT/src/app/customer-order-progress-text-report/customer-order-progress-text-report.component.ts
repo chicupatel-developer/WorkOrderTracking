@@ -4,7 +4,7 @@ import { DataService } from '../services/data.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalDataService } from '../services/local-data.service';
-
+import { CustomerOrderReportComponent } from './customer-order-report/customer-order-report.component';
 @Component({
   selector: 'app-customer-order-progress-text-report',
   templateUrl: './customer-order-progress-text-report.component.html',
