@@ -31,6 +31,8 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
   };
   operationDatas: [];
 
+  chartData: [[]];
+
   constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router, private route: ActivatedRoute)
   { }
 
@@ -64,4 +66,7 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
     }
   }
 
+  displayOperationProgress() {
+    console.log('getting chart data');
+  }
 }

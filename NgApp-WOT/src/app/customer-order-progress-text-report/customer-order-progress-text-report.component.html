@@ -13,4 +13,17 @@
         </div>
     </div>
     <p></p>
+
+    <div class="container">
+        <div *ngIf="chartData && chartData?.length>0; else noChartContent">
+            chart Data
+        </div>
+        <ng-template #noChartContent>
+            <button type="button" 
+                (click)="displayOperationProgress()" 
+                class="btn btn-success">
+                Operation Progress [google Chart api]
+            </button>
+        </ng-template>
+    </div>
 </div>
