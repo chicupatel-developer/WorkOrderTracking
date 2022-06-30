@@ -1,0 +1,51 @@
+<div>
+    <div class="row oprBody">
+        <div class="col-md-1 mx-auto"></div>
+        <div class="col-md-2 mx-auto">
+            {{operatorLogData.operator.firstName}}, &nbsp;
+            {{operatorLogData.operator.lastName}}
+        </div>
+        <div class="col-md-3 mx-auto">
+            {{operatorLogData.operationId}} /&nbsp;
+            {{localDataService.getOperationNumber(operatorLogData.operationNumber)}}
+            <br />[
+            {{localDataService.getOperationStatusForOperator(operatorLogData.operationStatus)}}]
+        </div>
+        <div class="col-md-2 mx-auto">
+            <span *ngIf="operatorLogData.opQtyDone; else noQtyDone">
+                {{operatorLogData.opQtyDone}}
+            </span>
+            <ng-template #noQtyDone>
+                <span>N/A</span>
+            </ng-template>
+        </div>
+        <div class="col-md-1 mx-auto">
+            <span *ngIf="operatorLogData.opStartRunTime; else noStartRunTime">
+                {{operatorLogData.opStartRunTime | date: "MMM, dd"}}
+                <br />
+                {{operatorLogData.opStartRunTime | date: "hh:mm a"}}
+            </span>
+            <ng-template #noStartRunTime>
+                <span>N/A</span>
+            </ng-template>
+        </div>
+        <div class="col-md-1 mx-auto">
+            <span *ngIf="operatorLogData.opPauseRunTime; else noPauseRunTime">
+                {{operatorLogData.opPauseRunTime | date: "MMM, dd"}}
+                <br />
+                {{operatorLogData.opPauseRunTime | date: "hh:mm a"}}
+            </span>
+            <ng-template #noPauseRunTime>
+                <span>N/A</span>
+            </ng-template>
+        </div>
+        <div class="col-md-1 mx-auto">
+            <span *ngIf="operatorLogData.cycleTime; else noCycleTime">
+                {{operatorLogData.cycleTime}}             
+            </span>
+            <ng-template #noCycleTime>
+                <span>N/A</span>
+            </ng-template>
+        </div>
+    </div>
+</div>

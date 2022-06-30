@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalDataService } from '../services/local-data.service';
 import { CustomerOrderReportComponent } from './customer-order-report/customer-order-report.component';
 import { WorkOrderReportComponent } from './work-order-report/work-order-report.component';
+import { OperationReportComponent } from './operation-report/operation-report.component';
+
 @Component({
   selector: 'app-customer-order-progress-text-report',
   templateUrl: './customer-order-progress-text-report.component.html',
@@ -29,7 +31,7 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
     workOrderStatus: 0,
     workOrderStartDate: null,
   };
-  operationDatas: [];
+  operationData: [];
 
   chartData: [[]];
 
@@ -52,7 +54,7 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
             console.log(data);
             this.customerOrder = data.customerOrder;
             this.workOrder = data.workOrder;
-            this.operationDatas = data.operationDatas;
+            this.operationData = data.operationDatas;
           },
           error => {
             console.log(error);

@@ -1,0 +1,42 @@
+.mainHeader {
+    text-align: center;
+    color: darkolivegreen;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.opBody {
+    background-color: lightsteelblue;
+    color: black;
+    font-size: small;
+    font-weight: bold;
+    vertical-align: middle;
+    border-top: 15px solid white;
+    padding-top: 5px;
+}
+
+.noContent {
+    color: red;
+    font-size: x-large;
+    font-size: xx-large;
+}
+
+.opCompleted {
+    color: green;
+    text-shadow: 1px 1px 1px #ccc;
+    vertical-align: middle;
+    font-size: xx-large;
+}
+
+.opNotCompleted {
+    color: red;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.oprHeader {
+    font-size: large;
+    font-weight: bold;
+    color: lightgoldenrodyellow;
+    background-color: blue;
+    font-style: italic;
+}

@@ -26,4 +26,41 @@
             </button>
         </ng-template>
     </div>
+
+    <hr />
+    <p></p>
+    <div class="opContent">
+        <p></p>
+        <span class="opMainHeader">Operations</span>
+        <p></p>
+        <div className="row">
+            <div *ngIf="(operationData && operationData?.length > 0); else noData"
+                class="col-md-12 mx-auto">
+                <div class="row opHeader">
+                    <div class="col-md-1 mx-auto">Status</div>
+                    <div class="col-md-3 mx-auto">Operation</div>
+                    <div class="col-md-2 mx-auto">Op Details</div>
+                    <div class="col-md-2 mx-auto">Op Start Date</div>
+                    <div class="col-md-2 mx-auto">QTY Done</div>
+                    <div class="col-md-2 mx-auto">QTY Required</div>
+                </div>
+            </div>
+            <ng-template #noData>
+                <span class="noContent"></span>
+            </ng-template>
+
+            <div class="row">
+                <div *ngIf="(operationData && operationData?.length > 0); else noContent"
+                    class="col-md-12 mx-auto">
+                    <div *ngFor="let opData of operationData">
+                        <app-operation-report [operationData]="opData">
+                        </app-operation-report>
+                    </div>
+                </div>
+                <ng-template #noContent>
+                    <span class="noContent"></span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,85 @@
+
+<div>
+    <div class="row opBody">
+        <div class="col-md-1 mx-auto">
+            <span *ngIf="(operationData.operation.opQTYDone >=
+            operationData.operation.opQTYRequired); else opNotCompleted">
+                <span class="opCompleted">
+                    <i class="bi bi-check"></i>
+                </span>
+            </span>
+            <ng-template #opNotCompleted>
+                <span class="opNotCompleted">
+                    <i class="bi-clock-history"></i>
+                </span>
+            </ng-template>       
+        </div>
+
+        <div class="col-md-3 mx-auto">
+            {{operationData.operation.operationId}} / &nbsp;
+            {{localDataService.getOperationNumber(operationData.operation.operationNumber)}}
+            <br />[{{localDataService.getOperationStatus(operationData.operation.operationStatus)}}]
+        </div>
+
+        <div class="col-md-2 mx-auto">
+            <span *ngIf="operationData.operation.details; else noDetails">
+                {{operationData.operation.details}}
+            </span>
+            <ng-template #noDetails>
+                <span>N/A</span>
+            </ng-template>          
+        </div>
+
+        <div class="col-md-2 mx-auto">
+            <span *ngIf="operationData.operation.operationStartDate; else noStartDate">
+                {{operationData.operation.operationStartDate | date: "dd-MMM,yyyy"}}
+            </span>
+            <ng-template #noStartDate>
+                <span>N/A</span>
+            </ng-template>
+        </div>
+
+        <div class="col-md-2 mx-auto">
+            <span *ngIf="operationData.operation.opQTYDone; else noQTYDone">
+                {{operationData.operation.opQTYDone}}
+            </span>
+            <ng-template #noQTYDone>
+                <span>N/A</span>
+            </ng-template>
+        </div>
+        <div class="col-md-2 mx-auto">
+            <span *ngIf="operationData.operation.opQTYRequired; else noQTYRequired">
+                {{operationData.operation.opQTYRequired}}
+            </span>
+            <ng-template #noQTYRequired>
+                <span>N/A</span>
+            </ng-template>
+        </div>
+    </div> 
+
+    <div class="row oprHeader">
+        <div class="col-md-1 mx-auto"></div>
+        <div class="col-md-2 mx-auto">Opr</div>
+        <div class="col-md-3 mx-auto">Operation</div>
+        <div class="col-md-2 mx-auto">QTY Done</div>
+        <div class="col-md-1 mx-auto">Start</div>
+        <div class="col-md-1 mx-auto">Pause</div>
+        <div class="col-md-1 mx-auto">Cycle</div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mx-auto">            
+            <div *ngIf="(operationData.operationHistory &&
+                operationData.operationHistory.length > 0); else noOperatorLog">
+                <div *ngFor="let opLogData of operationData.operationHistory">
+                    <app-operator-log-report [operatorLogData]="opLogData">
+                    </app-operator-log-report>
+                </div>
+            </div>
+            <ng-template #noOperatorLog>
+                <div class="noContent">Operator's Log Not Found!</div>
+            </ng-template>
+        </div>
+    </div>
+    
+    <hr />
+</div>
