@@ -15,8 +15,15 @@
     <p></p>
 
     <div class="container">
-        <div *ngIf="chartData && chartData?.length>0; else noChartContent">
-            chart Data
+        <div>
+            <google-chart 
+                [title]="'Some Title'" 
+                [data]="chartData.data"
+                [columns]="chartData.chartColumns" 
+                [width]="chartData.width"
+                [height]="chartData.height"
+                [type]="myType" >
+            </google-chart>
         </div>
         <ng-template #noChartContent>
             <button type="button" 

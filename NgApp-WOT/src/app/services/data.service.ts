@@ -57,5 +57,8 @@ export class DataService {
   getCustomerOrderProgressTextReport(selectedCoId: number): Observable<any> {
     return this.http.get<any>(this.CO_API + '/getCustomerOrderProgressTextReport/' + selectedCoId);
   }
+  getCustomerOrderProgressChartReport(selectedCoId: number): Observable<any> {
+    return this.http.get<any>(this.CO_API + '/getCustomerOrderProgressChartReport/' + selectedCoId);
+  }
 
 }

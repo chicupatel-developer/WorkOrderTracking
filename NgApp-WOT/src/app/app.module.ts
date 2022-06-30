@@ -18,6 +18,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
+import { GoogleChartsModule } from 'angular-google-charts';
+
 
 // services
 import { DataService } from './services/data.service';
@@ -91,7 +93,9 @@ import { OperatorLogReportComponent } from './customer-order-progress-text-repor
     NgxNavbarModule,
     NgxPaginationModule,
     Ng2SearchPipeModule,
+    GoogleChartsModule,
     BsDatepickerModule.forRoot(),
+  
   ],
   providers: [HttpClientModule, LocalDataService, DataService, UserService, {
     provide: HTTP_INTERCEPTORS,

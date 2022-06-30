@@ -8,12 +8,26 @@ import { CustomerOrderReportComponent } from './customer-order-report/customer-o
 import { WorkOrderReportComponent } from './work-order-report/work-order-report.component';
 import { OperationReportComponent } from './operation-report/operation-report.component';
 
+import { ChartType } from "angular-google-charts";
+
 @Component({
   selector: 'app-customer-order-progress-text-report',
   templateUrl: './customer-order-progress-text-report.component.html',
   styleUrls: ['./customer-order-progress-text-report.component.css']
 })
 export class CustomerOrderProgressTextReportComponent implements OnInit {
+
+  myType = ChartType.BarChart;
+  chartData = {
+      data: [
+      ["PHP Books",  500],
+      [".Net Books",  800],
+      ["Java Books",  400],
+   ],
+   chartColumns: ['Books', 'Sell'],
+   width: 1000,
+   height: 400
+  };
 
   apiResponse = '';
   responseColor = '';
@@ -33,7 +47,6 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
   };
   operationData: [];
 
-  chartData: [[]];
 
   constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router, private route: ActivatedRoute)
   { }
@@ -70,5 +83,15 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
 
   displayOperationProgress() {
     console.log('getting chart data');
+
+    this.dataService.getCustomerOrderProgressChartReport(Number(this.coId))
+      .subscribe(
+        data => {
+          console.log(data);          
+        },
+        error => {
+          console.log(error);         
+        }
+    );
   }
 }
