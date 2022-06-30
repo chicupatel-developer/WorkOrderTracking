@@ -24,7 +24,7 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
       [".Net Books",  800],
       ["Java Books",  400],
    ],
-   chartColumns: ['Books', 'Sell'],
+   chartColumns: ['col1', 'col2'],
    width: 1000,
    height: 400
   };
@@ -87,7 +87,17 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
     this.dataService.getCustomerOrderProgressChartReport(Number(this.coId))
       .subscribe(
         data => {
-          console.log(data);          
+          console.log(data);      
+
+          var chartDatas_ = [];
+          var firstItem = ["Operation Number", "QTY Done", "QTY Required"];
+          chartDatas_.push(firstItem);
+          data.map((item, i) => {
+            var otherItem = [item.operationNumber + "", item.qtyDone, item.qtyRequired];
+            chartDatas_.push(otherItem);
+          });
+          this.chartData.data = chartDatas_;
+
         },
         error => {
           console.log(error);         

@@ -16,6 +16,10 @@
 
     <div class="container">
         <div>
+            <button type="button" (click)="displayOperationProgress()" class="btn btn-success">
+                Operation Progress [google Chart api]
+            </button>
+            <p></p>
             <google-chart 
                 [title]="'Some Title'" 
                 [data]="chartData.data"
@@ -24,14 +28,7 @@
                 [height]="chartData.height"
                 [type]="myType" >
             </google-chart>
-        </div>
-        <ng-template #noChartContent>
-            <button type="button" 
-                (click)="displayOperationProgress()" 
-                class="btn btn-success">
-                Operation Progress [google Chart api]
-            </button>
-        </ng-template>
+        </div>      
     </div>
 
     <hr />
