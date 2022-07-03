@@ -11,6 +11,7 @@ export class DataService {
   public API = 'https://localhost:44359';
   public PART_API = `${this.API}/api/part`;
   public CO_API = `${this.API}/api/customerorder`;
+  public WO_API = `${this.API}/api/workorder`;
 
   constructor(private http: HttpClient, public localDataService: LocalDataService) { }
  
@@ -59,6 +60,11 @@ export class DataService {
   }
   getCustomerOrderProgressChartReport(selectedCoId: number): Observable<any> {
     return this.http.get<any>(this.CO_API + '/getCustomerOrderProgressChartReport/' + selectedCoId);
+  }
+
+  // work-order
+  allWorkOrders(): Observable<Array<any>> {
+    return this.http.get<Array<any>>(this.WO_API + '/allWorkOrders');
   }
 
 }

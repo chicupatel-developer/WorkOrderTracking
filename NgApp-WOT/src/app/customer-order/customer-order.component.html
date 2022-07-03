@@ -1,26 +1,18 @@
 <div class="container">
+    
+    <div class="mainHeader">Customer-Orders</div>
+    <hr />
+    <p></p>
+    <div>
+        <button type="button" (click)="createCo()" class="btn btn-success">
+            Create New Customer-Order
+        </button>
+    </div>
+    <p></p>
+    
     <div class="row">
         <div class="col-md-12 mx-auto">
-            <div class="card">
-                <div class="card-header componentHeader">
-                    <h4>
-                        Customer-Orders
-                        <p></p>
-                        <span *ngIf="responseColor=='red'" 
-                            [class]="responseClass">
-                            {{apiResponse}}
-                        </span>
-                    </h4>
-
-                    <p></p>
-                    <div>
-                        <button type="button" 
-                            (click)="createCo()" 
-                            class="btn btn-success">
-                            Create New Customer-Order
-                        </button>
-                    </div>
-                </div>
+            <div class="card">             
                 <div class="card-body">
                     <div 
                         *ngIf="cos?.length>0; else noCos" 

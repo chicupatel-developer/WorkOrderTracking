@@ -1,0 +1,34 @@
+.mainHeader {
+    text-align: center;
+    color: darkolivegreen;
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: -40px;
+}
+.subHeaderWo {
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.componentHeader {
+    background-color: lightyellow;
+}
+
+.noWos {
+    color: red;
+    font-size: x-large;
+}
+
+.errorResponse {
+    color: red;
+}
+
+.successResponse {
+    color: green;
+}
+
+.searchControl {
+    width: 300px;
+}

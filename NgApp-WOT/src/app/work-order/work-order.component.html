@@ -1,1 +1,108 @@
-<p>work-order works!</p>
+<div class="container">
+
+    <div class="mainHeader">Work-Orders [Operations]</div>
+    <hr />
+    <p></p>
+    <div>
+        <button 
+            type="button" 
+            (click)="createWo()" 
+            class="btn btn-success">
+                Create New Work-Order
+        </button>
+    </div>
+    
+
+    <div class="subHeaderWo">Work-Orders</div>
+    <p></p>
+
+
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="card">                
+                <div class="card-body">
+                    <div 
+                        *ngIf="wos?.length>0; else noWos" 
+                        class="container">
+
+                        <div class="form-group">
+                            <input 
+                                type="text" 
+                                class="searchControl form-control" 
+                                placeholder="Search Work-Order"
+                                [(ngModel)]="term">
+                        </div>
+                        <p></p>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Customer</th>
+                                    <th>Start Date</th>
+                                    <th>Status</th>
+                                    <th>Notes-Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let wo of wos  | filter:term | paginate
+                                        : {
+                                            itemsPerPage: tableSize,
+                                            currentPage: page,
+                                            totalItems: count
+                                        };
+                                        let i = index
+                                    ">
+                                    <th scope="row">{{ wo.workOrderId }}</th>
+                                    <td>[ {{wo.customerOrderId}} ] {{ wo.customerName }}</td>
+                                    <td>{{ wo.workOrderStartDate | date: "dd-MMM,yyyy" }}</td>
+                                    <td>{{ wo.workOrderStatus }}</td>
+                                    <td>
+                                        <span *ngIf="wo.statusNote!=null && wo.statusNote.length>10; else fullDesc">
+                                            {{wo.statusNote.substring(0,10)}}...
+                                        </span>
+                                        <ng-template #fullDesc>
+                                            {{wo.statusNote}}
+                                        </ng-template>
+                                    </td>                                   
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-1">
+                                                <button type="button" 
+                                                    (click)="editWo(wo)" class="btn btn-primary">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-1"></div>
+                                            <div class="col-1">
+                                                <button type="button" 
+                                                    (click)="removeWo(wo)" class="btn btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>                                          
+                                            <div class="col-8"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-center">
+                            <pagination-controls previousLabel="Prev" nextLabel="Next"
+                                (pageChange)="onTableDataChange($event)">
+                            </pagination-controls>
+                        </div>
+                    </div>
+                    <ng-template #noWos>
+                        <div class="container">
+                            <span class="noWos">
+                                Work-Orders Not Found !
+                            </span>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
