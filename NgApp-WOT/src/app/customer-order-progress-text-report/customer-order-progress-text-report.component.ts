@@ -19,14 +19,19 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
 
   myType = ChartType.BarChart;
   chartData = {
-      data: [
-      ["PHP Books",  500],
-      [".Net Books",  800],
-      ["Java Books",  400],
-   ],
-   chartColumns: ['col1', 'col2'],
-   width: 1000,
-   height: 400
+    data: [],
+    chartColumns: ['Operation', 'QTY Done', 'QTY Required'],
+    width: 700,
+    height: 400,
+    options : {   
+        hAxis: {
+          title: 'QTY'
+        },
+        vAxis:{
+          title: 'Operation'
+        },
+        seriesType: 'bars',
+    },
   };
 
   apiResponse = '';
@@ -89,15 +94,13 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
         data => {
           console.log(data);      
 
-          var chartDatas_ = [];
-          var firstItem = ["Operation Number", "QTY Done", "QTY Required"];
-          chartDatas_.push(firstItem);
+          var chartDatas_ = [];         
           data.map((item, i) => {
-            var otherItem = [item.operationNumber + "", item.qtyDone, item.qtyRequired];
+            var otherItem = [item.operationNumber + "", Number(item.qtyDone), Number(item.qtyRequired)];
             chartDatas_.push(otherItem);
           });
+          this.chartData.data = [[]];
           this.chartData.data = chartDatas_;
-
         },
         error => {
           console.log(error);         
