@@ -16,11 +16,13 @@
 
     <div class="container">
         <div>
-            <button type="button" (click)="displayOperationProgress()" class="btn btn-success">
-                Operation Progress [google Chart api]
+            <button *ngIf="!displayChart" type="button" 
+                (click)="displayOperationProgress()" 
+                class="btn btn-success">
+                    Operation Progress [google Chart api]
             </button>
             <p></p>
-            <div *ngIf="chartData.data?.length>0" class="container">
+            <div *ngIf="(chartData.data?.length>0); else noChartData" class="container">
                 <google-chart 
                     [options]="chartData.options"
                     [title]="'Operation Progress v/s QTY - [Done] [Required]'" 
@@ -31,8 +33,10 @@
                     [type]="myType">
                 </google-chart>
             </div>
-
-         
+            <ng-template #noChartData>
+                <span *ngIf="displayChart" class="noContent">Chart-Data Not Found !</span>
+            </ng-template>
+            
         </div>      
     </div>
 
@@ -67,7 +71,7 @@
                     </div>
                 </div>
                 <ng-template #noContent>
-                    <span class="noContent"></span>
+                    <div class="noContent">Operations Not Found!</div>
                 </ng-template>
             </div>
         </div>

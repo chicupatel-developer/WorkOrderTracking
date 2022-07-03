@@ -17,6 +17,7 @@ import { ChartType } from "angular-google-charts";
 })
 export class CustomerOrderProgressTextReportComponent implements OnInit {
 
+  displayChart = false;
   myType = ChartType.BarChart;
   chartData = {
     data: [],
@@ -102,6 +103,8 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
 
   displayOperationProgress() {
     console.log('getting chart data');
+
+    this.displayChart = true;
 
     this.dataService.getCustomerOrderProgressChartReport(Number(this.coId))
       .subscribe(
