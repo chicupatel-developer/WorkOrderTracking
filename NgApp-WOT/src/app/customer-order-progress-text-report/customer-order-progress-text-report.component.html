@@ -22,7 +22,7 @@
             <p></p>
             <div *ngIf="chartData.data?.length>0" class="container">
                 <google-chart 
-                [options]="chartData.options"
+                    [options]="chartData.options"
                     [title]="'Operation Progress v/s QTY - [Done] [Required]'" 
                     [data]="chartData.data"
                     [columns]="chartData.chartColumns" 

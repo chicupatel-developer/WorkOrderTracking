@@ -23,13 +23,27 @@ export class CustomerOrderProgressTextReportComponent implements OnInit {
     chartColumns: ['Operation', 'QTY Done', 'QTY Required'],
     width: 700,
     height: 400,
-    options : {   
+    options: {   
         hAxis: {
-          title: 'QTY'
+          title: 'QTY - [Done] [Required]',
+          minValue: 0,
+          textStyle: {
+            fontSize: 12,
+            color: "black",
+            bold: true,
+            italic: true,
+          }
         },
         vAxis:{
-          title: 'Operation'
+          title: 'Operation',
+          textStyle: {
+            fontSize: 14,
+            color: "black",
+            bold: true,
+            italic: true,
+          }
         },
+        colors: ["green", "red"],
         seriesType: 'bars',
     },
   };
