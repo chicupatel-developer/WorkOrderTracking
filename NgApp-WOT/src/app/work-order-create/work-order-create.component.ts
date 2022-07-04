@@ -12,7 +12,8 @@ import { LocalDataService } from '../services/local-data.service';
 export class WorkOrderCreateComponent implements OnInit {
 
   customerOrders: Array<any>;
-  
+  workOrderStatusCollection: Array<any>;
+
   woForm: FormGroup;
   submitted = false;
   woModel = {
@@ -37,6 +38,7 @@ export class WorkOrderCreateComponent implements OnInit {
     });
 
     this.getCustomerOrders();
+    this.workOrderStatusCollection = this.localDataService.getWorkOrderStatusToDisplay();
   }
 
   getCustomerOrders() {

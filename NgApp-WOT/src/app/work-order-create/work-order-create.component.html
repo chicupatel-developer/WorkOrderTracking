@@ -48,6 +48,21 @@
                                 </div>
                                 <p></p>
                                 <div class="form-group">
+                                    <label>Work-Order Status</label>
+                                    <select class="form-control" 
+                                        formControlName="WorkOrderStatus">
+                                        <option value="">Choose Work-Order Status</option>
+                                        <option value={{wo.value}} *ngFor="let wo of workOrderStatusCollection">
+                                            {{wo.woStatus}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(woFormControl.WorkOrderStatus.touched || submitted) && woFormControl.WorkOrderStatus.errors?.required">
+                                        Work-Order Status is required
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
                                     <label>Work-Order Start Date</label>
                                     <div class="input-group dateField">
                                         <input type="date" 
@@ -74,7 +89,6 @@
                             </div>   
                             <div class="col-md-1 mx-auto"></div>
                         </div>
-
 
                         <hr />
                         <div class="form-group">
