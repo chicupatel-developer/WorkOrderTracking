@@ -1,0 +1,18 @@
+.coHeader {
+    color: white;
+    background-color: black;
+    font-size: x-large;
+}
+
+.coLabel {
+    color: blue;
+}
+
+.coQty {
+    color: green;
+    font-size: large;
+}
+
+.coDueDate {
+    color: red;
+}

@@ -54,6 +54,7 @@ import { CustomerOrderReportComponent } from './customer-order-progress-text-rep
 import { WorkOrderReportComponent } from './customer-order-progress-text-report/work-order-report/work-order-report.component';
 import { OperationReportComponent } from './customer-order-progress-text-report/operation-report/operation-report.component';
 import { OperatorLogReportComponent } from './customer-order-progress-text-report/operator-log-report/operator-log-report.component';
+import { CustomerOrderDetailsModalComponent } from './work-order/customer-order-details-modal/customer-order-details-modal.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { OperatorLogReportComponent } from './customer-order-progress-text-repor
     CustomerOrderReportComponent,
     WorkOrderReportComponent,
     OperationReportComponent,
-    OperatorLogReportComponent
+    OperatorLogReportComponent,
+    CustomerOrderDetailsModalComponent
   ],
   imports: [   
     BrowserModule,    

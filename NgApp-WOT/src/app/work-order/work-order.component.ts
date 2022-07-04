@@ -6,7 +6,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalDataService } from '../services/local-data.service';
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
- 
+
+import { CustomerOrderDetailsModalComponent } from './customer-order-details-modal/customer-order-details-modal.component';
+
+
 @Component({
   selector: 'app-work-order',
   templateUrl: './work-order.component.html',
@@ -100,7 +103,14 @@ export class WorkOrderComponent implements OnInit {
             console.log(data);
             this.coDetails=data;
 
-            this.open('mymodal');
+            // ModalComponent is component name where modal is declare
+            const modalRef = this.modalService.open(CustomerOrderDetailsModalComponent);
+            modalRef.componentInstance.customerOrderDetails = data;
+            modalRef.result.then((result) => {
+              console.log(result);
+            }).catch((error) => {
+              console.log(error);
+            });
           }
         },
         error => {

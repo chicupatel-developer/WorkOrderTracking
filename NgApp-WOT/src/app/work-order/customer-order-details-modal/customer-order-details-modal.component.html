@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h4 class="modal-title">Customer Order Details!!</h4>
+</div>
+<div class="modal-body">
+    <div class="card">
+        <div class="card-header">
+            <span class="coHeader">
+                Customer Order # {{customerOrderDetails.customerOrderId}}
+            </span>
+        </div>
+        <div class="card-body">
+            <h4>
+                <span class="coLabel">Customer Name :</span>&nbsp;
+                {{customerOrderDetails.customerName}}
+            </h4>
+            <h5>
+                <span class="coLabel">Product Name : </span>
+                {{customerOrderDetails.productName}}
+            </h5>
+            <h6>
+                <span class="coLabel">Product Desc : </span>
+                {{customerOrderDetails.productDesc}}
+            </h6>
+            <h6>
+                <span class="coLabel">Order QTY #</span>&nbsp;
+                <span class="coQty">{{customerOrderDetails.orderQuantity}}</span>
+            </h6>
+            <h6>
+                <span class="coLabel">Order Date #</span>&nbsp;
+                {{customerOrderDetails.orderDate | date: "dd-MMM,yyyy"}}
+            </h6>
+            <h5>
+                <span class="coLabel">Order Due Date #</span>&nbsp;
+                <span class="coDueDate">
+                    {{customerOrderDetails.orderDueDate | date: "dd-MMM,yyyy"}}
+                </span>
+            </h5>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+</div>
