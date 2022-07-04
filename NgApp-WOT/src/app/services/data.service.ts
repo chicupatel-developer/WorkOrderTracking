@@ -66,5 +66,8 @@ export class DataService {
   allWorkOrders(): Observable<Array<any>> {
     return this.http.get<Array<any>>(this.WO_API + '/allWorkOrders');
   }
+  getCustomerOrderDetails(selectedCoId: number): Observable<any> {
+    return this.http.get<any>(this.WO_API + '/getCustomerOrderDetails/' + selectedCoId);
+  }
 
 }

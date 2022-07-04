@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalDataService } from '../services/local-data.service';
 
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+ 
 @Component({
   selector: 'app-work-order',
   templateUrl: './work-order.component.html',
@@ -25,7 +27,10 @@ export class WorkOrderComponent implements OnInit {
   tableSize: number = 3;
   tableSizes: any = [3, 6, 9, 12];
 
-  constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router) { }
+  coDetails = {};
+  closeResult: string = '';
+
+  constructor(private modalService: NgbModal, public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadWos();  
@@ -80,6 +85,48 @@ export class WorkOrderComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/work-order-create']);
     }, 500);
+  }
+
+  getCustomerOrderDetails(coId) {
+    console.log(coId);
+
+    this.dataService.getCustomerOrderDetails(coId)
+      .subscribe(
+        data => {          
+          if (data === "") {
+            // data not found on server!
+            this.coDetails = {};
+          } else {
+            console.log(data);
+            this.coDetails=data;
+
+            this.open('mymodal');
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  /*
+  customer order details (bootstrap-modal)
+  */
+  open(content:any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  } 
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
 }
