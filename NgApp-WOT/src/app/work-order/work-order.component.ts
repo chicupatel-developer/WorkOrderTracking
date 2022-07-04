@@ -107,7 +107,7 @@ export class WorkOrderComponent implements OnInit {
             console.log(data);
             this.coDetails=data;
 
-            // ModalComponent is component name where modal is declare
+            // CustomerOrderDetailsModalComponent is component name where modal is declare
             const modalRef = this.modalService.open(CustomerOrderDetailsModalComponent);
             modalRef.componentInstance.customerOrderDetails = data;
             modalRef.result.then((result) => {
