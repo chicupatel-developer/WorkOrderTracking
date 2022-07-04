@@ -80,7 +80,7 @@ export class CustomerOrderCreateComponent implements OnInit {
 
             console.log(response);
 
-            if(response.responseCode==0){
+            if(response.responseCode===0){
               // success    
               this.apiResponse = response.responseMessage;
               this.responseColor = 'green';

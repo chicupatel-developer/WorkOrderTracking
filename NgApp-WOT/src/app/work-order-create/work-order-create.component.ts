@@ -68,6 +68,61 @@ export class WorkOrderCreateComponent implements OnInit {
 
     if (this.woForm.valid) {
       console.log('form valid!');    
+
+      this.woModel.customerOrderId = this.woForm.value["CustomerOrderId"];
+      this.woModel.workOrderStatus = this.woForm.value["WorkOrderStatus"];
+      this.woModel.statusNote = this.woForm.value["StatusNote"];
+      this.woModel.workOrderStartDate = new Date(this.woForm.value["WorkOrderStartDate"].year + '/' + this.woForm.value["WorkOrderStartDate"].month + '/' + this.woForm.value["WorkOrderStartDate"].day);
+     
+      console.log(this.woModel);
+
+      // check for server side model errors
+      // this.woModel.customerOrderId = '';
+      this.dataService.createWorkOrder(this.woModel)
+        .subscribe(
+          response => {
+            this.modelErrors = [];
+            this.apiResponse = '';
+
+            console.log(response);
+
+            if(response.responseCode===0){
+              // success    
+              this.apiResponse = response.responseMessage;
+              this.responseColor = 'green';
+              this.resetWo();
+              this.submitted = false;
+
+              
+              setTimeout(() => {
+                this.apiResponse = ''; 
+                this.router.navigate(['/work-order']);
+              }, 2000);  
+              
+            }
+            else{
+              // -1
+              // server error
+              this.apiResponse = response.responseCode + ' : ' + response.responseMessage;
+              this.responseColor = 'red';
+            }
+          },
+          error => {
+            // console.log(error);
+            this.modelErrors = [];
+            this.apiResponse = '';
+            this.responseColor = 'red';
+
+            if (error.status === 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else if (error.status === 400) {
+              this.apiResponse = '';
+              this.modelErrors = this.localDataService.display400andEx(error, 'Work-Order-Create');
+            }
+            else
+              this.apiResponse = 'Error !';            
+          }
+        );
     }
     else {
       console.log('form in-valid!');

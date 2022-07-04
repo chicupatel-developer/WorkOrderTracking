@@ -78,6 +78,10 @@ namespace Service.Repository
             if (wo != null)
                 throw new WO_OP_Unique_Exception("Work-Order Already Exist For This Customer-Order !");
 
+            // check
+            // 1- workorderstartdate must be >= customerorder's orderdate
+            // 2- workorderstatus must be 0
+
             appDbContext.WorkOrders.Add(workOrder);
             appDbContext.SaveChanges();
         }

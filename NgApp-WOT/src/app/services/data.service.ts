@@ -72,5 +72,8 @@ export class DataService {
   getCustomerOrders(): Observable<any> {
     return this.http.get<any>(this.WO_API + '/getCustomerOrders');
   }
+  createWorkOrder(woModel): Observable<any> {
+    return this.http.post(this.WO_API + '/createWorkOrder', woModel)
+  }
 
 }
