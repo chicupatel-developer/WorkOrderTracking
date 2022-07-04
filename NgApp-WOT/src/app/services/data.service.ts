@@ -69,5 +69,8 @@ export class DataService {
   getCustomerOrderDetails(selectedCoId: number): Observable<any> {
     return this.http.get<any>(this.WO_API + '/getCustomerOrderDetails/' + selectedCoId);
   }
+  getCustomerOrders(): Observable<any> {
+    return this.http.get<any>(this.WO_API + '/getCustomerOrders');
+  }
 
 }

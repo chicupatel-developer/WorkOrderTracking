@@ -11,6 +11,8 @@ import { LocalDataService } from '../services/local-data.service';
 })
 export class WorkOrderCreateComponent implements OnInit {
 
+  customerOrders: Array<any>;
+  
   woForm: FormGroup;
   submitted = false;
   woModel = {
@@ -33,8 +35,22 @@ export class WorkOrderCreateComponent implements OnInit {
       WorkOrderStatus: ['', [Validators.required]],      
       StatusNote: [''],
     });
+
+    this.getCustomerOrders();
   }
 
+  getCustomerOrders() {
+    this.dataService.getCustomerOrders()
+      .subscribe(
+        data => {
+          this.customerOrders = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+  
   get woFormControl() {
     return this.woForm.controls;
   }
