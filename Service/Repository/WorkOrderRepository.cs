@@ -80,7 +80,14 @@ namespace Service.Repository
 
             // check
             // 1- workorderstartdate must be >= customerorder's orderdate
+            var co = appDbContext.CustomerOrders
+                        .Where(x => x.CustomerOrderId == workOrder.CustomerOrderId).FirstOrDefault();            
+            if(co!=null && workOrder.WorkOrderStartDate<co.OrderDate)
+                throw new Invalid_WO_StartDate_Exception("WorkOrder-StartDate Must Be >= CustomerOrder-Date !");
+
             // 2- workorderstatus must be 0
+            if (workOrder.WorkOrderStatus != WorkOrderStatus.Not_Started)
+                throw new Invalid_WO_Status_Exception("WorkOrder-Status Must be [Not_Started]");
 
             appDbContext.WorkOrders.Add(workOrder);
             appDbContext.SaveChanges();

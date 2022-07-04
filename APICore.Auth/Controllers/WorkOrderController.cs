@@ -88,6 +88,16 @@ namespace APICore.Auth.Controllers
                     return BadRequest(ModelState);
                 }
             }
+            catch (Invalid_WO_StartDate_Exception iwosdex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iwosdex.Message;
+            }
+            catch (Invalid_WO_Status_Exception iwosEx)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iwosEx.Message;
+            }
             catch (WO_OP_Unique_Exception wouEx)
             {
                 _response.ResponseCode = -1;
