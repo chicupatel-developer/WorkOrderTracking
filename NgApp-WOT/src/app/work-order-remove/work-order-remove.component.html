@@ -25,15 +25,23 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-10">
-                            <span class="labelColor">Customer Name :</span> [# {{wo.customerOrderId}}]&nbsp;{{wo.customerOrder.customerName}}
+                            <span class="labelColor">Customer Name :</span> 
+                            <span *ngIf="wo.customerOrderId; else noData">&nbsp;[# {{wo.customerOrderId}}]&nbsp;{{wo.customerOrder.customerName}}</span>
                             <p></p>
-                            <span class="labelColor">Work-Order Start Date #</span> {{wo.workOrderStartDate | date: "dd-MMM,yyyy"}}
+                            <span class="labelColor">Work-Order Start Date #</span> 
+                            <span *ngIf="wo.workOrderStartDate; else noData">&nbsp;{{wo.workOrderStartDate | date: "dd-MMM,yyyy"}}</span>
                             <p></p>
-                            <span class="labelColor">Work-Order Status #</span> {{localDataService.getWorkOrderStatus(wo.workOrderStatus)}}
+                            <span class="labelColor">Work-Order Status #</span> 
+                            <span *ngIf="wo.workOrderStatus>=0; else noData">&nbsp;{{localDataService.getWorkOrderStatus(wo.workOrderStatus)}}</span>
                             <p></p>
                             <span class="labelColor">Status Note</span> <br />
-                            {{wo.statusNote}}
+                            <span *ngIf="wo.statusNote; else noData">{{wo.statusNote}}</span>
                             <p></p>
+                            <ng-template #noData>
+                                <span class="noData">
+                                    N/A
+                                </span>
+                            </ng-template>
                         </div>
                     </div>
 

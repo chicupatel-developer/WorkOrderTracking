@@ -9,3 +9,7 @@
 .labelColor {
     color: red;
 }
+.noData {
+    color: red;
+    font-size: x-large;
+}
