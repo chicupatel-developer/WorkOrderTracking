@@ -81,5 +81,8 @@ export class DataService {
   getWorkOrder(selectedWoId: number): Observable<any> {
     return this.http.get<any>(this.WO_API + '/getWorkOrder/' + selectedWoId);
   }
+  removeWorkOrder(data): Observable<any> {
+    return this.http.post(this.WO_API + '/removeWorkOrder' , data);
+  }
 
 }

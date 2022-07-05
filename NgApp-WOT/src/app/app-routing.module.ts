@@ -11,6 +11,7 @@ import { CustomerOrderProgressTextReportComponent } from './customer-order-progr
 import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkOrderCreateComponent } from './work-order-create/work-order-create.component';
 import { WorkOrderEditComponent } from './work-order-edit/work-order-edit.component';
+import { WorkOrderRemoveComponent } from './work-order-remove/work-order-remove.component';
 import { OperationComponent } from './operation/operation.component';
 import { SigninComponent } from './signin/signin.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'work-order', component: WorkOrderComponent, canActivate: [AuthGuard] },
   { path: 'work-order-create', component: WorkOrderCreateComponent, canActivate: [AuthGuard] },
   { path: 'work-order-edit/:id', component: WorkOrderEditComponent, canActivate: [AuthGuard] },
+  { path: 'work-order-remove/:id', component: WorkOrderRemoveComponent, canActivate: [AuthGuard] },
   { path: 'operation', component: OperationComponent, canActivate: [AuthGuard] },
   { path: 'signin', component: SigninComponent },
   { path: 'registration', component: RegistrationComponent },
