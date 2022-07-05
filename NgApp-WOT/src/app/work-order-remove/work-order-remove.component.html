@@ -4,10 +4,10 @@
             <div class="card-header componentHeader">
                 <h4>
                     <div>
-                        #{{woId}}) Work-Order - Remove
+                        #&nbsp;{{woId}}) Work-Order - Remove
                     </div>
                 </h4>
-                <h5>
+                <h5 *ngIf="wo">
                     <span class="labelColor">
                         Are you sure wants to remove work-order?
                     </span>
@@ -25,7 +25,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-10">
-                            <span class="labelColor">Customer Name :</span> [# {{wo.customerOrderId}}]&nbsp;{{wo.customer.customerName}}
+                            <span class="labelColor">Customer Name :</span> [# {{wo.customerOrderId}}]&nbsp;{{wo.customerOrder.customerName}}
                             <p></p>
                             <span class="labelColor">Work-Order Start Date #</span> {{wo.workOrderStartDate | date: "dd-MMM,yyyy"}}
                             <p></p>

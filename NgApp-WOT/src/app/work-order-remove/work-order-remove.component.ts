@@ -38,7 +38,8 @@ export class WorkOrderRemoveComponent implements OnInit {
               this.apiResponse = 'Work-Order Not Found!';
               this.responseColor = 'red';
             }
-            else{
+            else {
+              console.log(data);
               this.apiResponse = '';
               this.responseColor = 'green';   
                          
