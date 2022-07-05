@@ -1,1 +1,61 @@
-<p>work-order-remove works!</p>
+<div class="container">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-header componentHeader">
+                <h4>
+                    <div>
+                        #{{woId}}) Work-Order - Remove
+                    </div>
+                </h4>
+                <h5>
+                    <span class="labelColor">
+                        Are you sure wants to remove work-order?
+                    </span>
+                </h5>
+                <p></p>
+                <h5 *ngIf="apiResponse">
+                    <span [style.color]="responseColor">
+                        {{apiResponse}}
+                    </span>
+                </h5>
+            </div>
+
+            <!-- *ngIf="!apiResponse" -->
+            <div *ngIf="wo" class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <span class="labelColor">Customer Name :</span> [# {{wo.customerOrderId}}]&nbsp;{{wo.customer.customerName}}
+                            <p></p>
+                            <span class="labelColor">Work-Order Start Date #</span> {{wo.workOrderStartDate | date: "dd-MMM,yyyy"}}
+                            <p></p>
+                            <span class="labelColor">Work-Order Status #</span> {{localDataService.getWorkOrderStatus(wo.workOrderStatus)}}
+                            <p></p>
+                            <span class="labelColor">Status Note</span> <br />
+                            {{wo.statusNote}}
+                            <p></p>
+                        </div>
+                    </div>
+
+                    <p></p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button type="button" 
+                                (click)="removeWo(wo)" class="btn btn-danger">
+                                Remove Work-Order
+                            </button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" 
+                                (click)="cancelRemoveWo()" 
+                                class="btn btn-primary cancelBtn">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
