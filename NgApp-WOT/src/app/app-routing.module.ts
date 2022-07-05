@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'work-order-create', component: WorkOrderCreateComponent, canActivate: [AuthGuard] },
   { path: 'work-order-edit/:id', component: WorkOrderEditComponent, canActivate: [AuthGuard] },
   { path: 'work-order-remove/:id', component: WorkOrderRemoveComponent, canActivate: [AuthGuard] },
-  { path: 'operation', component: OperationComponent, canActivate: [AuthGuard] },
+  { path: 'operation/:id', component: OperationComponent, canActivate: [AuthGuard] },
   { path: 'signin', component: SigninComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'create-op-log', component: CreateOperatorLogComponent, canActivate: [AuthGuard] },

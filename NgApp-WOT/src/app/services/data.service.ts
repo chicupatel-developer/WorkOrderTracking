@@ -12,6 +12,7 @@ export class DataService {
   public PART_API = `${this.API}/api/part`;
   public CO_API = `${this.API}/api/customerorder`;
   public WO_API = `${this.API}/api/workorder`;
+  public OP_API = `${this.API}/api/operation`;
 
   constructor(private http: HttpClient, public localDataService: LocalDataService) { }
  
@@ -83,6 +84,11 @@ export class DataService {
   }
   removeWorkOrder(data): Observable<any> {
     return this.http.post(this.WO_API + '/removeWorkOrder' , data);
+  }
+
+  // operation
+  getAllWorkOrderOperations(selectedWoId: number): Observable<any> {
+    return this.http.get<any>(this.OP_API + '/getAllWorkOrderOperations/' + selectedWoId);
   }
 
 }

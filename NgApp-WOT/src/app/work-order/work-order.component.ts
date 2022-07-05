@@ -91,7 +91,10 @@ export class WorkOrderComponent implements OnInit {
   }
 
   connectWithOperations(wo) {
-    console.log(wo.workOrderId);
+    console.log("getting operations for wo : ", wo.workOrderId);
+    setTimeout(() => {
+      this.router.navigate(['/operation/'+wo.workOrderId]);
+    }, 500);
   }
 
   getCustomerOrderDetails(coId) {
