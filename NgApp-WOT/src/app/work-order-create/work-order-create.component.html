@@ -24,9 +24,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form class="form-wo" 
-                        [formGroup]="woForm" 
-                        (ngSubmit)="onSubmit()">
+                    <form class="form-wo" [formGroup]="woForm" (ngSubmit)="onSubmit()">
 
                         <div class="row">
                             <div class="col-md-1 mx-auto"></div>
@@ -62,20 +60,14 @@
                                 <div class="form-group">
                                     <label>Work-Order Start Date</label>
                                     <div class="input-group dateField">
-                                        <input type="date" 
-                                            class="form-control"                                             
-                                            name="workOrderStartDate" 
-                                            formControlName="WorkOrderStartDate" 
-                                            ngbDatepicker
-                                            #d="ngbDatepicker">
-                                    </div>                                  
+                                        <input type="date" class="form-control" name="workOrderStartDate"
+                                            formControlName="WorkOrderStartDate" ngbDatepicker #d="ngbDatepicker">
+                                    </div>
                                 </div>
                                 <p></p>
                                 <div class="form-group">
                                     <label>Status Note</label>
-                                    <textarea type="text" 
-                                        class="form-control" 
-                                        formControlName="StatusNote">
+                                    <textarea type="text" class="form-control" formControlName="StatusNote">
                                     </textarea>
                                 </div>
                             </div>

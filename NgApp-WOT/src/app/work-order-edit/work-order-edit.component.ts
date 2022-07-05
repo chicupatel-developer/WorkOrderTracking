@@ -15,11 +15,13 @@ export class WorkOrderEditComponent implements OnInit {
   workOrderStatusCollection: Array<any>;
   
   woId: string;
+  coId: string;
 
   woForm: FormGroup;
   submitted = false;
   woModel = {
-    customerOrderId: '',
+    workOrderId: 0,
+    customerOrderId: 0,
     workOrderStartDate: new Date(),
     workOrderStatus: 0,
     statusNote: '',
@@ -59,13 +61,25 @@ export class WorkOrderEditComponent implements OnInit {
             else{
               this.apiResponse = '';
               this.responseColor = 'green';       
-          
-              this.woForm.setValue({                
-                WorkOrderStatus: data.workOrderStatus,
-                StatusNote: data.statusNote,           
-                WorkOrderStartDate: new Date(Date.parse(data.workOrderStartDate)),
-              });
 
+              if (data.workOrderStartDate === null) {
+                 this.woForm.setValue({                
+                  WorkOrderStatus: data.workOrderStatus,
+                  StatusNote: data.statusNote,           
+                  WorkOrderStartDate: new Date(),
+                });
+              }
+              else {
+                  this.woForm.setValue({                
+                  WorkOrderStatus: data.workOrderStatus,
+                  StatusNote: data.statusNote,           
+                  WorkOrderStartDate: new Date(Date.parse(data.workOrderStartDate)),
+                });
+              }
+
+
+           
+              this.coId = data.customerOrderId;
               console.log(data);
             }
           },
@@ -89,7 +103,58 @@ export class WorkOrderEditComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     if (this.woForm.valid) {
-    console.log('form valid!');      
+      console.log('form valid!');     
+    
+      this.woModel.statusNote = this.woForm.value["StatusNote"];   
+      this.woModel.workOrderStatus = this.woForm.value["WorkOrderStatus"];   
+      this.woModel.workOrderStartDate = this.woForm.value["WorkOrderStartDate"];
+      this.woModel.workOrderId = Number(this.woId);
+      this.woModel.customerOrderId = Number(this.coId);
+      console.log(this.woModel);  
+
+      this.dataService.editWorkOrder(this.woModel)
+        .subscribe(
+          response => {
+            console.log(response);
+            this.modelErrors = [];
+            this.apiResponse = '';
+
+            if (response.responseCode === 0) {              
+              // success
+              this.apiResponse = response.responseMessage;
+              this.responseColor = 'green';
+              this.resetWo();
+              this.submitted = false;
+              
+              setTimeout(() => {
+                this.apiResponse = ''; 
+                this.router.navigate(['/work-order']);
+              }, 2000);  
+            }
+            else {
+              // -1
+              // server error
+              this.apiResponse = response.responseCode + ' : ' + response.responseMessage;
+              this.responseColor = 'red';
+            }
+          },
+          error => {
+            console.log(error);
+
+            this.modelErrors = [];
+            this.apiResponse = '';
+            this.responseColor = 'red';
+
+            if (error.status === 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else if (error.status === 400) {
+              this.apiResponse = '';
+              this.modelErrors = this.localDataService.display400andEx(error, 'Customer-Order-Create');
+            }
+            else
+              this.apiResponse = 'Error !';            
+          }
+        );
     }
     else {
       console.log('form in-valid!');
