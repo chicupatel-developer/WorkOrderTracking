@@ -32,7 +32,7 @@ export class CustomerOrderRemoveComponent implements OnInit {
       this.dataService.getCustomerOrder(Number(this.coId))
         .subscribe(
           data => {
-            if(data==null){
+            if(data===null){
               console.log('customer-order not found!');
            
               this.apiResponse = 'Customer-Order Not Found!';
@@ -48,7 +48,7 @@ export class CustomerOrderRemoveComponent implements OnInit {
           error => {
             console.log(error);
             
-            if (error.status == 401)            
+            if (error.status === 401)            
               this.apiResponse = 'Un-Authorized !';
             else
               this.apiResponse = 'Error !';
@@ -63,7 +63,7 @@ export class CustomerOrderRemoveComponent implements OnInit {
         .subscribe(
           response => {
 
-            if (response.responseCode == 0) {
+            if (response.responseCode === 0) {
               
               // success
               this.apiResponse = response.responseMessage;
@@ -84,7 +84,7 @@ export class CustomerOrderRemoveComponent implements OnInit {
           error => {
             console.log(error);
 
-            if (error.status == 401)            
+            if (error.status === 401)            
               this.apiResponse = 'Un-Authorized !';
             else
               this.apiResponse = 'Error !';
