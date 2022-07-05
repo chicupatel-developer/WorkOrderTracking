@@ -208,7 +208,7 @@ const Part_Edit = () => {
         <div className="row">
           <div className="col-md-5 mx-auto">
             <div className="card">
-              <div className="card-header">
+              <div className="card-header header">
                 <h3>Edit Part # {id}</h3>
                 <p></p>{" "}
                 {partEditResponse && partEditResponse.responseCode === -1 ? (

@@ -18,3 +18,10 @@
 .qtyDisplay{
     width:150px;
 }
+.header {
+    background-color: lightcyan;
+    color: rgb(224, 9, 9);
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}

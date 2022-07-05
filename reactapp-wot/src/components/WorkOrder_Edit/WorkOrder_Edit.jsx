@@ -239,7 +239,9 @@ const WorkOrder_Edit = () => {
             <div className="card">
               <div className="card-header header">
                 <h3>Edit Work-Order # {id}</h3>
-                <p></p>{" "}
+                <p></p>
+                <h4>Customer Order # {wo.customerOrderId}</h4>
+                <p></p>
                 {woEditResponse && woEditResponse.responseCode === -1 ? (
                   <span className="woEditError">
                     {woEditResponse.responseMessage}

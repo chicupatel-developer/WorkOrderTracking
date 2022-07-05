@@ -286,7 +286,7 @@ const CustomerOrder_Edit = () => {
         <div className="row">
           <div className="col-md-10 mx-auto">
             <div className="card">
-              <div className="card-header">
+              <div className="card-header header">
                 <h3>Edit Customer-Order # {id}</h3>
                 <p></p>{" "}
                 {coEditResponse && coEditResponse.responseCode === -1 ? (
