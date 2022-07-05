@@ -10,6 +10,7 @@ import { CustomerOrderRemoveComponent } from './customer-order-remove/customer-o
 import { CustomerOrderProgressTextReportComponent } from './customer-order-progress-text-report/customer-order-progress-text-report.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkOrderCreateComponent } from './work-order-create/work-order-create.component';
+import { WorkOrderEditComponent } from './work-order-edit/work-order-edit.component';
 import { OperationComponent } from './operation/operation.component';
 import { SigninComponent } from './signin/signin.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'customer-order-progress-text-report/:id', component: CustomerOrderProgressTextReportComponent, canActivate: [AuthGuard] },
   { path: 'work-order', component: WorkOrderComponent, canActivate: [AuthGuard] },
   { path: 'work-order-create', component: WorkOrderCreateComponent, canActivate: [AuthGuard] },
+  { path: 'work-order-edit/:id', component: WorkOrderEditComponent, canActivate: [AuthGuard] },
   { path: 'operation', component: OperationComponent, canActivate: [AuthGuard] },
   { path: 'signin', component: SigninComponent },
   { path: 'registration', component: RegistrationComponent },

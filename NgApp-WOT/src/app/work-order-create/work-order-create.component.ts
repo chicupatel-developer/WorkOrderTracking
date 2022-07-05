@@ -32,7 +32,7 @@ export class WorkOrderCreateComponent implements OnInit {
   ngOnInit(): void {
     this.woForm = this.fb.group({
       CustomerOrderId: ['', Validators.required],
-      WorkOrderStartDate: ['', Validators.required],
+      WorkOrderStartDate: [''],
       WorkOrderStatus: ['', [Validators.required]],      
       StatusNote: [''],
     });
@@ -66,14 +66,23 @@ export class WorkOrderCreateComponent implements OnInit {
 
     this.submitted = true;
 
-    if (this.woForm.valid) {
-      console.log('form valid!');    
+    console.log(this.woForm.value);
 
+    if (this.woForm.value["CustomerOrderId"] === '' || this.woForm.value["WorkOrderStatus"]==='') {
+      console.log('form in-valid!');
+      return;
+    }
+    else if (this.woForm.value["WorkOrderStartDate"] === '' || this.woForm.value["WorkOrderStartDate"] === null) {
+      this.woModel.workOrderStartDate = null;
+    }
+    else if (this.woForm.value["WorkOrderStartDate"] !== '') {
+      this.woModel.workOrderStartDate = new Date(this.woForm.value["WorkOrderStartDate"].year + '/' + this.woForm.value["WorkOrderStartDate"].month + '/' + this.woForm.value["WorkOrderStartDate"].day);
+    }
+    
       this.woModel.customerOrderId = this.woForm.value["CustomerOrderId"];
       this.woModel.workOrderStatus = this.woForm.value["WorkOrderStatus"];
       this.woModel.statusNote = this.woForm.value["StatusNote"];
-      this.woModel.workOrderStartDate = new Date(this.woForm.value["WorkOrderStartDate"].year + '/' + this.woForm.value["WorkOrderStartDate"].month + '/' + this.woForm.value["WorkOrderStartDate"].day);
-     
+  
       console.log(this.woModel);
 
       // check for server side model errors
@@ -123,10 +132,8 @@ export class WorkOrderCreateComponent implements OnInit {
               this.apiResponse = 'Error !';            
           }
         );
-    }
-    else {
-      console.log('form in-valid!');
-    }
+
+
   } 
 
 }
