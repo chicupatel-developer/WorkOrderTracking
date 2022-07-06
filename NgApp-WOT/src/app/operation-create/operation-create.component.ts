@@ -14,6 +14,7 @@ export class OperationCreateComponent implements OnInit {
   woId: number;
 
   operationStatusCollection: Array<any>;
+  operationNumberCollection: Array<any>;
 
   opForm: FormGroup;
   submitted = false;
@@ -48,6 +49,7 @@ export class OperationCreateComponent implements OnInit {
       Details: [''],
     });   
     this.operationStatusCollection = this.localDataService.getOperationStatusToDisplay();
+    this.operationNumberCollection = this.localDataService.getOperationNumberToDisplay();
 
     console.log('creating new operation for work-order #', this.woId);
   }
@@ -56,9 +58,36 @@ export class OperationCreateComponent implements OnInit {
     return this.opForm.controls;
   }
 
-  resetWo() {    
+  resetOp() {    
     this.opForm.reset();
     this.submitted = false;
   } 
 
+  goBack() {
+    this.router.navigate(['/operation/'+this.woId]);
+  }
+
+  onSubmit(): void {
+
+    this.submitted = true;
+    
+    if (this.opForm.value["OperationNumber"] === '' || this.opForm.value["OperationNumber"] === null || this.opForm.value["OperationStatus"]==='' ||  this.opForm.value["OperationStatus"]===null) {
+      console.log('form in-valid!');
+      return;
+    }
+    else if (this.opForm.value["OperationStartDate"] === '' || this.opForm.value["OperationStartDate"] === null) {
+      this.opModel.operationStartDate = null;
+    }
+    else if (this.opForm.value["OperationStartDate"] !== '') {
+      this.opModel.operationStartDate = new Date(this.opForm.value["OperationStartDate"].year + '/' + this.opForm.value["OperationStartDate"].month + '/' + this.opForm.value["OperationStartDate"].day);
+    }
+    
+    this.opModel.workOrderId = this.woId;
+    this.opModel.operationNumber = this.opForm.value["OperationNumber"];
+    this.opModel.operationStatus = this.opForm.value["OperationStatus"];    
+    
+  
+    console.log(this.opModel);    
+    
+  } 
 }
