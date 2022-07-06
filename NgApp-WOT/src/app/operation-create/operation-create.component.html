@@ -10,6 +10,9 @@
                                     Create New Operation
                                 </div>
                             </h4>
+                            <h5 class="woId">
+                                Work-Order # {{woId}}
+                            </h5>
                             <h5 *ngIf="apiResponse">
                                 <p></p>
                                 <span [style.color]="responseColor">
@@ -41,58 +44,65 @@
                         [formGroup]="opForm" 
                         (ngSubmit)="onSubmit()">
 
-                        <div class="form-group">
-                            <label>Operation</label>
-                            <select class="form-control" 
-                                formControlName="OperationNumber">
-                                <option value="">Choose Operation</option>
-                                <option value={{op.value}} *ngFor="let op of operationNumberCollection">
-                                    {{op.opNumber}}
-                                </option>
-                            </select>
-                            <div class="alert alert-danger mt-2"
-                                *ngIf="(opFormControl.OperationNumber.touched || submitted) && opFormControl.OperationNumber.errors?.required">
-                                Operation is required
-                            </div>
-                        </div>
-                        <p></p>
-                        <div class="form-group">
-                            <label>Operation-Status</label>
-                            <select class="form-control" 
-                                formControlName="OperationStatus">
-                                <option value="">Choose Operation-Status</option>
-                                <option value={{op.value}} *ngFor="let op of operationStatusCollection">
-                                    {{op.opStatus}}
-                                </option>
-                            </select>
-                            <div class="alert alert-danger mt-2"
-                                *ngIf="(opFormControl.OperationStatus.touched || submitted) && opFormControl.OperationStatus.errors?.required">
-                                Operation-Status is required
-                            </div>
-                        </div>
-                        <p></p>
-                        <div class="form-group">
-                            <label>Operation Start Date</label>
-                            <div class="input-group dateField">
-                                <input type="date" 
-                                    class="form-control"
-                                    name="operationStartDate" 
-                                    formControlName="OperationStartDate"
-                                    ngbDatepicker #d="ngbDatepicker">
-                            </div>
-                        </div>
-                        <p></p>
-                        <div class="form-group">
-                            <label>Qty-Required</label>
-                            <input type="text"                                 
-                                class="form-control qtyField"
-                                formControlName="OpQTYRequired" />                          
-                            <div class="alert alert-danger mt-2"
-                                *ngIf="(opFormControl.OpQTYRequired.touched || submitted) && opFormControl.OpQTYRequired.errors?.pattern">
-                                Only Numbers are allowed
-                            </div>
-                        </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Operation</label>
+                                    <select class="form-control" formControlName="OperationNumber">
+                                        <option value="">Choose Operation</option>
+                                        <option value={{op.value}} *ngFor="let op of operationNumberCollection">
+                                            {{op.opNumber}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(opFormControl.OperationNumber.touched || submitted) && opFormControl.OperationNumber.errors?.required">
+                                        Operation is required
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <label>Operation-Status</label>
+                                    <select class="form-control" formControlName="OperationStatus">
+                                        <option value="">Choose Operation-Status</option>
+                                        <option value={{op.value}} *ngFor="let op of operationStatusCollection">
+                                            {{op.opStatus}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(opFormControl.OperationStatus.touched || submitted) && opFormControl.OperationStatus.errors?.required">
+                                        Operation-Status is required
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <label>Operation Start Date</label>
+                                    <div class="input-group dateField">
+                                        <input type="date" class="form-control" name="operationStartDate" formControlName="OperationStartDate"
+                                            ngbDatepicker #d="ngbDatepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label>Qty-Required</label>
+                                    <input type="text" class="form-control qtyField" formControlName="OpQTYRequired" />
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(opFormControl.OpQTYRequired.touched || submitted) && opFormControl.OpQTYRequired.errors?.pattern">
+                                        Only Numbers are allowed
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <label>Details</label>
+                                    <textarea type="text" 
+                                        class="form-control" 
+                                        formControlName="Details">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                     
                         <hr />
                         <div class="form-group">
                             <div class="row">

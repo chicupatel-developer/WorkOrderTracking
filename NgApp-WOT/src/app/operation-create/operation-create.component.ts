@@ -67,6 +67,15 @@ export class OperationCreateComponent implements OnInit {
     this.router.navigate(['/operation/'+this.woId]);
   }
 
+  checkForNumbersOnly(newVal) {
+    const re = /^\d*\.?\d*$/;
+    if (re.test(newVal))
+      // console.log('ok');
+      return true;
+    else
+      // console.log('Only Numbers Allowed !!!');
+      return false;
+  }
   onSubmit(): void {
 
     this.submitted = true;
@@ -80,18 +89,21 @@ export class OperationCreateComponent implements OnInit {
     }
     else if (this.opForm.value["OperationStartDate"] !== '') {
       this.opModel.operationStartDate = new Date(this.opForm.value["OperationStartDate"].year + '/' + this.opForm.value["OperationStartDate"].month + '/' + this.opForm.value["OperationStartDate"].day);
-    }
-    else if (this.opForm.value["OpQTYRequired"]===NaN) {
+    }  
+      
+    if (!this.checkForNumbersOnly(this.opForm.value["OpQTYRequired"])) {      
       console.log('form in-valid!');
       return;
+    } 
+    else {
+      this.opModel.opQTYRequired = Number(this.opForm.value["OpQTYRequired"]);
     }
-    
-
 
     this.opModel.workOrderId = this.woId;
     this.opModel.operationNumber = this.opForm.value["OperationNumber"];
     this.opModel.operationStatus = this.opForm.value["OperationStatus"];        
-    this.opModel.opQTYRequired = Number(this.opForm.value["OpQTYRequired"]);
+    this.opModel.details = this.opForm.value["Details"];        
+    
   
     console.log(this.opModel);    
     
