@@ -63,6 +63,9 @@ namespace Service.Repository
 
                 if (operation.OperationStartDate != null && operation.OperationStatus != OperationStatus.Start_Running)
                     throw new Invalid_OP_StartDate_Exception("Operation-Start-Date Must be Empty!");
+
+                if (operation.OperationStatus == OperationStatus.Start_Running && operation.OperationStartDate == null)
+                    throw new Invalid_OP_StartDate_Exception("Operation-Start-Date is Required!");
             }
             operation.OpQTYRequired = 0;
             operation.OpQTYDone = 0;
