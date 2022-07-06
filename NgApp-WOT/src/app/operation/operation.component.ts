@@ -76,7 +76,8 @@ export class OperationComponent implements OnInit {
   }
   
   createOp() {
-    console.log('new operation!');   
+    this.localDataService.setWorkOrderId(this.woId);
+    this.router.navigate(['/operation-create']);
   }
 
   getOpLog(opId) {

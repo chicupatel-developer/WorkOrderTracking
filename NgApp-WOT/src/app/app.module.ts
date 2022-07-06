@@ -58,6 +58,7 @@ import { CustomerOrderDetailsModalComponent } from './work-order/customer-order-
 import { WorkOrderCreateComponent } from './work-order-create/work-order-create.component';
 import { WorkOrderEditComponent } from './work-order-edit/work-order-edit.component';
 import { WorkOrderRemoveComponent } from './work-order-remove/work-order-remove.component';
+import { OperationCreateComponent } from './operation-create/operation-create.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { WorkOrderRemoveComponent } from './work-order-remove/work-order-remove.
     CustomerOrderDetailsModalComponent,
     WorkOrderCreateComponent,
     WorkOrderEditComponent,
-    WorkOrderRemoveComponent
+    WorkOrderRemoveComponent,
+    OperationCreateComponent
   ],
   imports: [   
     BrowserModule,    

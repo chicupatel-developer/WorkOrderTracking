@@ -11,6 +11,9 @@ export class LocalDataService {
   private UserName;
   private FullName;
 
+  // create new operation for workorder
+  private WorkOrderId;
+
   private CurrentPart_ImageUpload: {
     partId: 0,
     partName: '',
@@ -19,6 +22,14 @@ export class LocalDataService {
 
   constructor() { }
 
+  // create new operation for workorder
+  setWorkOrderId(val) {
+    this.WorkOrderId = val;
+  }
+  getWorkOrderId() {
+    return this.WorkOrderId;
+  }
+  
   // role
   setMyRole(val) {
     this.MyRole = val;

@@ -90,5 +90,8 @@ export class DataService {
   getAllWorkOrderOperations(selectedWoId: number): Observable<any> {
     return this.http.get<any>(this.OP_API + '/getAllWorkOrderOperations/' + selectedWoId);
   }
+  createOperation(opModel): Observable<any> {
+    return this.http.post(this.OP_API + '/createOperation', opModel)
+  }
 
 }
