@@ -13,12 +13,34 @@ export class OperationComponent implements OnInit {
 
   woId: string;
   ops: Array<any>;
+
+  apiResponse = '';  
+  responseColor = '';
+  responseClass = '';
+
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 10;
+  tableSizes: any = [3, 6, 9, 12];
+
   
   constructor(public localDataService: LocalDataService, public dataService: DataService, private router: Router, private route: ActivatedRoute)
   { }
 
   ngOnInit(): void {
-   
+    this.loadOps();     
+  }
+  onTableDataChange(event: any) {
+    this.page = event;
+    this.loadOps();
+  }
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.loadOps();
+  }
+
+  loadOps() {
     this.woId = this.route.snapshot.paramMap.get('id');
     if (isNaN(+this.woId)) {
       console.log('Not a Number!');
@@ -33,8 +55,28 @@ export class OperationComponent implements OnInit {
           },
           error => {
             console.log(error);
+            if (error.status == 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else
+              this.apiResponse = 'Error !';
+            
+            this.responseColor = 'red';
+            this.responseClass = 'errorResponse';
+            this.ops = [];     
           });
     }
+  }
+
+  editOp(op) {
+    console.log('editing operation :', op);
+  }
+
+  removeOp(op) {
+    console.log('removing operation :', op);
+  }
+  
+  createOp() {
+    console.log('new operation!');   
   }
 
 }

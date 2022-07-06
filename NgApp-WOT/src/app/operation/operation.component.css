@@ -1,0 +1,35 @@
+.mainHeader {
+    text-align: center;
+    color: darkolivegreen;
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: -40px;
+}
+
+.subHeaderOp {
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.componentHeader {
+    background-color: lightyellow;
+}
+
+.noOps {
+    color: red;
+    font-size: x-large;
+}
+
+.errorResponse {
+    color: red;
+}
+
+.successResponse {
+    color: green;
+}
+
+.coDetailsBtn {
+    margin-top: -7px;
+}
