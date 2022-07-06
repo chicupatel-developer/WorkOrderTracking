@@ -77,6 +77,9 @@ const Operation_Create = () => {
   };
 
   const findFormErrors = () => {
+    setModelErrors([]);
+    setOpCreateResponse({});
+
     const {
       operationNumber,
       workOrderId,
@@ -92,6 +95,11 @@ const Operation_Create = () => {
       newErrors.workOrderId = "Work-Order is Required!";
     if (!operationStatus || operationStatus === "")
       newErrors.operationStatus = "Operation-Status is Required!";
+
+    if (!(!opQTYRequired || opQTYRequired === "")) {
+      if (!checkForNumbersOnly(opQTYRequired))
+        newErrors.opQTYRequired = "Only Numbers are Allowed!";
+    }
 
     return newErrors;
   };

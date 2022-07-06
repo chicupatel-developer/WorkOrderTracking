@@ -82,7 +82,16 @@
                             </div>
                         </div>
                         <p></p>
-
+                        <div class="form-group">
+                            <label>Qty-Required</label>
+                            <input type="text"                                 
+                                class="form-control qtyField"
+                                formControlName="OpQTYRequired" />                          
+                            <div class="alert alert-danger mt-2"
+                                *ngIf="(opFormControl.OpQTYRequired.touched || submitted) && opFormControl.OpQTYRequired.errors?.pattern">
+                                Only Numbers are allowed
+                            </div>
+                        </div>
 
                         <hr />
                         <div class="form-group">

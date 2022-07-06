@@ -45,7 +45,7 @@ export class OperationCreateComponent implements OnInit {
       OperationNumber: ['', Validators.required],
       OperationStatus: ['', [Validators.required]],      
       OperationStartDate: [''],
-      OpQTYRequired: [''],
+      OpQTYRequired: ['', [Validators.pattern("^[0-9]*$")]],      
       Details: [''],
     });   
     this.operationStatusCollection = this.localDataService.getOperationStatusToDisplay();
@@ -81,11 +81,17 @@ export class OperationCreateComponent implements OnInit {
     else if (this.opForm.value["OperationStartDate"] !== '') {
       this.opModel.operationStartDate = new Date(this.opForm.value["OperationStartDate"].year + '/' + this.opForm.value["OperationStartDate"].month + '/' + this.opForm.value["OperationStartDate"].day);
     }
+    else if (this.opForm.value["OpQTYRequired"]===NaN) {
+      console.log('form in-valid!');
+      return;
+    }
     
+
+
     this.opModel.workOrderId = this.woId;
     this.opModel.operationNumber = this.opForm.value["OperationNumber"];
-    this.opModel.operationStatus = this.opForm.value["OperationStatus"];    
-    
+    this.opModel.operationStatus = this.opForm.value["OperationStatus"];        
+    this.opModel.opQTYRequired = Number(this.opForm.value["OpQTYRequired"]);
   
     console.log(this.opModel);    
     
