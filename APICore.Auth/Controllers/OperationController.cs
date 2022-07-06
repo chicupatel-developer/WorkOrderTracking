@@ -83,6 +83,16 @@ namespace APICore.Auth.Controllers
                     return BadRequest(ModelState);
                 }
             }
+            catch (Invalid_OP_StartDate_Exception iosdex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iosdex.Message;
+            }
+            catch (Invalid_OP_Status_Exception iosex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = iosex.Message;
+            }
             catch (WO_OP_Unique_Exception woopUEx)
             {
                 _response.ResponseCode = -1;

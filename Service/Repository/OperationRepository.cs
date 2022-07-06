@@ -56,7 +56,13 @@ namespace Service.Repository
             {
                 var result = data_.Any(x => x.OperationNumber==operation.OperationNumber);
                 if (result)
-                    throw new WO_OP_Unique_Exception("[Duplicate Operation For This WorkOrder] Data Invalid !");                                
+                    throw new WO_OP_Unique_Exception("[Duplicate Operation For This WorkOrder] Data Invalid !");
+
+                if (!(operation.OperationStatus == OperationStatus.Not_Started || operation.OperationStatus == OperationStatus.Start_Running))
+                    throw new Invalid_OP_Status_Exception("Operation-Status Must be [Not_Started] OR [Start_Running]");
+
+                if (operation.OperationStartDate != null && operation.OperationStatus != OperationStatus.Start_Running)
+                    throw new Invalid_OP_StartDate_Exception("Operation-Start-Date Must be Empty!");
             }
             operation.OpQTYRequired = 0;
             operation.OpQTYDone = 0;
