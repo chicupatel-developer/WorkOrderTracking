@@ -49,16 +49,30 @@
                                         };
                                         let i = index
                                     ">
-                                    <th scope="row">{{ op.operationId }}</th>
+                                    <th scope="row">
+                                        <button 
+                                            type="button" 
+                                            (click)="getOpLog(op.operationId)" 
+                                            class="btn btn-info">
+                                            <i class="bi-binoculars"></i>
+                                        </button>
+                                        {{ op.operationId }}
+                                    </th>
                                     <td>
-                                        <span *ngIf="op.details!=null && op.details.length>10; else fullDesc">
+                                        <span *ngIf="op.details!==null && op.details.length>10; else fullDesc">
                                             {{op.details.substring(0,10)}}...
                                         </span>
+                                      
                                         <ng-template #fullDesc>
-                                            {{op.details}}
+                                            <span *ngIf="(op.details==='' || op.details===null); fullContent">
+                                                N/A
+                                            </span>
+                                            <ng-template #fullContent>
+                                                {{op.details}}
+                                            </ng-template>
                                         </ng-template>
                                     </td>
-                                    <td>{{ op.operationStatus }}</td>                                   
+                                    <td>{{ localDataService.getOperationStatus(op.operationStatus) }}</td>                                   
                                     <td>
                                         {{ op.operationStartDate | date: "dd-MMM,yyyy" }}
                                     </td>
@@ -76,10 +90,18 @@
                                             <div class="col-1"></div>
                                             <div class="col-1">
                                                 <button type="button" 
-                                                    (click)="removeOp(op)" class="btn btn-danger">
-                                                    <i class="bi bi-trash"></i>
+                                                    (click)="xferParts(op)" class="btn btn-warning">
+                                                    <i class="bi-arrows-move"></i>
                                                 </button>
-                                            </div>                                          
+                                            </div>   
+                                            <div class="col-1"></div>
+                                            <div class="col-1">
+                                                <button type="button" 
+                                                    (click)="getPartHistory(op)" 
+                                                    class="btn btn-success">
+                                                    <i class="bi-clock-history"></i>
+                                                </button>
+                                            </div>
                                             <div class="col-8"></div>
                                         </div>
                                     </td>

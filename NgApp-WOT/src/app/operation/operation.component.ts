@@ -71,12 +71,20 @@ export class OperationComponent implements OnInit {
     console.log('editing operation :', op);
   }
 
-  removeOp(op) {
-    console.log('removing operation :', op);
+  xferParts(op) {
+    console.log('xfer parts for operation :', op.operationId);
   }
   
   createOp() {
     console.log('new operation!');   
+  }
+
+  getOpLog(opId) {
+    console.log('getting operation log : ', opId);
+  }
+
+  getPartHistory(op) {
+    console.log('getting part history for operation : ', op.operationId);
   }
 
 }
