@@ -2,14 +2,19 @@
     background-color: lightyellow;
 }
 
+.otherOpData {
+    background-color: lightcyan;
+    color: rgb(224, 9, 9);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
 .qtyField {
     width: 150px;
 }
 
 .cancelBtn {
     float: right;
-}
-
-.otherOpData {
-    color: blue;
 }

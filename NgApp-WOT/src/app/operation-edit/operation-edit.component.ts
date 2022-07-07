@@ -22,6 +22,7 @@ export class OperationEditComponent implements OnInit {
   submitted = false;
   opModel = {
     OperationId: 0,
+    WorkOrderId:0, 
     operationStatus: 0,
     operationStartDate: new Date(),
     opQTYRequired: 0,
@@ -140,6 +141,7 @@ export class OperationEditComponent implements OnInit {
     }
 
     this.opModel.OperationId = Number(this.opId);
+    this.opModel.WorkOrderId = Number(this.woId);
     this.opModel.operationStatus = this.opForm.value["OperationStatus"];        
     this.opModel.details = this.opForm.value["Details"];        
     this.opModel.operationStartDate = this.opForm.value["OperationStartDate"];

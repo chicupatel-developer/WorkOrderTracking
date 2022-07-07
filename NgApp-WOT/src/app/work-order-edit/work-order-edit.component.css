@@ -10,3 +10,12 @@
 .cancelBtn {
     float: right;
 }
+
+.otherWoData {
+    background-color: lightcyan;
+    color: rgb(224, 9, 9);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}

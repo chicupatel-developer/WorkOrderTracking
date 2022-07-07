@@ -99,7 +99,11 @@ export class WorkOrderEditComponent implements OnInit {
   get woFormControl() {
     return this.woForm.controls;
   }
-
+  
+  goBack() {
+    this.router.navigate(['/work-order']);
+  }
+  
   onSubmit(): void {
     this.submitted = true;
     if (this.woForm.valid) {

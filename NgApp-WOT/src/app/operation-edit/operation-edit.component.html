@@ -8,9 +8,12 @@
                             <div>
                                 Edit - Operation # {{opId}}
                                 <br />
-                                Work-Order # {{woId}}
-                                <br />
-                                Operation # {{localDataService.getOperationNumber(operationNumber)}}
+                                <div class="otherOpData">
+                                    Work-Order # {{woId}}
+                                    <br />
+                                    Operation # {{localDataService.getOperationNumber(operationNumber)}}
+                                </div>
+                             
                             </div>
                         </h4>            
                         <h5 *ngIf="apiResponse">
