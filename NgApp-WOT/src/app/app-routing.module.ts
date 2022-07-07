@@ -15,6 +15,7 @@ import { WorkOrderRemoveComponent } from './work-order-remove/work-order-remove.
 import { OperationComponent } from './operation/operation.component';
 import { OperationCreateComponent } from './operation-create/operation-create.component';
 import { OperationEditComponent } from './operation-edit/operation-edit.component';
+import { XferPartsComponent } from './xfer-parts/xfer-parts.component';
 import { SigninComponent } from './signin/signin.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { CreateOperatorLogComponent } from './create-operator-log/create-operator-log.component';
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'operation/:id', component: OperationComponent, canActivate: [AuthGuard] },
   { path: 'operation-create', component: OperationCreateComponent, canActivate: [AuthGuard] },
   { path: 'operation-edit/:id', component: OperationEditComponent, canActivate: [AuthGuard] },
+  { path: 'xfer-parts/:id', component: XferPartsComponent, canActivate: [AuthGuard] },
   { path: 'signin', component: SigninComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'create-op-log', component: CreateOperatorLogComponent, canActivate: [AuthGuard] },

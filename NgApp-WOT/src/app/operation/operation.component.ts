@@ -75,6 +75,8 @@ export class OperationComponent implements OnInit {
 
   xferParts(op) {
     console.log('xfer parts for operation :', op.operationId);
+    this.localDataService.setWorkOrderId(this.woId);
+    this.router.navigate(['/xfer-parts/'+op.operationId]);
   }
   
   createOp() {

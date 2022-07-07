@@ -15,8 +15,18 @@ export class XferPartsComponent implements OnInit {
   opId: string;
   woId: number;
 
-  xferInfo: {};
+  xferInfo: {
+    customerName: '',
+    customerOrderId: 0,
+    customerOrderQTY: 0,
+    operationNumber: 0,
+    workOrderId: 0,
+  };
   parts: [];
+
+  apiResponse = '';  
+  responseColor = '';
+  modelErrors = [];
   
   constructor(public localDataService: LocalDataService, private fb: FormBuilder, public dataService: DataService, private router: Router, private route: ActivatedRoute)
   { }
@@ -64,5 +74,20 @@ export class XferPartsComponent implements OnInit {
             console.log(error);
           }
         );
+  }
+
+  
+  goBack() {
+    this.router.navigate(['/operation/'+this.woId]);
+  }
+
+  checkForNumbersOnly(newVal) {
+    const re = /^\d*\.?\d*$/;
+    if (re.test(newVal))
+      // console.log('ok');
+      return true;
+    else
+      // console.log('Only Numbers Allowed !!!');
+      return false;
   }
 }
