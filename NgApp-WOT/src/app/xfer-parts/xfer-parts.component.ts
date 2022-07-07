@@ -22,7 +22,16 @@ export class XferPartsComponent implements OnInit {
     operationNumber: 0,
     workOrderId: 0,
   };
-  parts: [];
+  parts: [{ text: '', value: ''}];
+
+  xferForm: FormGroup;
+  submitted = false;
+  xferModel = {
+    operationId: 0,
+    partId:0, 
+    xFERQTY: 0,
+  };
+
 
   apiResponse = '';  
   responseColor = '';
@@ -45,6 +54,12 @@ export class XferPartsComponent implements OnInit {
       this.router.navigate(['/work-order']);
     }
     else {
+
+      this.xferForm = this.fb.group({      
+        PartId: ['', [Validators.required]],  
+        XFERQTY: ['', [Validators.pattern("^[0-9]*$")]], 
+      });   
+    
       this.getParts();
       this.getOperationDetails(Number(this.opId));
     }
@@ -59,6 +74,13 @@ export class XferPartsComponent implements OnInit {
           },
           error => {
             console.log(error);
+
+            if (error.status == 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else
+              this.apiResponse = 'Error !';
+            
+            this.responseColor = 'red';
           }
         );
   }
@@ -72,6 +94,13 @@ export class XferPartsComponent implements OnInit {
           },
           error => {
             console.log(error);
+
+            if (error.status == 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else
+              this.apiResponse = 'Error !';
+            
+            this.responseColor = 'red';
           }
         );
   }
@@ -89,5 +118,40 @@ export class XferPartsComponent implements OnInit {
     else
       // console.log('Only Numbers Allowed !!!');
       return false;
+  }
+
+  get xferFormControl() {
+    return this.xferForm.controls;
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.xferForm.value["PartId"]==='' ||  this.xferForm.value["PartId"]===null) {
+      console.log('form in-valid!');
+      return;
+    }  
+      
+    if (!this.checkForNumbersOnly(this.xferForm.value["XFERQTY"])) {      
+      console.log('form in-valid!');
+      return;
+    } 
+
+    if (this.xferForm.value["XFERQTY"] === '')
+      this.xferModel.xFERQTY = 0;
+    else
+      this.xferModel.xFERQTY = this.xferForm.value["XFERQTY"];        
+      
+ 
+    this.xferModel.operationId = Number(this.opId);
+    this.xferModel.partId = this.xferForm.value["PartId"];        
+        
+    console.log(this.xferModel);  
+ 
+  }
+  
+  resetXfer(){
+    this.xferForm.reset();
+    this.submitted = false;
   }
 }

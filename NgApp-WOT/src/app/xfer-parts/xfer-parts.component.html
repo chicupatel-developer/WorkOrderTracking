@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="col-md-10 mx-auto">
+    <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-header componentHeader">
                 <div class="row">
@@ -47,7 +47,64 @@
                 </div>
             </div>
             <div class="card-body">
-         
+        <form 
+            class="form-xfer" 
+            [formGroup]="xferForm" 
+            (ngSubmit)="onSubmit()">
+        
+            <div class="row">
+                <div class="col-md-2 mx-auto">                
+                </div>
+                <div class="col-md-8 mx-auto">   
+                    <div class="form-group">
+                        <label>Part</label>
+                        <select class="form-control" 
+                            formControlName="PartId">
+                            <option value="">Choose Part</option>   
+                            <option value={{p.value}} *ngFor="let p of parts">
+                                {{p.text}}
+                            </option>
+                        </select>
+                        <div class="alert alert-danger mt-2"
+                            *ngIf="(xferFormControl.PartId.touched || submitted) && xferFormControl.PartId.errors?.required">
+                            Part is required
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="form-group">
+                        <label>Qty-Required</label>
+                        <input type="text" 
+                            class="form-control qtyField" 
+                            formControlName="XFERQTY" />
+                        <div class="alert alert-danger mt-2"
+                            *ngIf="(xferFormControl.XFERQTY.touched || submitted) && xferFormControl.XFERQTY.errors?.pattern">
+                            Only Numbers are allowed
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 mx-auto">                
+                </div>
+             
+            </div>
+        
+            <hr />
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-success">
+                            XFER Parts
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" 
+                            (click)="resetXfer()" 
+                            class="btn btn-primary cancelBtn">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
             </div>
         </div>
     </div>
