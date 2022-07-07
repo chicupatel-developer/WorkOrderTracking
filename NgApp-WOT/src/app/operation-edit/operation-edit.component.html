@@ -1,1 +1,112 @@
-<p>operation-edit works!</p>
+<div class="container">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-header componentHeader">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h4>
+                            <div>
+                                Edit - Operation # {{opId}}
+                                <br />
+                                Work-Order # {{woId}}
+                                <br />
+                                Operation # {{localDataService.getOperationNumber(operationNumber)}}
+                            </div>
+                        </h4>            
+                        <h5 *ngIf="apiResponse">
+                            <span [style.color]="responseColor">
+                                {{apiResponse}}
+                            </span>
+                        </h5>
+                        <h5 *ngIf="modelErrors.length > 0">
+                            <ul [style.color]="responseColor">
+                                <li *ngFor="let error of modelErrors">
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </h5>
+                    </div>
+                    <div class="col-md-2 ">
+                        <button type="button" 
+                            (click)="goBack()" 
+                            class="btn btn-primary cancelBtn">
+                            <i class="bi bi-arrow-return-left"></i> Back
+                        </button>
+                    </div>
+                </div>              
+            </div>
+            <div class="card-body">
+                <form 
+                    class="form-op" 
+                    [formGroup]="opForm" 
+                    (ngSubmit)="onSubmit()">
+
+                    <div class="row">
+                        <div class="col-md-6 mx-auto">
+                            <div class="form-group">
+                                <label>Details</label>
+                                <textarea type="text" class="form-control" formControlName="Details">
+                                </textarea>
+                            </div>
+                            <p></p>
+                            <div class="form-group">
+                                <label>Qty-Required</label>
+                                <input type="text" class="form-control qtyField" formControlName="OpQTYRequired" />
+                                <div class="alert alert-danger mt-2"
+                                    *ngIf="(opFormControl.OpQTYRequired.touched || submitted) && opFormControl.OpQTYRequired.errors?.pattern">
+                                    Only Numbers are allowed
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mx-auto">
+                            <div class="form-group">
+                                <label>Operation Start Date</label>
+                                <div class="input-group dateField">
+                                    <input 
+                                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" 
+                                        formControlName="OperationStartDate"
+                                        type="text" 
+                                        placeholder="Operation Start Date" 
+                                        class="form-control" bsDatepicker>
+                                </div>
+                            </div>
+                            <p></p>
+                            <div class="form-group">
+                                <label>Operation-Status</label>
+                                <select class="form-control" 
+                                    formControlName="OperationStatus">
+                                    <option value="">Choose Operation-Status</option>
+                                    <option value={{op.value}} *ngFor="let op of operationStatusCollection">
+                                        {{op.opStatus}}
+                                    </option>
+                                </select>
+                                <div class="alert alert-danger mt-2"
+                                    *ngIf="(opFormControl.OperationStatus.touched || submitted) && opFormControl.OperationStatus.errors?.required">
+                                    Operation-Status is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button type="submit" 
+                                    class="btn btn-success">
+                                    Edit Operation
+                                </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="button" 
+                                (click)="resetOp()" class="btn btn-primary cancelBtn">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
