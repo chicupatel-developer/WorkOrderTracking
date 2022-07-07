@@ -141,7 +141,7 @@ namespace Service.Repository
                 }
 
 
-                if (workOrder.WorkOrderStatus != _wo.WorkOrderStatus && workOrder.WorkOrderStatus!=WorkOrderStatus.Start_Running)
+                if (workOrder.WorkOrderStatus != _wo.WorkOrderStatus && (workOrder.WorkOrderStatus!=WorkOrderStatus.Start_Running && workOrder.WorkOrderStatus!=WorkOrderStatus.Can_Not_Complete))
                 {
                     var ops_ = appDbContext.Operations
                            .Where(x => x.WorkOrderId == workOrder.WorkOrderId);
@@ -153,8 +153,7 @@ namespace Service.Repository
                                 throw new Invalid_WO_Status_Exception("WorkOrder Can Not Be [Completed] !");
                         }
                     }
-                }
-
+                }              
 
                 // check for operation's start date and it's workorder's start date
                 // workorder-startdate<=operations'-startdate
@@ -166,7 +165,7 @@ namespace Service.Repository
                     {
                         foreach(var op_ in ops_)
                         {
-                            if(op_.OperationStartDate<workOrder.WorkOrderStartDate)
+                            if(op_.OperationStartDate.Value.Date<workOrder.WorkOrderStartDate.Value.Date)
                                 throw new Invalid_OP_StartDate_Exception("Operation StartDate Must Be >= WorkOrder StartDate !");
                         }
                     }

@@ -64,7 +64,7 @@
                                         </button>
                                     </td>
                                     <td>{{ wo.workOrderStartDate | date: "dd-MMM,yyyy" }}</td>
-                                    <td>{{ wo.workOrderStatus }}</td>
+                                    <td>{{ localDataService.getWorkOrderStatus(wo.workOrderStatus) }}</td>
                                     <td>
                                         <span *ngIf="wo.statusNote!=null && wo.statusNote.length>10; else fullDesc">
                                             {{wo.statusNote.substring(0,10)}}...
