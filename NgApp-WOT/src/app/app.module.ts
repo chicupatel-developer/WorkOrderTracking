@@ -60,6 +60,7 @@ import { WorkOrderEditComponent } from './work-order-edit/work-order-edit.compon
 import { WorkOrderRemoveComponent } from './work-order-remove/work-order-remove.component';
 import { OperationCreateComponent } from './operation-create/operation-create.component';
 import { OperationEditComponent } from './operation-edit/operation-edit.component';
+import { XferPartsComponent } from './xfer-parts/xfer-parts.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { OperationEditComponent } from './operation-edit/operation-edit.componen
     WorkOrderEditComponent,
     WorkOrderRemoveComponent,
     OperationCreateComponent,
-    OperationEditComponent
+    OperationEditComponent,
+    XferPartsComponent
   ],
   imports: [   
     BrowserModule,    

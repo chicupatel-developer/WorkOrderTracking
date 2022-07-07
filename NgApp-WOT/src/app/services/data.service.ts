@@ -100,4 +100,15 @@ export class DataService {
     return this.http.get<any>(this.OP_API + '/getOperation/' + selectedOpId);
   }
 
+  // xfer parts
+  getPartList(): Observable<any> {
+    return this.http.get<any>(this.OP_API + '/getPartList');
+  }
+  getOperationDetails(selectedOpId: number): Observable<any> {
+    return this.http.get<any>(this.OP_API + '/getOperationDetails/' + selectedOpId);
+  }
+  xferPartsForOperation(data): Observable<any> {
+    return this.http.post(this.OP_API + '/xferPartsForOperation' , data);
+  }
+
 }
