@@ -93,5 +93,11 @@ export class DataService {
   createOperation(opModel): Observable<any> {
     return this.http.post(this.OP_API + '/createOperation', opModel)
   }
+  editOperation(data): Observable<any> {
+    return this.http.post(this.OP_API + '/editOperation' , data);
+  }
+  getOperation(selectedOpId: number): Observable<any> {
+    return this.http.get<any>(this.OP_API + '/getOperation/' + selectedOpId);
+  }
 
 }
