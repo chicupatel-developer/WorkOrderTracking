@@ -69,6 +69,8 @@ export class OperationComponent implements OnInit {
 
   editOp(op) {
     console.log('editing operation :', op);
+    this.localDataService.setWorkOrderId(this.woId);
+    this.router.navigate(['/operation-edit/'+op.operationId]);
   }
 
   xferParts(op) {
