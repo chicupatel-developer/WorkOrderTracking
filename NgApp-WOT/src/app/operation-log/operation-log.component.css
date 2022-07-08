@@ -1,0 +1,38 @@
+.mainHeader {
+    text-align: center;
+    color: darkolivegreen;
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: -40px;
+}
+
+.subHeader {
+    text-align: left;
+    color: blue;
+    font-size: large;
+    font-weight: bold;
+}
+
+.operationHeader {
+    text-align: center;
+    color: red;
+    font-size: large;
+    font-weight: bold;
+}
+
+.noOps {
+    text-align: center;
+    color: red;
+    font-size: large;
+    font-weight: bold;
+}
+
+.apiError {
+    margin-top: 25px;
+    padding: 5px;
+    text-align: center;
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+    background-color: black;
+}

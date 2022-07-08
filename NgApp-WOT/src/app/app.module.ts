@@ -62,6 +62,7 @@ import { OperationCreateComponent } from './operation-create/operation-create.co
 import { OperationEditComponent } from './operation-edit/operation-edit.component';
 import { XferPartsComponent } from './xfer-parts/xfer-parts.component';
 import { XferHistoryComponent } from './xfer-history/xfer-history.component';
+import { OperationLogComponent } from './operation-log/operation-log.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { XferHistoryComponent } from './xfer-history/xfer-history.component';
     OperationCreateComponent,
     OperationEditComponent,
     XferPartsComponent,
-    XferHistoryComponent
+    XferHistoryComponent,
+    OperationLogComponent
   ],
   imports: [   
     BrowserModule,    

@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="mainHeader">Operation-Log</div>
+    <hr />
+
+
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div *ngIf="opLog" class="subHeader">
+                Operation # {{opId}}
+                <br />
+                Operation Number # {{localDataService.getOperationNumber(opLog.operationNumber)}}
+                <br />
+                Work-Order # {{opLog.workOrderId}}
+            </div>
+        </div>
+    </div>
+</div>

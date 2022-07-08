@@ -90,6 +90,8 @@ export class OperationComponent implements OnInit {
 
   getOpLog(opId) {
     console.log('getting operation log : ', opId);
+    this.localDataService.setWorkOrderId(this.woId);
+    this.router.navigate(['/operation-log/'+opId]);
   }
 
   getPartHistory(op) {

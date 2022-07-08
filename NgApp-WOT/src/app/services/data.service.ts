@@ -114,4 +114,8 @@ export class DataService {
   getPartHistory(selectedOpId: number): Observable<any> {
     return this.http.get<any>(this.OP_API + '/getPartHistory/' + selectedOpId);
   }
+
+  getOperationLogData(selectedOpId: number): Observable<any> {
+    return this.http.get<any>(this.OP_API + '/getOperationLogData/' + selectedOpId);
+  }
 }
