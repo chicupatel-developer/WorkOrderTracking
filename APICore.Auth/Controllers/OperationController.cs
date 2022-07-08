@@ -282,7 +282,7 @@ namespace APICore.Auth.Controllers
             _response = new APIResponse();
             try
             {
-                throw new Exception();
+                // throw new Exception();
 
                 var partHistory = _partRepo.GetPartHistory(selectedOperationId);
                 return Ok(partHistory);

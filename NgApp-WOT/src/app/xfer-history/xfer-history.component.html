@@ -15,7 +15,37 @@
             </div>
         </div>
         <div class="card-body">
-            <div *ngIf="partHistoryData.partList?.length>0; else noHistoryData" class="historyData">
+            <div *ngIf="partList?.length>0; else noHistoryData" 
+                class="historyData">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Part #</th>
+                            <th>Name</th>
+                            <th>XFER-QTY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of partList | paginate
+                                                        : {
+                                                            itemsPerPage: tableSize,
+                                                            currentPage: page,
+                                                            totalItems: count
+                                                        };
+                                                        let i = index
+                                                    ">
+                            <th scope="row">{{ d.partId }}</th>
+                            <td>{{d.partName}}</td>
+                            <td>{{d.xferqty}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                    </pagination-controls>
+                </div>
+
 
             </div>
             <ng-template #noHistoryData>
@@ -26,7 +56,7 @@
         </div>
     </div>
     <ng-template #showApiError>
-        <div class="noHistory">
+        <div class="apiErrorHistoryData">
             {{apiError}}
         </div>
     </ng-template>
