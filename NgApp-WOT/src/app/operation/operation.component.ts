@@ -109,6 +109,18 @@ export class OperationComponent implements OnInit {
         },
         error => {
           console.log(error);
+          if (error.status === 400) {
+            console.log(error.error);
+
+            // xfer-history-component where modal is declare
+            const modalRef = this.modalService.open(XferHistoryComponent);
+            modalRef.componentInstance.apiError = error.error;
+            modalRef.result.then((result) => {
+              console.log(result);
+            }).catch((error) => {
+              console.log(error);
+            });
+          }
         }
       );
   }

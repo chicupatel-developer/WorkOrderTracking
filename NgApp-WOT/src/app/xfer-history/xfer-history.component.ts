@@ -13,6 +13,7 @@ import { LocalDataService } from '../services/local-data.service';
 export class XferHistoryComponent implements OnInit {
 
   @Input() partHistoryData;
+  @Input() apiError;
 
   constructor(private activeModal: NgbActiveModal, public localDataService: LocalDataService,) {}
 

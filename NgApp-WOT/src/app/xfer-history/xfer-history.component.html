@@ -2,7 +2,7 @@
     <h4 class="modal-title">Parts XFER History</h4>
 </div>
 <div class="modal-body">
-    <div class="card">
+    <div *ngIf="!apiError; else showApiError" class="card">
         <div class="card-header historyHeader">
             <div>
                 Operation # {{partHistoryData.operationId}}
@@ -25,6 +25,12 @@
             </ng-template>
         </div>
     </div>
+    <ng-template #showApiError>
+        <div class="noHistory">
+            {{apiError}}
+        </div>
+    </ng-template>
+  
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
