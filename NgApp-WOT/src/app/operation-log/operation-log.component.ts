@@ -39,6 +39,10 @@ export class OperationLogComponent implements OnInit {
     this.loadOpLog();
   }
 
+  goBack() {
+    this.router.navigate(['/operation/'+this.woId]);
+  }
+  
   loadOpLog() {
     
     this.woId = this.localDataService.getWorkOrderId();

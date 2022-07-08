@@ -106,6 +106,10 @@ const OperationLog = () => {
     },
   ];
 
+  const goBack = (e) => {
+    navigate("/operation/" + opLog.workOrderId);
+  };
+
   return (
     <div className="container">
       <div className="mainHeader">Operation-Log</div>
@@ -124,6 +128,20 @@ const OperationLog = () => {
 
           {opLog.operationHistory && opLog.operationHistory.length > 0 && (
             <div className="operationHeader">Operation-Log-Data</div>
+          )}
+        </div>
+
+        <div className="col-md-2 mx-auto">
+          {opLog && opLog.workOrderId ? (
+            <Button
+              className="btn btn-primary"
+              type="button"
+              onClick={(e) => goBack(e)}
+            >
+              <i className="bi bi-arrow-return-left"></i> Back
+            </Button>
+          ) : (
+            <span></span>
           )}
         </div>
       </div>
