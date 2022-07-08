@@ -147,7 +147,50 @@ export class XferPartsComponent implements OnInit {
     this.xferModel.partId = this.xferForm.value["PartId"];        
         
     console.log(this.xferModel);  
- 
+    
+    this.dataService.xferPartsForOperation(this.xferModel)
+        .subscribe(
+          response => {
+            console.log(response);
+            this.modelErrors = [];
+            this.apiResponse = '';
+
+            if (response.responseCode === 0) {              
+              // success
+              this.apiResponse = response.responseMessage;
+              this.responseColor = 'green';
+              this.resetXfer();
+              this.submitted = false;
+              
+              setTimeout(() => {
+                this.apiResponse = ''; 
+                this.router.navigate(['/operation/'+this.woId]);
+              }, 2000);  
+            }
+            else {
+              // -1
+              // server error
+              this.apiResponse = response.responseCode + ' : ' + response.responseMessage;
+              this.responseColor = 'red';
+            }
+          },
+          error => {
+            console.log(error);
+
+            this.modelErrors = [];
+            this.apiResponse = '';
+            this.responseColor = 'red';
+
+            if (error.status === 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else if (error.status === 400) {
+              this.apiResponse = '';
+              this.modelErrors = this.localDataService.display400andEx(error, 'Customer-Order-Create');
+            }
+            else
+              this.apiResponse = 'Error !';            
+          }
+        );
   }
   
   resetXfer(){
