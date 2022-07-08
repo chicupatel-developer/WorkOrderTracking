@@ -15,9 +15,7 @@ export class OperationLogComponent implements OnInit {
   woId: number;
   opLog;
   
-  apiResponse = '';  
-  responseColor = '';
-  responseClass = '';
+  apiError = '';  
 
   page: number = 1;
   count: number = 0;
@@ -64,12 +62,10 @@ export class OperationLogComponent implements OnInit {
           error => {
             console.log(error);
             if (error.status == 401)            
-              this.apiResponse = 'Un-Authorized !';
+              this.apiError = 'Un-Authorized !';
             else
-              this.apiResponse = 'Error !';
+              this.apiError = error.error;
             
-            this.responseColor = 'red';
-            this.responseClass = 'errorResponse';
             this.opLog = {};     
           });
     }

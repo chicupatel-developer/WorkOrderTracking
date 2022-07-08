@@ -12,6 +12,53 @@
                 <br />
                 Work-Order # {{opLog.workOrderId}}
             </div>
+
+            <div *ngIf="apiError">
+                <div class="apiError">{{apiError}}</div>
+            </div>
         </div>
     </div>
+
+    <p></p>
+    <div *ngIf="(opLog && opLog.operationHistory?.length>0); else noOps">
+        <div class="operationHeader">
+            Operation-Log-Data
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Operator</th>
+                    <th>Start Time</th>
+                    <th>Pause Time</th>
+                    <th>Cycle Time</th>
+                    <th>QTY-Done</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let op of opLog.operationHistory  | paginate
+                                                : {
+                                                    itemsPerPage: tableSize,
+                                                    currentPage: page,
+                                                    totalItems: count
+                                                };
+                                                let i = index
+                                            ">              
+                    <td>{{op.operatorName}} [{{op.operatorId}}]</td>
+                    <td>{{op.opStartRunTime | date: "dd-MMM, hh:mm a" }}</td>
+                    <td>{{op.opPauseRunTime | date: "dd-MMM, hh:mm a" }}</td>
+                    <td>{{op.cycleTime}}</td>
+                    <td>{{op.qtyDone}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+        </div>
+    </div>
+    <ng-template #noOps>
+        <div class="noOps">
+            No Operation-History!
+        </div>        
+    </ng-template>
 </div>
