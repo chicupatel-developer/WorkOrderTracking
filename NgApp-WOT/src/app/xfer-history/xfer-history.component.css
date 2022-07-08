@@ -1,0 +1,15 @@
+.noHistory {
+    text-align: center;
+    color: red;
+    font-size: large;
+    font-weight: bold;
+}
+
+.historyHeader {
+    color: blue;
+    background-color: lightgoldenrodyellow;
+}
+
+.historyData{
+
+}

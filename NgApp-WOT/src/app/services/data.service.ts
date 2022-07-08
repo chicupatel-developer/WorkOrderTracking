@@ -111,4 +111,7 @@ export class DataService {
     return this.http.post(this.OP_API + '/xferPartsForOperation' , data);
   }
 
+  getPartHistory(selectedOpId: number): Observable<any> {
+    return this.http.get<any>(this.OP_API + '/getPartHistory/' + selectedOpId);
+  }
 }

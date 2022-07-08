@@ -4,6 +4,10 @@ import { DataService } from '../services/data.service';
 import { Observable } from 'rxjs';
 import { LocalDataService } from '../services/local-data.service';
 
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+
+import { XferHistoryComponent } from '../xfer-history/xfer-history.component';;
+
 @Component({
   selector: 'app-operation',
   templateUrl: './operation.component.html',
@@ -24,7 +28,7 @@ export class OperationComponent implements OnInit {
   tableSizes: any = [3, 6, 9, 12];
 
   
-  constructor(public localDataService: LocalDataService, public dataService: DataService, private router: Router, private route: ActivatedRoute)
+  constructor(private modalService: NgbModal, public localDataService: LocalDataService, public dataService: DataService, private router: Router, private route: ActivatedRoute)
   { }
 
   ngOnInit(): void {
@@ -90,6 +94,23 @@ export class OperationComponent implements OnInit {
 
   getPartHistory(op) {
     console.log('getting part history for operation : ', op.operationId);
+
+    this.dataService.getPartHistory(op.operationId)
+      .subscribe(
+        data => {          
+            // xfer-history-component where modal is declare
+            const modalRef = this.modalService.open(XferHistoryComponent);
+            modalRef.componentInstance.partHistoryData = data;
+            modalRef.result.then((result) => {
+              console.log(result);
+            }).catch((error) => {
+              console.log(error);
+            });
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
 }
