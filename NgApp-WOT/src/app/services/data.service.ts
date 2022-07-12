@@ -13,6 +13,7 @@ export class DataService {
   public CO_API = `${this.API}/api/customerorder`;
   public WO_API = `${this.API}/api/workorder`;
   public OP_API = `${this.API}/api/operation`;
+  public OPR_LOG_API = `${this.API}/api/operatorlog`;
 
   constructor(private http: HttpClient, public localDataService: LocalDataService) { }
  
@@ -117,5 +118,13 @@ export class DataService {
 
   getOperationLogData(selectedOpId: number): Observable<any> {
     return this.http.get<any>(this.OP_API + '/getOperationLogData/' + selectedOpId);
+  }
+
+  // operator-log-create
+  getWorkOrderList(): Observable<Array<any>> {
+    return this.http.get<Array<any>>(this.OPR_LOG_API + '/getWorkOrderList');
+  }
+  getOperationList(selectedWoId: number): Observable<any> {
+    return this.http.get<any>(this.OPR_LOG_API + '/getOperationList/' + selectedWoId);
   }
 }

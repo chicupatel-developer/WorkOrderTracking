@@ -48,7 +48,6 @@ namespace APICore.Auth.Controllers
         [Route("getWorkOrderList")]
         public IActionResult GetWorkOrderList()
         {
-            _response = new APIResponse();
             try
             {
                 // throw new Exception();

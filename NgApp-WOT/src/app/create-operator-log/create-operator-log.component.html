@@ -1,1 +1,90 @@
-<p>create-operator-log works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card">
+                <div class="card-header componentHeader">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h4>
+                                <div>
+                                    Create Operator - Log
+                                </div>
+                            </h4>                          
+                            <h5 *ngIf="apiResponse">
+                                <p></p>
+                                <span [style.color]="responseColor">
+                                    {{apiResponse}}
+                                </span>
+                            </h5>
+                            <h5 *ngIf="modelErrors.length > 0">
+                                <ul [style.color]="responseColor">
+                                    <li *ngFor="let error of modelErrors">
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            </h5>
+                        </div>
+                        <div class="col-md-2 ">
+                            <button type="button" 
+                                (click)="goBack()" 
+                                class="btn btn-primary cancelBtn">
+                                <i class="bi bi-arrow-return-left"></i> 
+                                Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <form class="form-oprLog" 
+                        [formGroup]="oprLogForm" 
+                        (ngSubmit)="onSubmit()">
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Work-Order</label>
+                                    <select 
+                                        class="form-control" 
+                                        formControlName="WorkOrderId">
+                                        <option value="">Choose Work-Order</option>
+                                        <option value={{wo.value}} *ngFor="let wo of workOrders">
+                                            {{wo.text}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(oprLogFormControl.WorkOrderId.touched || submitted) && oprLogFormControl.WorkOrderId.errors?.required">
+                                        Work-Order is required
+                                    </div>
+                                </div>                       
+                            </div>
+                            <div class="col-md-6 ">                           
+                            </div>
+                        </div>
+
+                        <hr />
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <button type="submit" 
+                                        class="btn btn-success">
+                                        New Operator Log
+                                    </button>
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-4 ">
+                                    <button type="button" 
+                                        (click)="resetOprLog()" 
+                                        class="btn btn-primary cancelBtn">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
