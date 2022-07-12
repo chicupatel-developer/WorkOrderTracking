@@ -1,5 +1,5 @@
 .componentHeader {
-    background-color: lightyellow;
+    background-color: lightblue;
 }
 
 .qtyField {
@@ -12,4 +12,8 @@
 
 .cancelBtn {
     float: right;
+}
+.opQtyData{
+    color: blue;
+    font-weight: bold;
 }

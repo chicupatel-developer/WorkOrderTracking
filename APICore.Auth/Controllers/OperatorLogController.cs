@@ -64,6 +64,23 @@ namespace APICore.Auth.Controllers
             }           
         }
 
+        [HttpGet]
+        [Route("getOperationQtyData/{selectedOpId}")]
+        public IActionResult GetOperationQtyData(int selectedOpId)
+        {
+            try
+            {
+                // throw new Exception();
+
+                var opQtyData = _oprRepo.GetOperationQtyData(selectedOpId);
+                return Ok(opQtyData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server Error!");
+            }
+        }
+
 
 
     }

@@ -15,6 +15,7 @@ export class CreateOperatorLogComponent implements OnInit {
   operationStatusCollection: Array<any>;
   workOrders: Array<any>;
   operations: Array<any>;
+  opQtyData;
 
   oprLogForm: FormGroup;
   submitted = false;
@@ -45,7 +46,7 @@ export class CreateOperatorLogComponent implements OnInit {
 
     this.oprLogForm = this.fb.group({
       WorkOrderId: ['', Validators.required],
-      OperationNumber: ['', Validators.required],
+      OperationId: ['', Validators.required],
       OperationStatus: ['', [Validators.required]],      
       OpStartRunTime: [''],
       OpPauseRunTime: [''],
@@ -65,14 +66,48 @@ export class CreateOperatorLogComponent implements OnInit {
           console.log(error);
         }
       );
-   }
+  }
   
+  getOperationList(e) {
+    console.log(e.target.value);
+    this.operations = [];
+    this.oprLogForm.controls['OperationId'].setValue('');
+    this.opQtyData = '';
+
+    this.dataService.getOperationList(e.target.value)
+      .subscribe(
+        data => {     
+          this.operations = data;
+        },
+        error => {
+          console.log(error);
+        });
+  }
+  getOpQtyData(e) {
+    if (e.target.value !== '') {
+      this.dataService.getOperationQtyData(e.target.value)
+      .subscribe(
+        data => {          
+          if (data.statusCode !== -1)
+            this.opQtyData = "[ Qty Done : " + data.qtyDone + ", Qty Req : " + data.qtyRequired + " ]";
+          else
+            this.opQtyData = data.message;
+        },
+        error => {
+          console.log(error);
+        });
+    }
+    else
+      return; 
+  }
   get oprLogFormControl() {
     return this.oprLogForm.controls;
   }
 
   resetOprLog() {    
     this.oprLogForm.reset();
+    this.oprLogForm.controls['OperationId'].setValue('');
+    this.opQtyData = '';
     this.submitted = false;
   } 
 

@@ -127,4 +127,7 @@ export class DataService {
   getOperationList(selectedWoId: number): Observable<any> {
     return this.http.get<any>(this.OPR_LOG_API + '/getOperationList/' + selectedWoId);
   }
+  getOperationQtyData(selectedOpId: number): Observable<any> {
+    return this.http.get<any>(this.OPR_LOG_API + '/getOperationQtyData/' + selectedOpId);
+  }
 }

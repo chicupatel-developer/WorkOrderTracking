@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-10 mx-auto">
+        <div class="col-md-8 mx-auto">
             <div class="card">
                 <div class="card-header componentHeader">
                     <div class="row">
@@ -39,14 +39,13 @@
                     <form class="form-oprLog" 
                         [formGroup]="oprLogForm" 
                         (ngSubmit)="onSubmit()">
-
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Work-Order</label>
                                     <select 
                                         class="form-control" 
+                                        (change)="getOperationList($event)"
                                         formControlName="WorkOrderId">
                                         <option value="">Choose Work-Order</option>
                                         <option value={{wo.value}} *ngFor="let wo of workOrders">
@@ -57,9 +56,44 @@
                                         *ngIf="(oprLogFormControl.WorkOrderId.touched || submitted) && oprLogFormControl.WorkOrderId.errors?.required">
                                         Work-Order is required
                                     </div>
-                                </div>                       
+                                </div>   
+                                <p></p>                    
+                                <div class="form-group">
+                                    <label>Operation</label>
+                                    <br />
+                                    <span class="opQtyData" *ngIf="opQtyData">{{opQtyData}}</span>                                    
+                                    <select class="form-control" 
+                                        (change)="getOpQtyData($event)"
+                                        formControlName="OperationId">
+                                        <option value="">Choose Operation</option>
+                                        <option value={{op.value}} *ngFor="let op of operations">
+                                            {{op.text}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(oprLogFormControl.OperationId.touched || submitted) && oprLogFormControl.OperationId.errors?.required">
+                                        Operation is required
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <label>Operation-Status</label>
+                                    <select 
+                                        class="form-control" 
+                                        formControlName="OperationStatus">
+                                        <option value="">Choose Operation-Status</option>
+                                        <option value={{op.value}} *ngFor="let op of operationStatusCollection">
+                                            {{op.opStatus}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(oprLogFormControl.OperationStatus.touched || submitted) && oprLogFormControl.OperationStatus.errors?.required">
+                                        Operation-Status is required
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6 ">                           
+                            <div class="col-md-1 "></div>
+                            <div class="col-md-5 ">                           
                             </div>
                         </div>
 
@@ -69,7 +103,7 @@
                                 <div class="col-sm-5">
                                     <button type="submit" 
                                         class="btn btn-success">
-                                        New Operator Log
+                                        Create New Operator Log
                                     </button>
                                 </div>
                                 <div class="col-sm-3"></div>
