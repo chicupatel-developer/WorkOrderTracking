@@ -12,6 +12,9 @@ import { DataService } from '../services/data.service';
 })
 export class CreateOperatorLogComponent implements OnInit {
 
+  minutes: Array<any>;
+  hours: Array<any>;
+
   operationStatusCollection: Array<any>;
   workOrders: Array<any>;
   operations: Array<any>;
@@ -51,13 +54,41 @@ export class CreateOperatorLogComponent implements OnInit {
       OperationId: ['', Validators.required],
       OperationStatus: ['', [Validators.required]],      
       OpStartRunTime: [''],
+      StartRunTimeHr: [''],
+      StartRunTimeMin: [''],
       OpPauseRunTime: [''],
       OpQtyDone: ['', [Validators.pattern("^[0-9]*$")]],   
     });   
+
+    // load minutes
+    this.minutes = this.getMinutes();
+    this.hours = this.getHours();
+  
     this.operationStatusCollection = this.localDataService.getOperationStatusToDisplay();
     this.getWorkOrderList();
   }
 
+  getMinutes() {
+    var minArr = [];
+  
+    for (let i = 0; i <= 59; i++) {
+      if (i < 10) minArr.push({ value: "0" + i });
+      else minArr.push({ value: i +"" });
+    }
+    return minArr;
+  }
+  getHours() {
+    var hrArr = [];
+  
+    for (let i = 1; i <= 12; i++) {
+      if (i < 10) hrArr.push({ value: "0" + i });
+      else hrArr.push({ value: i +"" });
+    }
+    return hrArr;
+  }
+  
+
+  
   getWorkOrderList() {
     this.dataService.getWorkOrderList()
       .subscribe(

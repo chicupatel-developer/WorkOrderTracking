@@ -40,7 +40,7 @@
                         [formGroup]="oprLogForm" 
                         (ngSubmit)="onSubmit()">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Work-Order</label>
                                     <select 
@@ -93,7 +93,33 @@
                                 </div>
                             </div>
                             <div class="col-md-1 "></div>
-                            <div class="col-md-5 ">                           
+                            <div class="col-md-5 ">  
+                                <div class="form-group">
+                                    <label>[Start] Run Time</label>
+                                    <div class="input-group dateField">
+                                        <input 
+                                            [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" 
+                                            formControlName="OpStartRunTime" 
+                                            type="text"
+                                            placeholder="Start Run Time" 
+                                            class="form-control" 
+                                            bsDatepicker>
+                                            &nbsp;
+                                        <select class="form-control" formControlName="StartRunTimeHr">
+                                            <option value="">Hr</option>
+                                            <option value={{h.value}} *ngFor="let h of hours">
+                                                {{h.value}}
+                                            </option>
+                                        </select>
+                                        &nbsp;
+                                        <select class="form-control" formControlName="StartRunTimeMin">
+                                            <option value="">Min</option>
+                                            <option value={{m.value}} *ngFor="let m of minutes">
+                                                {{m.value}}
+                                            </option>
+                                        </select>                                      
+                                    </div>                                  
+                                </div>
                             </div>
                         </div>
 
