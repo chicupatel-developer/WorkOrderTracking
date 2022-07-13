@@ -64,13 +64,14 @@ export class PartEditComponent implements OnInit {
           },
           error => {
             console.log(error);
-
+            /*
             if (error.status == 401)            
               this.apiResponse = 'Un-Authorized !';
             else
               this.apiResponse = 'Error !';
             
             this.responseColor = 'red';
+            */
           });
     }
   }

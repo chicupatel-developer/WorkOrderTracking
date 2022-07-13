@@ -29,7 +29,7 @@ export class LocalDataService {
   getWorkOrderId() {
     return this.WorkOrderId;
   }
-  
+
   // role
   setMyRole(val) {
     this.MyRole = val;
@@ -79,16 +79,67 @@ export class LocalDataService {
   // so even to prevent to display component's html page and redirects to
   // home page,,, do,,,
   authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Admin(reqPath) {    
+    // no api call @ init() to render page,,,
     if (reqPath == '/part-create')
       return false;
     else if (reqPath == '/customer-order-create')
+      return false;
+    else if (reqPath == '/work-order-create')
+      return false;
+    else if (reqPath == '/operation-create')
+      return false;
+
+    // api call @ init() to render page,,,
+    // comment code @component in init()-->api call --> error handling code for 401
+      /*
+          if (error.status == 401)            
+            this.apiResponse = 'Un-Authorized !';
+          else
+            this.apiResponse = 'Error !';
+      */ 
+    // following code will handle 401
+    else if (reqPath == '/part')
+      return false;
+    else if (reqPath == '/part-edit')
+      return false;
+    else if (reqPath == '/part-remove')
+      return false;
+    else if (reqPath == '/part-upload')
+      return false;
+    else if (reqPath == '/customer-order')
+      return false;
+    else if (reqPath == '/customer-order-edit')
+      return false;
+    else if (reqPath == '/customer-order-remove')
+      return false;
+    else if (reqPath == '/customer-order-progress-text-report')
+      return false;
+    else if (reqPath == '/work-order')
+      return false;
+    else if (reqPath == '/work-order-edit')
+      return false;
+    else if (reqPath == '/work-order-remove')
+      return false;
+    else if (reqPath == '/operation')
+      return false;
+    else if (reqPath == '/operation-edit')
+      return false;
+    else if (reqPath == '/xfer-parts')
+      return false;
+    else if (reqPath == '/operation-log')
       return false;
     
     else
       return true;
   }
   authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Operator(reqPath) {
-    return true;
+    if (reqPath == '/view-op-log')
+      return false;
+    else if (reqPath == '/create-op-log')
+      return false;
+    
+    else
+      return true;
   }
 
   // display current part-image when part-upload is active

@@ -24,10 +24,24 @@ export class AuthGuard implements CanActivate {
                 .map(v => v.url.map(segment => segment.toString()).join('/'))
                 .join('/');
             console.log(reqUrl);
+            var cont = (reqUrl.match(new RegExp("/", "g")) || []).length;
+            if(cont>1)
+                reqUrl = reqUrl.substring(0, reqUrl.lastIndexOf('/'));
+            
+            console.log(reqUrl);
 
             if (localStorage.getItem('myRole') != null && localStorage.getItem('myRole') == 'Operator') {
                 if (this.localDataService.authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Admin(reqUrl))
-                    return true;
+                    return true;               
+                else {
+                    console.log('Un-Authorized !');
+                    this.router.navigate(['/home']);
+                    return false;
+                }
+            }
+            else if (localStorage.getItem('myRole') != null && localStorage.getItem('myRole') == 'Admin') {
+                if (this.localDataService.authGuard403_Intercept_To_PreventDisplayOfHtmlPage_Of_Component_Operator(reqUrl))
+                    return true;               
                 else {
                     console.log('Un-Authorized !');
                     this.router.navigate(['/home']);

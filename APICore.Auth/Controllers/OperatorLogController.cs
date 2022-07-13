@@ -8,9 +8,11 @@ using EF.Core.DTO;
 using EF.Core.Models;
 using Service.Interface;
 using APICore.Auth.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APICore.Auth.Controllers
 {
+    [Authorize("Operator")]
     [Route("api/[controller]")]
     [ApiController]
     public class OperatorLogController : ControllerBase

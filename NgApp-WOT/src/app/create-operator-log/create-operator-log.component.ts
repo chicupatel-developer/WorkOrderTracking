@@ -40,9 +40,11 @@ export class CreateOperatorLogComponent implements OnInit {
     private fb: FormBuilder,) { }
 
   ngOnInit(): void {
+    /*
     if (!(this.userService.isLoggedIn && !this.userService.isAdmin)) {
       this.router.navigate(['/home']);
     }   
+    */
 
     this.oprLogForm = this.fb.group({
       WorkOrderId: ['', Validators.required],
@@ -64,6 +66,15 @@ export class CreateOperatorLogComponent implements OnInit {
         },
         error => {
           console.log(error);
+          /*
+          if (error.status === 401)            
+            this.apiResponse = 'Un-Authorized !';
+          else
+            this.apiResponse = 'Error !';
+          
+          this.responseColor = 'red';
+          this.workOrders = [];  
+          */
         }
       );
   }
@@ -81,6 +92,15 @@ export class CreateOperatorLogComponent implements OnInit {
         },
         error => {
           console.log(error);
+          /*
+          if (error.status === 401)            
+            this.apiResponse = 'Un-Authorized !';
+          else
+            this.apiResponse = 'Error !';
+          
+          this.responseColor = 'red';
+          this.workOrders = [];     
+          */
         });
   }
   getOpQtyData(e) {

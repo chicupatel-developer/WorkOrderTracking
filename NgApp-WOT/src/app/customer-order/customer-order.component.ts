@@ -56,6 +56,7 @@ export class CustomerOrderComponent implements OnInit {
         },
         error => {
           console.log(error);
+          /*
           if (error.status == 401)            
             this.apiResponse = 'Un-Authorized !';
           else
@@ -63,7 +64,8 @@ export class CustomerOrderComponent implements OnInit {
           
           this.responseColor = 'red';
           this.responseClass = 'errorResponse';
-          this.cos = [];      
+          this.cos = [];    
+          */
       });
   }
 

@@ -64,6 +64,7 @@ export class PartComponent implements OnInit {
         },
         error => {
           console.log(error);
+          /*
           if (error.status == 401)            
             this.apiResponse = 'Un-Authorized !';
           else
@@ -71,7 +72,8 @@ export class PartComponent implements OnInit {
           
           this.responseColor = 'red';
           this.responseClass = 'errorResponse';
-          this.parts = [];      
+          this.parts = [];    
+          */
       });
   }
 

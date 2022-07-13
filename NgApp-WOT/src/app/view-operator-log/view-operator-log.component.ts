@@ -17,9 +17,11 @@ export class ViewOperatorLogComponent implements OnInit {
     public localDataService: LocalDataService,) { }
 
   ngOnInit(): void {
+    /*
     if (!(this.userService.isLoggedIn && !this.userService.isAdmin)) {
       this.router.navigate(['/home']);
     }   
+    */
   }
 
 }

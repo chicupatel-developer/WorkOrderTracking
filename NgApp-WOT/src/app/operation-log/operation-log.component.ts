@@ -65,12 +65,14 @@ export class OperationLogComponent implements OnInit {
           },
           error => {
             console.log(error);
+            /*
             if (error.status == 401)            
               this.apiError = 'Un-Authorized !';
             else
               this.apiError = error.error;
             
-            this.opLog = {};     
+            this.opLog = {};   
+            */
           });
     }
   }
