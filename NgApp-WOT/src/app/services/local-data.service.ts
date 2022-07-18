@@ -172,6 +172,12 @@ export class LocalDataService {
       { value: 4, opStatus: "Can_Not_Complete" },
     ];
   }
+  getOperationStatusToDisplayForOperator() {
+    return [
+      { value: 0, opStatus: "Start_Running" },
+      { value: 1, opStatus: "Pause_Running" },
+    ];
+  }
   getOperationNumberToDisplay() {
     return [
       { value: 10, opNumber: "Spindle" },
@@ -224,4 +230,5 @@ export class LocalDataService {
     if (ops === 1) return "Pause_Running";
     else return "";
   }
+
 }

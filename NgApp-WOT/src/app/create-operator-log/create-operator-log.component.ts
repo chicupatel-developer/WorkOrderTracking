@@ -11,6 +11,11 @@ import { DataService } from '../services/data.service';
   styleUrls: ['./create-operator-log.component.css']
 })
 export class CreateOperatorLogComponent implements OnInit {
+  
+
+  startRunTimeError = '';
+  pauseRunTimeError = '';
+  qtyDoneError = '';
 
   timeStartRunTime = { hour: 13, minute: 30 };
   timePauseRunTime = {hour: 13, minute: 30};
@@ -56,8 +61,11 @@ export class CreateOperatorLogComponent implements OnInit {
       OpQtyDone: ['', [Validators.pattern("^[0-9]*$")]],   
     });   
   
-    this.operationStatusCollection = this.localDataService.getOperationStatusForOperatorToDisplay();
+    this.operationStatusCollection = this.localDataService.getOperationStatusToDisplayForOperator();
     this.getWorkOrderList();
+
+    this.oprLogForm.controls.OpPauseRunTime1.disable();
+    this.oprLogForm.controls.OpStartRunTime1.disable();
   }
 
   
@@ -129,7 +137,16 @@ export class CreateOperatorLogComponent implements OnInit {
 
   resetOprLog() {    
     this.oprLogForm.reset();
+
+    this.timeStartRunTime = { hour: 13, minute: 30 };
+    this.timePauseRunTime = {hour: 13, minute: 30};
+    this.meridian = true;       
+    
+    /*
     this.oprLogForm.controls['OperationId'].setValue('');
+    this.oprLogForm.controls['WorkOrderId'].setValue('');
+    this.oprLogForm.controls['OperationStatus'].setValue('');
+    */
     this.opQtyData = '';
     this.submitted = false;
   } 
@@ -149,7 +166,22 @@ export class CreateOperatorLogComponent implements OnInit {
   }
 
   setVisibility(e) {
-    // if(e.target.value===)
+    console.log(e.target.value);
+    this.oprLogForm.controls['OpQtyDone'].setValue('');
+    if (e.target.value === "0") {     
+      this.oprLogForm.controls.OpPauseRunTime.disable();
+      this.oprLogForm.controls.OpPauseRunTime1.disable();
+
+      this.oprLogForm.controls.OpStartRunTime.enable();
+      this.oprLogForm.controls.OpStartRunTime1.enable();      
+    }
+    else {
+      this.oprLogForm.controls.OpPauseRunTime.enable();
+      this.oprLogForm.controls.OpPauseRunTime1.enable();
+
+      this.oprLogForm.controls.OpStartRunTime.disable();
+      this.oprLogForm.controls.OpStartRunTime1.disable();
+    }
   }
 
   onSubmit(): void {
@@ -157,41 +189,80 @@ export class CreateOperatorLogComponent implements OnInit {
     this.submitted = true;
     
     if (this.oprLogForm.valid) {
-      console.log('form valid!');
+      
 
       this.oprLogModel.opQtyDone = this.oprLogForm.value["OpQtyDone"];
       this.oprLogModel.workOrderId = this.oprLogForm.value["WorkOrderId"];
       this.oprLogModel.operationId = this.oprLogForm.value["OperationId"];
       this.oprLogModel.operationStatus = this.oprLogForm.value["OperationStatus"];
  
-      if (this.oprLogForm.value["OpStartRunTime"] !== "" && this.oprLogForm.value["OpStartRunTime"] !== undefined) {
+      // start_running
+      if (this.oprLogForm.value["OperationStatus"] === "0") {
+        
+        this.oprLogModel.opQtyDone = 0;
 
-        console.log('start run time date ,,,',this.oprLogForm.value["OpStartRunTime"]);
+        if (this.oprLogForm.value["OpStartRunTime"] !== "" && this.oprLogForm.value["OpStartRunTime"] !== undefined) {
 
-        var opStartRunTimeDateObj = this.oprLogForm.value["OpStartRunTime"];
-                 
-        var date = new Date(opStartRunTimeDateObj);
-        date.setHours(this.timeStartRunTime.hour, this.timeStartRunTime.minute, 0);   // Set hours, minutes and seconds
-        console.log(date.toString());
+          console.log('start run time date ,,,', this.oprLogForm.value["OpStartRunTime"]);
 
-        this.oprLogModel.opStartRunTime = date;
+          var opStartRunTimeDateObj = this.oprLogForm.value["OpStartRunTime"];
+                  
+          var date = new Date(opStartRunTimeDateObj);
+          date.setHours(this.timeStartRunTime.hour, this.timeStartRunTime.minute, 0);   // Set hours, minutes and seconds
+          console.log(date.toString());
+
+          this.oprLogModel.opStartRunTime = date;
+          this.oprLogModel.opPauseRunTime = null;
+        }
+        else {
+          console.log('form-invalid,,, need start-run-time!!!');
+          this.startRunTimeError = 'Need Start-Run-Time!';
+          this.pauseRunTimeError = '';
+          return;
+        }
       }
-
-      if (this.oprLogForm.value["OpPauseRunTime"] !== "") {
-        var opPauseRunTimeDateObj = this.oprLogForm.value["OpPauseRunTime"];
+    
+      // pause_running
+      if (this.oprLogForm.value["OperationStatus"] === "1") {
+        if (this.oprLogForm.value["OpPauseRunTime"] !== "" && this.oprLogForm.value["OpPauseRunTime"] !== undefined) {
+          var opPauseRunTimeDateObj = this.oprLogForm.value["OpPauseRunTime"];
                  
-        var date = new Date(opPauseRunTimeDateObj);
-        date.setHours(this.timePauseRunTime.hour, this.timePauseRunTime.minute, 0);   // Set hours, minutes and seconds
-        console.log(date.toString());
+          var date = new Date(opPauseRunTimeDateObj);
+          date.setHours(this.timePauseRunTime.hour, this.timePauseRunTime.minute, 0);   // Set hours, minutes and seconds
+          console.log(date.toString());
 
-        this.oprLogModel.opPauseRunTime = date;
+          this.oprLogModel.opPauseRunTime = date;
+          this.oprLogModel.opStartRunTime = null;
+          this.pauseRunTimeError = '';
+        }
+        else {
+          console.log('form-invalid,,, need pause-run-time!!!');
+          this.pauseRunTimeError = 'Need Pause-Run-Time!';
+          this.startRunTimeError = '';
+          // return;
+        }
+
+        if (this.oprLogForm.value["OpQtyDone"] !== "") {
+          this.oprLogModel.opQtyDone = Number(this.oprLogForm.value["OpQtyDone"]);
+          this.qtyDoneError = '';
+        }
+        else {
+          console.log('form-invalid,,, need qty-done!!!');
+          this.qtyDoneError = 'Need Qty-Done!';
+          // return;
+        }
+
+        if (this.pauseRunTimeError !== '' || this.qtyDoneError !== '')
+          return;
       }
      
 
 
      
 
-      
+      console.log('form valid!');
+      this.pauseRunTimeError = '';
+      this.startRunTimeError = '';
       console.log(this.oprLogModel);
 
     }

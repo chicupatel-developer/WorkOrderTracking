@@ -92,13 +92,29 @@
                                         Operation-Status is required
                                     </div>
                                 </div>
+                                <p></p>
+                                <div class="form-group">
+                                    <label>Qty-Done</label>
+                                    <br />
+                                    <span class="runTimeCheckError">{{qtyDoneError}}</span>
+                                    <input type="text" 
+                                        class="form-control qtyField" 
+                                        formControlName="OpQtyDone" />
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(oprLogFormControl.OpQtyDone.touched || submitted) && oprLogFormControl.OpQtyDone.errors?.pattern">
+                                        Only Numbers are allowed
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-1 "></div>
                             <div class="col-md-5 ">  
                                 <div class="form-group">
                                     <label>[Start] Run Time</label>
+                                    <br />
+                                    <span class="runTimeCheckError">{{startRunTimeError}}</span>
                                     <div class="input-group">
                                         <input 
+                                            [attr.disabled]="true"
                                             [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" 
                                             formControlName="OpStartRunTime" 
                                             type="text"
@@ -134,9 +150,11 @@
                                     </div>
                                 </div>
                                 <p></p>
-                                <div                                    
+                                <div                                 
                                     class="form-group">
                                     <label>[Pause] Run Time</label>
+                                    <br />
+                                    <span class="runTimeCheckError">{{pauseRunTimeError}}</span>
                                     <div class="input-group">
                                         <input 
                                             [attr.disabled]="true"
@@ -148,7 +166,8 @@
                                             bsDatepicker>                                    
                                     </div>
                                     <div class="input-group">
-                                        <ngb-timepicker                                          
+                                        <ngb-timepicker    
+                                            class="form-control"                                  
                                             formControlName="OpPauseRunTime1" 
                                             [(ngModel)]="timePauseRunTime" 
                                             [meridian]="meridian">

@@ -17,3 +17,8 @@
     color: blue;
     font-weight: bold;
 }
+
+.runTimeCheckError{
+    color: red;
+    font-weight: bold;
+}
