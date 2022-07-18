@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  time = {hour: 13, minute: 30};
+  meridian = true;
+  
+  toggleMeridian() {
+      this.meridian = !this.meridian;
+  }
 
   constructor() { }
 

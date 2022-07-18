@@ -12,8 +12,9 @@ import { DataService } from '../services/data.service';
 })
 export class CreateOperatorLogComponent implements OnInit {
 
-  minutes: Array<any>;
-  hours: Array<any>;
+  timeStartRunTime = { hour: 13, minute: 30 };
+  timePauseRunTime = {hour: 13, minute: 30};
+  meridian = true;    
 
   operationStatusCollection: Array<any>;
   workOrders: Array<any>;
@@ -24,10 +25,10 @@ export class CreateOperatorLogComponent implements OnInit {
   submitted = false;
   oprLogModel = {
     workOrderId: 0,
-    operationNumber: 0,
+    operationId: 0,
     operationStatus: 0,
-    opStartRunTime: new Date(),
-    opPauseRunTime: new Date(),
+    opStartRunTime: undefined,
+    opPauseRunTime: undefined,
     opQtyDone: 0,
   };
 
@@ -42,51 +43,22 @@ export class CreateOperatorLogComponent implements OnInit {
     public dataService: DataService,
     private fb: FormBuilder,) { }
 
-  ngOnInit(): void {
-    /*
-    if (!(this.userService.isLoggedIn && !this.userService.isAdmin)) {
-      this.router.navigate(['/home']);
-    }   
-    */
+  ngOnInit(): void {   
 
     this.oprLogForm = this.fb.group({
       WorkOrderId: ['', Validators.required],
       OperationId: ['', Validators.required],
       OperationStatus: ['', [Validators.required]],      
       OpStartRunTime: [''],
-      StartRunTimeHr: [''],
-      StartRunTimeMin: [''],
+      OpStartRunTime1: [''],   
       OpPauseRunTime: [''],
+      OpPauseRunTime1: [''],
       OpQtyDone: ['', [Validators.pattern("^[0-9]*$")]],   
     });   
-
-    // load minutes
-    this.minutes = this.getMinutes();
-    this.hours = this.getHours();
   
-    this.operationStatusCollection = this.localDataService.getOperationStatusToDisplay();
+    this.operationStatusCollection = this.localDataService.getOperationStatusForOperatorToDisplay();
     this.getWorkOrderList();
   }
-
-  getMinutes() {
-    var minArr = [];
-  
-    for (let i = 0; i <= 59; i++) {
-      if (i < 10) minArr.push({ value: "0" + i });
-      else minArr.push({ value: i +"" });
-    }
-    return minArr;
-  }
-  getHours() {
-    var hrArr = [];
-  
-    for (let i = 1; i <= 12; i++) {
-      if (i < 10) hrArr.push({ value: "0" + i });
-      else hrArr.push({ value: i +"" });
-    }
-    return hrArr;
-  }
-  
 
   
   getWorkOrderList() {
@@ -176,12 +148,52 @@ export class CreateOperatorLogComponent implements OnInit {
       return false;
   }
 
+  setVisibility(e) {
+    // if(e.target.value===)
+  }
+
   onSubmit(): void {
 
     this.submitted = true;
     
     if (this.oprLogForm.valid) {
       console.log('form valid!');
+
+      this.oprLogModel.opQtyDone = this.oprLogForm.value["OpQtyDone"];
+      this.oprLogModel.workOrderId = this.oprLogForm.value["WorkOrderId"];
+      this.oprLogModel.operationId = this.oprLogForm.value["OperationId"];
+      this.oprLogModel.operationStatus = this.oprLogForm.value["OperationStatus"];
+ 
+      if (this.oprLogForm.value["OpStartRunTime"] !== "" && this.oprLogForm.value["OpStartRunTime"] !== undefined) {
+
+        console.log('start run time date ,,,',this.oprLogForm.value["OpStartRunTime"]);
+
+        var opStartRunTimeDateObj = this.oprLogForm.value["OpStartRunTime"];
+                 
+        var date = new Date(opStartRunTimeDateObj);
+        date.setHours(this.timeStartRunTime.hour, this.timeStartRunTime.minute, 0);   // Set hours, minutes and seconds
+        console.log(date.toString());
+
+        this.oprLogModel.opStartRunTime = date;
+      }
+
+      if (this.oprLogForm.value["OpPauseRunTime"] !== "") {
+        var opPauseRunTimeDateObj = this.oprLogForm.value["OpPauseRunTime"];
+                 
+        var date = new Date(opPauseRunTimeDateObj);
+        date.setHours(this.timePauseRunTime.hour, this.timePauseRunTime.minute, 0);   // Set hours, minutes and seconds
+        console.log(date.toString());
+
+        this.oprLogModel.opPauseRunTime = date;
+      }
+     
+
+
+     
+
+      
+      console.log(this.oprLogModel);
+
     }
     else {
       console.log('form in-valid!');

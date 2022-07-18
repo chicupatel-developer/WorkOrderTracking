@@ -79,6 +79,7 @@
                                 <div class="form-group">
                                     <label>Operation-Status</label>
                                     <select 
+                                        (change)="setVisibility($event)"
                                         class="form-control" 
                                         formControlName="OperationStatus">
                                         <option value="">Choose Operation-Status</option>
@@ -96,15 +97,15 @@
                             <div class="col-md-5 ">  
                                 <div class="form-group">
                                     <label>[Start] Run Time</label>
-                                    <div class="input-group dateField">
+                                    <div class="input-group">
                                         <input 
                                             [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" 
                                             formControlName="OpStartRunTime" 
                                             type="text"
                                             placeholder="Start Run Time" 
                                             class="form-control" 
-                                            bsDatepicker>
-                                            &nbsp;
+                                            bsDatepicker>    
+                                        <!-- 
                                         <select class="form-control" formControlName="StartRunTimeHr">
                                             <option value="">Hr</option>
                                             <option value={{h.value}} *ngFor="let h of hours">
@@ -117,8 +118,42 @@
                                             <option value={{m.value}} *ngFor="let m of minutes">
                                                 {{m.value}}
                                             </option>
-                                        </select>                                      
-                                    </div>                                  
+                                        </select>  
+                                        -->
+                                    </div> 
+                                    <div class="input-group">
+                                        <ngb-timepicker 
+                                            formControlName="OpStartRunTime1" 
+                                            [(ngModel)]="timeStartRunTime" 
+                                            [meridian]="meridian">
+                                        </ngb-timepicker>
+                                        <!-- 
+                                        <hr>
+                                        <pre>Selected time: {{timeStartRunTime | json}}</pre>
+                                        -->
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div                                    
+                                    class="form-group">
+                                    <label>[Pause] Run Time</label>
+                                    <div class="input-group">
+                                        <input 
+                                            [attr.disabled]="true"
+                                            [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" 
+                                            formControlName="OpPauseRunTime"
+                                            type="text" 
+                                            placeholder="Pause Run Time" 
+                                            class="form-control" 
+                                            bsDatepicker>                                    
+                                    </div>
+                                    <div class="input-group">
+                                        <ngb-timepicker                                          
+                                            formControlName="OpPauseRunTime1" 
+                                            [(ngModel)]="timePauseRunTime" 
+                                            [meridian]="meridian">
+                                        </ngb-timepicker>                                       
+                                    </div>
                                 </div>
                             </div>
                         </div>

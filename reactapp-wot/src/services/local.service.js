@@ -21,6 +21,13 @@ export function getOperationStatusToDisplay() {
   ];
 }
 
+export function getOperationStatusForOperatorToDisplay() {
+  return [
+    { value: 0, opStatus: "Start_Running" },
+    { value: 1, opStatus: "Pause_Running" },
+  ];
+}
+
 export function getOperationNumberToDisplay() {
   return [
     { value: 10, opNumber: "Spindle" },
