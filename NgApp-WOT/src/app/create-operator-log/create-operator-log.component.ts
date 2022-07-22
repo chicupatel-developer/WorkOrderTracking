@@ -268,10 +268,6 @@ export class CreateOperatorLogComponent implements OnInit {
         // if (this.pauseRunTimeError !== '' || this.qtyDoneError !== '')
           // return;
       }
-     
-
-
-     
 
       console.log('form valid!');
       this.pauseRunTimeError = '';
