@@ -71,6 +71,16 @@ namespace Service.Repository
                 if (op_.OperationStatus == OperationStatus.Start_Running)
                 {
                     operatorActivity.OperationNumber = (OperationNumber)op_.OperationNumber;
+
+                    /*
+                    DateTime localDateTime = DateTime.Parse(operatorActivity.OpStartRunTime.ToString());
+                    DateTime utcDateTime = localDateTime.ToUniversalTime();
+                    operatorActivity.OpStartRunTime = utcDateTime;
+
+                    DateTime currentTime = TimeZoneInfo.ConvertTime(operatorActivity.OpStartRunTime.Value, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
+                    operatorActivity.OpStartRunTime = currentTime;
+                    */
+
                     appDbContext.OperatorActivities.Add(operatorActivity);
                     appDbContext.SaveChanges();
                 }

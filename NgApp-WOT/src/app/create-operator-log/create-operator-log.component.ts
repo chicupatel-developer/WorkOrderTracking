@@ -218,10 +218,11 @@ export class CreateOperatorLogComponent implements OnInit {
           var opStartRunTimeDateObj = this.oprLogForm.value["OpStartRunTime"];
                   
           var date = new Date(opStartRunTimeDateObj);
-          date.setHours(this.timeStartRunTime.hour, this.timeStartRunTime.minute, 0);   // Set hours, minutes and seconds
+          date.setHours(this.timeStartRunTime.hour-5, this.timeStartRunTime.minute, 0);   // Set hours, minutes and seconds
           console.log(date.toString());
 
-          this.oprLogModel.opStartRunTime = new Date(date).toISOString();
+          // this.oprLogModel.opStartRunTime = new Date(date).toISOString();
+          this.oprLogModel.opStartRunTime = date;
           this.oprLogModel.opPauseRunTime = null;
         }
         else {
@@ -238,11 +239,11 @@ export class CreateOperatorLogComponent implements OnInit {
           var opPauseRunTimeDateObj = this.oprLogForm.value["OpPauseRunTime"];
                  
           var date = new Date(opPauseRunTimeDateObj);
-          date.setHours(this.timePauseRunTime.hour, this.timePauseRunTime.minute, 0);   // Set hours, minutes and seconds
+          date.setHours(this.timePauseRunTime.hour-5, this.timePauseRunTime.minute, 0);   // Set hours, minutes and seconds
           console.log(date.toString());
 
-          this.oprLogModel.opPauseRunTime = new Date(date).toISOString();
-          // this.oprLogModel.opPauseRunTime = date;
+          // this.oprLogModel.opPauseRunTime = new Date(date).toISOString();
+          this.oprLogModel.opPauseRunTime = date;
           this.oprLogModel.opStartRunTime = null;
           this.pauseRunTimeError = '';
         }
