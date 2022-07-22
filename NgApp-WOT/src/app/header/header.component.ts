@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {   
     this.localDataService.setUserName(localStorage.getItem('userName')); 
     this.localDataService.setFullName(localStorage.getItem('fullName')); 
+    this.localDataService.setMyUserId(localStorage.getItem('myUserId')); 
     this.localDataService.setMyRole(localStorage.getItem('myRole'));
   }
 

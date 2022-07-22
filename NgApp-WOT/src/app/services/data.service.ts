@@ -131,6 +131,6 @@ export class DataService {
     return this.http.get<any>(this.OPR_LOG_API + '/getOperationQtyData/' + selectedOpId);
   }
   createOperatorLog(data): Observable<any> {
-    return this.http.post(this.OP_API + '/editOperation' , data);
+    return this.http.post(this.OPR_LOG_API + '/createOperatorLog' , data);
   }
 }

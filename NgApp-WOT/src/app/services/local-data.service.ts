@@ -10,6 +10,7 @@ export class LocalDataService {
 
   private UserName;
   private FullName;
+  private MyUserId;
 
   // create new operation for workorder
   private WorkOrderId;
@@ -50,6 +51,12 @@ export class LocalDataService {
   }
   getFullName() {
     return this.FullName;
+  }
+  setMyUserId(val) {
+    this.MyUserId = val;
+  }
+  getMyUserId() {
+    return this.MyUserId;
   }
 
   // 400

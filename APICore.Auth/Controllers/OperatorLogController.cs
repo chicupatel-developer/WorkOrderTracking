@@ -84,24 +84,38 @@ namespace APICore.Auth.Controllers
         }
 
         [HttpPost]
-        [Route("createOperation")]
-        public IActionResult CreateOperation(OperatorActivity operatorActivity)
+        [Route("createOperatorLog")]
+        public IActionResult CreateOperatorLog(OperatorActivity operatorActivity)
         {
             _response = new APIResponse();
             try
             {
                 // throw new Exception();
-
-                // operatorActivity.OperatorId = 0;
+                                
                 if (operatorActivity != null)
                     operatorActivity.OperatorId = _oprRepo.GetOperator(operatorActivity.UserId).OperatorId;
-                
+
                 if (operatorActivity.OperatorId < 1)
                     throw new Invalid_Operator_Exception("Invalid Operator !");
+                               
 
                 if (ModelState.IsValid)
-                {
-                    // retData = DateAndQtyCheck(operatorActivity);
+                {                    
+                    if (operatorActivity.OperationStatus == OperationStatusForOperator.Start_Running && operatorActivity.OpStartRunTime == null)
+                    {
+                        ModelState.AddModelError("OpStartRunTime", "Operation Start Run Time Is Empty !");
+                        return BadRequest(ModelState);
+                    }
+                    if (operatorActivity.OperationStatus == OperationStatusForOperator.Pause_Running && (operatorActivity.OpPauseRunTime == null || operatorActivity.OpQtyDone == null))
+                    {
+                        if (operatorActivity.OpPauseRunTime == null)
+                            ModelState.AddModelError("OpPauseRunTime", "Operation Pause Run Time Is Empty !");
+
+                        if (operatorActivity.OpQtyDone == null)
+                            ModelState.AddModelError("OpQtyDone", "Operation Qty Done Is Empty !");
+
+                        return BadRequest(ModelState);
+                    }
 
                     _oprRepo.AddOperatorLog(operatorActivity);
                     _response.ResponseCode = 0;
@@ -138,49 +152,6 @@ namespace APICore.Auth.Controllers
                 _response.ResponseMessage = "Server Error!";
             }
             return Ok(_response);
-        }
-        private OperationResult DateAndQtyCheck(OperatorActivity operatorActivity)
-        {
-            OperationResult retData = new OperationResult();
-            retData.StatusCode = 0;
-
-            if (operatorActivity.OperationStatus == OperationStatusForOperator.Start_Running && operatorActivity.OpStartRunTime == null)
-            {
-                ModelState.AddModelError("OpStartRunTime", "Operation Start Run Time Is Empty !");
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
-                    }
-                }
-            }
-            if (operatorActivity.OperationStatus == OperationStatusForOperator.Pause_Running && (operatorActivity.OpPauseRunTime == null || operatorActivity.OpQtyDone == null))
-            {
-                if (operatorActivity.OpPauseRunTime == null)
-                    ModelState.AddModelError("OpPauseRunTime", "Operation Pause Run Time Is Empty !");
-
-                if (operatorActivity.OpQtyDone == null)
-                    ModelState.AddModelError("OpQtyDone", "Operation Qty Done Is Empty !");
-
-                retData.Message = "Model is NOT Valid !";
-                retData.StatusCode = 1;
-                retData.ModelErrors = new List<string>();
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        string mError = error.ErrorMessage.ToString();
-                        retData.ModelErrors.Add(mError);
-                    }
-                }
-            }
-            return retData;
-        }
-
+        }      
     }
 }

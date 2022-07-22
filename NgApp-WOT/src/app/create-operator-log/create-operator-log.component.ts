@@ -34,7 +34,9 @@ export class CreateOperatorLogComponent implements OnInit {
     operationStatus: 0,
     opStartRunTime: undefined,
     opPauseRunTime: undefined,
-    opQtyDone: 0,
+    opQtyDone: 0,    
+    userId: '',
+    operatorId: 0,
   };
 
   apiResponse = '';  
@@ -149,6 +151,14 @@ export class CreateOperatorLogComponent implements OnInit {
     */
     this.opQtyData = '';
     this.submitted = false;
+
+    this.modelErrors = [];
+    this.apiResponse = '';
+
+    this.oprLogForm.controls.OpPauseRunTime.disable();
+    this.oprLogForm.controls.OpPauseRunTime1.disable();
+    this.oprLogForm.controls.OpStartRunTime.disable();
+    this.oprLogForm.controls.OpStartRunTime1.disable();
   } 
 
   goBack() {
@@ -211,14 +221,14 @@ export class CreateOperatorLogComponent implements OnInit {
           date.setHours(this.timeStartRunTime.hour, this.timeStartRunTime.minute, 0);   // Set hours, minutes and seconds
           console.log(date.toString());
 
-          this.oprLogModel.opStartRunTime = date;
+          this.oprLogModel.opStartRunTime = new Date(date).toISOString();
           this.oprLogModel.opPauseRunTime = null;
         }
         else {
           console.log('form-invalid,,, need start-run-time!!!');
           this.startRunTimeError = 'Need Start-Run-Time!';
           this.pauseRunTimeError = '';
-          return;
+          // return;
         }
       }
     
@@ -231,7 +241,8 @@ export class CreateOperatorLogComponent implements OnInit {
           date.setHours(this.timePauseRunTime.hour, this.timePauseRunTime.minute, 0);   // Set hours, minutes and seconds
           console.log(date.toString());
 
-          this.oprLogModel.opPauseRunTime = date;
+          this.oprLogModel.opPauseRunTime = new Date(date).toISOString();
+          // this.oprLogModel.opPauseRunTime = date;
           this.oprLogModel.opStartRunTime = null;
           this.pauseRunTimeError = '';
         }
@@ -252,8 +263,9 @@ export class CreateOperatorLogComponent implements OnInit {
           // return;
         }
 
-        if (this.pauseRunTimeError !== '' || this.qtyDoneError !== '')
-          return;
+        // comment below to check for server side model validation
+        // if (this.pauseRunTimeError !== '' || this.qtyDoneError !== '')
+          // return;
       }
      
 
@@ -263,7 +275,51 @@ export class CreateOperatorLogComponent implements OnInit {
       console.log('form valid!');
       this.pauseRunTimeError = '';
       this.startRunTimeError = '';
+
+      this.oprLogModel.userId = this.localDataService.getMyUserId();
+
       console.log(this.oprLogModel);
+
+      this.dataService.createOperatorLog(this.oprLogModel)
+        .subscribe(
+          response => {
+            this.modelErrors = [];
+            this.apiResponse = '';
+
+            console.log(response);
+
+            if(response.responseCode===0){
+              // success    
+              this.apiResponse = response.responseMessage;
+              this.responseColor = 'green';
+              
+              setTimeout(() => {              
+                this.resetOprLog();    
+              }, 2000);  
+            }
+            else{
+              // -1
+              // server error
+              this.apiResponse = response.responseCode + ' : ' + response.responseMessage;
+              this.responseColor = 'red';
+            }
+          },
+          error => {
+            // console.log(error);
+            this.modelErrors = [];
+            this.apiResponse = '';
+            this.responseColor = 'red';
+
+            if (error.status === 401)            
+              this.apiResponse = 'Un-Authorized !';
+            else if (error.status === 400) {
+              this.apiResponse = '';
+              this.modelErrors = this.localDataService.display400andEx(error, 'Operator-Log-Create');
+            }
+            else
+              this.apiResponse = 'Error !';            
+          }
+        );
 
     }
     else {

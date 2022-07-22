@@ -47,6 +47,10 @@ export class UserService {
     return localStorage.getItem('myRole');
   }
 
+  getMyUserId() {
+    return localStorage.getItem('myUserId');
+  }
+
   get isLoggedIn(): boolean {   
     let authToken = localStorage.getItem('token');
     return (authToken !== null) ? true : false;
@@ -62,10 +66,12 @@ export class UserService {
     let removeUserName = localStorage.removeItem('userName');
     let removeFullName = localStorage.removeItem('fullName');
     let removeMyRole = localStorage.removeItem('myRole');
+    let removeMyUserId = localStorage.removeItem('myUserId');
 
     this.localDataService.setUserName('');
     this.localDataService.setFullName('');
     this.localDataService.setMyRole('');
+    this.localDataService.setMyUserId('');
 
     if (removeToken == null) {
       this.router.navigate(['/home']);

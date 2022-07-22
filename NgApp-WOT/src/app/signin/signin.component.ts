@@ -81,7 +81,8 @@ export class SigninComponent implements OnInit {
         ResponseMessage: '',       
         MyRole: '',
         FirstName: '',
-        LastName: ''
+        LastName: '',
+        MyUserId: '',
       }
       
       this.signinModel.Email = this.form.value["Email"];
@@ -110,19 +111,22 @@ export class SigninComponent implements OnInit {
             userTokenData.UserName = res.userName;
             userTokenData.FirstName = res.firstName;
             userTokenData.LastName = res.lastName;
-
+            userTokenData.MyUserId = res.userId;
+            
             //// add role info
             userTokenData.MyRole = res.myRole;
 
             localStorage.setItem('token', userTokenData.Token);
             localStorage.setItem('userName', userTokenData.UserName);
-            localStorage.setItem('fullName', userTokenData.FirstName+', '+userTokenData.LastName);
+            localStorage.setItem('fullName', userTokenData.FirstName + ', ' + userTokenData.LastName);
+            localStorage.setItem('myUserId', userTokenData.MyUserId);
         
             //// store role info
             localStorage.setItem('myRole', userTokenData.MyRole);           
 
             this.localDataService.setUserName(userTokenData.UserName);
-            this.localDataService.setFullName(userTokenData.FirstName+', '+userTokenData.LastName);
+            this.localDataService.setFullName(userTokenData.FirstName + ', ' + userTokenData.LastName);
+            this.localDataService.setMyUserId(userTokenData.MyUserId);
             
             //// store role info
             this.localDataService.setMyRole(userTokenData.MyRole);
@@ -141,6 +145,7 @@ export class SigninComponent implements OnInit {
 
             this.localDataService.setUserName('');
             this.localDataService.setFullName('');
+            this.localDataService.setMyUserId('');
             
             //// reset role
             //// remove role

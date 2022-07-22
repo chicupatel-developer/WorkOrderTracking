@@ -82,7 +82,8 @@ namespace APICore.Auth.Controllers
                             userName = model.Email,
                             myRole = authClaims[2].Value,
                             firstName = user.FirstName,
-                            lastName = user.LastName
+                            lastName = user.LastName,
+                            userId = user.Id,
                         });
                     }
                     else
