@@ -144,6 +144,9 @@ export class CreateOperatorLogComponent implements OnInit {
     this.timePauseRunTime = {hour: 13, minute: 30};
     this.meridian = true;       
     
+    this.oprLogForm.controls['OpPauseRunTime'].setValue(undefined);
+    this.oprLogForm.controls['OpStartRunTime'].setValue(undefined);
+
     /*
     this.oprLogForm.controls['OperationId'].setValue('');
     this.oprLogForm.controls['WorkOrderId'].setValue('');
@@ -196,10 +199,15 @@ export class CreateOperatorLogComponent implements OnInit {
 
   onSubmit(): void {
 
+    this.pauseRunTimeError = '';
+    this.startRunTimeError = '';
+    this.qtyDoneError = '';
+    this.modelErrors = [];
+    this.apiResponse = '';
+    
     this.submitted = true;
     
-    if (this.oprLogForm.valid) {
-      
+    if (this.oprLogForm.valid) {      
 
       this.oprLogModel.opQtyDone = this.oprLogForm.value["OpQtyDone"];
       this.oprLogModel.workOrderId = this.oprLogForm.value["WorkOrderId"];
@@ -229,7 +237,7 @@ export class CreateOperatorLogComponent implements OnInit {
           console.log('form-invalid,,, need start-run-time!!!');
           this.startRunTimeError = 'Need Start-Run-Time!';
           this.pauseRunTimeError = '';
-          // return;
+          return;
         }
       }
     
@@ -264,14 +272,11 @@ export class CreateOperatorLogComponent implements OnInit {
           // return;
         }
 
-        // comment below to check for server side model validation
-        // if (this.pauseRunTimeError !== '' || this.qtyDoneError !== '')
-          // return;
+        if (this.pauseRunTimeError !== '' || this.qtyDoneError !== '')
+          return;
       }
 
-      console.log('form valid!');
-      this.pauseRunTimeError = '';
-      this.startRunTimeError = '';
+      console.log('form valid!');  
 
       this.oprLogModel.userId = this.localDataService.getMyUserId();
 
@@ -280,8 +285,6 @@ export class CreateOperatorLogComponent implements OnInit {
       this.dataService.createOperatorLog(this.oprLogModel)
         .subscribe(
           response => {
-            this.modelErrors = [];
-            this.apiResponse = '';
 
             console.log(response);
 
