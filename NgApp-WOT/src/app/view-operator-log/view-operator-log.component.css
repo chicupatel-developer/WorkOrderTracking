@@ -1,0 +1,20 @@
+.componentHeader {
+    background-color: lightblue;
+}
+
+.apiError{
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.noData{
+    color: blue;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.apiSuccess{
+    color: green;
+}
+

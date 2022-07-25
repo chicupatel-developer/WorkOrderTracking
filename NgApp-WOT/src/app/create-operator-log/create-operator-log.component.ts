@@ -146,12 +146,7 @@ export class CreateOperatorLogComponent implements OnInit {
     
     this.oprLogForm.controls['OpPauseRunTime'].setValue(undefined);
     this.oprLogForm.controls['OpStartRunTime'].setValue(undefined);
-
-    /*
-    this.oprLogForm.controls['OperationId'].setValue('');
-    this.oprLogForm.controls['WorkOrderId'].setValue('');
-    this.oprLogForm.controls['OperationStatus'].setValue('');
-    */
+  
     this.opQtyData = '';
     this.submitted = false;
 

@@ -133,4 +133,9 @@ export class DataService {
   createOperatorLog(data): Observable<any> {
     return this.http.post(this.OPR_LOG_API + '/createOperatorLog' , data);
   }
+  
+  getMyLogData(data): Observable<any> {
+    return this.http.post(this.OPR_LOG_API + '/getMyLogData' , data);
+  }
+  
 }

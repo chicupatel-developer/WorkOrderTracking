@@ -152,6 +152,31 @@ namespace APICore.Auth.Controllers
                 _response.ResponseMessage = "Server Error!";
             }
             return Ok(_response);
-        }      
+        }
+
+
+        [HttpPost]
+        [Route("getMyLogData")]
+        public IActionResult GetMyLogData(OperatorLogDataView myLogData)
+        {
+            _response = new APIResponse();
+            try
+            {
+                // throw new Exception();
+
+                var myLog = _oprRepo.GetMyLogData(myLogData);
+                _response.ResponseCode = 0;
+                _response.ResponseMessage = "Operator-Log Data Is Ready !";
+                return Ok(new { response = _response, logData = myLog });
+            }
+            catch (Exception ex)
+            {
+                _response.ResponseCode = -1;
+                _response.ResponseMessage = "Server Error !";
+                // return Ok(_response);
+                return Ok(new { response = _response });
+            }
+            
+        }
     }
 }

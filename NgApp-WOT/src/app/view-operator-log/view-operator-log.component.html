@@ -1,1 +1,69 @@
-<p>view-operator-log works!</p>
+<div>
+    <div class="row">
+        <div class="col-md-3 mx-auto">
+            <div class="card">
+                <div class="card-header componentHeader">
+                    <form class="form-oprLog" 
+                        [formGroup]="oprLogForm" 
+                        (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <select class="form-control" formControlName="ViewMyLogData">
+                                        <option value="">Choose My Log Option</option>
+                                        <option value={{log.value}} *ngFor="let log of viewMyLogDataEnumCollection">
+                                            {{log.text}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger mt-2"
+                                        *ngIf="(oprLogFormControl.ViewMyLogData.touched || submitted) && oprLogFormControl.ViewMyLogData.errors?.required">
+                                        Log Option is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    
+                        <hr />
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="submit" 
+                                        class="btn btn-success">
+                                        View My Log
+                                    </button>
+                                </div>                               
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9 mx-auto">
+            <div *ngIf="!apiError; else displayError">
+                <div class="apiSuccess">
+                    {{apiResponse}}
+                    <p></p>
+                    <div *ngIf="(logData?.length>0); else noData">
+                        display log data
+                    </div>
+                    <ng-template #noData>
+                        <div class="container">
+                            <span class="noData">
+                                Data Not Found!
+                            </span>
+                        </div>
+                    </ng-template>
+                </div>   
+            </div>
+            <ng-template #displayError>
+                <div class="container">
+                    <span class="apiError">
+                        {{apiResponse}}
+                    </span>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
