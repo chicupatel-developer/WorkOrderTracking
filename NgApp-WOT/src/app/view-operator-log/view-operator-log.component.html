@@ -43,13 +43,11 @@
         <div class="col-md-9 mx-auto">
             <div *ngIf="!apiError; else displayError">
                 <div class="apiSuccess">
-                    {{apiResponse}}
-                    <p></p>
                     <div *ngIf="(logData?.length>0); else noData">
                         display log data
                     </div>
                     <ng-template #noData>
-                        <div class="container">
+                        <div *ngIf="apiResponse" class="container">
                             <span class="noData">
                                 Data Not Found!
                             </span>
