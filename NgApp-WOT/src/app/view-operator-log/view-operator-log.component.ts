@@ -19,7 +19,7 @@ export class ViewOperatorLogComponent implements OnInit {
   oprLogForm: FormGroup;
   submitted = false;
   oprLogModel = {
-    viewMyLogData: 0,  
+    logDataRange: 0,  
     userId: '',
   };
   
@@ -54,11 +54,11 @@ export class ViewOperatorLogComponent implements OnInit {
     
     if (this.oprLogForm.valid) {      
 
-      this.oprLogModel.viewMyLogData = this.oprLogForm.value["ViewMyLogData"]; 
+      this.oprLogModel.logDataRange = this.oprLogForm.value["ViewMyLogData"]; 
       this.oprLogModel.userId = this.localDataService.getMyUserId();
 
       console.log(this.oprLogModel);
-
+      
       this.dataService.getMyLogData(this.oprLogModel)
         .subscribe(
           response => {

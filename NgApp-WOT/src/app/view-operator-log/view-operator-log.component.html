@@ -14,7 +14,7 @@
                                         <option value={{log.value}} *ngFor="let log of viewMyLogDataEnumCollection">
                                             {{log.text}}
                                         </option>
-                                    </select>
+                                    </select>                                     
                                     <div class="alert alert-danger mt-2"
                                         *ngIf="(oprLogFormControl.ViewMyLogData.touched || submitted) && oprLogFormControl.ViewMyLogData.errors?.required">
                                         Log Option is required
@@ -44,7 +44,46 @@
             <div *ngIf="!apiError; else displayError">
                 <div class="apiSuccess">
                     <div *ngIf="(logData?.length>0); else noData">
-                        display log data
+                        
+                           <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Wo #</th>
+                                    <th>Operation</th>
+                                    <th>Start Time</th>
+                                    <th>Pause Time</th>
+                                    <th>Cycle Time</th>
+                                    <th>QTY Done</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let co of logData 
+                                        let i = index
+                                    ">
+                                    <th scope="row">{{ co.operatorActivityId }}</th>
+                                    <td>{{ co.workOrderId }}</td>
+                                    <td>
+                                        <span>
+                                            # {{co.operationId}}                                            
+                                        </span>
+                                        <br />
+                                        <span>
+                                            {{ localDataService.getOperationNumber(co.operationNumber)}}
+                                        </span>
+                                        <br />
+                                        <span>
+                                            {{ localDataService.getOperationStatusForOperator(co.operationStatus)}}
+                                        </span>
+                                    </td>
+                                    <td>{{ co.opStartRunTime | date: "dd-MMM hh:mm a" }}</td>
+                                    <td>{{ co.opPauseRunTime | date: "dd-MMM hh:mm a" }}</td>
+                                    <td>{{ co.cycleTime }}</td>
+                                    <td>{{ co.opQtyDone }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                     <ng-template #noData>
                         <div *ngIf="apiResponse" class="container">
