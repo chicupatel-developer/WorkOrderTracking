@@ -26,6 +26,7 @@ const Create_Operator_Log = () => {
   );
   const [workOrders, setWorkOrders] = useState([]);
   const [operations, setOperations] = useState([]);
+  const [opQtyData, setOpQtyData] = useState("");
 
   const [modelErrors, setModelErrors] = useState([]);
   const [opCreateResponse, setOpCreateResponse] = useState({});
@@ -47,8 +48,20 @@ const Create_Operator_Log = () => {
 
   const setField = (field, value) => {
     if (field === "workOrderId") {
-      console.log("getting operations for wo#", value);
-      getOperationList(value);
+      setOperations([]);
+      setOpQtyData("");
+      if (value !== "") {
+        console.log("getting operations for wo#", value);
+        getOperationList(value);
+      }
+    }
+
+    if (field === "operationId") {
+      setOpQtyData("");
+      if (value !== "") {
+        console.log("getting operation qty data for op#", value);
+        getOpQtyData(value);
+      }
     }
 
     setForm({
@@ -79,6 +92,25 @@ const Create_Operator_Log = () => {
       .then((response) => {
         console.log(response.data);
         setOperations(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getOpQtyData = (selectedOpId) => {
+    OperatorLogService.getOperationQtyData(selectedOpId)
+      .then((response) => {
+        if (response.data.statusCode !== -1) {
+          setOpQtyData(
+            "[ Qty Done : " +
+              response.data.qtyDone +
+              ", Qty Req : " +
+              response.data.qtyRequired +
+              " ]"
+          );
+        } else {
+          setOpQtyData(response.data.message);
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -181,6 +213,12 @@ const Create_Operator_Log = () => {
                       <p></p>
                       <Form.Group controlId="operationId">
                         <Form.Label>Operation</Form.Label>
+
+                        <br />
+                        {opQtyData && (
+                          <span className="opQtyData">{opQtyData}</span>
+                        )}
+
                         <Form.Control
                           as="select"
                           isInvalid={!!errors.operationId}
