@@ -25,6 +25,7 @@ const Create_Operator_Log = () => {
     []
   );
   const [workOrders, setWorkOrders] = useState([]);
+  const [operations, setOperations] = useState([]);
 
   const [modelErrors, setModelErrors] = useState([]);
   const [opCreateResponse, setOpCreateResponse] = useState({});
@@ -45,6 +46,11 @@ const Create_Operator_Log = () => {
   }, []);
 
   const setField = (field, value) => {
+    if (field === "workOrderId") {
+      console.log("getting operations for wo#", value);
+      getOperationList(value);
+    }
+
     setForm({
       ...form,
       [field]: value,
@@ -63,6 +69,16 @@ const Create_Operator_Log = () => {
       .then((response) => {
         console.log(response.data);
         setWorkOrders(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getOperationList = (selectedWoId) => {
+    OperatorLogService.getOperationList(selectedWoId)
+      .then((response) => {
+        console.log(response.data);
+        setOperations(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -93,6 +109,15 @@ const Create_Operator_Log = () => {
 
   const renderOptionsForWorkOrders = () => {
     return workOrders.map((dt, i) => {
+      return (
+        <option value={dt.value} key={i} name={dt.text}>
+          {dt.text}
+        </option>
+      );
+    });
+  };
+  const renderOptionsForOperations = () => {
+    return operations.map((dt, i) => {
       return (
         <option value={dt.value} key={i} name={dt.text}>
           {dt.text}
@@ -151,6 +176,23 @@ const Create_Operator_Log = () => {
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
                           {errors.workOrderId}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="operationId">
+                        <Form.Label>Operation</Form.Label>
+                        <Form.Control
+                          as="select"
+                          isInvalid={!!errors.operationId}
+                          onChange={(e) => {
+                            setField("operationId", e.target.value);
+                          }}
+                        >
+                          <option value="">Select Operation</option>
+                          {renderOptionsForOperations()}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.operationId}
                         </Form.Control.Feedback>
                       </Form.Group>
                       <p></p>

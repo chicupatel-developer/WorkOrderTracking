@@ -1,4 +1,4 @@
-import http from "../axios/operation-http-common";
+import http from "../axios/operatorLog-http-common";
 import authHeader from "./auth.header";
 
 class OperatorLogService {
