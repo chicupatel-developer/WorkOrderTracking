@@ -12,7 +12,7 @@ const View_Operator_Log = () => {
     if (currRole === null || (currRole !== null && currRole !== "Operator"))
       navigate("/un-auth");
   });
-  return <div className="mainContainer">Create Operator Log</div>;
+  return <div className="mainContainer">View Operator Log</div>;
 };
 
 export default View_Operator_Log;

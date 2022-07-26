@@ -92,6 +92,9 @@ const Header = () => {
               <Link to={"/create-operator-log"} className="nav-link">
                 Create Log
               </Link>
+              <Link to={"/view-operator-log"} className="nav-link">
+                View Log
+              </Link>
             </Nav>
           ) : (
             <span></span>

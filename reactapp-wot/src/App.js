@@ -28,6 +28,7 @@ import Operation_Edit from "./components/Operation_Edit/Operation_Edit";
 import Xfer_Parts from "./components/Xfer_Parts_To_Op/Xfer_Parts";
 import OperationLog from "./components/OperationLog/OperationLog";
 import Create_Operator_Log from "./components/Create_Operator_Log/Create_Operator_Log";
+import View_Operator_Log from "./components/View_Operator_Log/View_Operator_Log";
 import UnAuthorized from "./components/UnAuthorized/UnAuthorized";
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
               path="/create-operator-log"
               element={<Create_Operator_Log />}
             />
+            <Route path="/view-operator-log" element={<View_Operator_Log />} />
             <Route path="/un-auth" element={<UnAuthorized />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
