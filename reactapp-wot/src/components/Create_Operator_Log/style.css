@@ -23,3 +23,7 @@
     color: blue;
     font-weight: bold;
 }
+
+.qtyField {
+    width: 150px;
+}

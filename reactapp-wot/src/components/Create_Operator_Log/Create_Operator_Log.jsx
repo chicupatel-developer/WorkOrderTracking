@@ -35,6 +35,9 @@ const Create_Operator_Log = () => {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 
+  const [startControl, setStartControl] = useState(false);
+  const [pauseControl, setPauseControl] = useState(false);
+
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
 
@@ -47,6 +50,7 @@ const Create_Operator_Log = () => {
   }, []);
 
   const setField = (field, value) => {
+    // workorderid
     if (field === "workOrderId") {
       setOperations([]);
       setOpQtyData("");
@@ -56,11 +60,33 @@ const Create_Operator_Log = () => {
       }
     }
 
+    // operationid
     if (field === "operationId") {
       setOpQtyData("");
       if (value !== "") {
         console.log("getting operation qty data for op#", value);
         getOpQtyData(value);
+      }
+    }
+
+    // operationstatus
+    if (field === "operationStatus") {
+      // Start_Running
+      if (value === "0") {
+        // enable start_run_time
+        setStartControl(true);
+        // disable pause_run_time && qty-done
+        setPauseControl(false);
+      }
+      // Pause_Running
+      else if (value === "1") {
+        // disable start_run_time
+        setStartControl(false);
+        // enable pause_run_time && qty-done
+        setPauseControl(true);
+      } else {
+        setStartControl(false);
+        setPauseControl(false);
       }
     }
 
@@ -129,8 +155,37 @@ const Create_Operator_Log = () => {
     setModelErrors([]);
   };
 
+  const findFormErrors = () => {
+    setModelErrors([]);
+    setOpCreateResponse({});
+
+    const { operationId, workOrderId, operationStatus, opQtyDone } = form;
+    const newErrors = {};
+
+    if (!operationId || operationId === "")
+      newErrors.operationId = "Operation is Required!";
+    if (!workOrderId || workOrderId === "")
+      newErrors.workOrderId = "Work-Order is Required!";
+    if (!operationStatus || operationStatus === "")
+      newErrors.operationStatus = "Operation-Status is Required!";
+
+    if (!(!opQtyDone || opQtyDone === "")) {
+      if (!checkForNumbersOnly(opQtyDone))
+        newErrors.opQtyDone = "Only Numbers are Allowed!";
+    }
+
+    return newErrors;
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const newErrors = findFormErrors();
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      console.log("form is valid!");
+    }
   };
 
   const checkForNumbersOnly = (newVal) => {
@@ -250,8 +305,58 @@ const Create_Operator_Log = () => {
                           {errors.operationStatus}
                         </Form.Control.Feedback>
                       </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="opQtyDone">
+                        <Form.Label>Qty-Done</Form.Label>
+                        <Form.Control
+                          disabled={!pauseControl}
+                          className="qtyField"
+                          type="text"
+                          isInvalid={!!errors.opQtyDone}
+                          onChange={(e) =>
+                            setField("opQtyDone", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.opQtyDone}
+                        </Form.Control.Feedback>
+                      </Form.Group>
                     </div>
-                    <div className="col-md-6 mx-auto"></div>
+                    <div className="col-md-6 mx-auto">
+                      <Form.Group controlId="opStartRunTime">
+                        <Form.Label>Start Run Time</Form.Label>
+                        <Form.Control
+                          disabled={!startControl}
+                          type="date"
+                          name="opStartRunTime"
+                          placeholder="Operation Start Run Time"
+                          isInvalid={!!errors.opStartRunTime}
+                          onChange={(e) =>
+                            setField("opStartRunTime", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.opStartRunTime}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <p></p>
+                      <Form.Group controlId="opPauseRunTime">
+                        <Form.Label>Pause Run Time</Form.Label>
+                        <Form.Control
+                          disabled={!pauseControl}
+                          type="date"
+                          name="opPauseRunTime"
+                          placeholder="Operation Pause Run Time"
+                          isInvalid={!!errors.opPauseRunTime}
+                          onChange={(e) =>
+                            setField("opPauseRunTime", e.target.value)
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.opPauseRunTime}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </div>
                   </div>
                   <p></p>
                   <div
