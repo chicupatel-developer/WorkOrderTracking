@@ -13,6 +13,8 @@ import { useLocation } from "react-router-dom";
 
 import Moment from "moment";
 
+import DateTimePicker from "react-datetime-picker";
+
 const Create_Operator_Log = () => {
   let navigate = useNavigate();
   let location = useLocation();
@@ -37,6 +39,10 @@ const Create_Operator_Log = () => {
 
   const [startControl, setStartControl] = useState(false);
   const [pauseControl, setPauseControl] = useState(false);
+
+  // const [startRunTimeValue, onStartTimeChange] = useState(new Date());
+  const [startRunTimeValue, onStartTimeChange] = useState(null);
+  const [pauseRunTimeValue, onPauseTimeChange] = useState(new Date());
 
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
@@ -159,7 +165,13 @@ const Create_Operator_Log = () => {
     setModelErrors([]);
     setOpCreateResponse({});
 
-    const { operationId, workOrderId, operationStatus, opQtyDone } = form;
+    const {
+      operationId,
+      workOrderId,
+      operationStatus,
+      opQtyDone,
+      startRunTimeValue,
+    } = form;
     const newErrors = {};
 
     if (!operationId || operationId === "")
@@ -172,6 +184,12 @@ const Create_Operator_Log = () => {
     if (!(!opQtyDone || opQtyDone === "")) {
       if (!checkForNumbersOnly(opQtyDone))
         newErrors.opQtyDone = "Only Numbers are Allowed!";
+    }
+
+    console.log(startControl);
+    if (startControl && startRunTimeValue === undefined) {
+      console.log("checking start run time", startRunTimeValue);
+      newErrors.startRunTimeValue = "Start-Run-Time is Required!";
     }
 
     return newErrors;
@@ -232,7 +250,7 @@ const Create_Operator_Log = () => {
                 <div className="row">
                   <div className="col-md-10 mx-auto">
                     <h3>Create Operator - Log</h3>
-                    <p></p>{" "}
+                    <p></p>
                   </div>
                   <div className="col-md-2 mx-auto">
                     <Button
@@ -323,39 +341,30 @@ const Create_Operator_Log = () => {
                       </Form.Group>
                     </div>
                     <div className="col-md-6 mx-auto">
-                      <Form.Group controlId="opStartRunTime">
-                        <Form.Label>Start Run Time</Form.Label>
-                        <Form.Control
-                          disabled={!startControl}
-                          type="date"
-                          name="opStartRunTime"
-                          placeholder="Operation Start Run Time"
-                          isInvalid={!!errors.opStartRunTime}
-                          onChange={(e) =>
-                            setField("opStartRunTime", e.target.value)
-                          }
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.opStartRunTime}
-                        </Form.Control.Feedback>
-                      </Form.Group>
+                      <Form.Label>Start Run Time</Form.Label>
+                      <br />
+                      <DateTimePicker
+                        disabled={!startControl}
+                        controlId="startRunTimeValue"
+                        onChange={onStartTimeChange}
+                        value={startRunTimeValue}
+                        isInvalid={!!errors.startRunTimeValue}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.startRunTimeValue}
+                      </Form.Control.Feedback>
+                      {console.log("start : ", startRunTimeValue)}
+
                       <p></p>
-                      <Form.Group controlId="opPauseRunTime">
-                        <Form.Label>Pause Run Time</Form.Label>
-                        <Form.Control
-                          disabled={!pauseControl}
-                          type="date"
-                          name="opPauseRunTime"
-                          placeholder="Operation Pause Run Time"
-                          isInvalid={!!errors.opPauseRunTime}
-                          onChange={(e) =>
-                            setField("opPauseRunTime", e.target.value)
-                          }
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.opPauseRunTime}
-                        </Form.Control.Feedback>
-                      </Form.Group>
+                      <Form.Label>Pause Run Time</Form.Label>
+                      <br />
+                      <DateTimePicker
+                        disabled={!pauseControl}
+                        controlId="opPauseRunTime"
+                        onChange={onPauseTimeChange}
+                        value={pauseRunTimeValue}
+                      />
+                      {console.log("pause : ", pauseRunTimeValue)}
                     </div>
                   </div>
                   <p></p>
