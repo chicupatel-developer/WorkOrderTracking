@@ -218,7 +218,31 @@ const Create_Operator_Log = () => {
         opPauseRunTime: pauseRunTimeValue,
       };
 
+      if (startControl) {
+        oprLogModel.opQtyDone = 0;
+        oprLogModel.opPauseRunTime = null;
+        oprLogModel.opStartRunTime = startRunTimeValue;
+      }
+      if (pauseControl) {
+        oprLogModel.opQtyDone = Number(form.opQtyDone);
+        oprLogModel.opStartRunTime = null;
+        oprLogModel.opStartRunTime = pauseRunTimeValue;
+      }
+
       console.log(oprLogModel);
+
+      // api call
+      OperatorLogService.createOperatorLog(oprLogModel)
+        .then((response) => {
+          setModelErrors([]);
+          setOpCreateResponse({});
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          setModelErrors([]);
+          setOpCreateResponse({});
+        });
     }
   };
 
