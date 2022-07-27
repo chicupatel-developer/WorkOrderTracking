@@ -27,3 +27,8 @@
 .qtyField {
     width: 150px;
 }
+
+.timeError{
+    color: red;
+    font-weight: bold;
+}

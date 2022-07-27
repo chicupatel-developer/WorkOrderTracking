@@ -40,9 +40,11 @@ const Create_Operator_Log = () => {
   const [startControl, setStartControl] = useState(false);
   const [pauseControl, setPauseControl] = useState(false);
 
+  // startRunTimeValue, pauseRunTimeValue are NOT part of the form-control
+  // so validation is separate @ submit
   // const [startRunTimeValue, onStartTimeChange] = useState(new Date());
   const [startRunTimeValue, onStartTimeChange] = useState(null);
-  const [pauseRunTimeValue, onPauseTimeChange] = useState(new Date());
+  const [pauseRunTimeValue, onPauseTimeChange] = useState(null);
 
   useEffect(() => {
     var currRole = AuthService.getCurrentUserRole();
@@ -165,13 +167,7 @@ const Create_Operator_Log = () => {
     setModelErrors([]);
     setOpCreateResponse({});
 
-    const {
-      operationId,
-      workOrderId,
-      operationStatus,
-      opQtyDone,
-      startRunTimeValue,
-    } = form;
+    const { operationId, workOrderId, operationStatus, opQtyDone } = form;
     const newErrors = {};
 
     if (!operationId || operationId === "")
@@ -186,10 +182,8 @@ const Create_Operator_Log = () => {
         newErrors.opQtyDone = "Only Numbers are Allowed!";
     }
 
-    console.log(startControl);
-    if (startControl && startRunTimeValue === undefined) {
-      console.log("checking start run time", startRunTimeValue);
-      newErrors.startRunTimeValue = "Start-Run-Time is Required!";
+    if (pauseControl && (opQtyDone === "" || opQtyDone === undefined)) {
+      newErrors.opQtyDone = "Qty-Done is Required!";
     }
 
     return newErrors;
@@ -198,6 +192,19 @@ const Create_Operator_Log = () => {
     e.preventDefault();
 
     const newErrors = findFormErrors();
+
+    // startRunTimeValue, pauseRunTimeValue are NOT part of the form-control
+    // so validation is separate @ submit
+    if (startControl && startRunTimeValue === null) {
+      newErrors.startRunTimeValue = "Start Run Time is Required!";
+      newErrors.pauseRunTimeValue = "";
+      // setErrors(newErrors);
+    }
+    if (pauseControl && pauseRunTimeValue === null) {
+      newErrors.pauseRunTimeValue = "Pause Run Time is Required!";
+      newErrors.startRunTimeValue = "";
+      // setErrors(newErrors);
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -343,28 +350,32 @@ const Create_Operator_Log = () => {
                     <div className="col-md-6 mx-auto">
                       <Form.Label>Start Run Time</Form.Label>
                       <br />
+                      {console.log(startRunTimeValue)}
                       <DateTimePicker
                         disabled={!startControl}
                         controlId="startRunTimeValue"
                         onChange={onStartTimeChange}
                         value={startRunTimeValue}
-                        isInvalid={!!errors.startRunTimeValue}
                       />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.startRunTimeValue}
-                      </Form.Control.Feedback>
-                      {console.log("start : ", startRunTimeValue)}
-
+                      {errors.startRunTimeValue && (
+                        <div className="timeError">
+                          {errors.startRunTimeValue}
+                        </div>
+                      )}
                       <p></p>
                       <Form.Label>Pause Run Time</Form.Label>
                       <br />
                       <DateTimePicker
                         disabled={!pauseControl}
-                        controlId="opPauseRunTime"
+                        controlId="pauseRunTimeValue"
                         onChange={onPauseTimeChange}
                         value={pauseRunTimeValue}
                       />
-                      {console.log("pause : ", pauseRunTimeValue)}
+                      {errors.pauseRunTimeValue && (
+                        <div className="timeError">
+                          {errors.pauseRunTimeValue}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <p></p>
