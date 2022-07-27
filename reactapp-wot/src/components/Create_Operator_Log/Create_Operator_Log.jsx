@@ -163,6 +163,7 @@ const Create_Operator_Log = () => {
     setModelErrors([]);
     onStartTimeChange(null);
     onPauseTimeChange(null);
+    setOpQtyData("");
   };
 
   const findFormErrors = () => {

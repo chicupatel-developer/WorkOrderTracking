@@ -94,8 +94,10 @@ namespace APICore.Auth.Controllers
                                 
                 if (operatorActivity != null)
                     operatorActivity.OperatorId = _oprRepo.GetOperator(operatorActivity.UserId).OperatorId;
-
-                if (!(operatorActivity.OperatorId < 1))
+                
+                // check for custom exception
+                // if (!(operatorActivity.OperatorId < 1))
+                if (operatorActivity.OperatorId < 1)
                     throw new Invalid_Operator_Exception("Invalid Operator !");
                                
 
