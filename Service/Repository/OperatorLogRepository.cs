@@ -86,6 +86,12 @@ namespace Service.Repository
                 // check for same workorderid, operationid
                 if (opLog.WorkOrderId == operatorActivity.WorkOrderId && opLog.OperationId == operatorActivity.OperationId)
                 {
+
+                    // check for OpStartRunTime must be < OpPauseRunTime
+                    if(opLog.OpStartRunTime>=operatorActivity.OpPauseRunTime)
+                        throw new Invalid_Operator_Action_Exception("Pause Run Time Must be > Start Run Time !");
+
+
                     // operator-activity
                     opLog.OpQtyDone = operatorActivity.OpQtyDone;
                     opLog.OperationStatus = operatorActivity.OperationStatus;

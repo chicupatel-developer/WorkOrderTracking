@@ -161,6 +161,8 @@ const Create_Operator_Log = () => {
     setForm({});
     setOpCreateResponse({});
     setModelErrors([]);
+    onStartTimeChange(null);
+    onPauseTimeChange(null);
   };
 
   const findFormErrors = () => {
@@ -188,6 +190,25 @@ const Create_Operator_Log = () => {
 
     return newErrors;
   };
+
+  const handleModelState = (error) => {
+    var errors = [];
+    if (error.response.status === 400) {
+      for (let prop in error.response.data) {
+        if (error.response.data[prop].length > 1) {
+          for (let error_ in error.response.data[prop]) {
+            errors.push(error.response.data[prop][error_]);
+          }
+        } else {
+          errors.push(error.response.data[prop]);
+        }
+      }
+    } else {
+      console.log(error);
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -216,19 +237,28 @@ const Create_Operator_Log = () => {
         opQtyDone: form.opQtyDone,
         opStartRunTime: startRunTimeValue,
         opPauseRunTime: pauseRunTimeValue,
-        userId: "2bf8c0ce-2733-4d08-bcaa-2783ed06cb45",
+        userId: AuthService.getCurrentUserId(),
         operatorId: 0,
       };
 
       if (startControl) {
         oprLogModel.opQtyDone = 0;
         oprLogModel.opPauseRunTime = null;
+        startRunTimeValue.setHours(startRunTimeValue.getHours() - 5);
         oprLogModel.opStartRunTime = startRunTimeValue;
+
+        // check for ModelState on server side
+        // oprLogModel.opStartRunTime = null;
       }
       if (pauseControl) {
         oprLogModel.opQtyDone = Number(form.opQtyDone);
         oprLogModel.opStartRunTime = null;
-        oprLogModel.opStartRunTime = pauseRunTimeValue;
+        pauseRunTimeValue.setHours(pauseRunTimeValue.getHours() - 5);
+        oprLogModel.opPauseRunTime = pauseRunTimeValue;
+
+        // check for ModelState on server side
+        // oprLogModel.opPauseRunTime = null;
+        // oprLogModel.opQtyDone = null;
       }
 
       console.log(oprLogModel);
@@ -239,11 +269,29 @@ const Create_Operator_Log = () => {
           setModelErrors([]);
           setOpCreateResponse({});
           console.log(response.data);
+
+          var opCreateResponse = {
+            responseCode: response.data.responseCode,
+            responseMessage: response.data.responseMessage,
+          };
+          if (response.data.responseCode === 0) {
+            resetForm();
+            setOpCreateResponse(opCreateResponse);
+          } else if (response.data.responseCode === -1) {
+            setOpCreateResponse(opCreateResponse);
+          }
         })
         .catch((error) => {
           console.log(error);
           setModelErrors([]);
           setOpCreateResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+          }
         });
     }
   };
@@ -282,6 +330,16 @@ const Create_Operator_Log = () => {
     });
   };
 
+  let modelErrorList =
+    modelErrors.length > 0 &&
+    modelErrors.map((item, i) => {
+      return (
+        <ul key={i} value={item}>
+          <li style={{ marginTop: -20 }}>{item}</li>
+        </ul>
+      );
+    }, this);
+
   return (
     <div className="mainContainer">
       <div className="container">
@@ -293,6 +351,21 @@ const Create_Operator_Log = () => {
                   <div className="col-md-10 mx-auto">
                     <h3>Create Operator - Log</h3>
                     <p></p>
+                    {opCreateResponse &&
+                    opCreateResponse.responseCode === -1 ? (
+                      <span className="opCreateError">
+                        {opCreateResponse.responseMessage}
+                      </span>
+                    ) : (
+                      <span className="opCreateSuccess">
+                        {opCreateResponse.responseMessage}
+                      </span>
+                    )}
+                    {modelErrors.length > 0 ? (
+                      <div className="modelError">{modelErrorList}</div>
+                    ) : (
+                      <span></span>
+                    )}
                   </div>
                   <div className="col-md-2 mx-auto">
                     <Button

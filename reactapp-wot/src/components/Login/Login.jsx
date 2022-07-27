@@ -111,6 +111,7 @@ const Login = () => {
               role: response.data.myRole,
               token: response.data.token,
               fullName: response.data.firstName + ", " + response.data.lastName,
+              userId: response.data.userId,
             };
             localStorage.setItem("currentUser", JSON.stringify(apiResponse));
 
