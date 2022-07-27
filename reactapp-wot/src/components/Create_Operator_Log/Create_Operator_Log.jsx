@@ -216,6 +216,8 @@ const Create_Operator_Log = () => {
         opQtyDone: form.opQtyDone,
         opStartRunTime: startRunTimeValue,
         opPauseRunTime: pauseRunTimeValue,
+        userId: "2bf8c0ce-2733-4d08-bcaa-2783ed06cb45",
+        operatorId: 0,
       };
 
       if (startControl) {
