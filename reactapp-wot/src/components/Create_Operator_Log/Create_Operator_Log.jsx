@@ -198,18 +198,27 @@ const Create_Operator_Log = () => {
     if (startControl && startRunTimeValue === null) {
       newErrors.startRunTimeValue = "Start Run Time is Required!";
       newErrors.pauseRunTimeValue = "";
-      // setErrors(newErrors);
     }
     if (pauseControl && pauseRunTimeValue === null) {
       newErrors.pauseRunTimeValue = "Pause Run Time is Required!";
       newErrors.startRunTimeValue = "";
-      // setErrors(newErrors);
     }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
       console.log("form is valid!");
+
+      var oprLogModel = {
+        operationId: form.operationId,
+        workOrderId: form.workOrderId,
+        operationStatus: form.operationStatus,
+        opQtyDone: form.opQtyDone,
+        opStartRunTime: startRunTimeValue,
+        opPauseRunTime: pauseRunTimeValue,
+      };
+
+      console.log(oprLogModel);
     }
   };
 
@@ -330,7 +339,8 @@ const Create_Operator_Log = () => {
                           {errors.operationStatus}
                         </Form.Control.Feedback>
                       </Form.Group>
-                      <p></p>
+                    </div>
+                    <div className="col-md-6 mx-auto">
                       <Form.Group controlId="opQtyDone">
                         <Form.Label>Qty-Done</Form.Label>
                         <Form.Control
@@ -346,8 +356,7 @@ const Create_Operator_Log = () => {
                           {errors.opQtyDone}
                         </Form.Control.Feedback>
                       </Form.Group>
-                    </div>
-                    <div className="col-md-6 mx-auto">
+                      <p></p>
                       <Form.Label>Start Run Time</Form.Label>
                       <br />
                       {console.log(startRunTimeValue)}
@@ -357,7 +366,7 @@ const Create_Operator_Log = () => {
                         onChange={onStartTimeChange}
                         value={startRunTimeValue}
                       />
-                      {errors.startRunTimeValue && (
+                      {errors.startRunTimeValue !== "" && (
                         <div className="timeError">
                           {errors.startRunTimeValue}
                         </div>
