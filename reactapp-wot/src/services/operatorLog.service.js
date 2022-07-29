@@ -25,5 +25,11 @@ class OperatorLogService {
       headers: authHeader(),
     });
   };
+
+  getMyLogData = async (data) => {
+    return await http.post(`/getMyLogData`, data, {
+      headers: authHeader(),
+    });
+  };
 }
 export default new OperatorLogService();

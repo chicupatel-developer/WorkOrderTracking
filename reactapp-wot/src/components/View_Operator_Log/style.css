@@ -1,3 +1,30 @@
 .mainContainer {
     padding: 50px;
 }
+
+.apiError {
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.noData {
+    color: blue;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.apiSuccess {
+    color: green;
+}
+
+.formControl{
+    background-color: lightblue;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.formControlError{
+    font-weight: bold;
+    color: red;
+}

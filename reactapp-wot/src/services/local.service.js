@@ -81,3 +81,12 @@ export function getOperationStatusForOperator(ops) {
   if (ops === 0) return "Start_Running";
   if (ops === 1) return "Pause_Running";
 }
+
+export function getViewMyLogDataEnumValues() {
+  return [
+    { value: 0, text: "Today" },
+    { value: 1, text: "This_Week" },
+    { value: 2, text: "This_Month" },
+    { value: 3, text: "Previous_Month" },
+  ];
+}
