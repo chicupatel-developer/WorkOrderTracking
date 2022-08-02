@@ -41,21 +41,20 @@ Technology
 * workorder-operation combination is UNIQUE
 
 * when workorder is Start_Running,,, then and then 
-	operation can be any of (Start_Running, Pause_Running, Completed, Can_Not_Complete) 
+	- operation can be any of (Start_Running, Pause_Running, Completed, Can_Not_Complete) 
 
-* when operation-startdate is not null && operation-status != Not_Started,,,
-	then user can not do [ operation-startdate is null or operation-status == Not_Started ]
+* when operation-startdate is not null && operation-status != Not_Started,,, then
+	- user can not do [ operation-startdate is null or operation-status == Not_Started ]
 
-* when workorder-startdate is not null && workorder-status != Not_Started,,,
-	then user can not do [ workorder-startdate is null or workorder-status == Not_Started ]
+* when workorder-startdate is not null && workorder-status != Not_Started,,, then 
+	- user can not do [ workorder-startdate is null or workorder-status == Not_Started ]
 
 * workorder-startdate must be <= it's any of operations'-startdate
 
 * workorder-startdate must be >= it's customerorder's order-date
 
 * if operation is Not_Started then,,,
-	it can not be Completed directly means operation must follow,,,
-	Not_Started -> Start_Running -> Completed sequence
+	- it can not be Completed directly means operation must follow,,, Not_Started -> Start_Running -> Completed sequence
 
 * when OpQTYDone>=OpQTYRequired then,,,
 	- this operation-status can become operation-status-completed
