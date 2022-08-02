@@ -18,13 +18,12 @@
     color: green;
 }
 
-.formControl{
-    background-color: lightblue;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
 .formControlError{
     font-weight: bold;
     color: red;
+}
+
+.displayOptions{
+    width:300px;
+    color: blueviolet;
 }
