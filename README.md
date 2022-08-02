@@ -76,9 +76,9 @@ Technology
 
 [Operator]							
 - operator can select 
-	workorder, 
-	operation-id / operation number,
-	operation-status (start-running/pause-running),
+	- workorder, 
+	- operation-id / operation number,
+	- operation-status (start-running/pause-running),
 		- start-running 
 			- Can not enter OpQtyDone
 			- operation-start-run-time (auto(system date-time) - operator can not change time)
