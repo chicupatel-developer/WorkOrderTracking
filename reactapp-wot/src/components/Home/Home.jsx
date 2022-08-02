@@ -4,6 +4,15 @@ import "./style.css";
 const Home = () => {
   return (
     <div className="mainContainer">
+      <div className="homePageHeader">
+        <h3>WorkOrder-Tracking</h3>
+        <h5>
+          MVC Core, Asp.Net Core Identity, Razor / Web API Core / EF Core / SQL
+          Server / Angular / React / JWT Authentication
+        </h5>
+      </div>
+      <hr />
+      <p></p>
       <div className="row">
         <div className="col-md-6 mx-auto">
           <div>
