@@ -8,7 +8,7 @@ Technology
 
 - Identity (Authentication / Authorization) [MVC Core]
 
-- Token Based Authentication / Authorization [Web API Core]
+- JWT Token Based Authentication / Authorization [Web API Core]
 
 - Sql Server
 
