@@ -54,4 +54,4 @@ Not_Started -> Start_Running -> Completed sequence
 		- pause-running 
 			- Must enter OpQtyDone
 			- operation-pause-run-time (auto(system date-time) - operator can not change time)
-	op-time (hh:mm:ss)
+	
