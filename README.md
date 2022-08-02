@@ -1,12 +1,12 @@
-# WorkOrder-Tracking-Service
+# WorkOrder-Tracking
 
 Technology
 ----------
-- MVC .Net Core - 3.1, Web API Core - 3.1, EF Core
+- MVC Core - 3.1, Web API Core - 3.1, EF Core
 
 - Repository pattern
 
-- Identity (Authentication / Authorization) [MVC .Net Core]
+- Identity (Authentication / Authorization) [MVC Core]
 
 - Token Based Authentication / Authorization [Web API Core]
 
@@ -16,7 +16,7 @@ Technology
 
 - Client(2) : Angular, Html, Css, Bootstrap
 
-- Client(3) : React - Redux, Html, Css, Bootstrap
+- Client(3) : React, Html, Css, Bootstrap
 
 
 ## System Diagram->
