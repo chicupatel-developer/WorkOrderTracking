@@ -33,39 +33,39 @@ Technology
 
 
 ## Business Process & Constraints
-### if workorder-startdate is null then workorder-status must be 0 (Not_Started)
-### if operation-startdate is null then operation-status must be 0 (Not_Started)
+* if workorder-startdate is null then workorder-status must be 0 (Not_Started)
+* if operation-startdate is null then operation-status must be 0 (Not_Started)
 
-### user can not create more than 1 work-order for any customer-order
+* user can not create more than 1 work-order for any customer-order
 
-### workorder-operation combination is UNIQUE
+* workorder-operation combination is UNIQUE
 
-### when workorder is Start_Running,,, then and then 
-operation can be any of (Start_Running, Pause_Running, Completed, Can_Not_Complete) 
+* when workorder is Start_Running,,, then and then 
+	operation can be any of (Start_Running, Pause_Running, Completed, Can_Not_Complete) 
 
-### when operation-startdate is not null && operation-status != Not_Started,,,
-then user can not do [ operation-startdate is null or operation-status == Not_Started ]
+* when operation-startdate is not null && operation-status != Not_Started,,,
+	then user can not do [ operation-startdate is null or operation-status == Not_Started ]
 
-### when workorder-startdate is not null && workorder-status != Not_Started,,,
-then user can not do [ workorder-startdate is null or workorder-status == Not_Started ]
+* when workorder-startdate is not null && workorder-status != Not_Started,,,
+	then user can not do [ workorder-startdate is null or workorder-status == Not_Started ]
 
-### workorder-startdate must be <= it's any of operations'-startdate
+* workorder-startdate must be <= it's any of operations'-startdate
 
-### workorder-startdate must be >= it's customerorder's order-date
+* workorder-startdate must be >= it's customerorder's order-date
 
-### if operation is Not_Started then,,,
-it can not be Completed directly means operation must follow,,,
-Not_Started -> Start_Running -> Completed sequence
+* if operation is Not_Started then,,,
+	it can not be Completed directly means operation must follow,,,
+	Not_Started -> Start_Running -> Completed sequence
 
-### when OpQTYDone>=OpQTYRequired then,,,
-		- this operation-status can become operation-status-completed
-### when operation-status-completed by supervisor then,,,
+* when OpQTYDone>=OpQTYRequired then,,,
+	- this operation-status can become operation-status-completed
+* when operation-status-completed by supervisor then,,,
 	- operator can not do either operation-status-start_running or operation-status-pause_running
-### when operation-pause-running by supervisor then,,,
+* when operation-pause-running by supervisor then,,,
 	- operator can not do either operation-status-start_running or operation-status-pause_running
-### when all operations for any workorder become operation-status-completed then,,,
-		- workorder-status can become workorder-status-completed
-### when workorder-status-completed by supervisor then,,,
+* when all operations for any workorder become operation-status-completed then,,,
+	- workorder-status can become workorder-status-completed
+* when workorder-status-completed by supervisor then,,,
 	- it's any operations can not be anything except operation-status-completed
 
 [Supervisor]
