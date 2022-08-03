@@ -22,7 +22,7 @@ const Login = () => {
   useEffect(() => {
     var currUser = AuthService.getCurrentUser();
     if (currUser !== null) navigate("/home");
-  });
+  },[]);
 
   // reset form
   // form reference
